@@ -10,6 +10,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <build>
@@ -43,10 +45,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- ===================================== Makes the jar executable ==================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>inc.softserve.AppStarter</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
     <dependencies>
+
+
+
         <!-- ==================================JUnit 5 and Mockito dependencies===================================== -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -74,6 +94,7 @@
             <version>1.18.10</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
 </project>
