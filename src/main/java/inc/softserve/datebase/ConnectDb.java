@@ -18,11 +18,11 @@ public class ConnectDb {
         try{
             Connection conn = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
             Class.forName("com.mysql.cj.jdbc.Driver");
+            //TODO - add logging
             return conn;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
     }
-
 }
