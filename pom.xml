@@ -27,6 +27,16 @@
       <version>9.0.26</version>
       <type>pom</type>
     </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina</artifactId>
+      <version>9.0.26</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-servlet-api</artifactId>
+      <version>9.0.26</version>
+    </dependency>
     <!-- =========================================================================================================== -->
 
     <!-- ============================================ JUnit5 and Mockito =========================================== -->
