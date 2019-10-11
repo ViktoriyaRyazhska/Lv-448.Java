@@ -11,7 +11,7 @@ public class ConnectionDB {
 
     public static void main(String[] args) throws SQLException {
         Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-
+        //
     }
 
 }
