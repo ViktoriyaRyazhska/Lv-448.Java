@@ -14,15 +14,15 @@ public class ConnectDb {
             "useLegacyDatetimeCode=false&" +
             "serverTimezone=UTC";
 
-    public static Connection connectBase()  {
-        try{
+    public static Connection connectBase() {
+        try {
             Connection conn = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
             Class.forName("com.mysql.cj.jdbc.Driver");
             //TODO - add logging
             return conn;
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
+            //TODO - add logging
+            throw new RuntimeException(e);
         }
     }
 }

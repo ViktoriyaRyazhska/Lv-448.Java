@@ -1,25 +1,28 @@
 package inc.softserve.entities;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Usr {
     private Long id;
     private String email;
     private String phoneNumber;
+    private String password;
     private String passwordHash;
     private String salt;
     private String firstName;
     private String lastName;
-    private Set<Role> roles = new HashSet<>();
+    private Role role;
     private LocalDate birthDate;
 
     public enum Role{
         USER, ADMIN
     }
 
-    public Usr(){
-        roles.add(Role.USER);
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
@@ -78,12 +81,12 @@ public class Usr {
         this.lastName = lastName;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public LocalDate getBirthDate() {

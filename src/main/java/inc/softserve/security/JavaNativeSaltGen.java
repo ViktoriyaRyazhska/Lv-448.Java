@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class JavaNativeSaltGen implements SaltGen {
+
     @Override
     public String get() {
         Random random = new Random();
