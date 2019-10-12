@@ -14,4 +14,6 @@ public interface Crud<T> {
     List<T> findAll();
 
     Optional<T> findById(Long id);
+
+    Optional<T> findByUniqueField(String unique);
 }

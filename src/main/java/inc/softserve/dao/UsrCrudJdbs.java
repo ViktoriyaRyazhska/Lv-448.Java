@@ -41,6 +41,7 @@ public class UsrCrudJdbs implements Crud<Usr> {
     public int delete(Usr usr) {
         String query = "DELETE FROM users WHERE email = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setString(1, usr.getEmail());
             return prepStat.executeUpdate();
         } catch (SQLException e) {
             // TODO - add logging
@@ -61,9 +62,8 @@ public class UsrCrudJdbs implements Crud<Usr> {
 
     @Override
     public List<Usr> findAll() {
-        String query = "SELECT ? FROM users";
+        String query = "SELECT * FROM users";
         try (PreparedStatement prepStat = connection.prepareStatement(query)){
-            prepStat.setString(1, "*");
             return extractUsers(prepStat.executeQuery());
         } catch (SQLException e) {
             // TODO - add logging
@@ -71,25 +71,20 @@ public class UsrCrudJdbs implements Crud<Usr> {
         }
     }
 
-    private List<Usr> extractUsers(ResultSet rs){
-        try {
-            List<Usr> users = new ArrayList<>();
-            while (rs.next()){
-                Usr usr = new Usr();
-                usr.setId(rs.getLong("id"));
-                usr.setEmail(rs.getString("email"));
-                usr.setPhoneNumber(rs.getString("phone_number"));
-                usr.setFirstName(rs.getString("firstname"));
-                usr.setLastName(rs.getString("lastname"));
-                usr.setBirthDate(rs.getDate("birth_date").toLocalDate());
-                users.add(usr);
-            }
-            rs.close();
-            return users;
-        } catch (SQLException e) {
-            //TODO - add logging
-            throw new RuntimeException(e);
+    private List<Usr> extractUsers(ResultSet rs) throws SQLException {
+        List<Usr> users = new ArrayList<>();
+        while (rs.next()){
+            Usr usr = new Usr();
+            usr.setId(rs.getLong("id"));
+            usr.setEmail(rs.getString("email"));
+            usr.setPhoneNumber(rs.getString("phone_number"));
+            usr.setFirstName(rs.getString("firstname"));
+            usr.setLastName(rs.getString("lastname"));
+            usr.setBirthDate(rs.getDate("birth_date").toLocalDate());
+            users.add(usr);
         }
+        rs.close();
+        return users;
     }
 
     @Override
@@ -118,5 +113,17 @@ public class UsrCrudJdbs implements Crud<Usr> {
         }
         rs.close();
         return Optional.ofNullable(usr);
+    }
+
+    @Override
+    public Optional<Usr> findByUniqueField(String unique) {
+        String query = "SELECT * FROM users WHERE email = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)){
+            prepStat.setString(1, unique);
+            return extractUsr(prepStat.executeQuery());
+        } catch (SQLException e) {
+            // TODO - add logging
+            throw new RuntimeException(e);
+        }
     }
 }
