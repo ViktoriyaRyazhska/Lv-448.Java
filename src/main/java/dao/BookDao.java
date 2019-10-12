@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BookDao implements Dao<Book> {
+public class BookDao implements Crud<Book> {
 
     private final Connection connection;
 

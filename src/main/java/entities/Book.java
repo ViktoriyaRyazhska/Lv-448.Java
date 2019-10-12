@@ -78,19 +78,3 @@ public class Book {
                 '}';
     }
 }
-//    create table books
-//        (
-//                id                  bigint primary key auto_increment,
-//                amount_of_instances int          not null,
-//                title               varchar(255) not null,
-//        date_of_publication date         not null,
-//        category            varchar(255) not null,
-//        id_author           bigint,
-//        foreign key (id_author) references authors (id)
-//        );    private Long id;
-//private String name;
-//private String surname;
-//private LocalDate birthday;
-//private LocalDate registrationDate;
-//private String phoneNumber;
-//private String email;
