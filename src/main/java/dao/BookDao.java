@@ -18,7 +18,7 @@ public class BookDao implements Crud<Book> {
 
 
     @Override
-    public void save(Book book) throws SQLException {
+    public void save(Book book) {
         String query = "INSERT INTO books " +
                 +"(id, amount_of_instances, title, release_date, category)" +
                 "VALUE (?,?,?,?,?)";
@@ -52,6 +52,7 @@ public class BookDao implements Crud<Book> {
             book.setTitle(resultSet.getString("title"));
             book.setDateOfRelease(resultSet.getDate("release_date").toLocalDate());
             book.setCategory(resultSet.getString("category"));
+            books.add(book);
         }
         resultSet.close();
         return books;
@@ -59,14 +60,14 @@ public class BookDao implements Crud<Book> {
 
     @Override
     public void update(Long id, Book book) {
-
+        //
     }
 
     @Override
     public void delete(Book book) {
-        String query ="SELECT * FROM books where title = ?";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1,book.getTitle());
+        String query = "SELECT * FROM books where title = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, book.getTitle());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();
@@ -89,13 +90,13 @@ public class BookDao implements Crud<Book> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return extractBoooks(resultSet);
+            return extractBooksForFindById(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException();
         }
     }
 
-    private Optional<Book> extractBoooks(ResultSet resultSet) throws SQLException {
+    private Optional<Book> extractBooksForFindById(ResultSet resultSet) throws SQLException {
         Book book = null;
         while (resultSet.next()) {
             book = new Book();
