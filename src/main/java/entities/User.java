@@ -6,8 +6,8 @@ import java.util.Objects;
 public class User {
 
     private Long id;
-    private String name;
-    private String surname;
+    private String userName;
+    private String userSurname;
     private LocalDate birthday;
     private LocalDate registrationDate;
     private String phoneNumber;
@@ -21,20 +21,20 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getUserSurname() {
+        return userSurname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setUserSurname(String userSurname) {
+        this.userSurname = userSurname;
     }
 
     public LocalDate getBirthday() {
@@ -75,8 +75,8 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(surname, user.surname) &&
+                Objects.equals(userName, user.userName) &&
+                Objects.equals(userSurname, user.userSurname) &&
                 Objects.equals(birthday, user.birthday) &&
                 Objects.equals(registrationDate, user.registrationDate) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
@@ -85,15 +85,15 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, birthday, registrationDate, phoneNumber, email);
+        return Objects.hash(id, userName, userSurname, birthday, registrationDate, phoneNumber, email);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", name='" + userName + '\'' +
+                ", surname='" + userSurname + '\'' +
                 ", birthday=" + birthday +
                 ", registrationDate=" + registrationDate +
                 ", phoneNumber='" + phoneNumber + '\'' +
