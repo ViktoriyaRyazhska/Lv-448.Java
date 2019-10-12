@@ -81,6 +81,11 @@ public class CountryCrudJdbs implements Crud<Country> {
         }
     }
 
+    @Override
+    public Optional<Country> findByUniqueField(String unique) {
+        return null;
+    }
+
     private Optional<Country> extractCountry(ResultSet resSet) throws SQLException {
         Country country = null;
         while (resSet.next()) {
