@@ -39,7 +39,7 @@ public class CountryDaoJdbc implements CountryDao {
         while (rs.next()){
             Country country = new Country();
             country.setId(rs.getLong("id"));
-            country.setCountry("Country");
+            country.setCountry(rs.getString("country"));
             builder.accept(country);
         }
         return builder.build();
