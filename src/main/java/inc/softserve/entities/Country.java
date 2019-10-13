@@ -1,35 +1,16 @@
 package inc.softserve.entities;
 
-import java.util.Objects;
+import lombok.Data;
 
+import java.util.*;
+
+@Data
 public class Country {
-
     private Long id;
     private String country;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    @Override
-    public String toString() {
-        return "Country{" +
-                "id=" + id +
-                ", country='" + country + '\'' +
-                '}';
-    }
+    private List<Usr> visitors = new ArrayList<>();
+    private List<Visa> issuedVisas = new ArrayList<>();
+    private List<City> cities = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
