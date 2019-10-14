@@ -1,7 +1,5 @@
 package inc.softserve.services;
 
-import inc.softserve.dao.UsrCrudJdbs;
-import inc.softserve.entities.Usr;
 import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 
