@@ -1,7 +1,13 @@
 package inc.softserve.services;
 
+import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.dao.interfaces.VisaDao;
+import inc.softserve.dto.UsrDto;
+import inc.softserve.dto.VisaDto;
+import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
+import inc.softserve.entities.Visa;
 import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 
@@ -15,43 +21,74 @@ import java.util.Optional;
 public class UsrRegisterImpl implements UsrRegisterService {
 
     private final SaltGen saltGen = new JavaNativeSaltGen(); // TODO - impl a singleton container or make static
-    private final UsrDao usrCrudJdbs;
+    private final UsrDao usrDao;
+    private final VisaDao visaDao;
+    private final CountryDao countryDao;
 
-    public UsrRegisterImpl(UsrDao usrCrudJdbs) {
-        this.usrCrudJdbs = usrCrudJdbs;
+    public UsrRegisterImpl(UsrDao usrDao, VisaDao visaDao, CountryDao countryDao) {
+        this.usrDao = usrDao;
+        this.visaDao = visaDao;
+        this.countryDao = countryDao;
     }
 
     @Override
-    public String register(Usr usr) {
-        if (exists(usr)){
+    public String register(UsrDto usrDto, VisaDto visaDto) {
+
+        if (exists(usrDto)){
             return "An account with such an email already exists!";
         }
-        if (! isEmailValid(usr.getEmail())){
+        if (! isEmailValid(usrDto.getEmail())){
             return "Given email is not valid!";
         }
-        if (! isPhoneNumberValid(usr.getPhoneNumber())){
+        if (! isPhoneNumberValid(usrDto.getPhoneNumber())){
             return "Given phone number is not valid!";
         }
-        if (passwordCheck(usr.getPassword()) != null){
+        if (passwordCheck(usrDto.getPassword()) != null){
             return "Given password is not valid!";
         }
         String salt = saltGen.get();
-        usr.setRole(Usr.Role.CLIENT);
-        String resultPass = salt + usr.getPassword();
+        String resultPass = salt + usrDto.getPassword();
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hash = messageDigest.digest(resultPass.getBytes(StandardCharsets.US_ASCII));
-            usr.setPasswordHash(new String(hash, StandardCharsets.US_ASCII));
-            usr.setPassword(null);
+            usrDto.setPassword(new String(hash, StandardCharsets.US_ASCII));
+            usrDto.setPassword(null);
         } catch (NoSuchAlgorithmException e) {
             //TODO - add logging
             throw new RuntimeException(e);
         }
-        usrCrudJdbs.save(usr);
+        usrDao.save(convertDtoToUser(usrDto));
+        visaDao.save(convertDtoToVisa(visaDto));
         return "The account is created successfully.";
     }
 
-    private boolean exists(Usr usr){
+    private Usr convertDtoToUser(UsrDto usrDto){
+        Usr user = new Usr();
+        user.setFirstName(usrDto.getFirstName());
+        user.setLastName(usrDto.getLastName());
+        user.setBirthDate(usrDto.getBirthDate());
+        user.setEmail(usrDto.getEmail());
+        user.setPasswordHash(usrDto.getPassword());
+        user.setPhoneNumber(usrDto.getPhoneNumber());
+        user.setRole(Usr.Role.CLIENT);
+        return user;
+    }
+
+    private Visa convertDtoToVisa(VisaDto visaDto){
+        Visa visa = new Visa();
+        visa.setVisaNumber(visaDto.getVisaNumber());
+        visa.setIssued(visaDto.getIssued());
+        visa.setExpirationDate(visaDto.getExpirationDate());
+        visa.setCountry(countryDao
+                .findByCountryName(visaDto.getCountry())
+                .orElse(null)
+        );
+        return  visa;
+
+    }
+
+
+    private boolean exists(UsrDto usrDto){
         // usrCrudJdbs.findByEmail(usr.getEmail())
         return false; //TODO - implement find by id method
     }
@@ -71,15 +108,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
     }
 
     public Usr LoginIn(String email, String password) {
-
-        Optional<Usr> user = usrCrudJdbs.findByEmail(email);
+        Optional<Usr> user = usrDao.findByEmail(email);
         if (user.isPresent()) {
             if(isValidPassword(user.get(), password)){
                 return user.get();
 
             }
         }
-        return user.get();
+        return user.orElse(null);
     }
 
     public Map<String, String> validateDate(String email, String password){
