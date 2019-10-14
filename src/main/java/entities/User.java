@@ -1,7 +1,15 @@
 package entities;
 
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.Objects;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 
 public class User {
 
@@ -13,61 +21,6 @@ public class User {
     private String phoneNumber;
     private String email;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserSurname() {
-        return userSurname;
-    }
-
-    public void setUserSurname(String userSurname) {
-        this.userSurname = userSurname;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public LocalDate getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(LocalDate registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     @Override
     public boolean equals(Object o) {
