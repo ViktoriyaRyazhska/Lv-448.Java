@@ -2,21 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cf8a39c-e71e-48c5-8286-129456c903cb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/implemetsDao/UserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/interfaceDao/AuthorDaoInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/interfaceDao/BookDaoInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/interfaceDao/Crud.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entities/Author.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/implemetsDao/AuthorDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/BookDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/implemetsDao/BookDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/Crud.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/interfaceDao/AuthorDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/interfaceDao/AuthorDaoInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entities/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entities/Author.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +124,7 @@
       <workItem from="1571042721276" duration="1459000" />
       <workItem from="1571046897515" duration="387000" />
       <workItem from="1571052580014" duration="58000" />
-      <workItem from="1571052662629" duration="5985000" />
+      <workItem from="1571052662629" duration="6496000" />
     </task>
     <servers />
   </component>
