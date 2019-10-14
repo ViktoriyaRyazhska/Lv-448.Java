@@ -1,5 +1,7 @@
 package inc.softserve.services;
 
+import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.entities.Usr;
 import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 
@@ -13,9 +15,9 @@ import java.util.Optional;
 public class UsrRegisterImpl implements UsrRegisterService {
 
     private final SaltGen saltGen = new JavaNativeSaltGen(); // TODO - impl a singleton container or make static
-    private final UsrCrudJdbs usrCrudJdbs;
+    private final UsrDao usrCrudJdbs;
 
-    public UsrRegisterImpl(UsrCrudJdbs usrCrudJdbs) {
+    public UsrRegisterImpl(UsrDao usrCrudJdbs) {
         this.usrCrudJdbs = usrCrudJdbs;
     }
 
@@ -34,7 +36,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
             return "Given password is not valid!";
         }
         String salt = saltGen.get();
-        usr.setRole(Usr.Role.USER);
+        usr.setRole(Usr.Role.CLIENT);
         String resultPass = salt + usr.getPassword();
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -70,7 +72,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
 
     public Usr LoginIn(String email, String password) {
 
-        Optional<Usr> user = usrCrudJdbs.findByUniqueField(email);
+        Optional<Usr> user = usrCrudJdbs.findByEmail(email);
         if (user.isPresent()) {
             if(isValidPassword(user.get(), password)){
                 return user.get();
