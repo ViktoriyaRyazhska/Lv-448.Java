@@ -35,7 +35,11 @@ public class UsrDaoJdbc implements UsrDao {
             prepStat.setString(5, usr.getFirstName());
             prepStat.setString(6, usr.getLastName());
             prepStat.setString(7, usr.getRole().toString());
-            prepStat.setDate(8, Date.valueOf(usr.getBirthDate()));
+            if (usr.getBirthDate() != null) {
+                prepStat.setDate(8, Date.valueOf(usr.getBirthDate()));
+            } else {
+                prepStat.setDate(8, null);
+            }
             prepStat.executeUpdate();
             try (ResultSet keys = prepStat.getGeneratedKeys()){
                 if (keys.next()){

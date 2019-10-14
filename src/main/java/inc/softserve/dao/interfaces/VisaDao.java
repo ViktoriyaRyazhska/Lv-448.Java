@@ -2,20 +2,22 @@ package inc.softserve.dao.interfaces;
 
 import inc.softserve.entities.Visa;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface VisaDao {
 
-    List<Visa> findAll();
+    Visa save(Visa visa);
+
+    Set<Visa> findAll();
 
     Optional<Visa> findById(Long visaId);
 
     Optional<Visa> findByVisaNumber(String visaNumber);
 
-    List<Visa> findVisasByCountryId(Long countryId);
+    Set<Visa> findVisasByCountryId(Long countryId);
 
-    List<Visa> findVisasByUserId(Long usrId);
+    Set<Visa> findVisasByUserId(Long usrId);
 
     int issuedVisas(String country);
 

@@ -1,7 +1,6 @@
 package inc.softserve.dao.implementations;
 
 import inc.softserve.dao.interfaces.CountryDao;
-import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.entities.Country;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,11 +24,11 @@ public class CountryDaoJdbc implements CountryDao {
     }
 
     @Override
-    public List<Country> findAll(){
+    public Set<Country> findAll(){
         String query = "SELECT * FROM countries";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             ResultSet resultSet = prepStat.executeQuery();
-            return extractCountries(resultSet).collect(Collectors.toList());
+            return extractCountries(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);

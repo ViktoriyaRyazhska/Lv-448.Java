@@ -6,12 +6,10 @@ import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.entities.Visa;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,16 +26,39 @@ public class VisaDaoJdbc implements VisaDao {
         this.countryDao = countryDao;
     }
 
+    @Override
+    public Visa save(Visa visa){
+        String query = "INSERT INTO travel_visas (visa_number, issued, expiration_date, country_id, usr_id) " +
+                "VALUES (?, ?, ?, ?, ?);";
+        try (PreparedStatement prepStat = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            prepStat.setString(1, visa.getVisaNumber());
+            prepStat.setDate(2, Date.valueOf(visa.getIssued()));
+            prepStat.setDate(3, Date.valueOf(visa.getExpirationDate()));
+            prepStat.setLong(4, visa.getCountry().getId());
+            prepStat.setLong(5, visa.getUsr().getId());
+            prepStat.executeUpdate();
+            try (ResultSet keys = prepStat.getGeneratedKeys()){
+                if (keys.next()){
+                    visa.setId(keys.getLong(1));
+                }
+            }
+            return visa;
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Eager implementation
      * @return - all visas
      */
     @Override
-    public List<Visa> findAll(){
+    public Set<Visa> findAll(){
         String query = "SELECT * FROM travel_visas";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             ResultSet resultSet = prepStat.executeQuery();
-            return extractVisas(resultSet).collect(Collectors.toList());
+            return extractVisas(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -86,12 +107,12 @@ public class VisaDaoJdbc implements VisaDao {
      * @return - visas issued by a country
      */
     @Override
-    public List<Visa> findVisasByCountryId(Long countryId){
+    public Set<Visa> findVisasByCountryId(Long countryId){
         String query = "SELECT * FROM travel_visas WHERE country_id = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, countryId);
             ResultSet resultSet = prepStat.executeQuery();
-            return extractVisas(resultSet).collect(Collectors.toList());
+            return extractVisas(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -99,12 +120,12 @@ public class VisaDaoJdbc implements VisaDao {
     }
 
     @Override
-    public List<Visa> findVisasByUserId(Long usrId){
+    public Set<Visa> findVisasByUserId(Long usrId){
         String query = "SELECT * FROM travel_visas WHERE usr_id = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, usrId);
             ResultSet resultSet = prepStat.executeQuery();
-            return extractVisas(resultSet).collect(Collectors.toList());
+            return extractVisas(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);

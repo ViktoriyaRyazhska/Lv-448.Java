@@ -2,12 +2,12 @@ package inc.softserve.dao.interfaces;
 
 import inc.softserve.entities.Country;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface CountryDao {
 
-    List<Country> findAll();
+    Set<Country> findAll();
 
     Optional<Country> findById(Long id);
 

@@ -16,9 +16,9 @@ public class Usr {
     private String lastName;
     private Role role;
     private LocalDate birthDate;
-    private List<Country> visitedCountries = new ArrayList<>();
-    private List<Visa> visas = new ArrayList<>();
-    private List<Booking> bookings = new ArrayList<>();
+    private Set<Country> visitedCountries;
+    private Set<Visa> visas;
+    private Set<Booking> bookings;
 
     public enum Role{
         CLIENT, ADMIN
