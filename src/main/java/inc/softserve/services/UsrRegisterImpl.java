@@ -6,6 +6,9 @@ import inc.softserve.security.SaltGen;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class UsrRegisterImpl implements UsrRegisterService {
 
@@ -64,4 +67,49 @@ public class UsrRegisterImpl implements UsrRegisterService {
     private boolean isPhoneNumberValid(String phoneNumber){
         return phoneNumber.matches("^[+]*[(]?[0-9]{1,4}[)]?[-\\s./0-9]*$");
     }
+
+    public Usr LoginIn(String email, String password) {
+
+        Optional<Usr> user = usrCrudJdbs.findByUniqueField(email);
+        if (user.isPresent()) {
+            if(isValidPassword(user.get(), password)){
+                return user.get();
+
+            }
+        }
+        return user.get();
+    }
+
+    public Map<String, String> validateDate(String email, String password){
+        Map<String, String> messages = new HashMap<>();
+        if(email.isEmpty() || password.isEmpty()){
+            messages.put("email", "Enter login and password");
+        }
+        if(!isEmailValid(email)){
+            messages.put("email", "Given email is not valid!");
+        }else{
+            messages.put("email", "User with this email not fount!");
+        }
+        return messages;
+    }
+
+    private boolean isValidPassword(Usr user, String password) {
+        String salt = user.getSalt();
+        String passHash = user.getPasswordHash();
+        String userPass = salt + password;
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = messageDigest.digest(userPass.getBytes(StandardCharsets.US_ASCII));
+        String userPassHash = new String(hash, StandardCharsets.US_ASCII);
+        return userPassHash.equals(passHash);
+    }
+
+    public void LoginOut(){
+
+    }
+
 }

@@ -4,4 +4,24 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <welcome-file-list>
+    <welcome-file>/WebFilterTask/index.jsp</welcome-file>
+    <welcome-file>/WebFilterTask/login.jsp</welcome-file>
+    <welcome-file>/WebFilterTask/registration.jsp</welcome-file>
+  </welcome-file-list>
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>inc.softserve.filters.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/city.jsp</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/hotel.jsp</url-pattern>
+  </filter-mapping>
+
 </web-app>
