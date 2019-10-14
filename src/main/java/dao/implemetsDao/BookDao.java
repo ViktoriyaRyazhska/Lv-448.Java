@@ -1,14 +1,17 @@
 package dao.implemetsDao;
 
-import dao.interfaceDao.Crud;
+import dao.interfaceDao.BookDaoInterface;
 import entities.Book;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class BookDao implements Crud<Book> {
+@Slf4j
+public class BookDao implements BookDaoInterface {
 
     private final Connection connection;
 
@@ -29,6 +32,7 @@ public class BookDao implements Crud<Book> {
             preparedStatement.setDate(4, Date.valueOf(book.getDateOfRelease()));
             preparedStatement.setString(5, book.getCategory());
         } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
             throw new RuntimeException();
         }
     }
@@ -37,14 +41,15 @@ public class BookDao implements Crud<Book> {
     public List<Book> findAll() {
         String query = "SELECT * FROM books";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            return extractBooks(preparedStatement.executeQuery());
+            return extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
         } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
             throw new RuntimeException();
         }
     }
 
-    private List<Book> extractBooks(ResultSet resultSet) throws SQLException {
-        List<Book> books = new ArrayList<>();
+    private Stream<Book> extractBooks(ResultSet resultSet) throws SQLException {
+        Stream.Builder<Book> bookBuilder = Stream.builder();
         while (resultSet.next()) {
             Book book = new Book();
             book.setId(resultSet.getLong("id"));
@@ -52,10 +57,10 @@ public class BookDao implements Crud<Book> {
             book.setTitle(resultSet.getString("title"));
             book.setDateOfRelease(resultSet.getDate("release_date").toLocalDate());
             book.setCategory(resultSet.getString("category"));
-            books.add(book);
+            bookBuilder.add(book);
         }
         resultSet.close();
-        return books;
+        return bookBuilder.build();
     }
 
     @Override
@@ -64,22 +69,11 @@ public class BookDao implements Crud<Book> {
     }
 
     @Override
-    public void delete(Book book) {
-        String query = "SELECT * FROM books where title = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, book.getTitle());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    @Override
-    public int deleteById(Long id) {
+    public void deleteById(Long id) {
         String query = "SELECT * FROM books";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
             throw new RuntimeException();
         }
     }
@@ -90,25 +84,11 @@ public class BookDao implements Crud<Book> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return extractBooksForFindById(resultSet);
+            return extractBooks(resultSet).findAny();
         } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
             throw new RuntimeException();
         }
-    }
-
-    private Optional<Book> extractBooksForFindById(ResultSet resultSet) throws SQLException {
-        Book book = null;
-        while (resultSet.next()) {
-            book = new Book();
-            book.setId(resultSet.getLong("id"));
-            book.setAmountOfInstances(resultSet.getInt("amount_of_instances"));
-            book.setTitle(resultSet.getString("title"));
-            book.setDateOfRelease(resultSet.getDate("release_date").toLocalDate());
-            book.setCategory(resultSet.getString("category"));
-        }
-        resultSet.close();
-        return Optional.ofNullable(book);
-
     }
 
 }
