@@ -1,5 +1,7 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.dao.AudienceDao;
+import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
@@ -13,75 +15,115 @@ import java.util.Optional;
 
 public class ExhibitServiceImpl implements ExhibitService {
 
-  private ExhibitDao exhibitDao;
+    private ExhibitDao exhibitDao;
+    private AuthorDao authorDao;
+    private AudienceDao audienceDao;
 
-  @Override
-  public void save(Exhibit objectToSave) {
-    exhibitDao.save(objectToSave);
-  }
+    @Override
+    public boolean save(Exhibit objectToSave) {
+        if (exhibitDao.findByName(objectToSave.getName()).isPresent()) {
+            return false;
+        } else {
+            exhibitDao.save(objectToSave);
+            return true;
+        }
+    }
 
-  @Override
-  public void deleteById(long id) {
-    exhibitDao.deleteById(id);
-  }
+    @Override
+    public boolean deleteById(long id) {
+        if (exhibitDao.findById(id).isPresent()) {
+            return false;
+        } else {
+            exhibitDao.deleteById(id);
+            return true;
+        }
+    }
 
-  @Override
-  public Optional<Exhibit> findById(long id) {
-    return exhibitDao.findById(id);
-  }
+    @Override
+    public Optional<Exhibit> findById(long id) {
+        return exhibitDao.findById(id);
+    }
 
-  @Override
-  public List<Exhibit> findAll() {
-    return exhibitDao.findAll();
-  }
+    @Override
+    public Optional<Exhibit> findByName(String name) {
+        return exhibitDao.findByName(name);
+    }
 
-  @Override
-  public void update(Exhibit newObject) {
-    exhibitDao.update(newObject);
-  }
+    @Override
+    public List<Exhibit> findAll() {
+        return exhibitDao.findAll();
+    }
 
-  @Override
-  public List<Exhibit> findByAuthor(Author author) {
-    return exhibitDao.findByAuthor(author);
-  }
+    @Override
+    public boolean update(Exhibit newObject) {
+        if (exhibitDao.findByName(newObject.getName()).isPresent()) {
+            exhibitDao.update(newObject);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-  @Override
-  public List<Exhibit> findByEmployee(Employee employee) {
-    return exhibitDao.findByEmployee(employee);
-  }
+    @Override
+    public List<Exhibit> findByAuthor(Author author) {
+        return exhibitDao.findByAuthor(author);
+    }
 
-  @Override
-  public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
-    return exhibitDao.findAuthorsByExhibit(exhibit);
-  }
+    @Override
+    public List<Exhibit> findByEmployee(Employee employee) {
+        return exhibitDao.findByEmployee(employee);
+    }
 
-  @Override
-  public Audience findAudienceByExhibit(Exhibit exhibit) {
-    return exhibitDao.findAudienceByExhibit(exhibit);
-  }
+    @Override
+    public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
+        return exhibitDao.findAuthorsByExhibit(exhibit);
+    }
 
-  @Override
-  public void updateExhibitAudience(Exhibit exhibit, Audience audience) {
-    exhibitDao.updateExhibitAudience(exhibit, audience);
-  }
+    @Override
+    public Audience findAudienceByExhibit(Exhibit exhibit) {
+        return exhibitDao.findAudienceByExhibit(exhibit);
+    }
 
-  @Override
-  public void addExhibitAuthor(Exhibit exhibit, Author author) {
-    exhibitDao.addExhibitAuthor(exhibit, author);
-  }
+    @Override
+    public boolean updateExhibitAudience(Exhibit exhibit, Audience audience) {
+        if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
+                (audienceDao.findById(audience.getId()).isPresent())) {
+            exhibitDao.updateExhibitAudience(exhibit, audience);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-  @Override
-  public void deleteExhibitAuthor(Exhibit exhibit, Author author) {
-    exhibitDao.deleteExhibitAuthor(exhibit, author);
-  }
+    @Override
+    public boolean addExhibitAuthor(Exhibit exhibit, Author author) {
+        if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
+                (authorDao.findById(author.getId()).isPresent())) {
+            return false;
+        } else {
+            exhibitDao.addExhibitAuthor(exhibit, author);
+            return true;
+        }
+    }
 
-  @Override
-  public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
-    return exhibitDao.findAllGroupedByAudience();
-  }
+    @Override
+    public boolean deleteExhibitAuthor(Exhibit exhibit, Author author) {
+        if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
+                (authorDao.findById(author.getId()).isPresent())) {
+            exhibitDao.deleteExhibitAuthor(exhibit, author);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-  @Override
-  public ExhibitStatistic findStatistic() {
-    return exhibitDao.findStatistic();
-  }
+    @Override
+    public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
+        return exhibitDao.findAllGroupedByAudience();
+    }
+
+    @Override
+    public ExhibitStatistic findStatistic() {
+        return exhibitDao.findStatistic();
+    }
 }

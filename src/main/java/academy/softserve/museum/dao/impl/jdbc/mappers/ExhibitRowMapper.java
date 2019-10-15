@@ -17,6 +17,7 @@ public class ExhibitRowMapper implements RowMapper<Exhibit> {
             exhibit.setMaterial(resultSet.getString("material"));
             exhibit.setTechnique(resultSet.getString("techic"));
             exhibit.setType(ExhibitType.valueOf(resultSet.getString("type")));
+            exhibit.setName((resultSet.getString("name")));
 
             return exhibit;
         }catch (SQLException e){

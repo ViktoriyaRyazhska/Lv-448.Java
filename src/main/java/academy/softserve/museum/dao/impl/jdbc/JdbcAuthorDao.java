@@ -5,7 +5,6 @@ import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExhibitRowMapper;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcAuthorDao implements AuthorDao {
+
     private final Connection connection;
 
     public JdbcAuthorDao(Connection connection) {
@@ -24,7 +24,7 @@ public class JdbcAuthorDao implements AuthorDao {
     @Override
     public List<Exhibit> findExhibitsByAuthor(Author author) {
         String EXHIBITS_BY_AUTHOR =
-                "SELECT e.id, e.type, e.material, e.techic " +
+                "SELECT e.id, e.type, e.material, e.techic, e.name " +
                         "FROM exhibits as e " +
                         "INNER JOIN autor_exhibit as ae " +
                         "ON e.id = ae.exhibit_id and ae.autor_id = ?";
@@ -74,6 +74,12 @@ public class JdbcAuthorDao implements AuthorDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //TODO method findByFullName
+    @Override
+    public Optional<Author> findByFullName(String fName, String lName) {
+        return Optional.empty();
     }
 
     @Override
