@@ -12,12 +12,12 @@ public class EmployeeRowMaper implements RowMapper<Employee> {
     public Employee mapRow(ResultSet resultSet) {
         Employee employee = new Employee();
         try {
-            employee.setFirstName(resultSet.getString("first_name"));
-            employee.setLastName("last_name");
-            employee.setLogin(resultSet.getString("login"));
-            employee.setPassword(resultSet.getString("password"));
-            employee.setPosition(EmployeePosition.valueOf(resultSet.getString("position")));
-            employee.setId(resultSet.getLong("id"));
+            employee.setFirstName(resultSet.getString("employee_first_name"));
+            employee.setLastName(resultSet.getString("employee_last_name"));
+            employee.setLogin(resultSet.getString("employee_login"));
+            employee.setPassword(resultSet.getString("employee_password"));
+            employee.setPosition(EmployeePosition.valueOf(resultSet.getString("employee_position")));
+            employee.setId(resultSet.getLong("employee_id"));
 
             return employee;
         } catch (SQLException e) {

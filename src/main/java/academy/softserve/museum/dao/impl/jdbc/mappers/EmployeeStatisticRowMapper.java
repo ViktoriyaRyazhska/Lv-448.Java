@@ -17,9 +17,9 @@ public class EmployeeStatisticRowMapper implements RowMapper<EmployeeStatistic> 
         EmployeeRowMaper employeeRowMaper = new EmployeeRowMaper();
 
         try {
-            while (resultSet.next()) {
+            do {
                 workTimeMap.put(employeeRowMaper.mapRow(resultSet), resultSet.getInt("excursion_time"));
-            }
+            } while (resultSet.next());
             statistic.setWorkTimeMap(workTimeMap);
 
             return statistic;
