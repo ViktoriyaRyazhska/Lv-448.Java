@@ -98,7 +98,8 @@ public class JdbcEmployeeDao implements EmployeeDao {
 
     @Override
     public Audience findAudienceByEmployee(Employee employee) {
-        String FIND_AUDIENCE_BY_EMPLOYEE = "SELECT audiences.id, name FROM audiences INNER JOIN employees " +
+        String FIND_AUDIENCE_BY_EMPLOYEE = "SELECT audiences.id as audience_id, " +
+                "name as audience_name FROM audiences INNER JOIN employees " +
                 "ON employees.audience_id = audiences.id";
 
         try (PreparedStatement statement = connection.prepareStatement(FIND_AUDIENCE_BY_EMPLOYEE)) {

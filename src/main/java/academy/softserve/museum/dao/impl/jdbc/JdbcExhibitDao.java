@@ -114,7 +114,8 @@ public class JdbcExhibitDao implements ExhibitDao {
 
     @Override
     public Audience findAudienceByExhibit(Exhibit exhibit) {
-        String FIND_AUDIENCE_BY_EXHIBIT_ID = "SELECT * FROM audiences WHERE id = ?";
+        String FIND_AUDIENCE_BY_EXHIBIT_ID = "SELECT id as audience_id, name as audience_name" +
+                " FROM audiences WHERE id = ?";
 
         try (PreparedStatement statement = connection
                 .prepareStatement(FIND_AUDIENCE_BY_EXHIBIT_ID)) {
@@ -178,10 +179,10 @@ public class JdbcExhibitDao implements ExhibitDao {
     @Override
     public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
         String FIND_EXHIBIT_WITH_AUDIENCE =
-                "SELECT e.id, e.type, e.material, e.techic, a.id, a.name " +
+                "SELECT e.id, e.type, e.material, e.techic, a.id as audience_id, a.name as audience_name " +
                         "FROM exhibits AS e " +
                         "INNER JOIN audiences AS a " +
-                        "ON e.audience_id = a.id;";
+                        "ON e.audience_id = a.id";
 
         Map<Audience, List<Exhibit>> groupedAudiences = new HashMap<>();
         AudienceRowMapper audienceRowMapper = new AudienceRowMapper();
