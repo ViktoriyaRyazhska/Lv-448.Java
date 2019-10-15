@@ -74,7 +74,8 @@ public class BookDao implements BookDaoInterface {
                             .amountOfInstances(resultSet.getInt("amount_of_instances"))
                             .title(resultSet.getString("title"))
                             .releaseDate(resultSet.getDate("release_date").toLocalDate())
-                            .category(resultSet.getString("category")).build());
+                            .category(resultSet.getString("category"))
+                            .build());
 
         }
         resultSet.close();
@@ -101,8 +102,7 @@ public class BookDao implements BookDaoInterface {
         String query = "SELECT * FROM book WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return extractBooks(resultSet).findAny();
+            return extractBooks(preparedStatement.executeQuery()).findAny();
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException();

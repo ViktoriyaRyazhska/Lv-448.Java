@@ -59,14 +59,19 @@ public class AuthorDao implements AuthorDaoInterface {
         }
     }
 
+    @Override
+    public Optional<Author> findBySurname() {
+        return Optional.empty();
+    }
+
     private List<Author> extractAuthors(ResultSet resultSet) throws SQLException {
         List<Author> authors = new ArrayList<>();
         while (resultSet.next()) {
-            Author author = new Author();
-            author.setId(resultSet.getLong("id"));
-            author.setAuthorFirstName(resultSet.getString("authorFirstName"));
-            author.setAuthorLastName(resultSet.getString("authorLastName"));
-            authors.add(author);
+            authors.add(Author.builder()
+                    .id(resultSet.getLong("id"))
+                    .authorFirstName(resultSet.getString("authorFirstName"))
+                    .authorLastName(resultSet.getString("authorLastName"))
+                    .build());
         }
         resultSet.close();
         return authors;
