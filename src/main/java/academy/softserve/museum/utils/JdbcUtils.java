@@ -57,13 +57,13 @@ public class JdbcUtils {
         try {
             for (int i = 0; i < parameters.length; i++) {
                 if (parameters[i] instanceof Integer) {
-                    statement.setInt(i, (Integer) parameters[i]);
+                    statement.setInt(i + 1, (Integer) parameters[i]);
                 } else if (parameters[i] instanceof Long) {
-                    statement.setLong(i, (Long) parameters[i]);
+                    statement.setLong(i + 1, (Long) parameters[i]);
                 } else if (parameters[i] instanceof String) {
-                    statement.setString(i, (String) parameters[i]);
+                    statement.setString(i + 1, (String) parameters[i]);
                 } else if (parameters[i] instanceof Date) {
-                    statement.setDate(i, (Date) parameters[i]);
+                    statement.setDate(i + 1, (Date) parameters[i]);
                 } else {
                     throw new RuntimeException("There are no mapping for " + parameters[i].getClass());
                 }
