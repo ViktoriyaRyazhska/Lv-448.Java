@@ -46,7 +46,7 @@ public class JdbcAudienceDao implements AudienceDao {
 
     @Override
     public Optional<Audience> findById(long id) {
-        String findAudienceById = "SELECT * FROM audiences WHERE id = ?";
+        String findAudienceById = "SELECT id as audience_id, name as audience_name FROM audiences WHERE id = ?";
         Optional<Audience> audience = Optional.empty();
 
         try (PreparedStatement statement = connection.prepareStatement(findAudienceById)) {
@@ -66,7 +66,7 @@ public class JdbcAudienceDao implements AudienceDao {
 
     @Override
     public List<Audience> findAll() {
-        String findAllAudience = "SELECT * FROM audiences";
+        String findAllAudience = "SELECT id as audience_id, name as audience_name FROM audiences";
         AudienceRowMapper rowMapper = new AudienceRowMapper();
         List<Audience> audiences = new ArrayList<>();
 

@@ -2,6 +2,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.TimetableDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMaper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.TimetableRowMapper;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
@@ -52,7 +53,28 @@ public class JdbcTimetableDao implements TimetableDao {
 
     @Override
     public List<Excursion> findAvailableExcursions(Date dateStart, Date dateEnd) {
-        return null;
+        String AVAILABLE_EXCURSIONS = "SELECT DISTINCT e.id, e.name FROM timetable AS tt " +
+                "INNER JOIN excursion AS e " +
+                "ON e.id = tt.excursion_id  " +
+                "WHERE date_start BETWEEN ? AND ?";
+
+        List<Excursion> excursions = new ArrayList<>();
+        ExcursionRowMapper rowMapper = new ExcursionRowMapper();
+
+        try (PreparedStatement statement = connection.prepareStatement(AVAILABLE_EXCURSIONS)) {
+            statement.setDate(1, dateStart);
+            statement.setDate(2, dateEnd);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    excursions.add(rowMapper.mapRow(resultSet));
+                }
+            }
+
+            return excursions;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

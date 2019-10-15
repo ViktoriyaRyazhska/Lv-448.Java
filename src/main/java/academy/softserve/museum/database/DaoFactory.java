@@ -56,6 +56,10 @@ public final class DaoFactory {
         return new JdbcTimetableDao(connection);
     }
 
+    public static AudienceDao audienceDao() {
+        return new JdbcAudienceDao(connection);
+    }
+
     public static void close() {
         try {
             connection.close();

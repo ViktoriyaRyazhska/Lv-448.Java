@@ -12,8 +12,8 @@ public class AudienceRowMapper implements RowMapper<Audience> {
         Audience audience = new Audience();
 
         try {
-            audience.setId(resultSet.getLong("id"));
-            audience.setName(resultSet.getString("name"));
+            audience.setId(resultSet.getLong("audience_id"));
+            audience.setName(resultSet.getString("audience_name"));
             return audience;
         } catch (SQLException e) {
             throw new RuntimeException(e);
