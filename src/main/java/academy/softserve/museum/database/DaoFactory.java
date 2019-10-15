@@ -1,13 +1,7 @@
 package academy.softserve.museum.database;
 
-import academy.softserve.museum.dao.AuthorDao;
-import academy.softserve.museum.dao.EmployeeDao;
-import academy.softserve.museum.dao.ExcursionDao;
-import academy.softserve.museum.dao.ExhibitDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcEmployeeDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcExcursionDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcExhibitDao;
+import academy.softserve.museum.dao.*;
+import academy.softserve.museum.dao.impl.jdbc.*;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -18,9 +12,10 @@ import java.util.Properties;
 
 public final class DaoFactory {
     private static final Connection connection;
-    private static final String PROPERTIES_PATH = "/home/nomadness/dev/projects/Lv-448.Java/src/main/resources/database.properties";
+    private static final String PROPERTIES_PATH = "D:\\Softserve\\courses\\projects\\copy\\Lv-448.Java\\src\\main\\resources\\database.properties";
 
-    private DaoFactory(){}
+    private DaoFactory() {
+    }
 
     static {
         Properties properties = new Properties();
@@ -55,6 +50,10 @@ public final class DaoFactory {
 
     public static ExhibitDao exhibitDao() {
         return new JdbcExhibitDao(connection);
+    }
+
+    public static TimetableDao timetableDao() {
+        return new JdbcTimetableDao(connection);
     }
 
     public static void close() {
