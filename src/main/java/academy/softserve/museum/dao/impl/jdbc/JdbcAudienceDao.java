@@ -3,7 +3,6 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
 import academy.softserve.museum.entities.Audience;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,5 +93,11 @@ public class JdbcAudienceDao implements AudienceDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //TODO
+    @Override
+    public Optional<Audience> findByName(String name) {
+        return Optional.empty();
     }
 }

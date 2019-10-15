@@ -8,30 +8,51 @@ import java.util.Optional;
 
 public class AudienceServiceImpl implements AudienceService {
 
-  private JdbcAudienceDao jdbcAudienceDao;
+    private JdbcAudienceDao jdbcAudienceDao;
 
-  @Override
-  public void save(Audience objectToSave) {
-    jdbcAudienceDao.save(objectToSave);
-  }
+    @Override
+    public boolean save(Audience objectToSave) {
+        if (jdbcAudienceDao.findByName(objectToSave.getName()).isPresent()) {
+            return false;
+        } else {
+            jdbcAudienceDao.save(objectToSave);
+            return true;
+        }
+    }
 
-  @Override
-  public void deleteById(long id) {
-    jdbcAudienceDao.deleteById(id);
-  }
+    @Override
+    public boolean deleteById(long id) {
+        if (jdbcAudienceDao.findById(id).isPresent()) {
+            return false;
+        } else {
+            jdbcAudienceDao.deleteById(id);
+            return true;
+        }
+    }
 
-  @Override
-  public Optional<Audience> findById(long id) {
-    return jdbcAudienceDao.findById(id);
-  }
+    @Override
+    public Optional<Audience> findById(long id) {
+        return jdbcAudienceDao.findById(id);
+    }
 
-  @Override
-  public List<Audience> findAll() {
-    return jdbcAudienceDao.findAll();
-  }
+    @Override
+    public Optional<Audience> findByName(String name) {
+        return jdbcAudienceDao.findByName(name);
+    }
 
-  @Override
-  public void update(Audience newObject) {
-    jdbcAudienceDao.update(newObject);
-  }
+    @Override
+    public List<Audience> findAll() {
+        return jdbcAudienceDao.findAll();
+    }
+
+    @Override
+    public boolean update(Audience newObject) {
+        if (jdbcAudienceDao.findByName(newObject.getName()).isPresent()) {
+            jdbcAudienceDao.update(newObject);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
