@@ -14,19 +14,21 @@
         <div class="row">
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">
+                    <form action="by-position" method="post">
+                        <div class="form-group">
+                            <label class="filter-col" for="employee-position">Position:</label>
+                            <select class="browser-default custom-select" id="employee-position" name="position">
+                                <option value="NONE" selected>Options...</option>
+                                <option value="MANAGER">Manager</option>
+                                <option value="AUDIENCE_MANAGER">Audience manager</option>
+                                <option value="TOUR_GUIDE">Tour guide</option>
+                            </select>
+                            <button type="submit" class="btn btn-dark">
+                                Filter
+                            </button>
+                        </div> <!-- form group [employee-position] -->
+                    </form>
                     <div class="form-group">
-                        <label class="filter-col" for="employee-position">Position:</label>
-                        <select class="browser-default custom-select" id="employee-position">
-                            <option selected>Options...</option>
-                            <option value="1">Manager</option>
-                            <option value="2">Audience manager</option>
-                            <option value="3">Tour guide</option>
-                        </select>
-                    </div> <!-- form group [employee-position] -->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-dark">
-                            Filter
-                        </button>
                         <form class="form-inline" action="<c:url value="/add-employee"/>" method="get">
                             <button type="submit" class="btn btn-dark">
                                 New
