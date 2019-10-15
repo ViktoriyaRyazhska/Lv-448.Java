@@ -10,35 +10,55 @@ import java.util.Optional;
 
 public class ExcursionServiceImpl implements ExcursionService {
 
-  private JdbcExcursionDao jdbcExcursionDao;
+    private JdbcExcursionDao jdbcExcursionDao;
 
-  @Override
-  public void save(Excursion objectToSave) {
-    jdbcExcursionDao.save(objectToSave);
-  }
+    @Override
+    public boolean save(Excursion objectToSave) {
+        if (jdbcExcursionDao.findByName(objectToSave.getName()).isPresent()) {
+            return false;
+        } else {
+            jdbcExcursionDao.save(objectToSave);
+            return true;
+        }
+    }
 
-  @Override
-  public void deleteById(long id) {
-    jdbcExcursionDao.deleteById(id);
-  }
+    @Override
+    public boolean deleteById(long id) {
+        if (jdbcExcursionDao.findById(id).isPresent()) {
+            return false;
+        } else {
+            jdbcExcursionDao.deleteById(id);
+            return true;
+        }
+    }
 
-  @Override
-  public Optional<Excursion> findById(long id) {
-    return jdbcExcursionDao.findById(id);
-  }
+    @Override
+    public Optional<Excursion> findById(long id) {
+        return jdbcExcursionDao.findById(id);
+    }
 
-  @Override
-  public List<Excursion> findAll() {
-    return jdbcExcursionDao.findAll();
-  }
+    @Override
+    public Optional<Excursion> findByName(String name) {
+        return jdbcExcursionDao.findByName(name);
+    }
 
-  @Override
-  public void update(Excursion newObject) {
-    jdbcExcursionDao.update(newObject);
-  }
+    @Override
+    public List<Excursion> findAll() {
+        return jdbcExcursionDao.findAll();
+    }
 
-  @Override
-  public ExcursionStatistic findStatistic(Date dateStart, Date dateEnd) {
-    return jdbcExcursionDao.findStatistic(dateStart, dateEnd);
-  }
+    @Override
+    public boolean update(Excursion newObject) {
+        if (jdbcExcursionDao.findByName(newObject.getName()).isPresent()) {
+            jdbcExcursionDao.update(newObject);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public ExcursionStatistic findStatistic(Date dateStart, Date dateEnd) {
+        return jdbcExcursionDao.findStatistic(dateStart, dateEnd);
+    }
 }

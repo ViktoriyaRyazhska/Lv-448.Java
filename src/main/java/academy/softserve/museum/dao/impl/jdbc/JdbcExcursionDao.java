@@ -5,13 +5,17 @@ import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionStatisticRowMapper;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class JdbcExcursionDao implements ExcursionDao {
+
     private Connection connection;
 
     public JdbcExcursionDao(Connection connection) {
@@ -45,6 +49,12 @@ public class JdbcExcursionDao implements ExcursionDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //TODO Method findByName
+    @Override
+    public Optional<Excursion> findByName(String name) {
+        return Optional.empty();
     }
 
     @Override
@@ -85,7 +95,7 @@ public class JdbcExcursionDao implements ExcursionDao {
                     return Optional.of(new ExcursionRowMapper().mapRow(resultSet));
                 }
 
-                    return Optional.empty();
+                return Optional.empty();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
