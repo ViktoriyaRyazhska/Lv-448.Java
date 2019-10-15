@@ -1,7 +1,6 @@
 package academy.softserve.museum.services.impl;
 
 import academy.softserve.museum.dao.EmployeeDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcEmployeeDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
@@ -27,8 +26,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteById(long id) {
-        jdbcEmployeeDao.deleteById(id);
+    public boolean deleteById(long id) {
+        if(!jdbcEmployeeDao.findById(id).isPresent()) {
+            return false;
+        } else {
+            jdbcEmployeeDao.deleteById(id);
+            return true;
+        }
     }
 
     @Override

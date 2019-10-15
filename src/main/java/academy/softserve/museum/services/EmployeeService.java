@@ -12,7 +12,7 @@ public interface EmployeeService {
 
   boolean save(Employee objectToSave);
 
-  void deleteById(long id);
+  boolean deleteById(long id);
 
   Optional<Employee> findById(long id);
 
