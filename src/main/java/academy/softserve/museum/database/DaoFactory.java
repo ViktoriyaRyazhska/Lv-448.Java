@@ -33,9 +33,10 @@ public final class DaoFactory {
         }
 
         try {
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(properties.getProperty("url"),
                     properties.getProperty("user"), properties.getProperty("password"));
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
