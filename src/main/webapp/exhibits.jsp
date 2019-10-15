@@ -67,8 +67,8 @@
                 </div>
             </div>
         </div> <!-- row [filters-panel] -->
-        <div class="row custom-list">
-            <div id="excursions-list custom-list">
+        <div class="row">
+            <div class="custom-list" id="excursions-list">
                 <div class="card-columns">
                     <div class="card">
                         <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">

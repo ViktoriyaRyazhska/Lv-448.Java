@@ -1,7 +1,7 @@
 package academy.softserve.museum.servlet;
 
-import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Employee;
+import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 
@@ -15,18 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/employees")
-public class EmployeeServlet extends HttpServlet {
+@WebServlet("/by-position")
+public class EmployeesByPosition extends HttpServlet {
 
     private final EmployeeService employeeService = new EmployeeServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Employee> employees = employeeService.findAll();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
+        List<Employee> employeesByPosition = employeeService.findByPosition(position);
+
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/employees.jsp");
-        req.setAttribute("employees", employees);
+
+        req.setAttribute("employees", employeesByPosition);
         requestDispatcher.forward(req, resp);
     }
-
 }

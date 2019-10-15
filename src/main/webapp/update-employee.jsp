@@ -11,20 +11,22 @@
 <section class="main-section">
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="add-form col-xl-4 border rounded py-3">
-                <h2 class="text-primary text-center">Add new employee</h2>
-                <form action="add-employee" method="post">
+            <div class="update-form col-xl-4 border rounded py-3">
+                <h2 class="text-primary text-center">Update employee</h2>
+                <form action="update-employee/?id=${employee.id}" method="post">
                     <div class="form-group">
                         <label for="employee-firstname">Firstname</label>
                         <input type="text" class="form-control"
                                id="employee-firstname"
                                name="firstname"
+                               value="${employee.firstName}"
                                placeholder="Enter firstname">
                     </div>
                     <div class="form-group">
                         <label for="employee-lastname">Lastname</label>
                         <input type="text" class="form-control"
                                id="employee-lastname"
+                               value="${employee.lastName}"
                                name="lastname"
                                placeholder="Enter lastname">
                     </div>
@@ -33,6 +35,7 @@
                         <input type="text" class="form-control" id="employee-username"
                                aria-describedby="employee-username-help"
                                name="username"
+                               value="${employee.login}"
                                placeholder="Enter username">
                         <small id="employee-username-help" class="form-text text-muted">Latin letters and numbers only</small>
                     </div>
@@ -41,6 +44,7 @@
                         <input type="password" class="form-control" id="employee-password"
                                aria-describedby="employee-password-help"
                                name="password"
+                               value="${employee.password}"
                                placeholder="Enter password">
                         <small id="employee-password-help" class="form-text text-muted">Uppercase letters
                             and special symbols can significantly improve security</small>
@@ -53,9 +57,9 @@
                             <option id="option-2" value="AUDIENCE_MANAGER">Audience manager</option>
                             <option id="option-3" value="TOUR_GUIDE">Tour guide</option>
                         </select>
-                    </div> <!-- form group [employee-filters] -->
+                    </div>
                     <div class="form-group" id="employee-is-am">
-                        <label for="employee-password">Audience</label>
+                        <label for="employee-audience">Audience</label>
                         <input type="number" class="form-control" id="employee-audience"
                                aria-describedby="employee-audience-help"
                                name="audience"
