@@ -21,7 +21,6 @@ public class JdbcExhibitDao implements ExhibitDao {
         this.connection = connection;
     }
 
-
     @Override
     public List<Exhibit> findByAuthor(Author author) {
         String FIND_EXHIBITS_BY_AUTHOR_ID =
@@ -165,7 +164,6 @@ public class JdbcExhibitDao implements ExhibitDao {
         }
     }
 
-    // TODO change id names !!!. id duplicate
     @Override
     public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
         String FIND_EXHIBIT_WITH_AUDIENCE =

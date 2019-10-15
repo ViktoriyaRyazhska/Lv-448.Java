@@ -18,7 +18,6 @@ public class JdbcExcursionDao implements ExcursionDao {
         this.connection = connection;
     }
 
-
     @Override
     public ExcursionStatistic findStatistic(Date dateStart, Date dateEnd) {
         String FIND_STATISTIC =
