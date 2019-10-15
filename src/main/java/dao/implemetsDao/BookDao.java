@@ -53,7 +53,7 @@ public class BookDao implements BookDaoInterface {
 
     @Override
     public List<Book> findAllByAuthorName(Author author) {
-        String query = "SELECT * FROM books WHERE id_author = ?;
+        String query = "SELECT * FROM books WHERE id_author = ?";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, author.getId());
