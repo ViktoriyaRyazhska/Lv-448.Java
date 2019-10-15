@@ -15,12 +15,18 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class JdbcExhibitDao implements ExhibitDao {
+
     private Connection connection;
 
     public JdbcExhibitDao(Connection connection) {
         this.connection = connection;
     }
 
+    //TODO method findByName
+    @Override
+    public Optional<Exhibit> findByName(String name) {
+        return Optional.empty();
+    }
 
     @Override
     public List<Exhibit> findByAuthor(Author author) {
@@ -34,7 +40,8 @@ public class JdbcExhibitDao implements ExhibitDao {
         List<Exhibit> exhibits = new ArrayList<>();
         ExhibitRowMapper rowMapper = new ExhibitRowMapper();
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_EXHIBITS_BY_AUTHOR_ID)) {
+        try (PreparedStatement statement = connection
+                .prepareStatement(FIND_EXHIBITS_BY_AUTHOR_ID)) {
             statement.setLong(1, author.getId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -61,7 +68,8 @@ public class JdbcExhibitDao implements ExhibitDao {
         List<Exhibit> exhibits = new ArrayList<>();
         ExhibitRowMapper rowMapper = new ExhibitRowMapper();
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_EXHIBITS_BY_EMPLOYEE_ID)) {
+        try (PreparedStatement statement = connection
+                .prepareStatement(FIND_EXHIBITS_BY_EMPLOYEE_ID)) {
             statement.setLong(1, employee.getId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -88,7 +96,8 @@ public class JdbcExhibitDao implements ExhibitDao {
         List<Author> authors = new ArrayList<>();
         AuthorRowMapper rowMapper = new AuthorRowMapper();
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_AUTHORS_BY_EXHIBIT_ID)) {
+        try (PreparedStatement statement = connection
+                .prepareStatement(FIND_AUTHORS_BY_EXHIBIT_ID)) {
             statement.setLong(1, exhibit.getId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -107,7 +116,8 @@ public class JdbcExhibitDao implements ExhibitDao {
     public Audience findAudienceByExhibit(Exhibit exhibit) {
         String FIND_AUDIENCE_BY_EXHIBIT_ID = "SELECT * FROM audiences WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_AUDIENCE_BY_EXHIBIT_ID)) {
+        try (PreparedStatement statement = connection
+                .prepareStatement(FIND_AUDIENCE_BY_EXHIBIT_ID)) {
             statement.setLong(1, exhibit.getId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -179,7 +189,8 @@ public class JdbcExhibitDao implements ExhibitDao {
         Exhibit exhibit;
         Audience audience;
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_EXHIBIT_WITH_AUDIENCE)) {
+        try (PreparedStatement statement = connection
+                .prepareStatement(FIND_EXHIBIT_WITH_AUDIENCE)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     audience = audienceRowMapper.mapRow(resultSet);
@@ -188,7 +199,8 @@ public class JdbcExhibitDao implements ExhibitDao {
                     if (groupedAudiences.containsKey(audience)) {
                         groupedAudiences.get(audience).add(exhibit);
                     } else {
-                        groupedAudiences.put(audience, new ArrayList<>(Collections.singletonList(exhibit)));
+                        groupedAudiences
+                                .put(audience, new ArrayList<>(Collections.singletonList(exhibit)));
                     }
                 }
 

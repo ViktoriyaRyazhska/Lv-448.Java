@@ -11,32 +11,34 @@ import java.util.Optional;
 
 public interface ExhibitService {
 
-  void save(Exhibit objectToSave);
+    boolean save(Exhibit objectToSave);
 
-  void deleteById(long id);
+    boolean deleteById(long id);
 
-  Optional<Exhibit> findById(long id);
+    Optional<Exhibit> findById(long id);
 
-  List<Exhibit> findAll();
+    Optional<Exhibit> findByName(String name);
 
-  void update(Exhibit newObject);
+    List<Exhibit> findAll();
 
-  List<Exhibit> findByAuthor(Author author);
+    boolean update(Exhibit newObject);
 
-  List<Exhibit> findByEmployee(Employee employee);
+    List<Exhibit> findByAuthor(Author author);
 
-  List<Author> findAuthorsByExhibit(Exhibit exhibit);
+    List<Exhibit> findByEmployee(Employee employee);
 
-  Audience findAudienceByExhibit(Exhibit exhibit);
+    List<Author> findAuthorsByExhibit(Exhibit exhibit);
 
-  void updateExhibitAudience(Exhibit exhibit, Audience audience);
+    Audience findAudienceByExhibit(Exhibit exhibit);
 
-  void addExhibitAuthor(Exhibit exhibit, Author author);
+    boolean updateExhibitAudience(Exhibit exhibit, Audience audience);
 
-  void deleteExhibitAuthor(Exhibit exhibit, Author author);
+    boolean addExhibitAuthor(Exhibit exhibit, Author author);
 
-  Map<Audience, List<Exhibit>> findAllGroupedByAudience();
+    boolean deleteExhibitAuthor(Exhibit exhibit, Author author);
 
-  ExhibitStatistic findStatistic();
+    Map<Audience, List<Exhibit>> findAllGroupedByAudience();
+
+    ExhibitStatistic findStatistic();
 
 }
