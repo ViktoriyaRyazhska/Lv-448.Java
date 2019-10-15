@@ -95,7 +95,7 @@ public class JdbcAudienceDao implements AudienceDao {
         }
     }
 
-    //TODO
+    //TODO method findByName
     @Override
     public Optional<Audience> findByName(String name) {
         return Optional.empty();
