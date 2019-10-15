@@ -63,7 +63,8 @@
 }
 
 /* ADD NEW EMPLOYEE */
-.add-form {
+.add-form,
+.update-form {
     margin-top: 8vh;
 }
 
