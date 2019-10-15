@@ -12,8 +12,8 @@ public class ExcursionRowMapper implements RowMapper<Excursion> {
         Excursion excursion = new Excursion();
 
         try {
-            excursion.setId(resultSet.getLong("id"));
-            excursion.setName(resultSet.getString("name"));
+            excursion.setId(resultSet.getLong("excursion_id"));
+            excursion.setName(resultSet.getString("excursion_name"));
 
             return excursion;
         } catch (SQLException e) {

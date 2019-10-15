@@ -52,7 +52,13 @@ public class JdbcEmployeeDao implements EmployeeDao {
                         "WHERE date_start > ? and date_end < ? " +
                         "GROUP BY e.id, e.first_name, e.last_name, e.position, e.login, e.password";
 
-        return JdbcUtils.queryForObject(connection, FIND_STATISTIC, new EmployeeStatisticRowMapper(), dateStart, dateEnd).get();
+        EmployeeStatistic statistic = JdbcUtils.queryForObject(connection, FIND_STATISTIC,
+                new EmployeeStatisticRowMapper(), dateStart, dateEnd).get();
+
+        statistic.setDateStart(dateStart);
+        statistic.setDateEnd(dateEnd);
+
+        return statistic;
     }
 
     @Override

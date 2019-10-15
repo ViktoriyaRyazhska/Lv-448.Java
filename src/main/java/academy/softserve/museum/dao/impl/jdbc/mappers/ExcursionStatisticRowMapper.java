@@ -17,9 +17,9 @@ public class ExcursionStatisticRowMapper implements RowMapper<ExcursionStatistic
         ExcursionRowMapper rowMapper = new ExcursionRowMapper();
 
         try {
-            while (resultSet.next()) {
+            do {
                 excursionCountMap.put(rowMapper.mapRow(resultSet), resultSet.getInt("excursion_count"));
-            }
+            } while (resultSet.next());
 
             statistic.setExcursionCountMap(excursionCountMap);
 
