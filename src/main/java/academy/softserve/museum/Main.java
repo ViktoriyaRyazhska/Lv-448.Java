@@ -1,10 +1,7 @@
 package academy.softserve.museum;
 
 import academy.softserve.museum.database.DaoFactory;
-import academy.softserve.museum.entities.Audience;
-import academy.softserve.museum.entities.Employee;
-import academy.softserve.museum.entities.EmployeePosition;
-import academy.softserve.museum.entities.Excursion;
+import academy.softserve.museum.entities.*;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -18,6 +15,6 @@ public class Main {
         Date s = new Date(start.toInstant(ZoneOffset.of("+02:00")).toEpochMilli());
         Date e = new Date(end.toInstant(ZoneOffset.of("+02:00")).toEpochMilli());
 
-        DaoFactory.excursionDao().update(new Excursion(5, "test"));
+        DaoFactory.exhibitDao().findStatistic();
     }
 }

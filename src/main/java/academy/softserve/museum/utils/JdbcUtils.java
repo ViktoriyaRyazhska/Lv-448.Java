@@ -56,7 +56,9 @@ public class JdbcUtils {
     private static void insertParameters(PreparedStatement statement, Object... parameters) {
         try {
             for (int i = 0; i < parameters.length; i++) {
-                if (parameters[i] instanceof Integer) {
+                if (parameters[i] == null) {
+                    statement.setNull(i + 1, Types.NULL);
+                } else if (parameters[i] instanceof Integer) {
                     statement.setInt(i + 1, (Integer) parameters[i]);
                 } else if (parameters[i] instanceof Long) {
                     statement.setLong(i + 1, (Long) parameters[i]);

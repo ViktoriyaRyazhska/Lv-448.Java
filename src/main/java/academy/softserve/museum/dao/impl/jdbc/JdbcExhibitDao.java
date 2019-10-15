@@ -3,10 +3,10 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
-import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExhibitRowMapper;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
+import academy.softserve.museum.utils.JdbcUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,174 +25,86 @@ public class JdbcExhibitDao implements ExhibitDao {
 
     @Override
     public Optional<Exhibit> findByName(String name) {
-        String FIND_EXHIBIT_BY_NAME = "SELECT * FROM exhibits WHERE name = ?";
+        String FIND_EXHIBIT_BY_NAME = "SELECT id as exhibit_id, type as exhibit_type, material as exhibit_material," +
+                "techic as exhibit_technique, name AS exhibit_name FROM exhibits WHERE name = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_EXHIBIT_BY_NAME)) {
-            statement.setString(1, name);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(new ExhibitRowMapper().mapRow(resultSet));
-                }
-            }
-
-            return Optional.empty();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.queryForObject(connection, FIND_EXHIBIT_BY_NAME, new ExhibitRowMapper(), name);
     }
 
     @Override
     public List<Exhibit> findByAuthor(Author author) {
         String FIND_EXHIBITS_BY_AUTHOR_ID =
-                "SELECT e.id, e.type, e.material, e.techic, e.name " +
+                "SELECT e.id AS exhibit_id, e.type AS exhibit_type, e.material AS exhibit_material, " +
+                        "e.techic AS exhibit_technique, e.name AS exhibit_name " +
                         "FROM exhibits as e " +
                         "INNER JOIN autor_exhibit as ae " +
                         "ON ae.exhibit_id = e.id " +
                         "WHERE ae.autor_id = ?";
 
-        List<Exhibit> exhibits = new ArrayList<>();
-        ExhibitRowMapper rowMapper = new ExhibitRowMapper();
-
-        try (PreparedStatement statement = connection
-                .prepareStatement(FIND_EXHIBITS_BY_AUTHOR_ID)) {
-            statement.setLong(1, author.getId());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    exhibits.add(rowMapper.mapRow(resultSet));
-                }
-
-                return exhibits;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.query(connection, FIND_EXHIBITS_BY_AUTHOR_ID, new ExhibitRowMapper(), author.getId());
     }
 
     @Override
     public List<Exhibit> findByEmployee(Employee employee) {
         String FIND_EXHIBITS_BY_EMPLOYEE_ID =
-                "SELECT e.id, e.type, e.material, e.techic, e.name " +
+                "SELECT e.id AS exhibit_id, e.type AS exhibit_type, e.material AS exhibit_material, " +
+                        "e.techic AS exhibit_technique, e.name AS exhibit_name " +
                         "FROM exhibits as e " +
                         "INNER JOIN employees AS em " +
                         "ON e.audience_id = em.audience_id " +
                         "WHERE em.id = ?";
 
-        List<Exhibit> exhibits = new ArrayList<>();
-        ExhibitRowMapper rowMapper = new ExhibitRowMapper();
-
-        try (PreparedStatement statement = connection
-                .prepareStatement(FIND_EXHIBITS_BY_EMPLOYEE_ID)) {
-            statement.setLong(1, employee.getId());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    exhibits.add(rowMapper.mapRow(resultSet));
-                }
-
-                return exhibits;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.query(connection, FIND_EXHIBITS_BY_EMPLOYEE_ID, new ExhibitRowMapper(), employee.getId());
     }
 
     @Override
     public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
         String FIND_AUTHORS_BY_EXHIBIT_ID =
-                "SELECT a.id, a.first_name, a.last_name " +
+                "SELECT a.id AS author_id, a.first_name AS author_first_name, a.last_name AS author_last_name" +
                         "FROM autors AS a " +
                         "INNER JOIN autor_exhibit AS ae " +
                         "ON a.id = ae.autor_id " +
                         "WHERE ae.exhibit_id = ? ";
 
-        List<Author> authors = new ArrayList<>();
-        AuthorRowMapper rowMapper = new AuthorRowMapper();
-
-        try (PreparedStatement statement = connection
-                .prepareStatement(FIND_AUTHORS_BY_EXHIBIT_ID)) {
-            statement.setLong(1, exhibit.getId());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    authors.add(rowMapper.mapRow(resultSet));
-                }
-
-                return authors;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.query(connection, FIND_AUTHORS_BY_EXHIBIT_ID, new AuthorRowMapper(), exhibit.getId());
     }
 
     @Override
     public Audience findAudienceByExhibit(Exhibit exhibit) {
-        String FIND_AUDIENCE_BY_EXHIBIT_ID = "SELECT id as audience_id, name as audience_name" +
-                " FROM audiences WHERE id = ?";
+        String FIND_AUDIENCE_BY_EXHIBIT_ID =
+                "select id AS audience_id, name AS audience_name " +
+                        "FROM audiences " +
+                        "WHERE id = (SELECT audience_id FROM exhibits WHERE id = ?);";
 
-        try (PreparedStatement statement = connection
-                .prepareStatement(FIND_AUDIENCE_BY_EXHIBIT_ID)) {
-            statement.setLong(1, exhibit.getId());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new AudienceRowMapper().mapRow(resultSet);
-                }
-
-                return null;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId()).get();
     }
 
     @Override
     public void updateExhibitAudience(Exhibit exhibit, Audience audience) {
-        String UPDATE_EXHIBIT_AUDIENCE = "UPDATE exhibit SET audience_id = ? WHERE id = ?";
+        String UPDATE_EXHIBIT_AUDIENCE = "UPDATE exhibits SET audience_id = ? WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_EXHIBIT_AUDIENCE)) {
-            statement.setLong(1, audience.getId());
-            statement.setLong(2, exhibit.getId());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcUtils.update(connection, UPDATE_EXHIBIT_AUDIENCE, audience.getId(), exhibit.getId());
     }
 
     @Override
     public void addExhibitAuthor(Exhibit exhibit, Author author) {
         String ADD_EXHIBIT_AUTHOR = "INSERT INTO autor_exhibit(autor_id, exhibit_id) values(?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(ADD_EXHIBIT_AUTHOR)) {
-            statement.setLong(1, author.getId());
-            statement.setLong(2, exhibit.getId());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcUtils.update(connection, ADD_EXHIBIT_AUTHOR, author.getId(), exhibit.getId());
     }
 
     @Override
     public void deleteExhibitAuthor(Exhibit exhibit, Author author) {
         String DELETE_EXHIBIT_AUTHOR = "DELETE FROM autor_exhibit WHERE autor_id = ? and exhibit_id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_EXHIBIT_AUTHOR)) {
-            statement.setLong(1, author.getId());
-            statement.setLong(2, exhibit.getId());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcUtils.update(connection, DELETE_EXHIBIT_AUTHOR, author.getId(), exhibit.getId());
     }
 
     @Override
     public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
         String FIND_EXHIBIT_WITH_AUDIENCE =
-                "SELECT e.id, e.type, e.material, e.techic, a.id, e.name as audience_id, a.name as audience_name " +
+                "SELECT e.id AS exhibit_id, e.type AS exhibit_type, e.material AS exhibit_material, e.techic AS exhibit_technique, " +
+                        "e.name as exhibit_name, a.id AS audience_id, a.name as audience_name " +
                         "FROM exhibits AS e " +
                         "INNER JOIN audiences AS a " +
                         "ON e.audience_id = a.id";
@@ -229,82 +141,39 @@ public class JdbcExhibitDao implements ExhibitDao {
     public void save(Exhibit objectToSave) {
         String SAVE_EXHIBIT = "INSERT INTO exhibits(type, material, techic, name) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(SAVE_EXHIBIT)) {
-            statement.setString(1, objectToSave.getType().toString());
-            statement.setString(2, objectToSave.getMaterial());
-            statement.setString(3, objectToSave.getTechnique());
-            statement.setString(4, objectToSave.getName());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcUtils.update(connection, SAVE_EXHIBIT, objectToSave.getType().toString(), objectToSave.getMaterial(),
+                objectToSave.getTechnique(), objectToSave.getName());
     }
 
     @Override
     public void deleteById(long id) {
         String DELETE_EXHIBIT_BY_ID = "DELETE FROM exhibits WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_EXHIBIT_BY_ID)) {
-            statement.setLong(1, id);
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcUtils.update(connection, DELETE_EXHIBIT_BY_ID, id);
     }
 
     @Override
     public Optional<Exhibit> findById(long id) {
-        String FIND_EXHIBIT_BY_ID = "SELECT * FROM exhibits WHERE id = ?";
+        String FIND_EXHIBIT_BY_ID = "SELECT id AS exhibit_id, type AS exhibit_type, material AS exhibit_material, " +
+                "techic AS exhibit_technique, name AS exhibit_name FROM exhibits WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_EXHIBIT_BY_ID)) {
-            statement.setLong(1, id);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(new ExhibitRowMapper().mapRow(resultSet));
-                }
-            }
-
-            return Optional.empty();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.queryForObject(connection, FIND_EXHIBIT_BY_ID, new ExhibitRowMapper(), id);
     }
 
     @Override
     public List<Exhibit> findAll() {
-        String FIND_ALL_EXHIBITS = "SELECT * FROM exhibits";
-        List<Exhibit> exhibits = new ArrayList<>();
-        ExhibitRowMapper rowMapper = new ExhibitRowMapper();
+        String FIND_ALL_EXHIBITS = "SELECT id AS exhibit_id, type AS exhibit_type, material AS exhibit_material, " +
+                "techic AS exhibit_technique, name AS exhibit_name FROM exhibits";
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_EXHIBITS)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    exhibits.add(rowMapper.mapRow(resultSet));
-                }
-            }
-
-            return exhibits;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.query(connection, FIND_ALL_EXHIBITS, new ExhibitRowMapper());
     }
 
     @Override
     public void update(Exhibit newObject) {
         String UPDATE_EXHIBIT = "UPDATE exhibits SET type = ?, material = ?, techic = ?, name = ? where id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_EXHIBIT)) {
-            statement.setString(1, newObject.getType().toString());
-            statement.setString(2, newObject.getMaterial());
-            statement.setString(3, newObject.getTechnique());
-            statement.setString(4, newObject.getName());
-            statement.setLong(5, newObject.getId());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        JdbcUtils.update(connection, UPDATE_EXHIBIT, newObject.getType().toString(), newObject.getMaterial(),
+                newObject.getTechnique(), newObject.getName(), newObject.getId());
     }
 
     @Override
