@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class VisaDaoJdbcTest {
@@ -47,7 +48,7 @@ class VisaDaoJdbcTest {
         assertNotNull(visa.getId());
         try (PreparedStatement prepStat = connection.prepareStatement("DELETE FROM travel_visas where id = ?")) {
             prepStat.setLong(1, visa.getId());
-            prepStat.executeUpdate();
+            assertEquals(1, prepStat.executeUpdate());
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -13,6 +13,7 @@ public class Room {
     private Bedrooms bedrooms;
     private Hotel hotel;
     private City city;
+    private Booking booking;
 
     public enum Luxury{
         ECONOM, STANDARD, BUSINESS, PREMIUM

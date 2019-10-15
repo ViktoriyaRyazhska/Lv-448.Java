@@ -42,7 +42,7 @@ class UsrDaoJdbcTest {
         assertNotNull(usr.getId());
         try (PreparedStatement prepStat = connection.prepareStatement("DELETE FROM users WHERE id = ?")){
             prepStat.setLong(1, usr.getId());
-            prepStat.executeUpdate();
+            assertEquals(1, prepStat.executeUpdate());
         } catch (SQLException e) {
             e.printStackTrace();
         }

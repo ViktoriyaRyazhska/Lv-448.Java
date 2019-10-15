@@ -5,7 +5,6 @@ import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
-import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
 import inc.softserve.security.JavaNativeSaltGen;
