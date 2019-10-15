@@ -22,7 +22,8 @@ public class JdbcAuthorDao implements AuthorDao {
     @Override
     public List<Exhibit> findExhibitsByAuthor(Author author) {
         String EXHIBITS_BY_AUTHOR =
-                "SELECT e.id, e.type, e.material, e.techic, e.name " +
+                "SELECT e.id as exhibit_id, e.type as exhibit_type, e.material as exhibit_material, " +
+                        "e.techic as exhibit_technique, e.name as exhibit_name" +
                         "FROM exhibits as e " +
                         "INNER JOIN autor_exhibit as ae " +
                         "ON e.id = ae.exhibit_id and ae.autor_id = ?";
@@ -47,7 +48,9 @@ public class JdbcAuthorDao implements AuthorDao {
     @Override
     public Optional<Author> findByFullName(String fName, String lName) {
         String FIND_AUTHOR_BY_FULL_NAME =
-                "SELECT * FROM autors WHERE first_name = ? and last_name = ?";
+                "SELECT id AS author_id, first_name AS author_first_name," +
+                        "last_name AS author_last_name " +
+                        "FROM autors WHERE first_name = ? and last_name = ?";
 
         return JdbcUtils.queryForObject(connection, FIND_AUTHOR_BY_FULL_NAME, new AuthorRowMapper(), fName, lName);
     }
@@ -68,14 +71,16 @@ public class JdbcAuthorDao implements AuthorDao {
 
     @Override
     public Optional<Author> findById(long id) {
-        String FIND_AUTHOR_BY_ID = "SELECT * FROM autors WHERE id = ?";
+        String FIND_AUTHOR_BY_ID = "SELECT id AS author_id, first_name AS author_first_name," +
+                "last_name AS author_last_name FROM autors WHERE id = ?";
 
         return JdbcUtils.queryForObject(connection, FIND_AUTHOR_BY_ID, new AuthorRowMapper(), id);
     }
 
     @Override
     public List<Author> findAll() {
-        String FIND_ALL_AUTHORS = "SELECT * FROM autors";
+        String FIND_ALL_AUTHORS = "SELECT id AS author_id, first_name AS author_first_name," +
+                "last_name AS author_last_name FROM autors";
 
         return JdbcUtils.query(connection, FIND_ALL_AUTHORS, new AuthorRowMapper());
     }

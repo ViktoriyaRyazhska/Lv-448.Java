@@ -12,9 +12,9 @@ public class AuthorRowMapper implements RowMapper<Author> {
         Author author = new Author();
 
         try {
-            author.setId(resultSet.getLong("id"));
-            author.setFirstName(resultSet.getString("first_name"));
-            author.setLastName(resultSet.getString("last_name"));
+            author.setId(resultSet.getLong("author_id"));
+            author.setFirstName(resultSet.getString("author_first_name"));
+            author.setLastName(resultSet.getString("author_last_name"));
 
             return author;
         }catch (SQLException e){

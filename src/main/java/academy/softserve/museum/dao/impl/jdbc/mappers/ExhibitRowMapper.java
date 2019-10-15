@@ -13,11 +13,11 @@ public class ExhibitRowMapper implements RowMapper<Exhibit> {
         Exhibit exhibit = new Exhibit();
 
         try{
-            exhibit.setId(resultSet.getLong("id"));
-            exhibit.setMaterial(resultSet.getString("material"));
-            exhibit.setTechnique(resultSet.getString("techic"));
-            exhibit.setType(ExhibitType.valueOf(resultSet.getString("type")));
-            exhibit.setName((resultSet.getString("name")));
+            exhibit.setId(resultSet.getLong("exhibit_id"));
+            exhibit.setMaterial(resultSet.getString("exhibit_material"));
+            exhibit.setTechnique(resultSet.getString("exhibit_technique"));
+            exhibit.setType(ExhibitType.valueOf(resultSet.getString("exhibit_type")));
+            exhibit.setName((resultSet.getString("exhibit_name")));
 
             return exhibit;
         }catch (SQLException e){
