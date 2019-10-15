@@ -83,17 +83,16 @@ public class UserDao implements UserDaoInterface {
     private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {
         Stream.Builder<User> builder = Stream.builder();
         while (resultSet.next()) {
-            User user = new User();
-            user.setId(resultSet.getLong("id"));
-            user.setUserName(resultSet.getString("user_name"));
-            user.setUserSurname(resultSet.getString("user_surname"));
-            Optional<Date> birthday = Optional.ofNullable(resultSet.getDate("birthday"));
-            user.setBirthday(birthday.map(Date::toLocalDate).orElse(null));
-            user.setPhoneNumber(resultSet.getString("phone_number"));
-            user.setEmail(resultSet.getString("email"));
-            Optional<Date> registrationDate = Optional.ofNullable(resultSet.getDate("date_registration"));
-            user.setRegistrationDate(registrationDate.map(Date::toLocalDate).orElse(null));
-            builder.add(user);
+            builder.add(
+                    User.builder()
+                            .id(resultSet.getLong("id"))
+                            .userName(resultSet.getString("user_name"))
+                            .userSurname(resultSet.getString("user_surname"))
+                            .birthday(Optional.ofNullable(resultSet.getDate("birthday").toLocalDate()).orElse(null))
+                            .phoneNumber(resultSet.getString("phone_number"))
+                            .email(resultSet.getString("email"))
+                            .registrationDate(Optional.ofNullable(resultSet.getDate("date_registration").toLocalDate()).orElse(null))
+                            .build());
         }
         resultSet.close();
         return builder.build();

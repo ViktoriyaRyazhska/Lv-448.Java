@@ -5,8 +5,9 @@ import entities.Author;
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthorDaoInterface extends Crud<Author> {
-    Optional<Author> findById(Long id);
 
+public interface AuthorDaoInterface extends Crud<Author> {
     List<Author> findAll();
+    Optional<Author> findBySurname();
+
 }
