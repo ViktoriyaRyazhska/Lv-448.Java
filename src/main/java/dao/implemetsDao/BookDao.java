@@ -52,11 +52,11 @@ public class BookDao implements BookDaoInterface {
 
 
     @Override
-    public List<Book> findAllByAuthorName(Author author) {
+    public List<Book> findAllByAuthorName(Long authorId) {
         String query = "SELECT * FROM books WHERE id_author = ?";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, author.getId());
+            preparedStatement.setLong(1, authorId);
             books = extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());

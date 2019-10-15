@@ -11,6 +11,6 @@ public interface BookDaoInterface extends Crud<Book> {
 
     List<Book> findAll();
 
-    List<Book> findAllByAuthorName(Author author);
+    List<Book> findAllByAuthorName(Long authorId);
 
 }
