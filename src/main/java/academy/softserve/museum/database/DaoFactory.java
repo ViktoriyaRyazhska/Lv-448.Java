@@ -18,7 +18,7 @@ import java.util.Properties;
 
 public final class DaoFactory {
     private static final Connection connection;
-    private static final String PROPERTIES_PATH = "src/main/resources/database.properties";
+    private static final String PROPERTIES_PATH = "/home/nomadness/dev/projects/Lv-448.Java/src/main/resources/database.properties";
 
     private DaoFactory(){}
 

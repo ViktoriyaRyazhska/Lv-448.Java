@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface EmployeeService {
 
-  void save(Employee objectToSave);
+  boolean save(Employee objectToSave);
 
   void deleteById(long id);
 

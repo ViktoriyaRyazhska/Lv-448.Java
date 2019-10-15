@@ -1,5 +1,11 @@
 package academy.softserve.museum.servlet;
 
+import academy.softserve.museum.database.DaoFactory;
+import academy.softserve.museum.entities.Employee;
+import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.services.EmployeeService;
+import academy.softserve.museum.services.impl.EmployeeServiceImpl;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,14 +27,25 @@ public class AddEmployeeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        EmployeeService service = new EmployeeServiceImpl();
+
         String firstname = req.getParameter("firstname");
         String lastname = req.getParameter("lastname");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        int position = Integer.parseInt(req.getParameter("position"));
+        EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
         int audience = Integer.parseInt(req.getParameter("audience"));
 
-        System.out.println(firstname + " " + lastname + " " + username + " " + password + " " + position + " " + audience);
-        resp.sendRedirect(req.getContextPath() + "/employees");
+        Employee employee = new Employee(firstname, lastname, position, username, password);
+
+        if(service.save(employee)) {
+            req.setAttribute("message", "Employee has been successfully added");
+            resp.sendRedirect(req.getContextPath() + "/employees");
+        } else {
+            req.setAttribute("message", "Something went wrong!");
+            resp.sendRedirect(req.getContextPath() + "/add-employee");
+        }
+
     }
 }

@@ -48,10 +48,10 @@
                     <div class="form-group">
                         <label class="filter-col" for="employee-positions">Position</label>
                         <select class="browser-default custom-select" id="employee-positions" name="position">
-                            <option id="option-0" value="0" selected>Positions...</option>
-                            <option id="option-1" value="1">Manager</option>
-                            <option id="option-2" value="2">Audience manager</option>
-                            <option id="option-3" value="3">Tour guide</option>
+                            <option id="option-0" value="NONE" selected>Positions...</option>
+                            <option id="option-1" value="MANAGER">Manager</option>
+                            <option id="option-2" value="AUDIENCE_MANAGER">Audience manager</option>
+                            <option id="option-3" value="TOUR_GUIDE">Tour guide</option>
                         </select>
                     </div> <!-- form group [employee-filters] -->
                     <div class="form-group" id="employee-is-am">
