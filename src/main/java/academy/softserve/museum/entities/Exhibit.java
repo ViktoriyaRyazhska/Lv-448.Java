@@ -1,20 +1,22 @@
 package academy.softserve.museum.entities;
 
-import java.util.List;
-
 public class Exhibit extends Entity {
+
+    private String name;
     private ExhibitType type;
     private String material;
     private String technique;
 
-    public Exhibit(long id, ExhibitType type, String material, String technique) {
+    public Exhibit(long id, ExhibitType type, String material, String technique, String name) {
         super(id);
+        this.name = name;
         this.type = type;
         this.material = material;
         this.technique = technique;
     }
 
-    public Exhibit(ExhibitType type, String material, String technique) {
+    public Exhibit(ExhibitType type, String material, String technique, String name) {
+        this.name = name;
         this.type = type;
         this.material = material;
         this.technique = technique;
@@ -43,6 +45,14 @@ public class Exhibit extends Entity {
 
     public String getTechnique() {
         return technique;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Exhibit setTechnique(String technique) {

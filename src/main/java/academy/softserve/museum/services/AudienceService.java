@@ -6,14 +6,16 @@ import java.util.Optional;
 
 public interface AudienceService {
 
-  void save(Audience objectToSave);
+    boolean save(Audience objectToSave);
 
-  void deleteById(long id);
+    boolean deleteById(long id);
 
-  Optional<Audience> findById(long id);
+    Optional<Audience> findById(long id);
 
-  List<Audience> findAll();
+    Optional<Audience> findByName(String name);
 
-  void update(Audience newObject);
+    List<Audience> findAll();
+
+    boolean update(Audience newObject);
 
 }

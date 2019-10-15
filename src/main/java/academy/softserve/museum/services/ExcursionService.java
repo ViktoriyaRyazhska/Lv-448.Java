@@ -8,16 +8,18 @@ import java.util.Optional;
 
 public interface ExcursionService {
 
-  void save(Excursion objectToSave);
+    boolean save(Excursion objectToSave);
 
-  void deleteById(long id);
+    boolean deleteById(long id);
 
-  Optional<Excursion> findById(long id);
+    Optional<Excursion> findById(long id);
 
-  List<Excursion> findAll();
+    Optional<Excursion> findByName(String name);
 
-  void update(Excursion newObject);
+    List<Excursion> findAll();
 
-  ExcursionStatistic findStatistic(Date dateStart, Date dateEnd);
+    boolean update(Excursion newObject);
+
+    ExcursionStatistic findStatistic(Date dateStart, Date dateEnd);
 
 }

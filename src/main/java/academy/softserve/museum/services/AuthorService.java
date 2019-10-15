@@ -7,20 +7,22 @@ import java.util.Optional;
 
 public interface AuthorService {
 
-  List<Exhibit> findExhibitsByAuthor(Author author);
+    List<Exhibit> findExhibitsByAuthor(Author author);
 
-  void addExhibitAuthor(Author author, Exhibit exhibit);
+    boolean addExhibitAuthor(Author author, Exhibit exhibit);
 
-  void deleteExhibitAuthor(Author author, Exhibit exhibit);
+    boolean deleteExhibitAuthor(Author author, Exhibit exhibit);
 
-  void save(Author objectToSave);
+    boolean save(Author objectToSave);
 
-  void deleteById(long id);
+    boolean deleteById(long id);
 
-  Optional<Author> findById(long id);
+    Optional<Author> findById(long id);
 
-  List<Author> findAll();
+    Optional<Author> findByFullName(String fName, String lName);
 
-  void update(Author newObject);
+    List<Author> findAll();
+
+    boolean update(Author newObject);
 
 }
