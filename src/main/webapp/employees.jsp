@@ -92,14 +92,14 @@
                             <td>${employee.position}</td>
                             <td>1</td>
                             <td>
-                                <form class="form-inline" action="update-employee/${employee.id}" method="get">
+                                <form action="update-employee/${employee.id}" method="get">
                                     <button type="submit">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form class="form-inline" action="delete-employee/?id=${employee.id}" method="post">
+                                <form action="delete-employee/?id=${employee.id}" method="post">
                                     <button type="submit">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
