@@ -8,9 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class AuthorDao implements AuthorDaoInterface {
@@ -52,7 +53,7 @@ public class AuthorDao implements AuthorDaoInterface {
     public List<Author> findAll() {
         String query = "SELECT * FROM authors";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            return extractAuthors(preparedStatement.getResultSet());
+            return extractAuthors(preparedStatement.getResultSet()).collect(Collectors.toList());
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -64,8 +65,8 @@ public class AuthorDao implements AuthorDaoInterface {
         return Optional.empty();
     }
 
-    private List<Author> extractAuthors(ResultSet resultSet) throws SQLException {
-        List<Author> authors = new ArrayList<>();
+    private Stream<Author> extractAuthors(ResultSet resultSet) throws SQLException {
+        Stream.Builder<Author> authors = Stream.builder();
         while (resultSet.next()) {
             authors.add(Author.builder()
                     .id(resultSet.getLong("id"))
@@ -74,6 +75,6 @@ public class AuthorDao implements AuthorDaoInterface {
                     .build());
         }
         resultSet.close();
-        return authors;
+        return authors.build();
     }
 }
