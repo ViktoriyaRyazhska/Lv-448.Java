@@ -76,7 +76,7 @@ public class JdbcExhibitDao implements ExhibitDao {
                         "FROM audiences " +
                         "WHERE id = (SELECT audience_id FROM exhibits WHERE id = ?);";
 
-        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId()).get();
+        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId()).orElse(null);
     }
 
     @Override

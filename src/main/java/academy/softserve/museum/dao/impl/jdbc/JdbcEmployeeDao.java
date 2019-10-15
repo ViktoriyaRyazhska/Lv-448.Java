@@ -37,7 +37,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                 "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
                 "password AS employee_password FROM employees WHERE login = ?";
 
-        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username).get();
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username).orElse(null);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                         "GROUP BY e.id, e.first_name, e.last_name, e.position, e.login, e.password";
 
         EmployeeStatistic statistic = JdbcUtils.queryForObject(connection, FIND_STATISTIC,
-                new EmployeeStatisticRowMapper(), dateStart, dateEnd).get();
+                new EmployeeStatisticRowMapper(), dateStart, dateEnd).orElse(new EmployeeStatistic());
 
         statistic.setDateStart(dateStart);
         statistic.setDateEnd(dateEnd);
@@ -67,7 +67,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                 "name as audience_name FROM audiences INNER JOIN employees " +
                 "ON employees.audience_id = audiences.id and employees.id = ?";
 
-        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EMPLOYEE, new AudienceRowMapper(), employee.getId()).get();
+        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EMPLOYEE, new AudienceRowMapper(), employee.getId()).orElse(null);
     }
 
     @Override

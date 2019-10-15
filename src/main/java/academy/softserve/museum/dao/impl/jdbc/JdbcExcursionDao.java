@@ -34,7 +34,7 @@ public class JdbcExcursionDao implements ExcursionDao {
                         "WHERE date_start > ? and date_end < ? " +
                         "GROUP BY e.id, e.name;";
         ExcursionStatistic statistic = JdbcUtils.queryForObject(connection, FIND_STATISTIC,
-                new ExcursionStatisticRowMapper(), dateStart, dateEnd).get();
+                new ExcursionStatisticRowMapper(), dateStart, dateEnd).orElse(new ExcursionStatistic());
 
         statistic.setDateStart(dateStart);
         statistic.setDateEnd(dateEnd);
