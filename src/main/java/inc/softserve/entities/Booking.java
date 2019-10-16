@@ -21,13 +21,16 @@ public class Booking {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return usr.equals(booking.usr) &&
-                room.equals(booking.room) &&
-                hotel.equals(booking.hotel);
+        return Objects.equals(orderDate, booking.orderDate) &&
+                Objects.equals(checkin, booking.checkin) &&
+                Objects.equals(checkout, booking.checkout) &&
+                Objects.equals(usr, booking.usr) &&
+                Objects.equals(room, booking.room) &&
+                Objects.equals(hotel, booking.hotel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(usr, room, hotel);
+        return Objects.hash(orderDate, checkin, checkout, usr, room, hotel);
     }
 }

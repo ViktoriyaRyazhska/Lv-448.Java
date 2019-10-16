@@ -25,10 +25,10 @@ public class Hotel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Hotel hotel = (Hotel) o;
-        return hotelName.equals(hotel.hotelName) &&
-                street.equals(hotel.street) &&
-                streetNumber.equals(hotel.streetNumber) &&
-                city.equals(hotel.city);
+        return Objects.equals(hotelName, hotel.hotelName) &&
+                Objects.equals(street, hotel.street) &&
+                Objects.equals(streetNumber, hotel.streetNumber) &&
+                Objects.equals(city, hotel.city);
     }
 
     @Override

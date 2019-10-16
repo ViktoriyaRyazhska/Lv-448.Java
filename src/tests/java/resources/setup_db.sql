@@ -214,6 +214,8 @@ INSERT INTO bookings (id, usr_id, order_date, checkin, checkout, room_id, hotel_
 INSERT INTO bookings (id, usr_id, order_date, checkin, checkout, room_id, hotel_id)
 	VALUES (NULL, 2, '2019.10.09', '2019.11.11', '2019.12.11', 1, 1);
 INSERT INTO bookings (id, usr_id, order_date, checkin, checkout, room_id, hotel_id)
+    VALUES (NULL, 2, '2019.10.09', '2021.07.07', '2021.08.08', 1, 1);
+INSERT INTO bookings (id, usr_id, order_date, checkin, checkout, room_id, hotel_id)
 	VALUES (NULL, 2, '2019.10.09', '2020.01.01', '2020.02.02', 2, 5);
 INSERT INTO bookings (id, usr_id, order_date, checkin, checkout, room_id, hotel_id)
 	VALUES (NULL, 3, '2019.10.14', '2020.03.03', '2020.03.04', 3, 6);

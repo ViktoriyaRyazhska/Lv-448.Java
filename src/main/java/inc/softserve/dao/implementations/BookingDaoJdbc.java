@@ -5,13 +5,9 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.entities.Booking;
-import lombok.extern.slf4j.Slf4j;
+import inc.softserve.entities.stats.RoomBooking;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -35,7 +31,25 @@ public class BookingDaoJdbc implements BookingDao {
 
     @Override
     public Booking save(Booking booking) {
-        return null;
+        String query = "INSERT INTO bookings (usr_id, order_date, checkin, checkout, room_id, hotel_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement prepStat = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            prepStat.setLong(1, booking.getUsr().getId());
+            prepStat.setDate(2, Date.valueOf(booking.getOrderDate()));
+            prepStat.setDate(3, Date.valueOf(booking.getCheckin()));
+            prepStat.setDate(4, Date.valueOf(booking.getCheckout()));
+            prepStat.setLong(5, booking.getRoom().getId());
+            prepStat.setLong(6, booking.getHotel().getId());
+            prepStat.executeUpdate();
+            try (ResultSet keys = prepStat.getGeneratedKeys()){
+                if (keys.next()){
+                    booking.setId(keys.getLong(1));
+                }
+            }
+            return booking;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -80,13 +94,14 @@ public class BookingDaoJdbc implements BookingDao {
             booking.setUsr(usrDao
                     .findById(rs.getLong("usr_id"))
                     .orElseThrow());
+            builder.accept(booking);
         }
         return builder.build();
     }
 
     @Override
     public Set<Booking> findBookingsByUsrId(Long usrId){
-        String query = "SELECT * FROM bookings WHERE user_id = ?";
+        String query = "SELECT * FROM bookings WHERE usr_id = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, usrId);
             ResultSet resultSet = prepStat.executeQuery();
@@ -98,18 +113,35 @@ public class BookingDaoJdbc implements BookingDao {
     }
 
     @Override
-    public List<LocalDate> showAllFutureBookings(Long hotelId) {
-        String query = "SELECT * FROM rooms " +
+    public List<RoomBooking> showAllFutureBookings(Long hotelId) {
+        String query = "SELECT rooms.id, rooms.chamber_number, rooms.luxury, rooms.bedrooms, rooms.hotel_id, rooms.city_id, " +
+                "bookings.checkin, bookings.checkout " +
+                "FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON bookings.room_id = rooms.id " +
-                "WHERE hotel_id = ? AND bookings.checkin > CURDATE() AND bookings.checkout < CURDATE();";
+                "WHERE bookings.hotel_id = ? AND bookings.checkin > CURDATE()";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, hotelId);
-            // TODO
-            return null;
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractFutureBookings(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
 //            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    private Stream<RoomBooking> extractFutureBookings(ResultSet rs) throws SQLException {
+        Stream.Builder<RoomBooking> builder = Stream.builder();
+        while (rs.next()){
+            RoomBooking roomBooking = RoomBooking.builder()
+                    .room(roomDao
+                            .findById(rs.getLong("id"))
+                            .orElseThrow())
+                    .checkin(rs.getDate("checkin").toLocalDate())
+                    .checkout(rs.getDate("checkout").toLocalDate())
+                    .build();
+            builder.accept(roomBooking);
+        }
+        return builder.build();
     }
 }

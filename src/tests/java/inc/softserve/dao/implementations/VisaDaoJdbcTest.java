@@ -7,6 +7,7 @@ import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
 import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -34,6 +36,11 @@ class VisaDaoJdbcTest {
         usrDao = new UsrDaoJdbc(connection);
         countryDao = new CountryDaoJdbc(connection);
         visaDaoJdbc = new VisaDaoJdbc(connection, usrDao, countryDao);
+    }
+
+    @AfterAll
+    static void destroy() throws SQLException {
+        connection.close();
     }
 
     @Test
@@ -75,14 +82,27 @@ class VisaDaoJdbcTest {
 
     @Test
     void findById() {
+        Visa visa = visaDaoJdbc
+                .findById((long) 3)
+                .orElseThrow();
+        Long expected = (long) 3;
+        Long actual = visa.getId();
+        assertEquals(expected, actual);
     }
 
     @Test
     void findByVisaNumber() {
+        Visa visa = visaDaoJdbc
+                .findByVisaNumber("345665659")
+                .orElseThrow();
+        Long expectedId = (long) 4;
+        Long actualId = visa.getId();
+        assertEquals(expectedId, actualId);
     }
 
     @Test
     void findVisasByCountryId() {
+        Set<Visa> visas = visaDaoJdbc.findVisasByCountryId((long) 2);
     }
 
     @Test
