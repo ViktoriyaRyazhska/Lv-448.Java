@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//@Slf4j
+// @Slf4j
 public class HotelDaoJdbc implements HotelDao {
 
     private final Connection connection;
@@ -35,7 +35,7 @@ public class HotelDaoJdbc implements HotelDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractHotels(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
@@ -48,7 +48,7 @@ public class HotelDaoJdbc implements HotelDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractHotels(resultSet).findAny();
         } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
@@ -61,7 +61,7 @@ public class HotelDaoJdbc implements HotelDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractHotels(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
+          //  log.error(e.getLocalizedMessage());
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
@@ -79,7 +79,7 @@ public class HotelDaoJdbc implements HotelDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractStatistics(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
