@@ -6,6 +6,7 @@ public class Employee extends Entity {
     private EmployeePosition position;
     private String login;
     private String password;
+    private Audience audience;
 
     public Employee(long id, String firstName, String lastName, EmployeePosition position, String login, String password) {
         super(id);
@@ -70,5 +71,13 @@ public class Employee extends Entity {
     public Employee setPassword(String password) {
         this.password = password;
         return this;
+    }
+
+    public Audience getAudience() {
+        return audience;
+    }
+
+    public void setAudience(Audience audience) {
+        this.audience = audience;
     }
 }

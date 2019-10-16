@@ -3,7 +3,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
 import academy.softserve.museum.entities.Audience;
-import academy.softserve.museum.utils.JdbcUtils;
+import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
 import java.util.List;

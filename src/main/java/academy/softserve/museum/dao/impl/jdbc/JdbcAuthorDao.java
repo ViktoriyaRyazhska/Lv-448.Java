@@ -5,7 +5,7 @@ import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExhibitRowMapper;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
-import academy.softserve.museum.utils.JdbcUtils;
+import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
 import java.util.List;
@@ -23,7 +23,7 @@ public class JdbcAuthorDao implements AuthorDao {
     public List<Exhibit> findExhibitsByAuthor(Author author) {
         String EXHIBITS_BY_AUTHOR =
                 "SELECT e.id as exhibit_id, e.type as exhibit_type, e.material as exhibit_material, " +
-                        "e.techic as exhibit_technique, e.name as exhibit_name" +
+                        "e.techic as exhibit_technique, e.name as exhibit_name " +
                         "FROM exhibits as e " +
                         "INNER JOIN autor_exhibit as ae " +
                         "ON e.id = ae.exhibit_id and ae.autor_id = ?";

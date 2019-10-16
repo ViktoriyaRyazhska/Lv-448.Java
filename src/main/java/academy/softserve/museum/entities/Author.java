@@ -1,8 +1,11 @@
 package academy.softserve.museum.entities;
 
+import java.util.List;
+
 public class Author extends Entity {
     private String firstName;
     private String lastName;
+    private List<Exhibit> exhibits;
 
     public Author(long id, String firstName, String lastName) {
         super(id);
@@ -36,4 +39,11 @@ public class Author extends Entity {
         return this;
     }
 
+    public List<Exhibit> getExhibits() {
+        return exhibits;
+    }
+
+    public void setExhibits(List<Exhibit> exhibits) {
+        this.exhibits = exhibits;
+    }
 }

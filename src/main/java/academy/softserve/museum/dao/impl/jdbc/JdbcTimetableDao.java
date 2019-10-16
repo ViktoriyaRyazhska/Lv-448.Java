@@ -7,12 +7,9 @@ import academy.softserve.museum.dao.impl.jdbc.mappers.TimetableRowMapper;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.Timetable;
-import academy.softserve.museum.utils.JdbcUtils;
-import com.sun.org.apache.bcel.internal.generic.Select;
-import sun.security.x509.AVA;
+import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

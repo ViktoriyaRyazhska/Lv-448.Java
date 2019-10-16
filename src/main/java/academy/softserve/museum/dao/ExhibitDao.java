@@ -5,6 +5,7 @@ import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,4 +32,19 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
     ExhibitStatistic findStatistic();
 
+    default Exhibit loadForeignFields(Exhibit exhibit) {
+        exhibit.setAudience(findAudienceByExhibit(exhibit));
+        exhibit.setAuthors(findAuthorsByExhibit(exhibit));
+
+        return exhibit;
+    }
+
+    default List<Exhibit> loadForeignFields(List<Exhibit> exhibits) {
+        exhibits.forEach(e -> {
+            e.setAudience(findAudienceByExhibit(e));
+            e.setAuthors(findAuthorsByExhibit(e));
+        });
+
+        return exhibits;
+    }
 }

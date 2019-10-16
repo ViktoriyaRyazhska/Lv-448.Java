@@ -1,4 +1,4 @@
-package academy.softserve.museum.utils;
+package academy.softserve.museum.util;
 
 import academy.softserve.museum.dao.impl.jdbc.mappers.RowMapper;
 

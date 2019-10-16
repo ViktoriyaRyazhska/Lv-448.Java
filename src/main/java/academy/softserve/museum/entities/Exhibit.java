@@ -1,11 +1,15 @@
 package academy.softserve.museum.entities;
 
+import java.util.List;
+
 public class Exhibit extends Entity {
 
     private String name;
     private ExhibitType type;
     private String material;
     private String technique;
+    private Audience audience;
+    private List<Author> authors;
 
     public Exhibit(long id, ExhibitType type, String material, String technique, String name) {
         super(id);
@@ -60,4 +64,19 @@ public class Exhibit extends Entity {
         return this;
     }
 
+    public Audience getAudience() {
+        return audience;
+    }
+
+    public void setAudience(Audience audience) {
+        this.audience = audience;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
 }
