@@ -16,7 +16,7 @@ public interface AuthorDao extends Crud<Author> {
 
     Optional<Author> findByFullName(String fName, String lName);
 
-    default Author loadForeign(Author author) {
+    default Author loadForeignFields(Author author) {
         author.setExhibits(findExhibitsByAuthor(author));
 
         return author;

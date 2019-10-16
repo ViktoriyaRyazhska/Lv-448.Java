@@ -32,7 +32,7 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
     ExhibitStatistic findStatistic();
 
-    default Exhibit loadForeign(Exhibit exhibit) {
+    default Exhibit loadForeignFields(Exhibit exhibit) {
         exhibit.setAudience(findAudienceByExhibit(exhibit));
         exhibit.setAuthors(findAuthorsByExhibit(exhibit));
 
