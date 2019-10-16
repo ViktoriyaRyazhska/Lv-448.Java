@@ -12,8 +12,8 @@ public class Room {
     private Luxury luxury;
     private Bedrooms bedrooms;
     private Hotel hotel;
-    private City city;
     private Booking booking;
+    private City city; // TODO - can be remove?
 
     public enum Luxury{
         ECONOM, STANDARD, BUSINESS, PREMIUM

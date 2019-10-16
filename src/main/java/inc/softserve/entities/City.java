@@ -9,8 +9,8 @@ public class City {
     private Long id;
     private String city;
     private Country country;
-    private Set<Hotel> hotels = new HashSet<>();
-    private Set<Room> rooms; // TODO - is it good to have rooms here?
+    private Set<Hotel> hotels;
+    private Set<Room> rooms;
 
     @Override
     public boolean equals(Object o) {

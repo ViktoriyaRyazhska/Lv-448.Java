@@ -1,11 +1,13 @@
 package inc.softserve.dao.implementations;
 
+import inc.softserve.dao.db_test_utils.InitDataBase;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
-import inc.softserve.datebase.ConnectDb;
 import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
+import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,8 +29,8 @@ class VisaDaoJdbcTest {
     private static VisaDaoJdbc visaDaoJdbc;
 
     @BeforeAll
-    static void init() {
-        connection = ConnectDb.connectBase();
+    static void init() throws SQLException {
+        connection = InitDataBase.createAndPopulate();
         usrDao = new UsrDaoJdbc(connection);
         countryDao = new CountryDaoJdbc(connection);
         visaDaoJdbc = new VisaDaoJdbc(connection, usrDao, countryDao);
@@ -56,33 +60,36 @@ class VisaDaoJdbcTest {
 
     @Test
     void findAll() {
-        visaDaoJdbc.findAll().forEach(System.out::println);
+        Set<Visa> visas = visaDaoJdbc.findAll();
+        assertEquals(6, visas.size());
+        visas.stream()
+                .flatMap(visa -> Stream.of(visa
+                        .getClass()
+                        .getFields())
+                        .map(ThrowingLambdas.function(field -> {
+                            field.setAccessible(true);
+                            return field.get(visa); }))
+                )
+                .forEach(Assertions::assertNotNull);
     }
 
     @Test
     void findById() {
-        visaDaoJdbc.findById((long) 2).ifPresent(System.out::println);
     }
 
     @Test
     void findByVisaNumber() {
-        visaDaoJdbc.findByVisaNumber("675654567").ifPresent(System.out::println);
     }
 
     @Test
     void findVisasByCountryId() {
-        visaDaoJdbc.findVisasByCountryId((long) 2).forEach(System.out::println);
     }
 
     @Test
     void issuedVisas() {
-        System.out.println(visaDaoJdbc.issuedVisas("Italy"));
-        System.out.println(visaDaoJdbc.issuedVisas((long) 2));
     }
 
     @Test
     void usrHasVisas() {
-        System.out.println(visaDaoJdbc.usrHasVisas("user@gmail.com"));
-        System.out.println(visaDaoJdbc.usrHasVisas((long) 2));
     }
 }

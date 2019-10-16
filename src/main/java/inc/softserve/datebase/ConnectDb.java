@@ -2,11 +2,13 @@ package inc.softserve.datebase;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Slf4j
+//@Slf4j
 public class ConnectDb {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
@@ -19,15 +21,20 @@ public class ConnectDb {
 
     public static Connection connectBase() {
         try {
+            DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver")
+                    .getDeclaredConstructor()
+                    .newInstance());
             Connection conn = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            log.info(conn.getMetaData().getDatabaseProductName());
-            log.info(conn.getMetaData().getDatabaseProductVersion());
-            log.info(conn.getMetaData().getDriverName());
-            log.info(conn.getMetaData().getDriverVersion());
+//            log.info(conn.getMetaData().getDatabaseProductName());
+//            log.info(conn.getMetaData().getDatabaseProductVersion());
+//            log.info(conn.getMetaData().getDriverName());
+//            log.info(conn.getMetaData().getDriverVersion());
             return conn;
-        } catch (SQLException | ClassNotFoundException e) {
-            log.error(e.getLocalizedMessage());
+        } catch (SQLException | ClassNotFoundException | NoSuchMethodException e) {
+//            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

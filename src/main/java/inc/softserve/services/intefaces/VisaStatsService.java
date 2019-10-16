@@ -2,7 +2,7 @@ package inc.softserve.services.intefaces;
 
 import java.util.Optional;
 
-public interface VisaService {
+public interface VisaStatsService {
 
     Optional<Integer> countVisasByUserEmail(String email);
 

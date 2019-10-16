@@ -8,13 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+//@Slf4j
 public class CountryDaoJdbc implements CountryDao {
 
     private final Connection connection;
@@ -30,7 +29,25 @@ public class CountryDaoJdbc implements CountryDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractCountries(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Set<Country> findCountriesVisitedByUsr(Long usrId){
+        String query = "SELECT DISTINCT * FROM users " +
+                "INNER JOIN usr_country " +
+                "ON users.id = usr_country.usr_id " +
+                "INNER JOIN countries " +
+                "ON usr_country.country_id = countries.id " +
+                "WHERE users.id = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, usrId);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractCountries(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -54,7 +71,7 @@ public class CountryDaoJdbc implements CountryDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractCountries(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -67,7 +84,7 @@ public class CountryDaoJdbc implements CountryDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractCountries(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

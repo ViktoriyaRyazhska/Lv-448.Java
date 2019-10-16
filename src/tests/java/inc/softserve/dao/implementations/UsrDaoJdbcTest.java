@@ -1,5 +1,6 @@
 package inc.softserve.dao.implementations;
 
+import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.datebase.ConnectDb;
 import inc.softserve.entities.Usr;
 import org.junit.jupiter.api.AfterAll;
@@ -9,13 +10,14 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UsrDaoJdbcTest {
 
     private static Connection connection;
-    private static UsrDaoJdbc usrDaoJdbc;
+    private static UsrDao usrDaoJdbc;
 
     @BeforeAll
     static void init(){
@@ -38,6 +40,7 @@ class UsrDaoJdbcTest {
         usr.setFirstName("firstname");
         usr.setLastName("lastname");
         usr.setRole(Usr.Role.CLIENT);
+        usr.setBirthDate(LocalDate.now());
         usr = usrDaoJdbc.save(usr);
         assertNotNull(usr.getId());
         try (PreparedStatement prepStat = connection.prepareStatement("DELETE FROM users WHERE id = ?")){

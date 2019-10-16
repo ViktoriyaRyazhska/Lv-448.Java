@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+//@Slf4j
 public class RoomDaoJdbc implements RoomDao {
 
     private final Connection connection;
@@ -31,7 +31,7 @@ public class RoomDaoJdbc implements RoomDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractRooms(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -44,7 +44,7 @@ public class RoomDaoJdbc implements RoomDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractRooms(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -67,7 +67,15 @@ public class RoomDaoJdbc implements RoomDao {
 
     @Override
     public Set<Room> findByHotelId(Long hotelId) {
-        return null;
+        String query = "SELECT * FROM rooms WHERE hotel_id = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, hotelId);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractRooms(resultSet).collect(Collectors.toUnmodifiableSet());
+        } catch (SQLException e) {
+//            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -84,7 +92,7 @@ public class RoomDaoJdbc implements RoomDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractRoomStats(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -97,7 +105,7 @@ public class RoomDaoJdbc implements RoomDao {
                             .findById(rs.getLong("hotel_id"))
                             .orElseThrow(() -> {
                                 String errorMessage = "There is a room that is not bind to any hotel";
-                                log.error(errorMessage);
+//                                log.error(errorMessage);
                                 return new RuntimeException(errorMessage);
                             }))
                     .chamberNumber(rs.getInt("chamber_number"))

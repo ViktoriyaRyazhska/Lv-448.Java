@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Booking {
 
     private Long id;
-    private LocalDate localDate;
+    private LocalDate orderDate;
     private LocalDate checkin;
     private LocalDate checkout;
     private Usr usr;

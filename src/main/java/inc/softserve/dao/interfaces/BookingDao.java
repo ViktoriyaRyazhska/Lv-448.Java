@@ -9,9 +9,13 @@ import java.util.Set;
 
 public interface BookingDao {
 
+    Booking save(Booking booking);
+
     Set<Booking> findAll();
 
     Optional<Booking> findById(Long bookingId);
 
-    List<LocalDate> showAllFuture(Long hotelId);
+    Set<Booking> findBookingsByUsrId(Long usrId);
+
+    List<LocalDate> showAllFutureBookings(Long hotelId);
 }

@@ -3,17 +3,17 @@ package inc.softserve.services.implementations;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
-import inc.softserve.services.intefaces.VisaService;
+import inc.softserve.services.intefaces.VisaStatsService;
 
 import java.util.Optional;
 
-public class VisaServiceImpl implements VisaService {
+public class VisaStatsServiceImpl implements VisaStatsService {
 
     private final VisaDao visaDao;
     private final UsrDao usrDao;
     private final CountryDao countryDao;
 
-    public VisaServiceImpl(VisaDao visaDao, UsrDao usrDao, CountryDao countryDao) {
+    public VisaStatsServiceImpl(VisaDao visaDao, UsrDao usrDao, CountryDao countryDao) {
         this.visaDao = visaDao;
         this.usrDao = usrDao;
         this.countryDao = countryDao;

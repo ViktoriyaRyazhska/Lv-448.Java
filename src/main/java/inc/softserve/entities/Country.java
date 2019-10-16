@@ -8,9 +8,9 @@ import java.util.*;
 public class Country {
     private Long id;
     private String country;
-    private List<Usr> visitors = new ArrayList<>();
-    private List<Visa> issuedVisas = new ArrayList<>();
-    private List<City> cities = new ArrayList<>();
+    private Set<Usr> visitors;
+    private Set<Visa> issuedVisas;
+    private Set<City> cities;
 
     @Override
     public boolean equals(Object o) {
