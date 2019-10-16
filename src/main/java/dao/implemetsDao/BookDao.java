@@ -1,7 +1,6 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.BookDaoInterface;
-import entities.Author;
 import entities.Book;
 import lombok.extern.slf4j.Slf4j;
 

@@ -5,6 +5,7 @@ import entities.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -79,6 +80,32 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    @Override
+    public List<Long> findAllBookInstanceOnReading(Long userId) {
+        String query = "select user_name, user_surname, id_book_instance from users left join orders"
+                + "on users.id = orders.id_users where date_return is null and id_users = ?";
+        return findAllBookInstanceByUser(userId, query);
+    }
+
+    @Override
+    public List<Long> findAllReturnedBookInstanceByUser(Long userId) {
+        String query = "select user_name, user_surname, id_book_instance from users left join orders"
+                + "on users.id = orders.id_users where date_return is not null and id_users = ?";
+        return findAllBookInstanceByUser(userId, query);
+    }
+
+    private List<Long> findAllBookInstanceByUser(Long userId, String query) {
+        List<Long> bookInstanceId = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, userId);
+            bookInstanceId.add(preparedStatement.executeQuery().getLong("id_book_instance"));
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+
+        return bookInstanceId;
+    }
 
     private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {
         Stream.Builder<User> builder = Stream.builder();

@@ -11,5 +11,9 @@ public interface UserDaoInterface extends Crud<User> {
 
     List<User> findAll();
 
+    List<Long> findAllBookInstanceOnReading(Long userId);
+
+    List<Long> findAllReturnedBookInstanceByUser(Long userId);
+
 
 }
