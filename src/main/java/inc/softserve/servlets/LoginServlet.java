@@ -14,12 +14,12 @@ import java.util.Map;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private UsrRegisterImpl userService;
 
-//    private UsrRegisterImpl userService;
-//
-//    public LoginServlet(UsrRegisterImpl userService) {
-//        this.userService = userService;
-//    }
+    @Override
+    public void init() throws ServletException {
+        this.userService = new UsrRegisterImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +28,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UsrRegisterImpl userService = new UsrRegisterImpl();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Map<String, String> messages = userService.validateData(email, password);
