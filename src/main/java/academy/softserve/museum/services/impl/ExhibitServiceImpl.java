@@ -3,6 +3,7 @@ package academy.softserve.museum.services.impl;
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Employee;
@@ -15,9 +16,15 @@ import java.util.Optional;
 
 public class ExhibitServiceImpl implements ExhibitService {
 
-    private ExhibitDao exhibitDao;
-    private AuthorDao authorDao;
-    private AudienceDao audienceDao;
+    private final ExhibitDao exhibitDao;
+    private final AuthorDao authorDao;
+    private final AudienceDao audienceDao;
+
+    public ExhibitServiceImpl() {
+        exhibitDao = DaoFactory.exhibitDao();
+        authorDao = DaoFactory.authorDao();
+        audienceDao = DaoFactory.audienceDao();
+    }
 
     @Override
     public boolean save(Exhibit objectToSave) {
