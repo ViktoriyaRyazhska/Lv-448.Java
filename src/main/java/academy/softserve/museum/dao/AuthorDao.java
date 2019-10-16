@@ -21,4 +21,10 @@ public interface AuthorDao extends Crud<Author> {
 
         return author;
     }
+
+    default List<Author> loadForeignFields(List<Author> authors) {
+        authors.forEach(a -> a.setExhibits(findExhibitsByAuthor(a)));
+
+        return authors;
+    }
 }

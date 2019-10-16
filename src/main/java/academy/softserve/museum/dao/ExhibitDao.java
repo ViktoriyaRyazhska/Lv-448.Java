@@ -38,4 +38,13 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
         return exhibit;
     }
+
+    default List<Exhibit> loadForeignFields(List<Exhibit> exhibits) {
+        exhibits.forEach(e -> {
+            e.setAudience(findAudienceByExhibit(e));
+            e.setAuthors(findAuthorsByExhibit(e));
+        });
+
+        return exhibits;
+    }
 }

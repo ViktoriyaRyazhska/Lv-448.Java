@@ -25,4 +25,10 @@ public interface EmployeeDao extends Crud<Employee> {
 
         return employee;
     }
+
+    default List<Employee> loadForeignFields(List<Employee> employees) {
+        employees.forEach(e -> e.setAudience(findAudienceByEmployee(e)));
+
+        return employees;
+    }
 }
