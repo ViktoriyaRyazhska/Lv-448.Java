@@ -5,7 +5,7 @@
     <title>Login Page</title>
 </head>
 <body>
-<form action="home" method="post">
+<form action="login" method="post">
     <table>
         <tr>
             <td>Email:</td>
