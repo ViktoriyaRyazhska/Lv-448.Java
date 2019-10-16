@@ -60,9 +60,11 @@
                                 New
                             </button>
                         </form>
-                        <button type="submit" class="btn btn-dark">
-                            Statistics
-                        </button>
+                        <form class="form-inline" action="<c:url value="/exhibit-statistics" />" method="get">
+                            <button type="submit" class="btn btn-dark">
+                                Statistics
+                            </button>
+                        </form>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
