@@ -1,6 +1,5 @@
 package dao.interfaceDao;
 
-import entities.Author;
 import entities.Book;
 
 import java.util.List;
@@ -12,5 +11,7 @@ public interface BookDaoInterface extends Crud<Book> {
     List<Book> findAll();
 
     List<Book> findAllByAuthorName(Long authorId);
+
+    List<Book> findAllBooksBySubAuthor(Long subAuthorId);
 
 }

@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 public class BookDao implements BookDaoInterface {
 
     private final Connection connection;
+    private Book Book;
 
     public BookDao(Connection connection) {
         this.connection = connection;
@@ -49,6 +50,24 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
+    @Override
+    public List<Book> findAllBooksBySubAuthor(Long authorId) {
+        String query = "select id_book from book_sub_authors where id_author = ?;";
+        List<Book> books = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, authorId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                books.add(
+                        findById(resultSet.getLong("id_book")).orElse(null)
+                );
+            }
+            return books;
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public List<Book> findAllByAuthorName(Long authorId) {
