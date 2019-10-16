@@ -11,40 +11,58 @@ import java.util.Optional;
 
 public class TimetableServiceImpl implements TimetableService {
 
-  private JdbcTimetableDao jdbcTimetableDao;
+    public TimetableServiceImpl() {
+    }
 
-  @Override
-  public void save(Timetable objectToSave) {
-    jdbcTimetableDao.save(objectToSave);
-  }
+    public TimetableServiceImpl(
+            JdbcTimetableDao jdbcTimetableDao) {
+        this.jdbcTimetableDao = jdbcTimetableDao;
+    }
 
-  @Override
-  public void deleteById(long id) {
-    jdbcTimetableDao.deleteById(id);
-  }
+    private JdbcTimetableDao jdbcTimetableDao;
 
-  @Override
-  public Optional<Timetable> findById(long id) {
-    return jdbcTimetableDao.findById(id);
-  }
+    @Override
+    public void save(Timetable objectToSave) {
+        jdbcTimetableDao.save(objectToSave);
+    }
 
-  @Override
-  public List<Timetable> findAll() {
-    return jdbcTimetableDao.findAll();
-  }
+    @Override
+    public boolean deleteById(long id) {
+        if (jdbcTimetableDao.findById(id).isPresent()) {
+            jdbcTimetableDao.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-  @Override
-  public void update(Timetable newObject) {
-    jdbcTimetableDao.update(newObject);
-  }
+    @Override
+    public Optional<Timetable> findById(long id) {
+        return jdbcTimetableDao.findById(id);
+    }
 
-  @Override
-  public List<Employee> findAvailableTourGuides(Date dateStart, Date dateEnd) {
-    return jdbcTimetableDao.findAvailableTourGuides(dateStart, dateEnd);
-  }
+    @Override
+    public List<Timetable> findAll() {
+        return jdbcTimetableDao.findAll();
+    }
 
-  @Override
-  public List<Excursion> findAvailableExcursions(Date dateStart, Date dateEnd) {
-    return jdbcTimetableDao.findAvailableExcursions(dateStart, dateEnd);
-  }
+    @Override
+    public boolean update(Timetable newObject) {
+        if (jdbcTimetableDao.findById(newObject.getId()).isPresent()) {
+            jdbcTimetableDao.update(newObject);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Employee> findAvailableTourGuides(Date dateStart, Date dateEnd) {
+        return jdbcTimetableDao.findAvailableTourGuides(dateStart, dateEnd);
+    }
+
+    @Override
+    public List<Excursion> findAvailableExcursions(Date dateStart, Date dateEnd) {
+        return jdbcTimetableDao.findAvailableExcursions(dateStart, dateEnd);
+    }
 }

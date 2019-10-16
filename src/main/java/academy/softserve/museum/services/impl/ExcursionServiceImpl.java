@@ -26,10 +26,10 @@ public class ExcursionServiceImpl implements ExcursionService {
     @Override
     public boolean deleteById(long id) {
         if (jdbcExcursionDao.findById(id).isPresent()) {
-            return false;
-        } else {
             jdbcExcursionDao.deleteById(id);
             return true;
+        } else {
+            return false;
         }
     }
 

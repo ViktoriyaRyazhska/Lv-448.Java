@@ -17,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean save(Employee objectToSave) {
-        if(jdbcEmployeeDao.findByUsername(objectToSave.getLogin()) != null) {
+        if (jdbcEmployeeDao.findByUsername(objectToSave.getLogin()) != null) {
             return false;
         } else {
             jdbcEmployeeDao.save(objectToSave);
@@ -27,11 +27,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean deleteById(long id) {
-        if(!jdbcEmployeeDao.findById(id).isPresent()) {
-            return false;
-        } else {
+        if (!jdbcEmployeeDao.findById(id).isPresent()) {
             jdbcEmployeeDao.deleteById(id);
             return true;
+        } else {
+            return false;
         }
     }
 

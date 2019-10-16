@@ -54,10 +54,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public boolean deleteById(long id) {
         if (jdbcAuthorDao.findById(id).isPresent()) {
-            return false;
-        } else {
             jdbcAuthorDao.deleteById(id);
             return true;
+        } else {
+            return false;
         }
     }
 
