@@ -16,17 +16,20 @@ import java.io.IOException;
 @WebServlet("/add-excursion")
 public class AddExcursionServlet extends HttpServlet {
 
-    private final ExcursionService excursionService = new ExcursionServiceImpl();
+    private ExcursionService excursionService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/add-excursion.jsp");
-        requestDispatcher.forward(req, resp);
+    public void init() throws ServletException {
+        excursionService = new ExcursionServiceImpl();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/add-excursion.jsp").include(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
         Excursion excursion = new Excursion(name);
         if(excursionService.save(excursion)){

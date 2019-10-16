@@ -6,8 +6,6 @@ import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 import academy.softserve.museum.util.PathParser;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,30 +16,32 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/update-employee/*")
 public class UpdateEmployeeServlet extends HttpServlet {
 
-    private final EmployeeService employeeService = new EmployeeServiceImpl();
+    private EmployeeService employeeService;
+
+    @Override
+    public void init() throws ServletException {
+        employeeService = new EmployeeServiceImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/update-employee.jsp");
         long pathVariable = PathParser.getPathVariable(req.getPathInfo());
         Employee employee = employeeService.findById(pathVariable).get();
         req.setAttribute("employee", employee);
-        requestDispatcher.forward(req, resp);
+        req.getRequestDispatcher("/update-employee.jsp").include(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long id = Integer.parseInt(req.getParameter("id"));
-
-        String firstname = req.getParameter("firstname");
-        String lastname = req.getParameter("lastname");
+        String firstName = req.getParameter("firstname");
+        String lastName = req.getParameter("lastname");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
         //int audience = Integer.parseInt(req.getParameter("audience"));
 
-        Employee employee = new Employee(id, firstname, lastname, position, username, password);
+        Employee employee = new Employee(id, firstName, lastName, position, username, password);
 
         employeeService.update(employee);
         resp.sendRedirect(req.getContextPath() + "/employees");

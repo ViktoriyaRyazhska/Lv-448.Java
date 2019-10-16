@@ -1,12 +1,9 @@
 package academy.softserve.museum.servlet;
 
-import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.services.ExcursionService;
 import academy.softserve.museum.services.impl.ExcursionServiceImpl;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +16,12 @@ import java.util.List;
 @WebServlet("/excursions")
 public class ExcursionServlet extends HttpServlet {
 
-    private final ExcursionService excursionService = new ExcursionServiceImpl();
+    private ExcursionService excursionService;
+
+    @Override
+    public void init() {
+        excursionService = new ExcursionServiceImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,10 +31,8 @@ public class ExcursionServlet extends HttpServlet {
         } else {
             excursions = new ArrayList<>();
         }
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/excursions.jsp");
         req.setAttribute("excursions", excursions);
-        requestDispatcher.forward(req, resp);
+        req.getRequestDispatcher("/excursions.jsp").include(req,resp);
     }
 
 }

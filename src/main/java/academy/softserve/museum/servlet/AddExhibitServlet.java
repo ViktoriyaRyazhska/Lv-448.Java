@@ -1,5 +1,8 @@
 package academy.softserve.museum.servlet;
 
+import academy.softserve.museum.services.ExhibitService;
+import academy.softserve.museum.services.impl.ExhibitServiceImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +13,20 @@ import java.io.IOException;
 @WebServlet("/add-exhibit")
 public class AddExhibitServlet extends HttpServlet {
 
+    private ExhibitService exhibitService;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/add-exhibit.jsp").forward(req,resp);
+    public void init() throws ServletException {
+        exhibitService = new ExhibitServiceImpl();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/add-exhibit.jsp").include(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String type = req.getParameter("type");
         String material = req.getParameter("material");
         String technic = req.getParameter("technic");

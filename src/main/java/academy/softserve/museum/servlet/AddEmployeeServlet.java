@@ -18,18 +18,20 @@ import java.io.IOException;
 @WebServlet("/add-employee")
 public class AddEmployeeServlet extends HttpServlet {
 
+    private EmployeeService employeeService;
+
+    @Override
+    public void init() throws ServletException {
+         employeeService = new EmployeeServiceImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/add-employee.jsp");
-        requestDispatcher.forward(req, resp);
+        req.getRequestDispatcher("/add-employee.jsp").include(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        EmployeeService service = new EmployeeServiceImpl();
-
         String firstname = req.getParameter("firstname");
         String lastname = req.getParameter("lastname");
         String username = req.getParameter("username");
@@ -39,7 +41,7 @@ public class AddEmployeeServlet extends HttpServlet {
 
         Employee employee = new Employee(firstname, lastname, position, username, password);
 
-        if(service.save(employee)) {
+        if(employeeService.save(employee)) {
             req.setAttribute("message", "Employee has been successfully added");
             resp.sendRedirect(req.getContextPath() + "/employees");
         } else {

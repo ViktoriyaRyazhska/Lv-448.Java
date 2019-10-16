@@ -29,8 +29,6 @@ public class ExhibitStatsServlet extends HttpServlet {
         req.setAttribute("materials", materialsJson);
         req.setAttribute("materialsQuantity", materialsQuantityJson);
 
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/exhibit-chart.jsp");
-        requestDispatcher.forward(req, resp);
+        req.getRequestDispatcher("/exhibit-chart.jsp").include(req,resp);
     }
 }

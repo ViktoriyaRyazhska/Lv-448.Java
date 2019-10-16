@@ -1,5 +1,8 @@
 package academy.softserve.museum.servlet;
 
+import academy.softserve.museum.services.ExhibitService;
+import academy.softserve.museum.services.impl.ExhibitServiceImpl;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -12,11 +15,16 @@ import java.io.IOException;
 @WebServlet("/exhibits")
 public class ExhibitServlet extends HttpServlet {
 
+    private ExhibitService exhibitService;
+
+    @Override
+    public void init() throws ServletException {
+        exhibitService = new ExhibitServiceImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/exhibits.jsp");
-        requestDispatcher.forward(req, resp);
+        req.getRequestDispatcher("/exhibits.jsp").include(req, resp);
     }
 
 }
