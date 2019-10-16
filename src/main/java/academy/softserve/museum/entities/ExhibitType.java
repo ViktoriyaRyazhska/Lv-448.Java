@@ -1,6 +1,6 @@
 package academy.softserve.museum.entities;
 
 public enum ExhibitType {
-    PAINITNG,
+    PAINTING,
     SCULPTURE;
 }

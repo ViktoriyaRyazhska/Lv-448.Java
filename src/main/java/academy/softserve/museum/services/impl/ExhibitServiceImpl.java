@@ -32,10 +32,10 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public boolean deleteById(long id) {
         if (exhibitDao.findById(id).isPresent()) {
-            return false;
-        } else {
             exhibitDao.deleteById(id);
             return true;
+        } else {
+            return false;
         }
     }
 

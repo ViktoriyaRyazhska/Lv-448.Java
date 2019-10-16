@@ -59,6 +59,7 @@
                         <input type="number" class="form-control" id="employee-audience"
                                aria-describedby="employee-audience-help"
                                name="audience"
+                               value="0"
                                placeholder="Enter audience number">
                         <small id="employee-audience-help" class="form-text text-muted">Allowed only if employee's
                             position is an Audience manager</small>

@@ -180,7 +180,7 @@ public class JdbcExhibitDao implements ExhibitDao {
     public ExhibitStatistic findStatistic() {
         ExhibitStatistic statistic = new ExhibitStatistic();
         statistic.setMaterialStatistic(findStatisticByType(ExhibitType.SCULPTURE, "material"));
-        statistic.setTechniqueStatistic(findStatisticByType(ExhibitType.PAINITNG, "techic"));
+        statistic.setTechniqueStatistic(findStatisticByType(ExhibitType.PAINTING, "techic"));
 
         return statistic;
     }
