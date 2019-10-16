@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Slf4j
+// @Slf4j
 public class ConnectDb {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
@@ -19,15 +19,15 @@ public class ConnectDb {
 
     public static Connection connectBase() {
         try {
-            Connection conn = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
             Class.forName("com.mysql.cj.jdbc.Driver");
-            log.info(conn.getMetaData().getDatabaseProductName());
-            log.info(conn.getMetaData().getDatabaseProductVersion());
-            log.info(conn.getMetaData().getDriverName());
-            log.info(conn.getMetaData().getDriverVersion());
+            Connection conn = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
+      //      log.info(conn.getMetaData().getDatabaseProductName());
+      //      log.info(conn.getMetaData().getDatabaseProductVersion());
+      //      log.info(conn.getMetaData().getDriverName());
+      //      log.info(conn.getMetaData().getDriverVersion());
             return conn;
         } catch (SQLException | ClassNotFoundException e) {
-            log.error(e.getLocalizedMessage());
+      //      log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
