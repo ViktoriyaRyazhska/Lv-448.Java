@@ -5,14 +5,10 @@ import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionStatisticRowMapper;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
-import academy.softserve.museum.utils.JdbcUtils;
+import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -6,7 +6,7 @@ import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExhibitRowMapper;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
-import academy.softserve.museum.utils.JdbcUtils;
+import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,7 +60,7 @@ public class JdbcExhibitDao implements ExhibitDao {
     @Override
     public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
         String FIND_AUTHORS_BY_EXHIBIT_ID =
-                "SELECT a.id AS author_id, a.first_name AS author_first_name, a.last_name AS author_last_name" +
+                "SELECT a.id AS author_id, a.first_name AS author_first_name, a.last_name AS author_last_name " +
                         "FROM autors AS a " +
                         "INNER JOIN autor_exhibit AS ae " +
                         "ON a.id = ae.autor_id " +

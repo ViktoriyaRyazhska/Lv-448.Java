@@ -20,4 +20,9 @@ public interface EmployeeDao extends Crud<Employee> {
 
     void updateEmployeeAudience(Employee employee, Audience audience);
 
+    default Employee loadForeign(Employee employee) {
+        employee.setAudience(findAudienceByEmployee(employee));
+
+        return employee;
+    }
 }

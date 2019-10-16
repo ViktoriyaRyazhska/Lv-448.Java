@@ -2,6 +2,7 @@ package academy.softserve.museum.dao;
 
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,9 @@ public interface AuthorDao extends Crud<Author> {
 
     Optional<Author> findByFullName(String fName, String lName);
 
+    default Author loadForeign(Author author) {
+        author.setExhibits(findExhibitsByAuthor(author));
+
+        return author;
+    }
 }
