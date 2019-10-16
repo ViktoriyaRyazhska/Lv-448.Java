@@ -11,25 +11,15 @@ import java.util.Properties;
 
 public final class DaoFactory {
     private static final Connection connection;
-    private static final String PROPERTIES_PATH = "/database.properties";
 
     private DaoFactory() {
     }
 
     static {
-        Properties properties = new Properties();
-
-        try (InputStream out = DaoFactory.class.getResourceAsStream(PROPERTIES_PATH)) {
-            properties.load(out);
-            System.out.println();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(properties.getProperty("url"),
-                    properties.getProperty("user"), properties.getProperty("password"));
+            connection = DriverManager.getConnection(System.getenv("db_url"),
+                    System.getenv("db_user"), System.getenv("db_password"));
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
