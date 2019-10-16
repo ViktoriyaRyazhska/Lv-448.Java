@@ -13,7 +13,7 @@
         <div class="row justify-content-md-center">
             <div class="add-form col-xl-4 border rounded py-3">
                 <h2 class="text-primary text-center">Add new excursion</h2>
-                <form>
+                <form method="post" action="add-excursion">
                     <div class="form-group">
                         <label for="excursion-name">Name</label>
                         <input type="text" class="form-control" id="excursion-name"

@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row">
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
-                <form class="form-inline" role="form">
+                <div class="form-inline" role="form">
                     <div class="form-group">
                         <label class="filter-col" for="date-from">Date from:</label>
                         <input type="text" class="form-control input-xs" id="date-from">
@@ -42,84 +42,31 @@
                             Statistics
                         </button>
                     </div> <!-- form group [buttons] -->
-                </form>
+                </div>
             </div>
         </div> <!-- row [filters-panel] -->
         <div class="row">
             <div class="custom-list" id="excursions-list">
                 <div class="card-columns">
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/excursion-placeholder.jpeg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Excursion name</h5>
-                            <p class="card-text">Excursion description text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/excursion-placeholder.jpeg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Excursion name</h5>
-                            <p class="card-text">Excursion description text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/excursion-placeholder.jpeg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Excursion name</h5>
-                            <p class="card-text">Excursion description text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/excursion-placeholder.jpeg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Excursion name</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/excursion-placeholder.jpeg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Excursion name</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/excursion-placeholder.jpeg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Excursion name</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
+                    <c:if test="${not empty excursions}">
+                        <c:forEach var="excursion" items="${excursions}">
+                            <div class="card">
+                                <img class="card-img-top" src="static/img/excursion-placeholder.jpeg"
+                                     alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">${excursion.name}</h5>
+                                    <p class="card-text">Excursion description text to build on the card title and make
+                                        up
+                                        the
+                                        bulk of the card's content.</p>
+                                </div>
+                                <div class="card-footer text-right">
+                                    <a href="#" class="card-link">Update</a>
+                                    <a href="#" class="card-link">Remove</a>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:if>
                 </div>
             </div>
         </div>
