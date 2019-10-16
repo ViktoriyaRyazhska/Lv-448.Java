@@ -103,10 +103,16 @@ class VisaDaoJdbcTest {
     @Test
     void findVisasByCountryId() {
         Set<Visa> visas = visaDaoJdbc.findVisasByCountryId((long) 2);
+        Long expectedSize = (long) 3;
+        Long actualSize = (long) visas.size();
+        assertEquals(expectedSize, actualSize);
     }
 
     @Test
     void issuedVisas() {
+        int expectedNumber = 2;
+        int actualNumber = visaDaoJdbc.issuedVisas((long) 3);
+        assertEquals(expectedNumber, actualNumber);
     }
 
     @Test
