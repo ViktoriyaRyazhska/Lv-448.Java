@@ -1,6 +1,7 @@
 package academy.softserve.museum.services.impl;
 
-import academy.softserve.museum.dao.impl.jdbc.JdbcExcursionDao;
+import academy.softserve.museum.dao.ExcursionDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
 import academy.softserve.museum.services.ExcursionService;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public class ExcursionServiceImpl implements ExcursionService {
 
-    private JdbcExcursionDao jdbcExcursionDao;
+    private ExcursionDao jdbcExcursionDao = DaoFactory.excursionDao();
 
     @Override
     public boolean save(Excursion objectToSave) {

@@ -3,7 +3,6 @@ package academy.softserve.museum.database;
 import academy.softserve.museum.dao.*;
 import academy.softserve.museum.dao.impl.jdbc.*;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
