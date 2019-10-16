@@ -1,6 +1,6 @@
 package academy.softserve.museum.entities;
 
-public class Excursion extends Entity{
+public class Excursion extends Entity {
     private String name;
 
     public Excursion(long id, String name) {

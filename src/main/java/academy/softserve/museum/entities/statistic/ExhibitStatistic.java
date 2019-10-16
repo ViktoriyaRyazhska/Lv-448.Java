@@ -1,6 +1,5 @@
 package academy.softserve.museum.entities.statistic;
 
-import java.util.List;
 import java.util.Map;
 
 public class ExhibitStatistic {
