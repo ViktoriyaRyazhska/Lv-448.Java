@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public final class DaoFactory {
     private static final Connection connection;
-    private static final String PROPERTIES_PATH = "D:\\Softserve\\courses\\projects\\copy\\Lv-448.Java\\src\\main\\resources\\database.properties";
+    private static final String PROPERTIES_PATH = "/database.properties";
 
     private DaoFactory() {
     }
@@ -20,7 +20,7 @@ public final class DaoFactory {
     static {
         Properties properties = new Properties();
 
-        try (InputStream out = new FileInputStream(PROPERTIES_PATH)) {
+        try (InputStream out = DaoFactory.class.getResourceAsStream(PROPERTIES_PATH)) {
             properties.load(out);
             System.out.println();
         } catch (Exception e) {
