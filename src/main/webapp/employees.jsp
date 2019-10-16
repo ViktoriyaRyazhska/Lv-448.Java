@@ -94,7 +94,7 @@
                             </td>
                             <td>
                                 <form action="delete-employee/?id=${employee.id}" method="post">
-                                    <button type="submit">
+                                    <button class="bg-none" type="submit">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>

@@ -12,6 +12,11 @@
     display: none;
 }
 
+.bg-none {
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
+
 
 /* GENERAL */
 #filter-panel,
