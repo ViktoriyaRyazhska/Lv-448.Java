@@ -18,9 +18,16 @@ import java.util.Enumeration;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
+
+    private UsrRegisterImpl usrRegistration;
+
+    @Override
+    public void init() throws ServletException {
+        usrRegistration = new UsrRegisterImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-     //   super.doGet(req, resp);
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/registration.jsp");
         requestDispatcher.forward(req, resp);
@@ -29,8 +36,6 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       // super.doPost(req, resp);
-
         UsrRegisterImpl usrRegistration = new UsrRegisterImpl();
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
@@ -45,22 +50,8 @@ public class RegistrationServlet extends HttpServlet {
         UsrDto userDto = usrRegistration.initUsrDto(firstName,  lastName, email, phoneNamber, birthday,  password);
         VisaDto visaDto = usrRegistration.initVisaDto(Country,  start, end, numberVisa);
         usrRegistration.register(userDto, visaDto);
-      //  if(visaDto != null && userDto != null){
-//          HttpSession session = req.getSession();
-//            session.setAttribute("userDto", userDto);
-//            session.setAttribute("visaDto", visaDto);
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login.jsp");
         requestDispatcher.forward(req, resp);
-          //  resp.sendRedirect(req.getContextPath() + "/index.jsp");
-   //     }//else{
-//            resp.sendRedirect(req.getContextPath() + "/registration.jsp");
-//
-//        }
-
-
-        //     resp.sendRedirect(resp.encodeRedirectURL("WebFilterTask/index.jsp"));
-
-
-         //   getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }
