@@ -1,4 +1,4 @@
-package inc.softserve.services;
+package inc.softserve.services.implementations;
 
 import inc.softserve.dao.implementations.CountryDaoJdbc;
 import inc.softserve.dao.implementations.UsrDaoJdbc;
@@ -13,15 +13,12 @@ import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
 import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
+import inc.softserve.services.intefaces.UsrRegisterService;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -32,13 +29,13 @@ public class UsrRegisterImpl implements UsrRegisterService {
     private UsrDao usrDao;
     private VisaDao visaDao;
     private CountryDao countryDao;
-    Connection conn;
+    private Connection conn;
 
     public UsrRegisterImpl() {
         conn = ConnectDb.connectBase();
         this.usrDao = new UsrDaoJdbc(conn);
-        this.visaDao = new VisaDaoJdbc(conn, usrDao, countryDao);
         this.countryDao = new CountryDaoJdbc(conn);
+        this.visaDao = new VisaDaoJdbc(conn, usrDao, countryDao);
     }
 
 

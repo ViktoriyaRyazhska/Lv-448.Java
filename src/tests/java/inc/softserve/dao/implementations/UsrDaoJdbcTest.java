@@ -1,18 +1,25 @@
 package inc.softserve.dao.implementations;
 
+import inc.softserve.dao.db_test_utils.FieldChecked;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.datebase.ConnectDb;
 import inc.softserve.entities.Usr;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UsrDaoJdbcTest {
 
@@ -53,13 +60,36 @@ class UsrDaoJdbcTest {
 
     @Test
     void findAll() {
+        Set<Usr> users = usrDaoJdbc.findAll();
+        assertEquals(5, users.size());
+        List<Predicate<Field>> skipFields = List.of(
+                field -> field.getName().equals("birthDate"),
+                field -> field.getName().equals("visitedCountries"),
+                field -> field.getName().equals("visas"),
+                field -> field.getName().equals("bookings")
+        );
+        FieldChecked.assertFieldValues(users.stream(),
+                skipFields.stream().reduce(x -> true, Predicate::and),
+                Assertions::assertNotNull);
     }
 
     @Test
     void findById() {
+        Usr usr = usrDaoJdbc
+                .findById((long) 3)
+                .orElseThrow();
+        Long expectedId = (long) 3;
+        Long actualId = usr.getId();
+        assertEquals(expectedId, actualId);
     }
 
     @Test
     void findByEmail() {
+        Usr usr = usrDaoJdbc
+                .findByEmail("neo@gmail.com")
+                .orElseThrow();
+        String expected = "neo@gmail.com";
+        String actual = usr.getEmail();
+        assertEquals(expected, actual);
     }
 }

@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS bookings(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     usr_id INT,
-    order_date DATE,
+    order_date DATETIME,
     checkin DATE,
     checkout DATE,
     room_id INT,

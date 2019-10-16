@@ -1,12 +1,12 @@
 package inc.softserve.dao.implementations;
 
+import inc.softserve.dao.db_test_utils.FieldChecked;
 import inc.softserve.dao.db_test_utils.InitDataBase;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
-import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,9 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -69,15 +67,7 @@ class VisaDaoJdbcTest {
     void findAll() {
         Set<Visa> visas = visaDaoJdbc.findAll();
         assertEquals(6, visas.size());
-        visas.stream()
-                .flatMap(visa -> Stream.of(visa
-                        .getClass()
-                        .getFields())
-                        .map(ThrowingLambdas.function(field -> {
-                            field.setAccessible(true);
-                            return field.get(visa); }))
-                )
-                .forEach(Assertions::assertNotNull);
+        FieldChecked.assertFieldValues(visas.stream(), x -> true, Assertions::assertNotNull);
     }
 
     @Test
@@ -113,9 +103,16 @@ class VisaDaoJdbcTest {
         int expectedNumber = 2;
         int actualNumber = visaDaoJdbc.issuedVisas((long) 3);
         assertEquals(expectedNumber, actualNumber);
+        actualNumber = visaDaoJdbc.issuedVisas("Spain");
+        assertEquals(expectedNumber, actualNumber);
     }
 
     @Test
     void usrHasVisas() {
+        int expected = 2;
+        int actual = visaDaoJdbc.usrHasVisas((long) 4);
+        assertEquals(expected, actual);
+        actual = visaDaoJdbc.usrHasVisas("neo@gmail.com");
+        assertEquals(actual, expected);
     }
 }

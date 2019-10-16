@@ -1,7 +1,7 @@
 package inc.softserve.servlets;
 
 import inc.softserve.entities.Usr;
-import inc.softserve.services.UsrRegisterImpl;
+import inc.softserve.services.implementations.UsrRegisterImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

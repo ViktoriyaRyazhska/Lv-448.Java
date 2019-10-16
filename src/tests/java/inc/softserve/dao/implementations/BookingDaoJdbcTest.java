@@ -1,13 +1,12 @@
 package inc.softserve.dao.implementations;
 
+import inc.softserve.dao.db_test_utils.FieldChecked;
 import inc.softserve.dao.db_test_utils.InitDataBase;
 import inc.softserve.dao.interfaces.*;
 import inc.softserve.entities.Booking;
 import inc.softserve.entities.Hotel;
 import inc.softserve.entities.Room;
 import inc.softserve.entities.Usr;
-import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,9 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class BookingDaoJdbcTest {
 
@@ -65,17 +64,8 @@ class BookingDaoJdbcTest {
     @Test
     void findAll() {
         Set<Booking> bookings = bookingDao.findAll();
-        assertEquals(5, bookings.size());
-        bookings.stream()
-                .flatMap(booking -> Stream.of(booking
-                        .getClass()
-                        .getFields())
-                        .map(ThrowingLambdas.function(field -> {
-                            field.setAccessible(true);
-                            return field.get(booking);
-                        }))
-                )
-                .forEach(Assertions::assertNotNull);
+        assertEquals(6, bookings.size());
+        FieldChecked.assertFieldValues(bookings.stream(), x -> true, Assertions::assertNotNull);
     }
 
     @Test
@@ -88,7 +78,7 @@ class BookingDaoJdbcTest {
 
     @Test
     void findBookingsByUsrId() {
-        Long expectedSize = (long) 3;
+        Long expectedSize = (long) 4;
         Long actualSize = (long) bookingDao.findBookingsByUsrId((long) 2).size();
         assertEquals(expectedSize, actualSize);
     }
