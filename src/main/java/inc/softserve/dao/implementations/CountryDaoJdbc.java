@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+ // @Slf4j
 public class CountryDaoJdbc implements CountryDao {
 
     private final Connection connection;
@@ -30,7 +30,7 @@ public class CountryDaoJdbc implements CountryDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractCountries(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+       //     log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -54,7 +54,7 @@ public class CountryDaoJdbc implements CountryDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractCountries(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+          //  log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -67,7 +67,7 @@ public class CountryDaoJdbc implements CountryDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractCountries(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

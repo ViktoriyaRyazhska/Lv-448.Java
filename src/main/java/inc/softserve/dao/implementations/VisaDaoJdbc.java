@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+// @Slf4j
 public class VisaDaoJdbc implements VisaDao {
 
     private final Connection connection;
@@ -44,7 +44,7 @@ public class VisaDaoJdbc implements VisaDao {
             }
             return visa;
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+          //  log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -60,7 +60,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractVisas(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+        //    log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -78,7 +78,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractVisas(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+       //     log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -96,7 +96,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractVisas(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -114,7 +114,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractVisas(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+          //  log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -127,7 +127,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractVisas(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+        //    log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -162,7 +162,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return getCount(resultSet);
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+          //  log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -175,7 +175,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return getCount(resultSet);
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -191,7 +191,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return getCount(resultSet);
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -204,7 +204,7 @@ public class VisaDaoJdbc implements VisaDao {
             ResultSet resultSet = prepStat.executeQuery();
             return getCount(resultSet);
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

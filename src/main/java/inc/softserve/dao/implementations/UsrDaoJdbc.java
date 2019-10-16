@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+// @Slf4j
 public class UsrDaoJdbc implements UsrDao {
 
     private final Connection connection;
@@ -36,7 +36,7 @@ public class UsrDaoJdbc implements UsrDao {
             prepStat.setString(6, usr.getLastName());
             prepStat.setString(7, usr.getRole().toString());
             if (usr.getBirthDate() != null) {
-                prepStat.setDate(8, Date.valueOf(usr.getBirthDate()));
+                prepStat.setDate(8, java.sql.Date.valueOf(usr.getBirthDate()));
             } else {
                 prepStat.setDate(8, null);
             }
@@ -64,7 +64,7 @@ public class UsrDaoJdbc implements UsrDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractUsers(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -82,7 +82,7 @@ public class UsrDaoJdbc implements UsrDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractUsers(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+          //  log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -100,7 +100,7 @@ public class UsrDaoJdbc implements UsrDao {
             ResultSet resultSet = prepStat.executeQuery();
             return extractUsers(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+         //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
