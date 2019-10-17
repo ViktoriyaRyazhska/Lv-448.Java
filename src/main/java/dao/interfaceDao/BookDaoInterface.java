@@ -8,11 +8,15 @@ import java.util.List;
 
 
 public interface BookDaoInterface extends Crud<Book> {
-    void update(Long id, Book book);
+
+    List<Book> findAllByAuthorName(Long authorId);
+
+    List<Book> findAllBooksBySubAuthor(Long subAuthorId);
 
     List<Book> findAll();
 
-    List<Book> findAllByAuthorName(Long authorId);
+    List<Long> findAllBookInstanceIdByBookId(Long bookId);
+
 
     List<Book> booksReleasedDuringIndependence(LocalDate fromDate, LocalDate toDate);
 

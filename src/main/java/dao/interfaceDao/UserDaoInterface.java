@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface UserDaoInterface extends Crud<User> {
 
-    void update(Long id, User user);
+    List<Long> findAllBookInstanceOnReading(Long userId);
+
+    List<Long> findAllReturnedBookInstanceByUser(Long userId);
 
     List<User> findAll();
 

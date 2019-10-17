@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,11 +44,11 @@ public class UserDao implements UserDaoInterface {
     @Override
     public Integer averageTimeUsingLibrary() {
         String query = "select AVG(DATEDIFF(CURDATE(), date_registration)) from users";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
@@ -56,11 +57,11 @@ public class UserDao implements UserDaoInterface {
     @Override
     public Integer timeUsingLibraryByUser(Long userId) {
         String query = "select DATEDIFF(CURDATE(), date_registration) from users where id=?";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
@@ -69,11 +70,11 @@ public class UserDao implements UserDaoInterface {
     @Override
     public Integer averageAgeOfUsers() {
         String query = "SELECT AVG(YEAR(NOW()) - YEAR(users.birthday)) as avg_age FROM users";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
@@ -81,15 +82,15 @@ public class UserDao implements UserDaoInterface {
 
     // Статистика по читачам середня кількість звернень за певний період
     @Override
-    public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate){
+    public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT COUNT(*) FROM orders WHERE date_order between ? and ?";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setDate(1, Optional.ofNullable((Date.valueOf(fromDate))).orElse(null));
             preparedStatement.setDate(2, Optional.ofNullable((Date.valueOf(toDate))).orElse(null));
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
@@ -134,6 +135,33 @@ public class UserDao implements UserDaoInterface {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Long> findAllBookInstanceOnReading(Long userId) {
+        String query = "select user_name, user_surname, id_book_instance from users left join orders"
+                + "on users.id = orders.id_users where date_return is null and id_users = ?";
+        return findAllBookInstanceByUser(userId, query);
+    }
+
+    @Override
+    public List<Long> findAllReturnedBookInstanceByUser(Long userId) {
+        String query = "select user_name, user_surname, id_book_instance from users left join orders"
+                + "on users.id = orders.id_users where date_return is not null and id_users = ?";
+        return findAllBookInstanceByUser(userId, query);
+    }
+
+    private List<Long> findAllBookInstanceByUser(Long userId, String query) {
+        List<Long> bookInstanceId = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, userId);
+            bookInstanceId.add(preparedStatement.executeQuery().getLong("id_book_instance"));
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+
+        return bookInstanceId;
     }
 
     private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {
