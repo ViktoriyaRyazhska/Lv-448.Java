@@ -1,4 +1,0 @@
-INSERT INTO library.users (id, user_name, user_surname, birthday, phone_number, email, date_registration, id_address) VALUES (1, 'Ivan', 'Ivanov', '2019-10-01', '+380980000000', 'test@mail.com', '2019-10-16', 1);
-INSERT INTO library.users (id, user_name, user_surname, birthday, phone_number, email, date_registration, id_address) VALUES (2, 'Vlad', 'Volnov', '2019-10-01', '+380981111111', 'test1@mail.com', '2019-10-16', 2);
-INSERT INTO library.users (id, user_name, user_surname, birthday, phone_number, email, date_registration, id_address) VALUES (3, 'Stepan', 'Stepov', '2019-10-02', '+380982222222', 'test2@mail.com', '2019-10-16', 3);
-INSERT INTO library.users (id, user_name, user_surname, birthday, phone_number, email, date_registration, id_address) VALUES (4, 'Orest', 'Organov', '2019-10-04', '+380983333333', 'test3@mail.com', '2019-10-16', 4);
