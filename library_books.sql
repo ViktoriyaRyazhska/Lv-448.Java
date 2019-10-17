@@ -1,2 +1,0 @@
-INSERT INTO library.books (id, amount_of_instances, title, release_date, category, id_author, id_book_instance) VALUES (1, 10, 'Kobzar', '2019-10-09', '1', 1, 1);
-INSERT INTO library.books (id, amount_of_instances, title, release_date, category, id_author, id_book_instance) VALUES (2, 10, 'Gari_Potter', '2019-10-03', '2', 2, 2);
