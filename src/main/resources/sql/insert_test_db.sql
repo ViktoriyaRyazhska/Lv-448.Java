@@ -4,16 +4,14 @@ VALUES ('Leonardo da Vinci'),
        ('Sculptures');
 
 
-INSERT INTO public.autors(
-  first_name, last_name)
+INSERT INTO public.autors(id, first_name, last_name)
 VALUES ('Leonardo', 'da Vinci'),
        ('Francesco', 'Melzi'),
        ('Bernardino', 'Luini'),
        ('Auguste', 'Rodin');
 
 
-INSERT INTO public.exhibits(
-  type, material, techic, audience_id, name)
+INSERT INTO public.exhibits(type, material, techic, audience_id, name)
 VALUES ('PAINTING', null, 'Oils', '1', 'Mona Lisa'),
        ('PAINTING', null, 'Oils', '1', 'Madonna Litta'),
        ('PAINTING', null, 'Watercolor', '2', 'Female Saint'),
@@ -35,8 +33,7 @@ VALUES (1, 1),
        (4, 6);
 
 
-INSERT INTO public.employees(
-  first_name, last_name, "position", login, password, audience_id)
+INSERT INTO public.employees(first_name, last_name, "position", login, password, audience_id)
 VALUES
 ('Anna', 'Kentor', 'MANAGER', 'a_kentor', 'anna1230', null),
 ('Bogdan', 'Korty', 'AUDIENCE_MANAGER', 'Bogdan_Korty', '_Korty59', 1),
@@ -47,15 +44,13 @@ VALUES
 ('Julia', 'Karenge', 'TOUR_GUIDE', 'Karenge_j', 'hello_world', null);
 
 
-INSERT INTO public.excursion(
-  name)
+INSERT INTO public.excursion(name)
 VALUES ('Golden Spring'),
        ('Da Vinci Demons'),
        ('Inferno'),
        ('Angels and Deamons');
 
-INSERT INTO public.timetable(
-  employee_id, excursion_id, date_start, date_end)
+INSERT INTO public.timetable(employee_id, excursion_id, date_start, date_end)
 VALUES
 (1, 1, '2019-07-02 12:10:00', '2019-07-02 13:10:00'),
 (2, 2, '2019-07-02 12:10:00', '2019-07-02 13:10:00'),
