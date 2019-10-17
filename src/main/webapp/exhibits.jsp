@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -36,9 +36,9 @@
                     </form>
                     <form class="form-inline hidden" id="by-employee">
                         <div class="form-group">
-                            <label class="filter-col" for="author-first-name">First name:</label>
+                            <label class="filter-col" for="employee-first-name">First name:</label>
                             <input type="text" class="form-control input-xs" id="employee-first-name">
-                            <label class="filter-col" for="author-last-name">Last name:</label>
+                            <label class="filter-col" for="employee-last-name">Last name:</label>
                             <input type="text" class="form-control input-xs" id="employee-last-name">
                             <button type="submit" class="btn btn-dark">
                                 Filter
@@ -55,14 +55,8 @@
                         </div> <!-- form group [by-audience] -->
                     </form>
                     <div class="form-group">
-                        <form class="form-inline" action="<c:url value="/add-exhibit"/>" method="get">
-                            <button type="submit" class="btn btn-dark">
-                                New
-                            </button>
-                        </form>
-                        <button type="submit" class="btn btn-dark">
-                            Statistics
-                        </button>
+                        <a class="btn btn-dark mr-2" href="add-exhibit">New</a>
+                        <a class="btn btn-dark" href="exhibit-statistics">Statistics</a>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
@@ -70,87 +64,29 @@
         <div class="row">
             <div class="custom-list" id="excursions-list">
                 <div class="card-columns">
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Exibit name</h5>
-                            <h6 class="card-title">Author name</h6>
-                            <p class="card-text">Exhibit description text to build on the card title and make up the
-                                bulk of the card's content.</p>
+                    <c:forEach var="exhibit" items="${exhibits}">
+                        <div class="card">
+                            <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">${exhibit.name}</h5>
+                                <h6 class="card-title">Author name</h6>
+                                <p class="card-text">
+                                    <c:choose>
+                                        <c:when test="${not empty exhibit.material}">
+                                            ${exhibit.material}
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${exhibit.technique}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </p>
+                            </div>
+                            <div class="card-footer text-right">
+                                <a href="#" class="card-link">Update</a>
+                                <a href="#" class="card-link">Remove</a>
+                            </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Exibit name</h5>
-                            <h6 class="card-title">Author name</h6>
-                            <p class="card-text">Exhibit description text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Exibit name</h5>
-                            <h6 class="card-title">Author name</h6>
-                            <p class="card-text">Exhibit description text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Exibit name</h5>
-                            <h6 class="card-title">Author name</h6>
-                            <p class="card-text">Exhibit description text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Exibit namee</h5>
-                            <h6 class="card-title">Author name</h6>
-                            <p class="card-text">Exhibit description text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Exibit name</h5>
-                            <h6 class="card-title">Author name</h6>
-                            <p class="card-text">Exhibit description text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
-                        </div>
-                        <div class="card-footer text-right">
-                            <a href="#" class="card-link">Update</a>
-                            <a href="#" class="card-link">Remove</a>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>

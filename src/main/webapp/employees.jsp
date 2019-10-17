@@ -18,7 +18,7 @@
                         <div class="form-group">
                             <label class="filter-col" for="employee-position">Position:</label>
                             <select class="browser-default custom-select" id="employee-position" name="position">
-                                <option value="NONE" selected>Options...</option>
+                                <option value="NONE" selected>All</option>
                                 <option value="MANAGER">Manager</option>
                                 <option value="AUDIENCE_MANAGER">Audience manager</option>
                                 <option value="TOUR_GUIDE">Tour guide</option>
@@ -29,15 +29,9 @@
                         </div> <!-- form group [employee-position] -->
                     </form>
                     <div class="form-group">
-                        <form class="form-inline" action="<c:url value="/add-employee"/>" method="get">
-                            <button type="submit" class="btn btn-dark">
-                                New
-                            </button>
-                        </form>
-                        <button type="submit" class="btn btn-dark">
-                            Statistics
-                        </button>
-                    </div> <!-- form group [buttons] -->
+                        <a class="btn btn-dark mr-2" href="add-employee">New</a>
+                        <a class="btn btn-dark" href="#">Statistics</a>
+                    </div> <!-- [buttons] -->
                     <div class="form-group">
                         <label class="filter-col" for="employees-additional-filters">Additional:</label>
                         <select class="browser-default custom-select" id="employees-additional-filters">
@@ -94,15 +88,13 @@
                             <td>${employee.position}</td>
                             <td>1</td>
                             <td>
-                                <form action="update-employee/${employee.id}" method="get">
-                                    <button type="submit">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </button>
-                                </form>
+                                <a class="text-dark" href="update-employee/${employee.id}">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                             </td>
                             <td>
                                 <form action="delete-employee/?id=${employee.id}" method="post">
-                                    <button type="submit">
+                                    <button class="bg-none" type="submit">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>

@@ -20,21 +20,6 @@
                                name="name"
                                placeholder="Enter the name of excursion">
                     </div>
-                    <div class="form-group">
-                        <label for="excursion-datetime">Date/Time</label>
-                        <input type="datetime-local" class="form-control" id="excursion-datetime"
-                               name="dateTime"
-                               placeholder="Enter date and time">
-                    </div>
-                    <div class="form-group">
-                        <label for="excursion-duration">Duration</label>
-                        <input type="text" class="form-control" id="excursion-duration"
-                               aria-describedby="excursion-duration-help"
-                               name="duration"
-                               placeholder="Enter duration">
-                        <small id="excursion-duration-help" class="form-text text-muted">Excursion duration in
-                            minutes</small>
-                    </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
