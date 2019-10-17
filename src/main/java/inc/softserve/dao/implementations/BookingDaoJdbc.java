@@ -1,10 +1,8 @@
 package inc.softserve.dao.implementations;
 
-import inc.softserve.dao.interfaces.BookingDao;
-import inc.softserve.dao.interfaces.HotelDao;
-import inc.softserve.dao.interfaces.RoomDao;
-import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.dao.interfaces.*;
 import inc.softserve.entities.Booking;
+import inc.softserve.entities.City;
 import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;
@@ -144,4 +142,5 @@ public class BookingDaoJdbc implements BookingDao {
         }
         return builder.build();
     }
+
 }

@@ -1,4 +1,4 @@
-package inc.softserve.services;
+package inc.softserve.services.intefaces;
 
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;

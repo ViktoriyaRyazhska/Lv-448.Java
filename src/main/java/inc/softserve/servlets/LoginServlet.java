@@ -1,7 +1,7 @@
 package inc.softserve.servlets;
 
 import inc.softserve.entities.Usr;
-import inc.softserve.services.UsrRegisterImpl;
+import inc.softserve.services.implementations.UsrRegisterImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override
