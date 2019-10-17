@@ -73,7 +73,8 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     @Override
     public List<Exhibit> findByAuthor(Author author) {
-        return exhibitDao.findByAuthor(author);
+        Optional<Author> auth = authorDao.findByFullName(author.getFirstName(), author.getLastName());
+        return exhibitDao.findByAuthor(auth.get());
     }
 
     @Override
