@@ -25,10 +25,9 @@ public class DeleteEmployeeServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         if(employeeService.deleteById(id)) {
             req.setAttribute("message", "Employee has been successfully deleted");
-            resp.sendRedirect(req.getContextPath() + "/employees");
         } else {
             req.setAttribute("message", "Something went wrong!");
-            resp.sendRedirect(req.getContextPath() + "/add-employee");
         }
+        resp.sendRedirect(req.getContextPath() + "/employees");
     }
 }
