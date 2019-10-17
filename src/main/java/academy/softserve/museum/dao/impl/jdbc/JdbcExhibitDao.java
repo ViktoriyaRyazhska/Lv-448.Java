@@ -1,18 +1,15 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.ExhibitDao;
-import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
-import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
-import academy.softserve.museum.dao.impl.jdbc.mappers.ExhibitRowMapper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.*;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class JdbcExhibitDao implements ExhibitDao {
 
@@ -109,32 +106,7 @@ public class JdbcExhibitDao implements ExhibitDao {
                         "INNER JOIN audiences AS a " +
                         "ON e.audience_id = a.id";
 
-        Map<Audience, List<Exhibit>> groupedAudiences = new HashMap<>();
-        AudienceRowMapper audienceRowMapper = new AudienceRowMapper();
-        ExhibitRowMapper exhibitRowMapper = new ExhibitRowMapper();
-        Exhibit exhibit;
-        Audience audience;
-
-        try (PreparedStatement statement = connection
-                .prepareStatement(FIND_EXHIBIT_WITH_AUDIENCE)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    audience = audienceRowMapper.mapRow(resultSet);
-                    exhibit = exhibitRowMapper.mapRow(resultSet);
-
-                    if (groupedAudiences.containsKey(audience)) {
-                        groupedAudiences.get(audience).add(exhibit);
-                    } else {
-                        groupedAudiences
-                                .put(audience, new ArrayList<>(Collections.singletonList(exhibit)));
-                    }
-                }
-
-                return groupedAudiences;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.queryForObject(connection, FIND_EXHIBIT_WITH_AUDIENCE, new GroupedAudienceMapper()).orElse(null);
     }
 
     @Override
@@ -192,23 +164,7 @@ public class JdbcExhibitDao implements ExhibitDao {
                         "WHERE type = ? " +
                         "GROUP BY " + statisticField;
 
-        Map<String, Integer> statistic = new HashMap<>();
-        String statisticFieldValue;
-
-        try (PreparedStatement statement = connection.prepareStatement(STATISTIC_BY_MATERIAL)) {
-            statement.setString(1, type.toString());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    statisticFieldValue = resultSet.getString(statisticField);
-
-                    statistic.put(statisticFieldValue, resultSet.getInt("number"));
-                }
-
-                return statistic;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return JdbcUtils.queryForObject(connection, STATISTIC_BY_MATERIAL, new ExhibitTypeStatisticMapper(statisticField),
+                type.toString()).orElse(null);
     }
 }
