@@ -92,7 +92,7 @@ public class RoomDaoJdbc implements RoomDao {
     }
 
     @Override
-    public Set<Room> findAllFutureBookedRooms(Long cityId){
+    public Set<Room> findAllFutureBookedRoomsByCityId(Long cityId){
         String query = "SELECT * FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON rooms.id = bookings.id " +
