@@ -10,41 +10,54 @@
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
     <div class="container">
-        <h1 class="text-center mt-4">Sculptures by materials</h1>
-        <% String materials = (String) request.getAttribute("materials"); %>
-        <% String materialsQuantity = (String) request.getAttribute("materialsQuantity"); %>
-        <canvas class="chart" id="materials-stats"></canvas>
+        <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
+            <form class="form-inline" action="employee-statistics" method="post" role="form">
+                <div class="form-group">
+                    <label class="filter-col" for="date-time-from">Date/Time from:</label>
+                    <input type="datetime-local" class="form-control input-xs w-250" name="from" id="date-time-from">
+                </div> <!-- form group [date-time-from] -->
+                <div class="form-group">
+                    <label class="filter-col" for="date-time-till">Date/Time till:</label>
+                    <input type="datetime-local" class="form-control input-xs w-250" name="till" id="date-time-till">
+                </div> <!-- form group [date-time-till] -->
+                <button type="submit" class="btn btn-dark">
+                    Filter
+                </button>
+            </form>
+        </div>
+    </div> <!-- row [filters-panel] -->
+    <% String tourGuides = (String) request.getAttribute("tourGuides"); %>
+    <% String excursionsTotal = (String) request.getAttribute("excursionsTotal"); %>
+    <% String timeTotal = (String) request.getAttribute("timeTotal"); %>
 
-        <h1 class="text-center mt-4">Paintings by technique</h1>
-        <% String techniques = (String) request.getAttribute("techniques"); %>
-        <% String techniquesQuantity = (String) request.getAttribute("techniquesQuantity"); %>
-        <canvas class="chart" id="techniques-stats"></canvas>
+    <h1 class="text-center mt-4">Number of excursions by tour guide</h1>
+    <canvas class="chart" id="tour-guide-excursions-total"></canvas>
+
+    <h1 class="text-center mt-4">Number of minutes by tour guide</h1>
+    <canvas class="chart" id="tour-guide-time-total"></canvas>
     </div>
 </section>
 <jsp:include page="fragment/footer.jsp"/>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
 <script src="static/js/ui.js"></script>
 
 <script>
-    // Materials of sculptures
-    materials = <%= materials%>;
-    console.log(materials);
+    // Tour guides
+    tourGuides = <%= tourGuides%>;
 
-    // Quantity of sculptures by material
-    materialsQuantiy = <%= materialsQuantity%>;
-    console.log(materialsQuantiy);
-    new Chart(document.getElementById("materials-stats"), {
+    // Total number of excursions by tour guide
+    excursionsTotal = <%= excursionsTotal%>;
+    new Chart(document.getElementById("tour-guide-excursions-total"), {
         "type": "horizontalBar",
         "data": {
-            "labels": materials,
+            "labels": tourGuides,
             "datasets": [{
-                "label": "My First Dataset",
-                "data": materialsQuantiy,
+                "label": "Excursions",
+                "data": excursionsTotal,
                 "fill": true,
                 "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
                     "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
@@ -67,20 +80,15 @@
         }
     });
 
-    // Techniques of paintings
-    techniques = <%= techniques%>;
-    console.log(techniques);
-
-    // Quantity of paintings by technique
-    techniquesQuantiy = <%= techniquesQuantity%>;
-    console.log(materialsQuantiy);
-    new Chart(document.getElementById("techniques-stats"), {
+    // Total working time by tour guide
+    timeTotal = <%= timeTotal%>;
+    new Chart(document.getElementById("tour-guide-time-total"), {
         "type": "horizontalBar",
         "data": {
-            "labels": techniques,
+            "labels": tourGuides,
             "datasets": [{
-                "label": "My First Dataset",
-                "data": techniquesQuantiy,
+                "label": "Minutes",
+                "data": timeTotal,
                 "fill": true,
                 "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
                     "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
