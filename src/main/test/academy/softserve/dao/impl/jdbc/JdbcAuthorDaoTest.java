@@ -1,5 +1,18 @@
 package academy.softserve.dao.impl.jdbc;
 
-public class JdbcAuthorDaoTest {
+import org.junit.jupiter.api.BeforeAll;
+
+public class JdbcAuthorDaoTest extends DaoTest {
+
+    @BeforeAll
+    void init() {
+        dropTables();
+        createTables();
+        fillTables();
+    }
+
+    void findExhibitsByAuthor() {
+
+    }
 
 }

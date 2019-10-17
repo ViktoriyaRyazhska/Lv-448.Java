@@ -6,6 +6,7 @@ import academy.softserve.museum.entities.statistic.EmployeeStatistic;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EmployeeStatisticRowMapper implements RowMapper<EmployeeStatistic> {
@@ -13,8 +14,8 @@ public class EmployeeStatisticRowMapper implements RowMapper<EmployeeStatistic> 
     @Override
     public EmployeeStatistic mapRow(ResultSet resultSet) {
         EmployeeStatistic statistic = new EmployeeStatistic();
-        Map<Employee, Integer> workTimeMap = new HashMap<>();
-        Map<Employee, Integer> excursionCount = new HashMap<>();
+        Map<Employee, Integer> workTimeMap = new LinkedHashMap<>();
+        Map<Employee, Integer> excursionCount = new LinkedHashMap<>();
         EmployeeRowMaper employeeRowMaper = new EmployeeRowMaper();
         Employee employee;
 
