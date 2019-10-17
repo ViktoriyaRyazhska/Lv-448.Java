@@ -61,6 +61,11 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     @Override
+    public void update(Long id, Author author) {
+
+    }
+
+    @Override
     public Optional<Author> findBySurname() {
         return Optional.empty();
     }

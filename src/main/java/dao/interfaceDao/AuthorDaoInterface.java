@@ -7,7 +7,10 @@ import java.util.Optional;
 
 
 public interface AuthorDaoInterface extends Crud<Author> {
-    List<Author> findAll();
+
     Optional<Author> findBySurname();
+
+    List<Author> findAll();
+
 
 }

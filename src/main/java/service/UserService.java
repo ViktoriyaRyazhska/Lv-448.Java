@@ -12,7 +12,7 @@ public class UserService {
     private UserDao userDao;
     private BookInstanceDao bookInstanceDao;
 
-    public List<Book> findAllBookByUser(Long userId) {
+    public List<Book> findAllBookByUserReading(Long userId) {
         List<Long> allBookInstanceOnReading = userDao.findAllBookInstanceOnReading(userId);
         List<Book> books = new ArrayList<>();
         while (allBookInstanceOnReading.iterator().hasNext()) {

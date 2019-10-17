@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public interface OrderDaoInterface extends Crud<Order> {
+
     List<Order> findAll();
 
 }

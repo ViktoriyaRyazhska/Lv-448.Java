@@ -83,6 +83,19 @@ public class BookDao implements BookDaoInterface {
     }
 
 
+    public List<Book> findAllByTitle(String title) {
+        String query = "SELECT * FROM books WHERE title = ?";
+        List<Book> books = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, title);
+            books = extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+        }
+        return books;
+    }
+
+
     private Stream<Book> extractBooks(ResultSet resultSet) throws SQLException {
         Stream.Builder<Book> bookBuilder = Stream.builder();
         while (resultSet.next()) {
@@ -112,6 +125,23 @@ public class BookDao implements BookDaoInterface {
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public List<Long> findAllBookInstanceIdByBookId(Long bookId) {
+        String query = "SELECT id_book_instance FROM books WHERE id = ?;";
+        List<Long> bookInstanceId = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                bookInstanceId.add(resultSet.getLong("id"));
+            }
+            return bookInstanceId;
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
         }
     }
 

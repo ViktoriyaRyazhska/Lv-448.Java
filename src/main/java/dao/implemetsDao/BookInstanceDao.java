@@ -44,6 +44,11 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    @Override
+    public void update(Long id, BookInstance bookInstance) {
+
+    }
+
     private Stream<BookInstance> extractBookInstances(ResultSet resultSet) throws SQLException {
         Stream.Builder<BookInstance> builder = Stream.builder();
         while (resultSet.next()) {
@@ -55,6 +60,11 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
         resultSet.close();
         return builder.build();
+    }
+
+    @Override
+    public boolean isAvailable(Long id) {
+        return findById(id).orElse(null).getIsAvailable();
     }
 
     @Override
