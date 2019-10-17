@@ -83,103 +83,103 @@ INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
 
 -- Rooms in Kiev
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 234, 'PREMIUM', 'SINGLE', 1, 2);
+	VALUES (NULL, 234, 'PREMIUM', 'SINGLE', 4, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 232, 'STANDARD', 'DOUBLE', 1, 2);
+	VALUES (NULL, 232, 'STANDARD', 'DOUBLE', 4, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 123, 'STANDARD', 'APARTMENT', 1, 2);
+	VALUES (NULL, 123, 'STANDARD', 'APARTMENT', 4, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 32, 'ECONOM', 'APARTMENT', 2, 2);
+	VALUES (NULL, 32, 'ECONOM', 'APARTMENT', 5, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 43, 'PREMIUM', 'TRIPLE', 2, 2);
+	VALUES (NULL, 43, 'PREMIUM', 'TRIPLE', 5, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 23, 'STANDARD', 'TRIPLE', 2, 2);
+	VALUES (NULL, 23, 'STANDARD', 'TRIPLE', 5, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 3623, 'ECONOM', 'TRIPLE', 3, 2);
+	VALUES (NULL, 3623, 'ECONOM', 'TRIPLE', 6, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 3456, 'STANDARD', 'DOUBLE', 3, 2);
+	VALUES (NULL, 3456, 'STANDARD', 'DOUBLE', 6, 2);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 1235, 'ECONOM', 'TRIPLE', 3, 2);
+	VALUES (NULL, 1235, 'ECONOM', 'TRIPLE', 6, 2);
     
 -- Rooms in Bologna
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 322, 'BUSINESS', 'SINGLE', 1, 3);
+	VALUES (NULL, 322, 'BUSINESS', 'SINGLE', 7, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 331, 'BUSINESS', 'DOUBLE', 1, 3);
+	VALUES (NULL, 331, 'BUSINESS', 'DOUBLE', 7, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 455, 'STANDARD', 'SINGLE', 1, 3);
+	VALUES (NULL, 455, 'STANDARD', 'SINGLE', 7, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 324, 'BUSINESS', 'SINGLE', 2, 3);
+	VALUES (NULL, 324, 'BUSINESS', 'SINGLE', 8, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 143, 'STANDARD', 'SINGLE', 2, 3);
+	VALUES (NULL, 143, 'STANDARD', 'SINGLE', 8, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 423, 'BUSINESS', 'APARTMENT', 2, 3);
+	VALUES (NULL, 423, 'BUSINESS', 'APARTMENT', 8, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 432, 'ECONOM', 'APARTMENT', 3, 3);
+	VALUES (NULL, 432, 'ECONOM', 'APARTMENT', 9, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 19, 'BUSINESS', 'SINGLE', 3, 3);
+	VALUES (NULL, 19, 'BUSINESS', 'SINGLE', 9, 3);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 8, 'ECONOM', 'TRIPLE', 3, 3);
+	VALUES (NULL, 8, 'ECONOM', 'TRIPLE', 9, 3);
     
 -- Rooms in Milano
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 103, 'ECONOM', 'SINGLE', 1, 4);
+	VALUES (NULL, 103, 'ECONOM', 'SINGLE', 10, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 102, 'PREMIUM', 'DOUBLE', 1, 4);
+	VALUES (NULL, 102, 'PREMIUM', 'DOUBLE', 10, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 104, 'STANDARD', 'DOUBLE', 1, 4);
+	VALUES (NULL, 104, 'STANDARD', 'DOUBLE', 10, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 257, 'BUSINESS', 'APARTMENT', 2, 4);
+	VALUES (NULL, 257, 'BUSINESS', 'APARTMENT', 11, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 268, 'STANDARD', 'SINGLE', 2, 4);
+	VALUES (NULL, 268, 'STANDARD', 'SINGLE', 11, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 272, 'STANDARD', 'SINGLE', 2, 4);
+	VALUES (NULL, 272, 'STANDARD', 'SINGLE', 11, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 112, 'ECONOM', 'TRIPLE', 3, 4);
+	VALUES (NULL, 112, 'ECONOM', 'TRIPLE', 12, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 129, 'ECONOM', 'SINGLE', 3, 4);
+	VALUES (NULL, 129, 'ECONOM', 'SINGLE', 12, 4);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 113, 'ECONOM', 'TRIPLE', 3, 4);
+	VALUES (NULL, 113, 'ECONOM', 'TRIPLE', 12, 4);
     
 -- Rooms in Barcelona
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 111, 'STANDARD', 'SINGLE', 1, 5);
+	VALUES (NULL, 111, 'STANDARD', 'SINGLE', 13, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 55, 'ECONOM', 'DOUBLE', 1, 5);
+	VALUES (NULL, 55, 'ECONOM', 'DOUBLE', 13, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 48, 'PREMIUM', 'DOUBLE', 1, 5);
+	VALUES (NULL, 48, 'PREMIUM', 'DOUBLE', 13, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 987, 'BUSINESS', 'APARTMENT', 2, 5);
+	VALUES (NULL, 987, 'BUSINESS', 'APARTMENT', 14, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 986, 'STANDARD', 'SINGLE', 2, 5);
+	VALUES (NULL, 986, 'STANDARD', 'SINGLE', 14, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 985, 'PREMIUM', 'DOUBLE', 2, 5);
+	VALUES (NULL, 985, 'PREMIUM', 'DOUBLE', 14, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 768, 'STANDARD', 'TRIPLE', 3, 5);
+	VALUES (NULL, 768, 'STANDARD', 'TRIPLE', 15, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 675, 'PREMIUM', 'SINGLE', 3, 5);
+	VALUES (NULL, 675, 'PREMIUM', 'SINGLE', 15, 5);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 665, 'ECONOM', 'DOUBLE', 3, 5);
+	VALUES (NULL, 665, 'ECONOM', 'DOUBLE', 15, 5);
     
 -- Rooms in Las Vegas
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 1234, 'ECONOM', 'APARTMENT', 1, 6);
+	VALUES (NULL, 1234, 'ECONOM', 'APARTMENT', 16, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 2134, 'PREMIUM', 'DOUBLE', 1, 6);
+	VALUES (NULL, 2134, 'PREMIUM', 'DOUBLE', 16, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 1212, 'STANDARD', 'APARTMENT', 1, 6);
+	VALUES (NULL, 1212, 'STANDARD', 'APARTMENT', 16, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 5335, 'PREMIUM', 'SINGLE', 2, 6);
+	VALUES (NULL, 5335, 'PREMIUM', 'SINGLE', 17, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 3498, 'PREMIUM', 'SINGLE', 2, 6);
+	VALUES (NULL, 3498, 'PREMIUM', 'SINGLE', 17, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 3423, 'STANDARD', 'SINGLE', 2, 6);
+	VALUES (NULL, 3423, 'STANDARD', 'SINGLE', 17, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 5654, 'PREMIUM', 'APARTMENT', 3, 6);
+	VALUES (NULL, 5654, 'PREMIUM', 'APARTMENT', 18, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 7654, 'ECONOM', 'SINGLE', 3, 6);
+	VALUES (NULL, 7654, 'ECONOM', 'SINGLE', 18, 6);
 INSERT INTO rooms (id, chamber_number, luxury, bedrooms, hotel_id, city_id)
-	VALUES (NULL, 5332, 'PREMIUM', 'TRIPLE', 3, 6);
+	VALUES (NULL, 5332, 'PREMIUM', 'TRIPLE', 18, 6);
 
     
 -- Users

@@ -15,5 +15,9 @@ public interface RoomDao {
 
     Set<Room> findByHotelId(Long hotelId);
 
+    Set<Room> findRoomsByCityId(Long cityId);
+
+    Set<Room> findAllFutureBookedRooms(Long cityId);
+
     Set<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod);
 }

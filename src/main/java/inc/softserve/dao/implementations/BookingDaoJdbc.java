@@ -5,6 +5,7 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.entities.Booking;
+import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;

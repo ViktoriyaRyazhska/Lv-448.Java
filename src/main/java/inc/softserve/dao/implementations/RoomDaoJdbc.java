@@ -80,6 +80,34 @@ public class RoomDaoJdbc implements RoomDao {
     }
 
     @Override
+    public Set<Room> findRoomsByCityId(Long cityId){
+        String query = "SELECT * FROM rooms WHERE city_id = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, cityId);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractRooms(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Set<Room> findAllFutureBookedRooms(Long cityId){
+        String query = "SELECT * FROM rooms " +
+                "INNER JOIN bookings " +
+                "ON rooms.id = bookings.id " +
+                "WHERE rooms.city_id = ? " +
+                "AND bookings.checkin > CURDATE()";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, cityId);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractRooms(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Set<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod) {
         String query = "SELECT chamber_number, COUNT(*) AS room_count FROM rooms " +
                 "INNER JOIN bookings " +
