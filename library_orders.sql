@@ -1,1 +1,0 @@
-INSERT INTO library.orders (id, date_order, date_return, id_users, id_book_instance) VALUES (1, '2019-10-16', null, 1, 1);
