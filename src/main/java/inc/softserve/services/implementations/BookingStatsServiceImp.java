@@ -1,0 +1,72 @@
+package inc.softserve.services.implementations;
+
+import inc.softserve.dao.implementations.BookingDaoJdbc;
+import inc.softserve.dao.implementations.HotelDaoJdbc;
+import inc.softserve.dao.implementations.RoomDaoJdbc;
+import inc.softserve.dao.interfaces.BookingDao;
+import inc.softserve.dao.interfaces.HotelDao;
+import inc.softserve.dao.interfaces.RoomDao;
+import inc.softserve.datebase.ConnectDb;
+import inc.softserve.entities.Booking;
+import inc.softserve.entities.Hotel;
+import inc.softserve.entities.Room;
+import inc.softserve.services.intefaces.BookingService;
+
+import java.sql.Connection;
+import java.util.*;
+import java.util.stream.Stream;
+
+public class BookingStatsServiceImp implements BookingService {
+
+    private BookingDao bookDao;
+    private HotelDao hotelDao;
+    private static RoomDao roomDao;
+    private Connection conn;
+
+    public BookingStatsServiceImp(BookingDaoJdbc bookDao, HotelDaoJdbc hotelDao) {
+        this.bookDao = bookDao;
+        this.hotelDao = hotelDao;
+        conn = ConnectDb.connectBase();
+    }
+
+    public BookingStatsServiceImp() {
+        hotelDao = new HotelDaoJdbc(ConnectDb.connectBase(), null);
+        conn = ConnectDb.connectBase();
+        roomDao = new RoomDaoJdbc(conn, hotelDao);
+    }
+
+    public Set<Hotel> allRoomByHotel(Long cityId) {
+
+        return hotelDao.findHotelsByCityId(cityId);
+    }
+
+    private static Set<Room>  allRoomInCity(Long hotelId ){
+        return roomDao.findByHotelId(hotelId);
+    }
+
+    public static void main(String[] args) {
+        Set<Hotel> allHotelInCity = new BookingStatsServiceImp().allRoomByHotel(1L);
+        allRoomInCity((long)1);
+        List<Long> hotel_id = new ArrayList<>();
+        for (Hotel hotel   : allHotelInCity ) {
+            hotel_id.add(hotel.getId());
+        }
+
+        List<Long> roomList = new ArrayList<>();
+        for (Long hotel : hotel_id ) {
+            for(Room room : allRoomInCity(hotel)){
+                roomList.add(room.getId());
+
+            }
+        }
+
+
+
+        System.out.println(roomList.size());
+        System.out.println(roomList);
+
+
+
+
+    }
+}

@@ -36,6 +36,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
         this.usrDao = new UsrDaoJdbc(conn);
         this.countryDao = new CountryDaoJdbc(conn);
         this.visaDao = new VisaDaoJdbc(conn, usrDao, countryDao);
+
     }
 
 
