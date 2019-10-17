@@ -5,6 +5,7 @@ import entities.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,62 @@ public class UserDao implements UserDaoInterface {
             preparedStatement.setString(6, user.getEmail());
             preparedStatement.setDate(7, Date.valueOf(user.getRegistrationDate()));
         } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public Integer averageTimeUsingLibrary() {
+        String query = "select AVG(DATEDIFF(CURDATE(), date_registration)) from users";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        }catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Integer timeUsingLibraryByUser(Long userId) {
+        String query = "select DATEDIFF(CURDATE(), date_registration) from users where id=?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        }catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Integer averageAgeOfUsers() {
+        String query = "SELECT AVG(YEAR(NOW()) - YEAR(users.birthday)) as avg_age FROM users";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        }catch (SQLException e){
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Статистика по читачам середня кількість звернень за певний період
+    @Override
+    public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate){
+        String query = "SELECT COUNT(*) FROM orders WHERE date_order between ? and ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDate(1, Optional.ofNullable((Date.valueOf(fromDate))).orElse(null));
+            preparedStatement.setDate(2, Optional.ofNullable((Date.valueOf(toDate))).orElse(null));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        }catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
@@ -78,7 +135,6 @@ public class UserDao implements UserDaoInterface {
             throw new RuntimeException(e);
         }
     }
-
 
     private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {
         Stream.Builder<User> builder = Stream.builder();

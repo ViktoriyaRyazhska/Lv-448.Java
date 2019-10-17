@@ -1,8 +1,9 @@
 package dao.interfaceDao;
 
-import entities.Author;
 import entities.Book;
 
+import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -12,5 +13,10 @@ public interface BookDaoInterface extends Crud<Book> {
     List<Book> findAll();
 
     List<Book> findAllByAuthorName(Long authorId);
+
+    List<Book> booksReleasedDuringIndependence(LocalDate fromDate, LocalDate toDate);
+
+    List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod);
+
 
 }
