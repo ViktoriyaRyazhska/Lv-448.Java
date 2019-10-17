@@ -30,7 +30,7 @@
                     </form>
                     <div class="form-group">
                         <a class="btn btn-dark mr-2" href="add-employee">New</a>
-                        <a class="btn btn-dark" href="#">Statistics</a>
+                        <a class="btn btn-dark" href="employee-statistics">Statistics</a>
                     </div> <!-- [buttons] -->
                     <div class="form-group">
                         <label class="filter-col" for="employees-additional-filters">Additional:</label>

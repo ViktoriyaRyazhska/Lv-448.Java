@@ -14,7 +14,6 @@ import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
