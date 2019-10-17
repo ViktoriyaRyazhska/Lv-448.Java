@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
+//@Slf4j
 public class AuthorDao implements AuthorDaoInterface {
 
     private final Connection connection;
@@ -32,7 +32,7 @@ public class AuthorDao implements AuthorDaoInterface {
             preparedStatement.setString(2, author.getAuthorFirstName());
             preparedStatement.setString(3, author.getAuthorLastName());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -55,7 +55,7 @@ public class AuthorDao implements AuthorDaoInterface {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             return extractAuthors(preparedStatement.getResultSet()).collect(Collectors.toList());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -76,5 +76,18 @@ public class AuthorDao implements AuthorDaoInterface {
         }
         resultSet.close();
         return authors.build();
+    }
+
+    public void update(Long id, Author author) {
+        String query = "UPDATE authors SET first_name = ?, last_name = ? WHERE id = ?;";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, author.getAuthorFirstName());
+            preparedStatement.setString(2, author.getAuthorLastName());
+            preparedStatement.setLong(3, id);
+        } catch (SQLException e) {
+//            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -86,11 +86,6 @@ public class BookDao implements BookDaoInterface {
         return null;
     }
 
-    //    @Override
-//    public List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
-//        String query = "SELECT  FROM orders where ";
-//    }
-
 
     private Stream<Book> extractBooks(ResultSet resultSet) throws SQLException {
         Stream.Builder<Book> bookBuilder = Stream.builder();
