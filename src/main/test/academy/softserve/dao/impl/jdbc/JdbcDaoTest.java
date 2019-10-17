@@ -2,6 +2,7 @@ package academy.softserve.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.impl.jdbc.JdbcAudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
+import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
 
@@ -48,6 +49,10 @@ public class JdbcDaoTest {
 
     JdbcAuthorDao jdbcAuthorDao() {
         return new JdbcAuthorDao(connection);
+    }
+
+    JdbcAudienceDao jdbcAudienceDao() {
+        return new JdbcAudienceDao(connection);
     }
 
     private void executeSql(String sqlFilepath) {
@@ -108,6 +113,24 @@ public class JdbcDaoTest {
 
         for (int i = 0; i < a.size(); i++) {
             assertExhibitEquals(a.get(i), b.get(i));
+        }
+    }
+
+    void assertAudienceEquals(Audience a, Audience b) {
+        assertNotNull(a);
+        assertNotNull(b);
+        assertEquals(a.getName(), b.getName());
+        assertEquals(a.getName(), b.getName());
+        assertEquals(a.getId(), b.getId());
+    }
+
+    void assertAudienceEquals(List<Audience> a, List<Audience> b) {
+        assertNotNull(a);
+        assertNotNull(b);
+        assertEquals(a.size(), b.size());
+
+        for (int i = 0; i < a.size(); i++) {
+            assertAudienceEquals(a.get(i), b.get(i));
         }
     }
 }

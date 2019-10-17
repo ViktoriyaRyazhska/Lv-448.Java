@@ -1,7 +1,7 @@
-INSERT INTO public.audiences(id, name)
-VALUES (1, 'Leonardo da Vinci'),
-       (2, 'Pictures of the Middle Ages'),
-       (3, 'Sculptures');
+INSERT INTO public.audiences(name)
+VALUES ('Leonardo da Vinci'),
+       ('Pictures of the Middle Ages'),
+       ('Sculptures');
 
 
 INSERT INTO public.autors(first_name, last_name)
