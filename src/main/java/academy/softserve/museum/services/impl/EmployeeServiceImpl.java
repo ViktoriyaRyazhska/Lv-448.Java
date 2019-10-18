@@ -36,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean deleteById(long id) {
-        if (!employeeDao.findById(id).isPresent()) {
+        if (employeeDao.findById(id).isPresent()) {
             employeeDao.deleteById(id);
             return true;
         } else {
