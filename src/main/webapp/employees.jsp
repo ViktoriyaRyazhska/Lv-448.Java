@@ -86,7 +86,7 @@
                             <td>${employee.lastName}</td>
                             <td>${employee.login}</td>
                             <td>${employee.position}</td>
-                            <td>1</td>
+                            <td>${employee.audienceName}</td>
                             <td>
                                 <a class="text-dark" href="update-employee/${employee.id}">
                                     <i class="fas fa-pencil-alt"></i>
