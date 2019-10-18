@@ -2,6 +2,7 @@ package academy.softserve.museum.services.impl;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.AuthorDao;
+import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
