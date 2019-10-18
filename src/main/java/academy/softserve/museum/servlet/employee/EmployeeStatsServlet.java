@@ -1,4 +1,4 @@
-package academy.softserve.museum.servlet;
+package academy.softserve.museum.servlet.employee;
 
 
 import academy.softserve.museum.entities.statistic.EmployeeStatistic;

@@ -1,9 +1,6 @@
 package academy.softserve.museum.services;
 
-import academy.softserve.museum.entities.Audience;
-import academy.softserve.museum.entities.Author;
-import academy.softserve.museum.entities.Employee;
-import academy.softserve.museum.entities.Exhibit;
+import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import java.util.List;
 import java.util.Map;
@@ -41,4 +38,5 @@ public interface ExhibitService {
 
     ExhibitStatistic findStatistic();
 
+    List<ExhibitType> getTypes();
 }
