@@ -1,4 +1,4 @@
-package academy.softserve.museum.servlet;
+package academy.softserve.museum.servlet.excursion;
 
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.services.ExcursionService;

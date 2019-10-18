@@ -1,4 +1,4 @@
-package academy.softserve.museum.servlet;
+package academy.softserve.museum.servlet.exhibit;
 
 import academy.softserve.museum.services.ExhibitService;
 import academy.softserve.museum.services.impl.ExhibitServiceImpl;

@@ -1,4 +1,4 @@
-package academy.softserve.museum.servlet;
+package academy.softserve.museum.servlet.exhibit;
 
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.entities.ExhibitType;
