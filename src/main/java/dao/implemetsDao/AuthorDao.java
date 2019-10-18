@@ -50,7 +50,7 @@ public class AuthorDao implements AuthorDaoInterface {
         }
     }
 
-
+    @Override
     public void update(Long id, Author author) {
         String query = "UPDATE authors SET first_name = ?, last_name = ? WHERE id = ?";
 
@@ -97,17 +97,6 @@ public class AuthorDao implements AuthorDaoInterface {
             return extractAuthors(resultSet).findAny();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        String query = "DELETE FROM authors where id=?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException();
         }
     }
 }

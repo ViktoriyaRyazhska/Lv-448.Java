@@ -13,7 +13,7 @@ public interface AuthorDaoInterface {
 
     void update(Long id, Author author);
 
-    Optional<Author> findBySurname();
+    Optional<Author> findBySurname(String surname);
 
     List<Author> findAll();
 

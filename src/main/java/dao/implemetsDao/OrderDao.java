@@ -77,11 +77,6 @@ public class OrderDao implements OrderDaoInterface {
     }
 
     @Override
-    public void deleteById(Long id) {
-
-    }
-
-    @Override
     public Optional<Order> findById(Long id) {
         return Optional.empty();
     }
