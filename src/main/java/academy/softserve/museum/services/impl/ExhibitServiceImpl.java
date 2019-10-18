@@ -26,6 +26,13 @@ public class ExhibitServiceImpl implements ExhibitService {
         audienceDao = DaoFactory.audienceDao();
     }
 
+    public ExhibitServiceImpl(ExhibitDao exhibitDao, AuthorDao authorDao,
+            AudienceDao audienceDao) {
+        this.exhibitDao = exhibitDao;
+        this.authorDao = authorDao;
+        this.audienceDao = audienceDao;
+    }
+
     @Override
     public boolean save(Exhibit objectToSave) {
         if (exhibitDao.findByName(objectToSave.getName()).isPresent()) {
@@ -48,17 +55,27 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     @Override
     public Optional<Exhibit> findById(long id) {
-        return exhibitDao.findById(id);
+        Exhibit exhibit = exhibitDao.findById(id).orElse(null);
+        if(exhibit != null){
+            return Optional.of(exhibitDao.loadForeignFields(exhibit));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Exhibit> findByName(String name) {
-        return exhibitDao.findByName(name);
+        Exhibit exhibit = exhibitDao.findByName(name).orElse(null);
+        if(exhibit != null){
+            return Optional.of(exhibitDao.loadForeignFields(exhibit));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Exhibit> findAll() {
-        return exhibitDao.findAll();
+        return exhibitDao.loadForeignFields(exhibitDao.findAll());
     }
 
     @Override
@@ -73,17 +90,17 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     @Override
     public List<Exhibit> findByAuthor(Author author) {
-        return exhibitDao.findByAuthor(author);
+        return exhibitDao.loadForeignFields(exhibitDao.findByAuthor(author));
     }
 
     @Override
     public List<Exhibit> findByEmployee(Employee employee) {
-        return exhibitDao.findByEmployee(employee);
+        return exhibitDao.loadForeignFields(exhibitDao.findByEmployee(employee));
     }
 
     @Override
     public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
-        return exhibitDao.findAuthorsByExhibit(exhibit);
+        return authorDao.loadForeignFields(exhibitDao.findAuthorsByExhibit(exhibit));
     }
 
     @Override
