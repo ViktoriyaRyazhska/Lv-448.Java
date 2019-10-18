@@ -3,10 +3,14 @@ package dao.interfaceDao;
 import entities.Address;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AddressDaoInterface extends Crud<Address> {
+public interface AddressDaoInterface {
 
-    List<Address> findAll();
+    void save(Address address);
 
+    Optional<Address> findById(Long id);
+
+    void update(Long id, Address address);
 
 }

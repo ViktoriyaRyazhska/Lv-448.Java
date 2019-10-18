@@ -3,13 +3,14 @@ package dao.implemetsDao;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import entities.Book;
 import entities.BookInstance;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
 public class BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
@@ -19,21 +20,11 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     }
 
 
-//    @Override
-//    public void save(BookInstance bookInstance) {
-//
-//    }
-
-    @Override
-    public void deleteById(Long id) {
-
-    }
-
     @Override
     public void save(BookInstance bookInstance) {
         String query = "INSERT INTO book_instance (is_available) VALUE (?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setBoolean(2, bookInstance.getIsAvailable());
+            preparedStatement.setBoolean(1, bookInstance.getIsAvailable());
             preparedStatement.executeUpdate();
             try (ResultSet key = preparedStatement.getGeneratedKeys()) {
                 if (key.next()) {
@@ -47,12 +38,12 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     @Override
     public Optional<BookInstance> findById(Long id) {
-        String query = "SELECT * FROM book_instance where id=?";
+        String query = "SELECT * FROM book_instance WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
-            return extractBookInstances(preparedStatement.executeQuery()).findAny();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractBookInstances(resultSet).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -72,33 +63,63 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     @Override
     public void update(Long id, BookInstance bookInstance) {
+        String query = "UPDATE book_instance SET is_available = ? WHERE id = ?;";
 
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setBoolean(1, bookInstance.getIsAvailable());
+            preparedStatement.setLong(2, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
-    @Override
     public boolean isAvailable(Long id) {
         return findById(id).orElse(null).getIsAvailable();
     }
 
     @Override
     public Book getInfoByBookInstance(Long bookInstanceId) {
-        String query = "select * from books where id_book_instance=1";
+        String query = "select books.title from book_instance left join books on "
+                + "book_instance.id = books.id_book_instance where book_instance.id = ?;";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookInstanceId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            Book book = new Book();
-            while (resultSet.next()) {
-                book.setId(resultSet.getLong("id"));
-                book.setTitle(resultSet.getString("title"));
-                book.setReleaseDate(resultSet.getDate("release_date").toLocalDate());
-                book.setAmountOfInstances(resultSet.getInt("amount_of_instances"));
-            }
-            return book;
+            return Book.builder()
+                    .title(resultSet.getString("title"))
+                    .build();
+
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
+
+
+    public List<BookInstance> findAll() {
+        String query = "SELECT * FROM book_instance";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            return extractBookInstances(preparedStatement.executeQuery()).collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {
+        String query = "SELECT * FROM books JOIN book_instance ON books.id = book_instance.id_book WHERE title = ?;";
+        List<BookInstance> bookInstanceId = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, bookTitle);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                bookInstanceId.add(
+                        findById(resultSet.getLong("id")).get());
+            }
+            return bookInstanceId;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

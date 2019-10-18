@@ -16,7 +16,6 @@ public class Book {
     private int amountOfInstances;
     private String title;
     private LocalDate releaseDate;
-    private String category;
     private Set<BookInstance> bookInstanceSet;
     private Author author;
     private Set<Author> subAuthors;
@@ -30,16 +29,28 @@ public class Book {
         return amountOfInstances == book.amountOfInstances &&
                 id.equals(book.id) &&
                 title.equals(book.title) &&
-                releaseDate.equals(book.releaseDate) &&
-                category.equals(book.category) &&
-                bookInstanceSet.equals(book.bookInstanceSet) &&
-                author.equals(book.author) &&
-                subAuthors.equals(book.subAuthors);
+                Objects.equals(releaseDate, book.releaseDate) &&
+                Objects.equals(bookInstanceSet, book.bookInstanceSet) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(subAuthors, book.subAuthors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amountOfInstances, title, releaseDate, category, bookInstanceSet, author, subAuthors);
+        return Objects.hash(id, amountOfInstances, title, releaseDate, bookInstanceSet, author, subAuthors);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", amountOfInstances=" + amountOfInstances +
+                ", title='" + title + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", bookInstanceSet=" + bookInstanceSet +
+                ", author=" + author +
+                ", subAuthors=" + subAuthors +
+                '}';
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class BookInstance {
     private Long id;
     private Boolean isAvailable;
-    private Book book;
+    private Long bookId;
 
     @Override
     public boolean equals(Object o) {
@@ -20,13 +20,12 @@ public class BookInstance {
         if (o == null || getClass() != o.getClass()) return false;
         BookInstance that = (BookInstance) o;
         return id.equals(that.id) &&
-                isAvailable.equals(that.isAvailable) &&
-                book.equals(that.book);
+                Objects.equals(isAvailable, that.isAvailable);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isAvailable, book);
+        return Objects.hash(id, isAvailable);
     }
 
     @Override
@@ -34,7 +33,6 @@ public class BookInstance {
         return "BookInstance{" +
                 "id=" + id +
                 ", isAvailable=" + isAvailable +
-                ", book=" + book +
                 '}';
     }
 }
