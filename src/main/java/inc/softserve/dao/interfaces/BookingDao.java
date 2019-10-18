@@ -1,8 +1,10 @@
 package inc.softserve.dao.interfaces;
 
 import inc.softserve.entities.Booking;
+import inc.softserve.entities.stats.RoomBooking;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,4 +21,8 @@ public interface BookingDao {
     Set<Booking> findBookingsByRoomIdAndDate(Long roomId, LocalDate fromDate);
 
     Set<Booking> findBookingsByUsrId(Long usrId);
+
+    List<RoomBooking> showAllFutureBookings(Long hotelId);
+
+    List<RoomBooking> findByRoomIdAndDate(Long roomId, LocalDate fromDate);
 }
