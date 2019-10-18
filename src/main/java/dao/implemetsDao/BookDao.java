@@ -2,18 +2,18 @@ package dao.implemetsDao;
 
 import dao.interfaceDao.BookDaoInterface;
 import entities.Book;
-import lombok.extern.slf4j.Slf4j;
+import entities.BookInstance;
 
+import java.sql.Date;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
 public class BookDao implements BookDaoInterface {
+
+    private BookInstanceDao bookInstancedao;
 
     private final Connection connection;
 
@@ -22,19 +22,53 @@ public class BookDao implements BookDaoInterface {
     }
 
 
-    @Override
     public void save(Book book) {
         String query = "INSERT INTO books "
-                + "(id, amount_of_instances, title, release_date, category)"
-                + "VALUE (?,?,?,?,?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, book.getId());
-            preparedStatement.setLong(2, book.getAmountOfInstances());
-            preparedStatement.setString(3, book.getTitle());
-            preparedStatement.setDate(4, Date.valueOf(book.getReleaseDate()));
-            preparedStatement.setString(5, book.getCategory());
+                + "(amount_of_instances, title, release_date)"
+                + "VALUE (?,?,?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setLong(1, book.getAmountOfInstances());
+            preparedStatement.setString(2, book.getTitle());
+            if (book.getReleaseDate() != null) {
+                preparedStatement.setDate(3, Date.valueOf(book.getReleaseDate()));
+            } else {
+                preparedStatement.setDate(3, null);
+            }
+            preparedStatement.executeUpdate();
+            try (ResultSet keys = preparedStatement.getGeneratedKeys()) {
+                if (keys.next()) {
+                    book.setId(keys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Stream<Book> extractBooks(ResultSet resultSet) throws SQLException {
+        Stream.Builder<Book> bookBuilder = Stream.builder();
+        while (resultSet.next()) {
+            bookBuilder.add(
+                    Book.builder()
+                            .id(resultSet.getLong("id"))
+                            .amountOfInstances(resultSet.getInt("amount_of_instances"))
+                            .title(resultSet.getString("title"))
+                            .releaseDate(resultSet.getDate("release_date").toLocalDate())
+                            .build());
+
+        }
+        resultSet.close();
+        return bookBuilder.build();
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        String query = "SELECT * FROM books WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractBooks(resultSet).findAny();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -45,13 +79,26 @@ public class BookDao implements BookDaoInterface {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             return extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<Book> findAllBooksBySubAuthor(Long authorId) {
+    public List<Book> findAllByAuthorSurname(String authorName) {
+        String query = "SELECT * FROM books join authors on id_author = authors.id where last_name = ?";
+        List<Book> books;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, authorName);
+            books = extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return books;
+    }
+
+    // to do delete duplicated code
+
+    public List<Book> findAllBooksByAuthor(Long authorId) {
         String query = "select id_book from book_sub_authors where id_author = ?;";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -64,26 +111,28 @@ public class BookDao implements BookDaoInterface {
             }
             return books;
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<Book> findAllByAuthorName(Long authorId) {
-        String query = "SELECT * FROM books WHERE id_author = ?";
+    public List<Book> findAllBooksBySubAuthor(Long authorId) {
+        String query = "SELECT id_book FROM book_sub_authors WHERE id_author = ?;";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, authorId);
-            books = extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                books.add(
+                        findById(resultSet.getLong("id_book")).orElse(null));
+            }
+            return books;
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
-        return books;
     }
 
-    //don't need to check Optional.Nullable
+
     @Override
     public List<Book> booksReleasedDuringIndependence(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT * FROM books where release_date between ? and ?";
@@ -93,88 +142,40 @@ public class BookDao implements BookDaoInterface {
             ResultSet resultSet = preparedStatement.executeQuery();
             return extractBooks(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
             throw new RuntimeException();
         }
     }
-
-
-    @Override
-    public List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
-        return null;
-    }
-
 
     public List<Book> findAllByTitle(String title) {
         String query = "SELECT * FROM books WHERE title = ?";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, title);
-            books = extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
+            return extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
         }
-        return books;
+    }
+
+     @Override
+    public List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
+        return null;
     }
 
 
-    private Stream<Book> extractBooks(ResultSet resultSet) throws SQLException {
-        Stream.Builder<Book> bookBuilder = Stream.builder();
-        while (resultSet.next()) {
-            bookBuilder.add(
-                    Book.builder()
-                            .id(resultSet.getLong("id"))
-                            .amountOfInstances(resultSet.getInt("amount_of_instances"))
-                            .title(resultSet.getString("title"))
-                            .releaseDate(resultSet.getDate("release_date").toLocalDate())
-                            .category(resultSet.getString("category"))
-                            .build());
-
-        }
-        resultSet.close();
-        return bookBuilder.build();
-    }
-
-    @Override
     public void update(Long id, Book book) {
         //
     }
 
-    @Override
-    public void deleteById(Long id) {
-        String query = "SELECT * FROM books";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-        } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
 
-    @Override
-    public List<Long> findAllBookInstanceIdByBookId(Long bookId) {
-        String query = "SELECT id_book_instance FROM books WHERE id = ?;";
-        List<Long> bookInstanceId = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, bookId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                bookInstanceId.add(resultSet.getLong("id"));
-            }
-            return bookInstanceId;
-        } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public Optional<Book> findById(Long id) {
-        String query = "SELECT * FROM book WHERE id = ?";
+    //    @Override
+    public Optional<Book> findById(long id) {
+        String query = "SELECT * FROM books WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             return extractBooks(preparedStatement.executeQuery()).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -185,9 +186,30 @@ public class BookDao implements BookDaoInterface {
             preparedStatement.setLong(1, instanceId);
             return extractBooks(preparedStatement.executeQuery()).findAny();
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+//            log.error(e.getLocalizedMessage());
             throw new RuntimeException();
         }
     }
 
+
+    public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
+        String firstQuery =
+                "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +
+                        "    WHERE date_order BETWEEN ? AND ?\n" +
+                        "    GROUP BY id_book_instance;";
+
+        Map<Long, Long> map = new HashMap<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(firstQuery)) {
+            preparedStatement.setDate(1, Date.valueOf(firstDate));
+            preparedStatement.setDate(2, Date.valueOf(secondDate));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                map.put(resultSet.getLong("id"), resultSet.getLong("COUNT(orders.date_order)"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+
+    }
 }

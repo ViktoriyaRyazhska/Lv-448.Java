@@ -4,9 +4,16 @@ import entities.User;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
-public interface UserDaoInterface extends Crud<User> {
+public interface UserDaoInterface{
+
+    void save(User user);
+
+    Optional<User> findById(Long id);
+
+    void update(Long id, User user);
 
     List<Long> findAllBookInstanceOnReading(Long userId);
 

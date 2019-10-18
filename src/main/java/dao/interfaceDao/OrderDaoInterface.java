@@ -1,13 +1,18 @@
 package dao.interfaceDao;
 
-import entities.Book;
 import entities.Order;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
-public interface OrderDaoInterface extends Crud<Order> {
+public interface OrderDaoInterface{
+
+    void save(Order order);
+
+    Optional<Order> findById(Long id);
+
+    void update(Long id, Order order);
 
     List<Order> findAll();
 

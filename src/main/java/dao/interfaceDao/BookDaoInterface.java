@@ -5,18 +5,22 @@ import entities.Book;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
-public interface BookDaoInterface extends Crud<Book> {
+public interface BookDaoInterface{
 
-    List<Book> findAllByAuthorName(Long authorId);
+    void save(Book book);
+
+    Optional<Book> findById(Long id);
+
+    void update(Long id, Book book);
+
+    List<Book> findAllByAuthorSurname(String authorName);
 
     List<Book> findAllBooksBySubAuthor(Long subAuthorId);
 
     List<Book> findAll();
-
-    List<Long> findAllBookInstanceIdByBookId(Long bookId);
-
 
     List<Book> booksReleasedDuringIndependence(LocalDate fromDate, LocalDate toDate);
 
