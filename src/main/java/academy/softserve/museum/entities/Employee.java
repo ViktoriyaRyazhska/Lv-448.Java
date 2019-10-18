@@ -95,6 +95,10 @@ public class Employee extends Entity {
     }
 
     public String getAudienceName() {
-        return this.audience.getName();
+        if (this.audience == null){
+            return "None";
+        }else {
+            return this.audience.getName();
+        }
     }
 }
