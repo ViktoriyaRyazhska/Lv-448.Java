@@ -49,11 +49,17 @@ public class JdbcEmployeeDao implements EmployeeDao {
         Employee employee = JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username).
                 orElse(null);
 
-        if(employee != null){
-            employee.setAudience(findAudienceByEmployee(employee));
-        }
-
         return employee;
+    }
+
+    @Override
+    public Employee findByFullName(String firstName, String lastName) {
+        String FIND_EMPLOYEE_BY_USERNAME = "SELECT id AS employee_id, first_name AS employee_first_name, " +
+                "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
+                "password AS employee_password FROM employees WHERE first_name = ? and last_name = ?";
+
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(),
+                firstName, lastName).orElse(null);
     }
 
     @Override
