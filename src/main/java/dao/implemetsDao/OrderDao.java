@@ -2,16 +2,16 @@ package dao.implemetsDao;
 
 import dao.interfaceDao.OrderDaoInterface;
 import entities.Order;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Slf4j
 public class OrderDao implements OrderDaoInterface {
 
     private Connection connection;
@@ -20,10 +20,42 @@ public class OrderDao implements OrderDaoInterface {
         this.connection = connection;
     }
 
+    @Override
+    public List<Order> findAll() {
+        String query = "SELECT * FROM orders";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractOrders(preparedStatement.executeQuery()).collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Stream<Order> extractOrders(ResultSet resultSet) throws SQLException {
+        Stream.Builder<Order> orders = Stream.builder();
+        while (resultSet.next()) {
+            orders.add(Order.builder()
+                    .id(resultSet.getLong("id"))
+                    .dateOrder(resultSet.getDate("date_order"))
+                    .dateReturn(resultSet.getDate("date_return"))
+                    .build()
+            );
+        }
+        resultSet.close();
+        return orders.build();
+    }
+
 //    @Override
-//    public List<Order> findAll() {
-//        String query = "SELECT * FROM orders";
+//    public List<Author> findAll() {
+//        String query = "SELECT * FROM authors";
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            return extractAuthors(preparedStatement.getResultSet()).collect(Collectors.toList());
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 //    }
+//
 //
 //    @Override
 //    public List<Order> findAllByUserId(Long userId) {
@@ -84,11 +116,6 @@ public class OrderDao implements OrderDaoInterface {
     @Override
     public void update(Long id, Order order) {
 
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return null;
     }
 
     @Override

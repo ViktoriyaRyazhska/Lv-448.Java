@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//@Slf4j
 public class AuthorDao implements AuthorDaoInterface {
 
     private final Connection connection;
@@ -58,6 +57,8 @@ public class AuthorDao implements AuthorDaoInterface {
             preparedStatement.setString(1, author.getAuthorFirstName());
             preparedStatement.setString(2, author.getAuthorLastName());
             preparedStatement.setLong(3, id);
+            System.out.println("updated");
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +69,7 @@ public class AuthorDao implements AuthorDaoInterface {
         String query = "SELECT * FROM authors";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            return extractAuthors(preparedStatement.getResultSet()).collect(Collectors.toList());
+            return extractAuthors(preparedStatement.executeQuery()).collect(Collectors.toList());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -90,7 +91,7 @@ public class AuthorDao implements AuthorDaoInterface {
 
     @Override
     public Optional<Author> findBySurname(String surname) {
-        String query = "SELECT * FROM users where surname = ?";
+        String query = "SELECT * FROM authors where last_name = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, surname);
             ResultSet resultSet = preparedStatement.executeQuery();

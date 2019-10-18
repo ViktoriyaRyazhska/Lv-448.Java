@@ -52,18 +52,4 @@ public class Book {
                 ", subAuthors=" + subAuthors +
                 '}';
     }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", amountOfInstances=" + amountOfInstances +
-                ", title='" + title + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", category='" + category + '\'' +
-                ", bookInstanceSet=" + bookInstanceSet +
-                ", author=" + author +
-                ", subAuthors=" + subAuthors +
-                '}';
-    }
 }
