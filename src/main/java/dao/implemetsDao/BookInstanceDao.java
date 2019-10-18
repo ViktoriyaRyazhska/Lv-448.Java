@@ -5,10 +5,7 @@ import entities.Book;
 import entities.BookInstance;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -22,14 +19,30 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     }
 
 
-    @Override
-    public void save(BookInstance bookInstance) {
-
-    }
+//    @Override
+//    public void save(BookInstance bookInstance) {
+//
+//    }
 
     @Override
     public void deleteById(Long id) {
 
+    }
+
+    @Override
+    public void save(BookInstance bookInstance) {
+        String query = "INSERT INTO book_instance (is_available) VALUE (?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setBoolean(2, bookInstance.getIsAvailable());
+            preparedStatement.executeUpdate();
+            try (ResultSet key = preparedStatement.getGeneratedKeys()) {
+                if (key.next()) {
+                    bookInstance.setId(key.getLong(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -70,17 +83,19 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     @Override
     public Book getInfoByBookInstance(Long bookInstanceId) {
-        String query = "select books.title from book_instance left join books on "
-                + "book_instance.id = books.id_book_instance where book_instance.id = ?;";
+        String query = "select * from books where id_book_instance=1";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, bookInstanceId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            return Book.builder()
-                    .title(resultSet.getString("title"))
-                    .build();
-
+            Book book = new Book();
+            while (resultSet.next()) {
+                book.setId(resultSet.getLong("id"));
+                book.setTitle(resultSet.getString("title"));
+                book.setReleaseDate(resultSet.getDate("release_date").toLocalDate());
+                book.setAmountOfInstances(resultSet.getInt("amount_of_instances"));
+            }
+            return book;
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);

@@ -76,11 +76,11 @@ public class BookDao implements BookDaoInterface {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, authorId);
             books = extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
+            return books;
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
-        return books;
     }
 
     //don't need to check Optional.Nullable

@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
+    private final UserDao userDao = null;
+    private final BookInstanceDao bookInstanceDao = null;
 
     public UserDao(Connection connection) {
         this.connection = connection;
@@ -101,6 +103,8 @@ public class UserDao implements UserDaoInterface {
     public void deleteById(Long id) {
         String query = "DELETE FROM users WHERE id = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, id);
+            prepStat.executeUpdate();
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -119,6 +123,37 @@ public class UserDao implements UserDaoInterface {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return extractUsers(resultSet).findAny();
+        } catch (SQLException e) {
+            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {
+        Stream.Builder<User> builder = Stream.builder();
+        while (resultSet.next()) {
+            builder.add(
+                    User.builder()
+                            .id(resultSet.getLong("id"))
+                            .userName(resultSet.getString("user_name"))
+                            .userSurname(resultSet.getString("user_surname"))
+                            .birthday(Optional.ofNullable(resultSet.getDate("birthday").toLocalDate()).orElse(null))
+                            .phoneNumber(resultSet.getString("phone_number"))
+                            .email(resultSet.getString("email"))
+                            .registrationDate(Optional.ofNullable(resultSet.getDate("date_registration").toLocalDate()).orElse(null))
+                            .build());
+        }
+        resultSet.close();
+        return builder.build();
+    }
+
+    public User findByIdUserTest(Long id) {
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Optional<User> any = extractUsers(resultSet).findAny();
+            return any.get();
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -164,23 +199,23 @@ public class UserDao implements UserDaoInterface {
         return bookInstanceId;
     }
 
-    private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {
-        Stream.Builder<User> builder = Stream.builder();
-        while (resultSet.next()) {
-            builder.add(
-                    User.builder()
-                            .id(resultSet.getLong("id"))
-                            .userName(resultSet.getString("user_name"))
-                            .userSurname(resultSet.getString("user_surname"))
-                            .birthday(Optional.ofNullable(resultSet.getDate("birthday").toLocalDate()).orElse(null))
-                            .phoneNumber(resultSet.getString("phone_number"))
-                            .email(resultSet.getString("email"))
-                            .registrationDate(Optional.ofNullable(resultSet.getDate("date_registration").toLocalDate()).orElse(null))
-                            .build());
-        }
-        resultSet.close();
-        return builder.build();
-    }
 
+//    public Map<User, Book> geBlackList() {
+//        String query = "SELECT * FROM users inner join orders o on users.id = o.id_users\n" +
+//                "where date_return is null and DATEDIFF(CURDATE(), date_order) > ?";
+//        Map<User, Book> userBookMap = new HashMap<>();
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//            preparedStatement.setInt(1, MAX_DAYS_TO_RETURN);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()){
+//                userBookMap.put(userDao.findById(resultSet.getLong("id")).orElse(null),
+//                        bookInstanceDao.getInfoByBookInstance(resultSet.getLong("id_book_instance")));
+//            }
+//        return userBookMap;
+//        } catch (SQLException e) {
+//            log.error(e.getLocalizedMessage());
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }
