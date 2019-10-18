@@ -45,10 +45,14 @@
                             </button>
                         </div> <!-- form group [by-employee] -->
                     </form>
-                    <form class="form-inline hidden" id="by-audience">
+                    <form class="form-inline hidden" action="exhibits-by-audience" method="post" id="by-audience">
                         <div class="form-group">
-                            <label class="filter-col" for="audience-number">Number:</label>
-                            <input type="number" class="form-control input-xs" id="audience-number">
+                            <label class="filter-col" for="audience">Filter by:</label>
+                            <select class="browser-default custom-select" id="audience" name="audience">
+                                <c:forEach var="audience" items="${audiences}">
+                                    <option value="${audience.id}">${audience.name}</option>
+                                </c:forEach>
+                            </select>
                             <button type="submit" class="btn btn-dark">
                                 Filter
                             </button>
