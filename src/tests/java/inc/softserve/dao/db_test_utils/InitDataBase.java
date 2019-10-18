@@ -31,7 +31,10 @@ public class InitDataBase {
             scanner.tokens()
                     .map(String::trim)
                     .filter(s -> ! s.isBlank())
-                    .map(ThrowingLambdas.function(connection::prepareStatement))
+                    .map(ThrowingLambdas.function(s -> {
+//                        System.out.println(s);
+                        return connection.prepareStatement(s);
+                    }))
                     .forEach(ThrowingLambdas.consumer(p -> {
                         p.executeUpdate();
                         p.close();

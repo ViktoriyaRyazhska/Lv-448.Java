@@ -6,15 +6,13 @@ import inc.softserve.dao.implementations.RoomDaoJdbc;
 import inc.softserve.dao.interfaces.BookingDao;
 import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
-import inc.softserve.datebase.ConnectDb;
-import inc.softserve.entities.Booking;
+import inc.softserve.database.ConnectDb;
 import inc.softserve.entities.Hotel;
 import inc.softserve.entities.Room;
 import inc.softserve.services.intefaces.BookingService;
 
 import java.sql.Connection;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class BookingStatsServiceImp implements BookingService {
 
@@ -40,33 +38,10 @@ public class BookingStatsServiceImp implements BookingService {
         return hotelDao.findHotelsByCityId(cityId);
     }
 
-    private static Set<Room>  allRoomInCity(Long hotelId ){
+    private static Set<Room> allRoomInCity(Long hotelId ){
         return roomDao.findByHotelId(hotelId);
     }
 
     public static void main(String[] args) {
-        Set<Hotel> allHotelInCity = new BookingStatsServiceImp().allRoomByHotel(1L);
-        allRoomInCity((long)1);
-        List<Long> hotel_id = new ArrayList<>();
-        for (Hotel hotel   : allHotelInCity ) {
-            hotel_id.add(hotel.getId());
-        }
-
-        List<Long> roomList = new ArrayList<>();
-        for (Long hotel : hotel_id ) {
-            for(Room room : allRoomInCity(hotel)){
-                roomList.add(room.getId());
-
-            }
-        }
-
-
-
-        System.out.println(roomList.size());
-        System.out.println(roomList);
-
-
-
-
     }
 }

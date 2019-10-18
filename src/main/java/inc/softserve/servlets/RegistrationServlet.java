@@ -39,13 +39,13 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String birthday = req.getParameter("date");
-        String phoneNamber = req.getParameter("phone");
+        String phoneNumber = req.getParameter("phone");
         String numberVisa = req.getParameter("numbervisa");
         String start = req.getParameter("start");
         String end = req.getParameter("end");
-        String Country = req.getParameter("country");
-        UsrDto userDto = usrRegistration.initUsrDto(firstName,  lastName, email, phoneNamber, birthday,  password);
-        VisaDto visaDto = usrRegistration.initVisaDto(Country,  start, end, numberVisa);
+        String country = req.getParameter("country");
+        UsrDto userDto = usrRegistration.initUsrDto(firstName, lastName, email, phoneNumber, birthday, password);
+        VisaDto visaDto = usrRegistration.initVisaDto(country, start, end, numberVisa);
         usrRegistration.register(userDto, visaDto);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login.jsp");

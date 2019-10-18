@@ -1,6 +1,4 @@
-package inc.softserve.datebase;
-
-import lombok.extern.slf4j.Slf4j;
+package inc.softserve.database;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -19,17 +17,22 @@ public class ConnectDb {
             "useLegacyDatetimeCode=false&" +
             "serverTimezone=UTC";
 
-    public static Connection connectBase() {
+    private static Connection connection;
+
+    public static synchronized Connection connectBase() {
         try {
+            if (connection != null && ! connection.isClosed()){
+                return connection;
+            }
             DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver")
                     .getDeclaredConstructor()
                     .newInstance());
-            Connection conn = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
+            connection = DriverManager.getConnection(CONNECT_URL, USER, PASSWORD);
 //            log.info(conn.getMetaData().getDatabaseProductName());
 //            log.info(conn.getMetaData().getDatabaseProductVersion());
 //            log.info(conn.getMetaData().getDriverName());
 //            log.info(conn.getMetaData().getDriverVersion());
-            return conn;
+            return connection;
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException e) {
 //            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);

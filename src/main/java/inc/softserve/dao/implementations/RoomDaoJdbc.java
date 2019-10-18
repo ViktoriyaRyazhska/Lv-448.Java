@@ -4,11 +4,9 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomStats;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -92,22 +90,6 @@ public class RoomDaoJdbc implements RoomDao {
     }
 
     @Override
-    public Set<Room> findAllFutureBookedRoomsByCityId(Long cityId){
-        String query = "SELECT * FROM rooms " +
-                "INNER JOIN bookings " +
-                "ON rooms.id = bookings.id " +
-                "WHERE rooms.city_id = ? " +
-                "AND bookings.checkin > CURDATE()";
-        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setLong(1, cityId);
-            ResultSet resultSet = prepStat.executeQuery();
-            return extractRooms(resultSet).collect(Collectors.toSet());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public Set<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod) {
         String query = "SELECT chamber_number, COUNT(*) AS room_count FROM rooms " +
                 "INNER JOIN bookings " +
@@ -132,11 +114,7 @@ public class RoomDaoJdbc implements RoomDao {
             RoomStats roomStats = RoomStats.builder()
                     .hotel(hotelDao
                             .findById(rs.getLong("hotel_id"))
-                            .orElseThrow(() -> {
-                                String errorMessage = "There is a room that is not bind to any hotel";
-//                                log.error(errorMessage);
-                                return new RuntimeException(errorMessage);
-                            }))
+                            .orElseThrow())
                     .chamberNumber(rs.getInt("chamber_number"))
                     .roomCount(rs.getInt("room_count"))
                     .build();

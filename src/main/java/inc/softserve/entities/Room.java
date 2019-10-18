@@ -3,6 +3,7 @@ package inc.softserve.entities;
 import lombok.Data;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 public class Room {
@@ -12,7 +13,7 @@ public class Room {
     private Luxury luxury;
     private Bedrooms bedrooms;
     private Hotel hotel;
-    private Booking booking;
+    private Set<Booking> booking;
     private City city; // TODO - can be remove?
 
     public enum Luxury{

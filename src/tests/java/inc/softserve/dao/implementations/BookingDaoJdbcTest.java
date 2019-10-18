@@ -82,12 +82,4 @@ class BookingDaoJdbcTest {
         Long actualSize = (long) bookingDao.findBookingsByUsrId((long) 2).size();
         assertEquals(expectedSize, actualSize);
     }
-
-    @Test
-    void showAllFutureBookings() {
-        Long expectedSize = (long) 2;
-        Long actualSize = (long) bookingDao.showAllFutureBookings((long) 1).size();
-        bookingDao.showAllFutureBookings((long) 1).forEach(System.out::println);
-        assertEquals(expectedSize, actualSize);
-    }
 }

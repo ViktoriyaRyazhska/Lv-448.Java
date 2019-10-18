@@ -6,7 +6,7 @@ import inc.softserve.dao.implementations.VisaDaoJdbc;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
-import inc.softserve.datebase.ConnectDb;
+import inc.softserve.database.ConnectDb;
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
 import inc.softserve.entities.Usr;
@@ -57,8 +57,8 @@ public class UsrRegisterImpl implements UsrRegisterService {
         }
 //        try {
 //            conn.setAutoCommit(false);
-            Usr us = usrDao.save(convertDtoToUser(usrDto));
-            visaDao.save(convertDtoToVisa(visaDto, us));
+            Usr usr = usrDao.save(convertDtoToUser(usrDto));
+            visaDao.save(convertDtoToVisa(visaDto, usr));
             return "The account is created successfully.";
 //        } catch (SQLException e) {
 //            try {
@@ -76,7 +76,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hash = messageDigest.digest(resultPass.getBytes(StandardCharsets.US_ASCII));
             return (new String(hash, StandardCharsets.US_ASCII));
-
         } catch (NoSuchAlgorithmException e) {
             //TODO - add logging
             throw new RuntimeException(e);
@@ -162,7 +161,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         byte[] hash = messageDigest.digest(userPass.getBytes(StandardCharsets.US_ASCII));
         String userPassHash = new String(hash, StandardCharsets.US_ASCII);
@@ -199,9 +198,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
 
     private boolean isValidDate(String date) {
         return date.matches("^\\d{4}/\\d{2}/\\d{2}$");
-
-
-
     }
 
 }

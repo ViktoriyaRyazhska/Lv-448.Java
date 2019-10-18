@@ -5,11 +5,9 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.entities.Booking;
-import inc.softserve.entities.Room;
-import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -78,6 +76,31 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    @Override
+    public Set<Booking> findBookingsByRoomId(Long roomId){
+        String query = "SELECT * FROM bookings WHERE room_id = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, roomId);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractBookings(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Set<Booking> findBookingsByRoomIdAndDate(Long roomId, LocalDate fromDate){
+        String query = "SELECT * FROM bookings WHERE room_id = ? AND bookings.checkin > ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, roomId);
+            prepStat.setDate(2, Date.valueOf(fromDate));
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractBookings(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Stream<Booking> extractBookings(ResultSet rs) throws SQLException {
         Stream.Builder<Booking> builder = Stream.builder();
         while (rs.next()){
@@ -111,38 +134,5 @@ public class BookingDaoJdbc implements BookingDao {
 //            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public List<RoomBooking> showAllFutureBookings(Long hotelId) {
-        String query = "SELECT rooms.id, rooms.chamber_number, rooms.luxury, rooms.bedrooms, rooms.hotel_id, rooms.city_id, " +
-                "bookings.checkin, bookings.checkout " +
-                "FROM rooms " +
-                "INNER JOIN bookings " +
-                "ON bookings.room_id = rooms.id " +
-                "WHERE bookings.hotel_id = ? AND bookings.checkin > CURDATE()";
-        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setLong(1, hotelId);
-            ResultSet resultSet = prepStat.executeQuery();
-            return extractFutureBookings(resultSet).collect(Collectors.toList());
-        } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Stream<RoomBooking> extractFutureBookings(ResultSet rs) throws SQLException {
-        Stream.Builder<RoomBooking> builder = Stream.builder();
-        while (rs.next()){
-            RoomBooking roomBooking = RoomBooking.builder()
-                    .room(roomDao
-                            .findById(rs.getLong("id"))
-                            .orElseThrow())
-                    .checkin(rs.getDate("checkin").toLocalDate())
-                    .checkout(rs.getDate("checkout").toLocalDate())
-                    .build();
-            builder.accept(roomBooking);
-        }
-        return builder.build();
     }
 }
