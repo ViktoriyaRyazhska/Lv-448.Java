@@ -23,4 +23,10 @@ public class Audience extends Entity {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Audience{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

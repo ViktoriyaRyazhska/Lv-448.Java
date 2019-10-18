@@ -46,4 +46,13 @@ public class Author extends Entity {
     public void setExhibits(List<Exhibit> exhibits) {
         this.exhibits = exhibits;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", exhibits=" + exhibits +
+                '}';
+    }
 }

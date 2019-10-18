@@ -13,22 +13,31 @@ import java.util.Optional;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDao jdbcEmployeeDao = DaoFactory.employeeDao();
+    private final EmployeeDao employeeDao;
+
+
+    public EmployeeServiceImpl() {
+        employeeDao = DaoFactory.employeeDao();
+    }
+
+    public EmployeeServiceImpl(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
+    }
 
     @Override
     public boolean save(Employee objectToSave) {
-        if (jdbcEmployeeDao.findByUsername(objectToSave.getLogin()) != null) {
+        if (employeeDao.findByUsername(objectToSave.getLogin()) != null) {
             return false;
         } else {
-            jdbcEmployeeDao.save(objectToSave);
+            employeeDao.save(objectToSave);
             return true;
         }
     }
 
     @Override
     public boolean deleteById(long id) {
-        if (!jdbcEmployeeDao.findById(id).isPresent()) {
-            jdbcEmployeeDao.deleteById(id);
+        if (!employeeDao.findById(id).isPresent()) {
+            employeeDao.deleteById(id);
             return true;
         } else {
             return false;
@@ -37,36 +46,47 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<Employee> findById(long id) {
-        return jdbcEmployeeDao.findById(id);
+        Employee employee = employeeDao.findById(id).orElse(null);
+        if (employee != null) {
+            return Optional.of(employeeDao.loadForeignFields(employee));
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Employee> findAll() {
-        return jdbcEmployeeDao.findAll();
+        return employeeDao.loadForeignFields(employeeDao.findAll());
     }
 
     @Override
     public void update(Employee newObject) {
-        jdbcEmployeeDao.update(newObject);
+        employeeDao.update(newObject);
     }
 
     @Override
     public List<Employee> findByPosition(EmployeePosition position) {
-        return jdbcEmployeeDao.findByPosition(position);
+        return employeeDao.loadForeignFields(employeeDao.findByPosition(position));
     }
 
     @Override
     public EmployeeStatistic findStatistic(Date dateStart, Date dateEnd) {
-        return jdbcEmployeeDao.findStatistic(dateStart, dateEnd);
+        return employeeDao.findStatistic(dateStart, dateEnd);
     }
 
+    //TODO Change return parameter to Optional<Audience>
     @Override
     public Audience findAudienceByEmployee(Employee employee) {
-        return jdbcEmployeeDao.findAudienceByEmployee(employee);
+        return employeeDao.findAudienceByEmployee(employee);
     }
 
     @Override
     public void updateEmployeeAudience(Employee employee, Audience audience) {
-        jdbcEmployeeDao.updateEmployeeAudience(employee, audience);
+        employeeDao.updateEmployeeAudience(employee, audience);
+    }
+
+    @Override
+    public Employee findByFullName(String firstName, String lastName) {
+        return employeeDao.findByFullName(firstName, lastName);
     }
 }

@@ -1,7 +1,10 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.dao.AuthorDao;
+import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcExhibitDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.services.AuthorService;
@@ -10,30 +13,41 @@ import java.util.Optional;
 
 public class AuthorServiceImpl implements AuthorService {
 
-    private JdbcAuthorDao jdbcAuthorDao;
-    private JdbcExhibitDao jdbcExhibitDao;
+    private AuthorDao authorDao;
+    private ExhibitDao exhibitDao;
+
+    public AuthorServiceImpl() {
+        authorDao = DaoFactory.authorDao();
+        exhibitDao = DaoFactory.exhibitDao();
+    }
+
+    public AuthorServiceImpl(JdbcAuthorDao authorDao,
+            JdbcExhibitDao exhibitDao) {
+        this.authorDao = authorDao;
+        this.exhibitDao = exhibitDao;
+    }
 
     @Override
     public List<Exhibit> findExhibitsByAuthor(Author author) {
-        return jdbcAuthorDao.findExhibitsByAuthor(author);
+        return exhibitDao.loadForeignFields(authorDao.findExhibitsByAuthor(author));
     }
 
     @Override
     public boolean addExhibitAuthor(Author author, Exhibit exhibit) {
-        if ((jdbcAuthorDao.findById(author.getId()).isPresent()) &&
-                (jdbcExhibitDao.findById(exhibit.getId()).isPresent())) {
+        if ((authorDao.findById(author.getId()).isPresent()) &&
+                (exhibitDao.findById(exhibit.getId()).isPresent())) {
             return false;
         } else {
-            jdbcAuthorDao.addExhibitAuthor(author, exhibit);
+            authorDao.addExhibitAuthor(author, exhibit);
             return true;
         }
     }
 
     @Override
     public boolean deleteExhibitAuthor(Author author, Exhibit exhibit) {
-        if ((jdbcAuthorDao.findById(author.getId()).isPresent()) &&
-                (jdbcExhibitDao.findById(exhibit.getId()).isPresent())) {
-            jdbcAuthorDao.deleteExhibitAuthor(author, exhibit);
+        if ((authorDao.findById(author.getId()).isPresent()) &&
+                (exhibitDao.findById(exhibit.getId()).isPresent())) {
+            authorDao.deleteExhibitAuthor(author, exhibit);
             return true;
         } else {
             return false;
@@ -42,19 +56,19 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public boolean save(Author objectToSave) {
-        if (jdbcAuthorDao.findByFullName(objectToSave.getFirstName(), objectToSave.getLastName())
+        if (authorDao.findByFullName(objectToSave.getFirstName(), objectToSave.getLastName())
                 .isPresent()) {
             return false;
         } else {
-            jdbcAuthorDao.save(objectToSave);
+            authorDao.save(objectToSave);
             return true;
         }
     }
 
     @Override
     public boolean deleteById(long id) {
-        if (jdbcAuthorDao.findById(id).isPresent()) {
-            jdbcAuthorDao.deleteById(id);
+        if (authorDao.findById(id).isPresent()) {
+            authorDao.deleteById(id);
             return true;
         } else {
             return false;
@@ -63,24 +77,34 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Optional<Author> findById(long id) {
-        return jdbcAuthorDao.findById(id);
+        Author author = authorDao.findById(id).orElse(null);
+        if(author != null){
+            return Optional.of(authorDao.loadForeignFields(author));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Author> findByFullName(String fName, String lName) {
-        return jdbcAuthorDao.findByFullName(fName, lName);
+        Author author = authorDao.findByFullName(fName, lName).orElse(null);
+        if(author != null){
+            return Optional.of(authorDao.loadForeignFields(author));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Author> findAll() {
-        return jdbcAuthorDao.findAll();
+        return authorDao.loadForeignFields(authorDao.findAll());
     }
 
     @Override
     public boolean update(Author newObject) {
-        if (jdbcAuthorDao.findByFullName(newObject.getFirstName(), newObject.getLastName())
+        if (authorDao.findByFullName(newObject.getFirstName(), newObject.getLastName())
                 .isPresent()) {
-            jdbcAuthorDao.update(newObject);
+            authorDao.update(newObject);
             return true;
         } else {
             return false;

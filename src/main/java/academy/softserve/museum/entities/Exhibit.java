@@ -79,4 +79,16 @@ public class Exhibit extends Entity {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
+    @Override
+    public String toString() {
+        return "Exhibit{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                ", material='" + material + '\'' +
+                ", technique='" + technique + '\'' +
+                ", audience=" + audience +
+                ", authors=" + authors +
+                '}';
+    }
 }
