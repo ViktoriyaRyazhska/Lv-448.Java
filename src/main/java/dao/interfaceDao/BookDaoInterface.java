@@ -22,7 +22,7 @@ public interface BookDaoInterface{
 
     List<Book> findAll();
 
-    List<Book> booksReleasedDuringIndependence(LocalDate fromDate, LocalDate toDate);
+    List<Book> findBookBetweenDate(LocalDate fromDate, LocalDate toDate);
 
     List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod);
 
