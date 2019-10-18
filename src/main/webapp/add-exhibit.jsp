@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -16,9 +16,11 @@
                 <form>
                     <div class="form-group">
                         <label for="exhibit-type">Type</label>
-                        <input type="text" class="form-control" id="exhibit-type"
-                               name="type"
-                               placeholder="Enter exhibit type">
+                        <select class="browser-default custom-select" id="exhibit-type">
+                            <c:forEach var="type" items="${types}">
+                                <option value="${type}">${type}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="exhibit-material">Material</label>
@@ -34,9 +36,11 @@
                     </div>
                     <div class="form-group">
                         <label for="exhibit-audience">Audience</label>
-                        <input type="number" class="form-control" id="exhibit-audience"
-                               name="audience"
-                               placeholder="Enter exhibit audience">
+                        <select class="browser-default custom-select" id="exhibit-audience">
+                            <c:forEach var="audience" items="${audiences}">
+                                <option value="${audience.id}">${audience.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Add</button>
