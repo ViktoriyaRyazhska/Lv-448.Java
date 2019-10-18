@@ -9,6 +9,7 @@ import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
