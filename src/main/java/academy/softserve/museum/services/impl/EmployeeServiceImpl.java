@@ -84,4 +84,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void updateEmployeeAudience(Employee employee, Audience audience) {
         employeeDao.updateEmployeeAudience(employee, audience);
     }
+
+    @Override
+    public Employee findByFullName(String firstName, String lastName) {
+        return jdbcEmployeeDao.findByFullName(firstName, lastName);
+    }
 }

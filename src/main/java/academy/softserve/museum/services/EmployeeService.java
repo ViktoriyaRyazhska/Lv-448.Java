@@ -18,6 +18,8 @@ public interface EmployeeService {
 
   List<Employee> findAll();
 
+  Employee findByFullName(String firstName, String lastName);
+
   void update(Employee newObject);
 
   List<Employee> findByPosition(EmployeePosition position);

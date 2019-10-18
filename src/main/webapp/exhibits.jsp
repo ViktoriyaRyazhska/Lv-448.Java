@@ -23,23 +23,23 @@
                             <option id="option-3" value="3">by Audience</option>
                         </select>
                     </div> <!-- form group [employee-filters] -->
-                    <form class="form-inline hidden" id="by-author">
+                    <form class="form-inline hidden" id="by-author" action="exhibits-by-author" method="post">
                         <div class="form-group">
                             <label class="filter-col" for="author-first-name">First name:</label>
-                            <input type="text" class="form-control input-xs" id="author-first-name">
+                            <input type="text" class="form-control input-xs" id="author-first-name" name="firstName">
                             <label class="filter-col" for="author-last-name">Last name:</label>
-                            <input type="text" class="form-control input-xs" id="author-last-name">
+                            <input type="text" class="form-control input-xs" id="author-last-name" name="lastName">
                             <button type="submit" class="btn btn-dark">
                                 Filter
                             </button>
                         </div> <!-- form group [by-author] -->
                     </form>
-                    <form class="form-inline hidden" id="by-employee">
+                    <form class="form-inline hidden" action="exhibits-by-employee" method="post" id="by-employee">
                         <div class="form-group">
                             <label class="filter-col" for="employee-first-name">First name:</label>
-                            <input type="text" class="form-control input-xs" id="employee-first-name">
+                            <input type="text" class="form-control input-xs" id="employee-first-name" name="firstName">
                             <label class="filter-col" for="employee-last-name">Last name:</label>
-                            <input type="text" class="form-control input-xs" id="employee-last-name">
+                            <input type="text" class="form-control input-xs" id="employee-last-name" name="lastName">
                             <button type="submit" class="btn btn-dark">
                                 Filter
                             </button>

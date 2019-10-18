@@ -49,23 +49,40 @@ public class JdbcEmployeeDao implements EmployeeDao {
         Employee employee = JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username).
                 orElse(null);
 
-        if(employee != null){
-            employee.setAudience(findAudienceByEmployee(employee));
-        }
-
         return employee;
+    }
+
+    @Override
+    public Employee findByFullName(String firstName, String lastName) {
+        String FIND_EMPLOYEE_BY_USERNAME = "SELECT id AS employee_id, first_name AS employee_first_name, " +
+                "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
+                "password AS employee_password FROM employees WHERE first_name = ? and last_name = ?";
+
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(),
+                firstName, lastName).orElse(null);
     }
 
     @Override
     public EmployeeStatistic findStatistic(Date dateStart, Date dateEnd) {
         String FIND_STATISTIC =
-                "SELECT e.id AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, " +
-                        "e.position AS employee_position, e.login AS employee_login, e.password AS employee_password, " +
-                        "SUM(date_part('epoch', tt.date_end - tt.date_start) / 60) AS excursion_time " +
+                "SELECT e.id AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name," +
+                        "e.position AS employee_position, e.login AS employee_login, e.password AS employee_password," +
+                        "SUM(date_part('epoch', tt.date_end - tt.date_start) / 60) AS excursion_time, " +
+                        "COUNT(*) AS excursion_count " +
                         "FROM employees AS e " +
-                        "INNER JOIN timetable AS tt " +
+                        "LEFT JOIN timetable AS tt " +
                         "ON e.id = tt.employee_id " +
-                        "WHERE date_start > ? and date_end < ? " +
+                        "WHERE (date_start > ? AND date_end < ?) " +
+                        "GROUP BY e.id, e.first_name, e.last_name, e.position, e.login, e.password " +
+                        "union " +
+                        "SELECT e.id AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, " +
+                        "e.position AS employee_position, e.login AS employee_login, e.password AS employee_password, " +
+                        "0 AS excursion_time, " +
+                        "0 AS excursion_count " +
+                        "FROM employees AS e " +
+                        "LEFT JOIN timetable AS tt " +
+                        "ON e.id = tt.id " +
+                        "where e.id not in (select employee_id from timetable) " +
                         "GROUP BY e.id, e.first_name, e.last_name, e.position, e.login, e.password";
 
         EmployeeStatistic statistic = JdbcUtils.queryForObject(connection, FIND_STATISTIC,

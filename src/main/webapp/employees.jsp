@@ -42,21 +42,13 @@
                 </div>
                 <form class="form-inline additional-filter hidden" id="free-guides">
                     <div class="form-group">
-                        <label class="filter-col" for="date-from">Date from:</label>
-                        <input type="text" class="form-control input-xs" id="date-from">
+                        <label class="filter-col" for="date-time-from">Date/Time from:</label>
+                        <input type="datetime-local" class="form-control input-xs w-250" id="date-time-from">
                     </div> <!-- form group [date-from] -->
                     <div class="form-group">
-                        <label class="filter-col" for="date-till">Date till:</label>
-                        <input type="text" class="form-control input-xs" id="date-till">
+                        <label class="filter-col" for="date-time-till">Date/Time till:</label>
+                        <input type="datetime-local" class="form-control input-xs w-250" id="date-time-till">
                     </div> <!-- form group [date-till] -->
-                    <div class="form-group">
-                        <label class="filter-col" for="time-from">Time from:</label>
-                        <input type="text" class="form-control input-xs" id="time-from">
-                    </div> <!-- form group [time-from] -->
-                    <div class="form-group">
-                        <label class="filter-col" for="time-till">Time till:</label>
-                        <input type="text" class="form-control input-xs" id="time-till">
-                    </div> <!-- form group [time-till] -->
                     <button type="submit" class="btn btn-dark">
                         Show
                     </button>

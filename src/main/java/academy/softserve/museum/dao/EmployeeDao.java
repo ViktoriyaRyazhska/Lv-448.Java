@@ -14,6 +14,8 @@ public interface EmployeeDao extends Crud<Employee> {
 
     Employee findByUsername(String username);
 
+    Employee findByFullName(String firstName, String lastName);
+
     EmployeeStatistic findStatistic(Date dateStart, Date dateEnd);
 
     Audience findAudienceByEmployee(Employee employee);

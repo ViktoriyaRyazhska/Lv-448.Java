@@ -2,17 +2,14 @@ package academy.softserve.museum.services.impl;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.AuthorDao;
+import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
-import academy.softserve.museum.entities.Audience;
-import academy.softserve.museum.entities.Author;
-import academy.softserve.museum.entities.Employee;
-import academy.softserve.museum.entities.Exhibit;
+import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import academy.softserve.museum.services.ExhibitService;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 public class ExhibitServiceImpl implements ExhibitService {
 
@@ -149,5 +146,10 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public ExhibitStatistic findStatistic() {
         return exhibitDao.findStatistic();
+    }
+
+
+    public List<ExhibitType> getTypes() {
+        return Arrays.asList(ExhibitType.values());
     }
 }
