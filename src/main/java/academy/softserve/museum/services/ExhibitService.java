@@ -24,6 +24,8 @@ public interface ExhibitService {
 
     List<Exhibit> findByEmployee(Employee employee);
 
+    List<Exhibit> findByAudience(Audience audience);
+
     List<Author> findAuthorsByExhibit(Exhibit exhibit);
 
     Audience findAudienceByExhibit(Exhibit exhibit);
@@ -39,4 +41,5 @@ public interface ExhibitService {
     ExhibitStatistic findStatistic();
 
     List<ExhibitType> getTypes();
+
 }

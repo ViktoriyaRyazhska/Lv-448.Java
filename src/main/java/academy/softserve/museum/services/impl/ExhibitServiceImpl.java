@@ -152,4 +152,9 @@ public class ExhibitServiceImpl implements ExhibitService {
     public List<ExhibitType> getTypes() {
         return Arrays.asList(ExhibitType.values());
     }
+
+    @Override
+    public List<Exhibit> findByAudience(Audience audience) {
+        return exhibitDao.findByAudience(audience);
+    }
 }
