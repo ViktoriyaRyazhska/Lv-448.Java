@@ -47,9 +47,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Optional<Employee> findById(long id) {
         Employee employee = employeeDao.findById(id).orElse(null);
-        if(employee != null){
+        if (employee != null) {
             return Optional.of(employeeDao.loadForeignFields(employee));
-        }else{
+        } else {
             return Optional.empty();
         }
     }
@@ -87,6 +87,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findByFullName(String firstName, String lastName) {
-        return jdbcEmployeeDao.findByFullName(firstName, lastName);
+        return employeeDao.findByFullName(firstName, lastName);
     }
 }
