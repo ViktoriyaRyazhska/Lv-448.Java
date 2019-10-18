@@ -1,72 +1,61 @@
 package inc.softserve.services.implementations;
 
-import inc.softserve.dao.implementations.BookingDaoJdbc;
-import inc.softserve.dao.implementations.HotelDaoJdbc;
-import inc.softserve.dao.implementations.RoomDaoJdbc;
 import inc.softserve.dao.interfaces.BookingDao;
 import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
-import inc.softserve.datebase.ConnectDb;
-import inc.softserve.entities.Booking;
-import inc.softserve.entities.Hotel;
+import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.entities.Room;
+import inc.softserve.entities.stats.RoomBooking;
 import inc.softserve.services.intefaces.BookingService;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class BookingStatsServiceImp implements BookingService {
 
     private BookingDao bookDao;
     private HotelDao hotelDao;
-    private static RoomDao roomDao;
+    private RoomDao roomDao;
     private Connection conn;
+    private UsrDao userDao;
 
-    public BookingStatsServiceImp(BookingDaoJdbc bookDao, HotelDaoJdbc hotelDao) {
+    public BookingStatsServiceImp(BookingDao bookDao, HotelDao hotelDao, RoomDao roomDao, Connection conn, UsrDao userDao) {
         this.bookDao = bookDao;
         this.hotelDao = hotelDao;
-        conn = ConnectDb.connectBase();
+        this.roomDao = roomDao;
+        this.conn = conn;
+        this.userDao = userDao;
     }
 
-    public BookingStatsServiceImp() {
-        hotelDao = new HotelDaoJdbc(ConnectDb.connectBase(), null);
-        conn = ConnectDb.connectBase();
-        roomDao = new RoomDaoJdbc(conn, hotelDao);
+    private boolean overlaps(RoomBooking roomBooking, LocalDate checkin, LocalDate checkout){
+        return (roomBooking.getCheckin().compareTo(checkout) < 0)
+                &&
+                (roomBooking.getCheckout().compareTo(checkin) > 0);
     }
 
-    public Set<Hotel> allRoomByHotel(Long cityId) {
-
-        return hotelDao.findHotelsByCityId(cityId);
+    private Set<RoomBooking> freeRoom(List<RoomBooking> bookRooms, LocalDate checkIn, LocalDate checkOut){
+        return bookRooms.stream()
+                 .filter(b -> overlaps(b, checkIn, checkOut))
+                 .collect(Collectors.toSet());
     }
 
-    private static Set<Room>  allRoomInCity(Long hotelId ){
-        return roomDao.findByHotelId(hotelId);
-    }
-
-    public static void main(String[] args) {
-        Set<Hotel> allHotelInCity = new BookingStatsServiceImp().allRoomByHotel(1L);
-        allRoomInCity((long)1);
-        List<Long> hotel_id = new ArrayList<>();
-        for (Hotel hotel   : allHotelInCity ) {
-            hotel_id.add(hotel.getId());
+    private Set<Room> bookingRooms(Set<RoomBooking> booking){
+        Set<Room> rooms = new HashSet<>();
+        for(RoomBooking room : booking){
+            rooms.add(roomDao.findById(room.getRoom().getId()).orElseThrow());
         }
-
-        List<Long> roomList = new ArrayList<>();
-        for (Long hotel : hotel_id ) {
-            for(Room room : allRoomInCity(hotel)){
-                roomList.add(room.getId());
-
-            }
-        }
-
-
-
-        System.out.println(roomList.size());
-        System.out.println(roomList);
-
-
-
-
+        return rooms;
     }
+
+    public Set<RoomBooking> allFreeRoomsInCity(LocalDate now, LocalDate checkIn, LocalDate checkOut, Long cityId){
+        Set<Room> allBookedRoom = roomDao.findAllFutureBookedRoomsByCityId(cityId);
+        List<RoomBooking> bookRooms = bookDao.findByRoomIdAndDate(1L, LocalDate.now());
+        Set<RoomBooking> booking = freeRoom(bookRooms, checkIn, checkOut);
+        Set<Room> bookingRoom = bookingRooms(booking);
+        bookingRoom.removeAll(allBookedRoom);
+        return booking;
+    }
+
 }

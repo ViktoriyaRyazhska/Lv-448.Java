@@ -95,7 +95,7 @@ public class RoomDaoJdbc implements RoomDao {
     public Set<Room> findAllFutureBookedRoomsByCityId(Long cityId){
         String query = "SELECT * FROM rooms " +
                 "INNER JOIN bookings " +
-                "ON rooms.id = bookings.id " +
+                "ON rooms.id = bookings.room_id " +
                 "WHERE rooms.city_id = ? " +
                 "AND bookings.checkin > CURDATE()";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {

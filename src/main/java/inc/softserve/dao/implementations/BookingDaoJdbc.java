@@ -9,6 +9,7 @@ import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -144,5 +145,19 @@ public class BookingDaoJdbc implements BookingDao {
             builder.accept(roomBooking);
         }
         return builder.build();
+    }
+
+    @Override
+    public List<RoomBooking> findByRoomIdAndDate(Long roomId, LocalDate fromDate) {
+        String query = "SELECT * FROM bookings WHERE room_id = ? AND bookings.checkin > ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, roomId);
+            prepStat.setDate(2, Date.valueOf(fromDate));
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractFutureBookings(resultSet).collect(Collectors.toList());
+        } catch (SQLException e) {
+//            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
