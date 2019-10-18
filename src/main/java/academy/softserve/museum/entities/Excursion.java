@@ -23,4 +23,10 @@ public class Excursion extends Entity {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Excursion{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

@@ -62,4 +62,13 @@ public class Timetable extends Entity {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "Timetable{" +
+                "employee=" + employee +
+                ", excursion=" + excursion +
+                ", dateStart=" + dateStart +
+                ", dateEnd=" + dateEnd +
+                '}';
+    }
 }

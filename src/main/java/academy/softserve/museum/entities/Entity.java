@@ -32,4 +32,11 @@ public class Entity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                '}';
+    }
 }

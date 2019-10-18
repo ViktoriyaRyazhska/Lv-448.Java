@@ -22,6 +22,8 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
     Audience findAudienceByExhibit(Exhibit exhibit);
 
+    List<Exhibit> findByAudience(Audience audience);
+
     void updateExhibitAudience(Exhibit exhibit, Audience audience);
 
     void addExhibitAuthor(Exhibit exhibit, Author author);
