@@ -16,17 +16,13 @@ import java.util.stream.Collectors;
 public class BookingStatsServiceImp implements BookingService {
 
     private BookingDao bookDao;
-    private HotelDao hotelDao;
     private RoomDao roomDao;
     private Connection conn;
-    private UsrDao userDao;
 
-    public BookingStatsServiceImp(BookingDao bookDao, HotelDao hotelDao, RoomDao roomDao, Connection conn, UsrDao userDao) {
+    public BookingStatsServiceImp(BookingDao bookDao, RoomDao roomDao, Connection conn) {
         this.bookDao = bookDao;
-        this.hotelDao = hotelDao;
         this.roomDao = roomDao;
         this.conn = conn;
-        this.userDao = userDao;
     }
 
     private boolean overlaps(RoomBooking roomBooking, LocalDate checkin, LocalDate checkout){
