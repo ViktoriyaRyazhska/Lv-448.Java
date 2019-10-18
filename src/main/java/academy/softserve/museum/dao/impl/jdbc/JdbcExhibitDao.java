@@ -69,11 +69,22 @@ public class JdbcExhibitDao implements ExhibitDao {
     @Override
     public Audience findAudienceByExhibit(Exhibit exhibit) {
         String FIND_AUDIENCE_BY_EXHIBIT_ID =
-                "select id AS audience_id, name AS audience_name " +
+                "SELECT id AS audience_id, name AS audience_name " +
                         "FROM audiences " +
                         "WHERE id = (SELECT audience_id FROM exhibits WHERE id = ?);";
 
         return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId()).orElse(null);
+    }
+
+    @Override
+    public List<Exhibit> findByAudience(Audience audience) {
+        String FIND_BY_EXHIBIT =
+                "SELECT id AS exhibit_id, type AS exhibit_type, material AS exhibit_material, " +
+                        "techic AS exhibit_technique, name AS exhibit_name " +
+                        "FROM exhibits " +
+                        "WHERE audience_id = ?";
+
+        return JdbcUtils.query(connection, FIND_BY_EXHIBIT, new ExhibitRowMapper(), audience.getId());
     }
 
     @Override
