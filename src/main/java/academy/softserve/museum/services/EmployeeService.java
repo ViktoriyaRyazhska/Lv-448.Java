@@ -26,8 +26,6 @@ public interface EmployeeService {
 
   EmployeeStatistic findStatistic(Date dateStart, Date dateEnd);
 
-  Audience findAudienceByEmployee(Employee employee);
-
   void updateEmployeeAudience(Employee employee, Audience audience);
 
 }

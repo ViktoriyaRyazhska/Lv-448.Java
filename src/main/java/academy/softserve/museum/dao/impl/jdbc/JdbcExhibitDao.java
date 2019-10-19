@@ -1,7 +1,10 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
+import academy.softserve.museum.dao.AudienceDao;
+import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.*;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import academy.softserve.museum.util.JdbcUtils;
@@ -13,12 +16,23 @@ import java.util.Optional;
 
 public class JdbcExhibitDao implements ExhibitDao {
 
-    private Connection connection;
+    private static JdbcExhibitDao instance;
+    private final Connection connection;
+    private AuthorDao authorDao;
+    private final AudienceDao audienceDao;
 
-    public JdbcExhibitDao(Connection connection) {
+    private JdbcExhibitDao(Connection connection, AudienceDao audienceDao) {
         this.connection = connection;
+        this.audienceDao = audienceDao;
     }
 
+    public static JdbcExhibitDao getInstance(Connection connection, AudienceDao audienceDao) {
+        if (instance == null) {
+            instance = new JdbcExhibitDao(connection, audienceDao);
+        }
+
+        return instance;
+    }
 
     @Override
     public Optional<Exhibit> findByName(String name) {
@@ -52,28 +66,6 @@ public class JdbcExhibitDao implements ExhibitDao {
                         "WHERE em.id = ?";
 
         return JdbcUtils.query(connection, FIND_EXHIBITS_BY_EMPLOYEE_ID, new ExhibitRowMapper(), employee.getId());
-    }
-
-    @Override
-    public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
-        String FIND_AUTHORS_BY_EXHIBIT_ID =
-                "SELECT a.id AS author_id, a.first_name AS author_first_name, a.last_name AS author_last_name " +
-                        "FROM autors AS a " +
-                        "INNER JOIN autor_exhibit AS ae " +
-                        "ON a.id = ae.autor_id " +
-                        "WHERE ae.exhibit_id = ? ";
-
-        return JdbcUtils.query(connection, FIND_AUTHORS_BY_EXHIBIT_ID, new AuthorRowMapper(), exhibit.getId());
-    }
-
-    @Override
-    public Audience findAudienceByExhibit(Exhibit exhibit) {
-        String FIND_AUDIENCE_BY_EXHIBIT_ID =
-                "SELECT id AS audience_id, name AS audience_name " +
-                        "FROM audiences " +
-                        "WHERE id = (SELECT audience_id FROM exhibits WHERE id = ?);";
-
-        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId()).orElse(null);
     }
 
     @Override
@@ -168,6 +160,14 @@ public class JdbcExhibitDao implements ExhibitDao {
         return statistic;
     }
 
+    @Override
+    public Exhibit loadForeignFields(Exhibit exhibit) {
+        exhibit.setAuthors(authorDao.findByExhibit(exhibit));
+        exhibit.setAudience(audienceDao.findByExhibit(exhibit).orElse(null));
+
+        return exhibit;
+    }
+
     private Map<String, Integer> findStatisticByType(ExhibitType type, String statisticField) {
         String STATISTIC_BY_MATERIAL =
                 "SELECT " + statisticField + ", count(id) as number " +
@@ -177,5 +177,9 @@ public class JdbcExhibitDao implements ExhibitDao {
 
         return JdbcUtils.queryForObject(connection, STATISTIC_BY_MATERIAL, new ExhibitTypeStatisticMapper(statisticField),
                 type.toString()).orElse(null);
+    }
+
+    public void setAuthorDao(AuthorDao authorDao) {
+        this.authorDao = authorDao;
     }
 }

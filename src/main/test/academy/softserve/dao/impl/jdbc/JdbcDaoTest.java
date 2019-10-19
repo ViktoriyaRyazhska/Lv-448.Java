@@ -2,6 +2,7 @@ package academy.softserve.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.impl.jdbc.JdbcAudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
@@ -28,8 +29,8 @@ public class JdbcDaoTest {
     static {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(System.getenv("test_db_url"),
-                    System.getenv("test_db_user"), System.getenv("test_db_password"));
+            connection = DriverManager.getConnection(System.getenv("db_url"),
+                    System.getenv("db_user"), System.getenv("db_password"));
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -48,11 +49,11 @@ public class JdbcDaoTest {
     }
 
     JdbcAuthorDao jdbcAuthorDao() {
-        return new JdbcAuthorDao(connection);
+        return (JdbcAuthorDao) DaoFactory.authorDao();
     }
 
     JdbcAudienceDao jdbcAudienceDao() {
-        return new JdbcAudienceDao(connection);
+        return (JdbcAudienceDao) DaoFactory.audienceDao();
     }
 
     private void executeSql(String sqlFilepath) {

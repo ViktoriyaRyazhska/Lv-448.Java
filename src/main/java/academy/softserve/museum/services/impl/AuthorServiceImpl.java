@@ -28,11 +28,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<Exhibit> findExhibitsByAuthor(Author author) {
-        return exhibitDao.loadForeignFields(authorDao.findExhibitsByAuthor(author));
-    }
-
-    @Override
     public boolean addExhibitAuthor(Author author, Exhibit exhibit) {
         if ((authorDao.findById(author.getId()).isPresent()) &&
                 (exhibitDao.findById(exhibit.getId()).isPresent())) {

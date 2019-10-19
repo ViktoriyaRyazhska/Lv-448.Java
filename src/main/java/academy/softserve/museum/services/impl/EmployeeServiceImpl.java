@@ -1,5 +1,6 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
@@ -14,7 +15,6 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeDao employeeDao;
-
 
     public EmployeeServiceImpl() {
         employeeDao = DaoFactory.employeeDao();
@@ -72,12 +72,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeStatistic findStatistic(Date dateStart, Date dateEnd) {
         return employeeDao.findStatistic(dateStart, dateEnd);
-    }
-
-    //TODO Change return parameter to Optional<Audience>
-    @Override
-    public Audience findAudienceByEmployee(Employee employee) {
-        return employeeDao.findAudienceByEmployee(employee);
     }
 
     @Override

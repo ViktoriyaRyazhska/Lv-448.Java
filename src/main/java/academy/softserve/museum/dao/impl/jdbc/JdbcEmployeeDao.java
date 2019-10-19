@@ -2,7 +2,6 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
-import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMaper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeStatisticRowMapper;
 import academy.softserve.museum.database.DaoFactory;
@@ -20,15 +19,19 @@ import java.util.Optional;
 public class JdbcEmployeeDao implements EmployeeDao {
     private final Connection connection;
     private AudienceDao audienceDao;
+    private static JdbcEmployeeDao instance;
 
-    public JdbcEmployeeDao(Connection connection) {
-        this.connection = connection;
-        audienceDao = DaoFactory.audienceDao();
-    }
-
-    public JdbcEmployeeDao(Connection connection, AudienceDao audienceDao) {
+    private JdbcEmployeeDao(Connection connection, AudienceDao audienceDao) {
         this.connection = connection;
         this.audienceDao = audienceDao;
+    }
+
+    public static JdbcEmployeeDao getInstance(Connection connection, AudienceDao audienceDao) {
+        if (instance == null) {
+            instance = new JdbcEmployeeDao(connection, audienceDao);
+        }
+
+        return instance;
     }
 
     @Override
@@ -95,19 +98,17 @@ public class JdbcEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public Audience findAudienceByEmployee(Employee employee) {
-        String FIND_AUDIENCE_BY_EMPLOYEE = "SELECT audiences.id as audience_id, " +
-                "name as audience_name FROM audiences INNER JOIN employees " +
-                "ON employees.audience_id = audiences.id and employees.id = ?";
-
-        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EMPLOYEE, new AudienceRowMapper(), employee.getId()).orElse(null);
-    }
-
-    @Override
     public void updateEmployeeAudience(Employee employee, Audience audience) {
         String UPDATE_EMPLOYEE_AUDIENCE = "UPDATE employees SET audience_id = ? WHERE id = ?";
 
         JdbcUtils.update(connection, UPDATE_EMPLOYEE_AUDIENCE, audience.getId(), employee.getId());
+    }
+
+    @Override
+    public Employee loadForeignFields(Employee employee) {
+        employee.setAudience(audienceDao.findByEmployee(employee).orElse(null));
+
+        return employee;
     }
 
     @Override

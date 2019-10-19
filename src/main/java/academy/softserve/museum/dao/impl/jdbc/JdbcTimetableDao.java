@@ -14,10 +14,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcTimetableDao implements TimetableDao {
+
+    private static JdbcTimetableDao instance;
     private final Connection connection;
 
-    public JdbcTimetableDao(Connection connection) {
+    private JdbcTimetableDao(Connection connection) {
         this.connection = connection;
+    }
+
+    public static JdbcTimetableDao getInstance(Connection connection) {
+        if(instance == null){
+            instance = new JdbcTimetableDao(connection);
+        }
+
+        return instance;
     }
 
     @Override

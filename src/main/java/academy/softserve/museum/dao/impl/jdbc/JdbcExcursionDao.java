@@ -15,9 +15,18 @@ import java.util.Optional;
 public class JdbcExcursionDao implements ExcursionDao {
 
     private Connection connection;
+    private static JdbcExcursionDao instance;
 
-    public JdbcExcursionDao(Connection connection) {
+    private JdbcExcursionDao(Connection connection) {
         this.connection = connection;
+    }
+
+    public static JdbcExcursionDao getInstance(Connection connection) {
+        if(instance == null){
+            instance = new JdbcExcursionDao(connection);
+        }
+
+        return instance;
     }
 
     @Override

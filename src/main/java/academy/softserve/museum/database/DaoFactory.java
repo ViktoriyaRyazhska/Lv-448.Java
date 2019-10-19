@@ -26,27 +26,39 @@ public final class DaoFactory {
     }
 
     public static AuthorDao authorDao() {
-        return new JdbcAuthorDao(connection);
+        JdbcAuthorDao authorDao = JdbcAuthorDao.getInstance(connection);
+        JdbcExhibitDao exhibitDao = JdbcExhibitDao.getInstance(connection, audienceDao());
+
+        authorDao.setExhibitDao(exhibitDao);
+        exhibitDao.setAuthorDao(authorDao);
+
+        return authorDao;
     }
 
     public static EmployeeDao employeeDao() {
-        return new JdbcEmployeeDao(connection);
+        return JdbcEmployeeDao.getInstance(connection, audienceDao());
     }
 
     public static ExcursionDao excursionDao() {
-        return new JdbcExcursionDao(connection);
+        return JdbcExcursionDao.getInstance(connection);
     }
 
     public static ExhibitDao exhibitDao() {
-        return new JdbcExhibitDao(connection);
+        JdbcAuthorDao authorDao = JdbcAuthorDao.getInstance(connection);
+        JdbcExhibitDao exhibitDao = JdbcExhibitDao.getInstance(connection, audienceDao());
+
+        authorDao.setExhibitDao(exhibitDao);
+        exhibitDao.setAuthorDao(authorDao);
+
+        return exhibitDao;
     }
 
     public static TimetableDao timetableDao() {
-        return new JdbcTimetableDao(connection);
+        return JdbcTimetableDao.getInstance(connection);
     }
 
     public static AudienceDao audienceDao() {
-        return new JdbcAudienceDao(connection);
+        return JdbcAudienceDao.getInstance(connection);
     }
 
     public static void close() {

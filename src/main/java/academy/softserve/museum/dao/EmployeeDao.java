@@ -18,18 +18,12 @@ public interface EmployeeDao extends Crud<Employee> {
 
     EmployeeStatistic findStatistic(Date dateStart, Date dateEnd);
 
-    Audience findAudienceByEmployee(Employee employee);
-
     void updateEmployeeAudience(Employee employee, Audience audience);
 
-    default Employee loadForeignFields(Employee employee) {
-        employee.setAudience(findAudienceByEmployee(employee));
-
-        return employee;
-    }
+    Employee loadForeignFields(Employee employee);
 
     default List<Employee> loadForeignFields(List<Employee> employees) {
-        employees.forEach(e -> e.setAudience(findAudienceByEmployee(e)));
+        employees.forEach(this::loadForeignFields);
 
         return employees;
     }

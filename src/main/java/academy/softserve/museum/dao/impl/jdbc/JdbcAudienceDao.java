@@ -3,6 +3,8 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
 import academy.softserve.museum.entities.Audience;
+import academy.softserve.museum.entities.Employee;
+import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
@@ -11,10 +13,19 @@ import java.util.Optional;
 
 public class JdbcAudienceDao implements AudienceDao {
 
-    private Connection connection;
+    private final Connection connection;
+    private static JdbcAudienceDao instance;
 
-    public JdbcAudienceDao(Connection connection) {
+    private JdbcAudienceDao(Connection connection) {
         this.connection = connection;
+    }
+
+    public static JdbcAudienceDao getInstance(Connection connection){
+        if(instance == null){
+            instance = new JdbcAudienceDao(connection);
+        }
+
+        return instance;
     }
 
     @Override
@@ -57,6 +68,25 @@ public class JdbcAudienceDao implements AudienceDao {
         String FIND_AUDIENCE_BY_NAME = "SELECT id as audience_id, name AS audience_name FROM audiences WHERE name = ?";
 
         return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_NAME, new AudienceRowMapper(), name);
+    }
+
+    @Override
+    public Optional<Audience> findByEmployee(Employee employee) {
+        String FIND_AUDIENCE_BY_EMPLOYEE = "SELECT audiences.id as audience_id, " +
+                "name as audience_name FROM audiences INNER JOIN employees " +
+                "ON employees.audience_id = audiences.id and employees.id = ?";
+
+        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EMPLOYEE, new AudienceRowMapper(), employee.getId());
+    }
+
+    @Override
+    public Optional<Audience> findByExhibit(Exhibit exhibit) {
+        String FIND_AUDIENCE_BY_EXHIBIT_ID =
+                "SELECT id AS audience_id, name AS audience_name " +
+                        "FROM audiences " +
+                        "WHERE id = (SELECT audience_id FROM exhibits WHERE id = ?);";
+
+        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId());
     }
 
 }

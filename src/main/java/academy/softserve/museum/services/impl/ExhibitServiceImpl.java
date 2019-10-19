@@ -96,16 +96,6 @@ public class ExhibitServiceImpl implements ExhibitService {
     }
 
     @Override
-    public List<Author> findAuthorsByExhibit(Exhibit exhibit) {
-        return authorDao.loadForeignFields(exhibitDao.findAuthorsByExhibit(exhibit));
-    }
-
-    @Override
-    public Audience findAudienceByExhibit(Exhibit exhibit) {
-        return exhibitDao.findAudienceByExhibit(exhibit);
-    }
-
-    @Override
     public boolean updateExhibitAudience(Exhibit exhibit, Audience audience) {
         if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
                 (audienceDao.findById(audience.getId()).isPresent())) {

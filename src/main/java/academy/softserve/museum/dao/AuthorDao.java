@@ -8,22 +8,18 @@ import java.util.Optional;
 
 public interface AuthorDao extends Crud<Author> {
 
-    List<Exhibit> findExhibitsByAuthor(Author author);
-
     void addExhibitAuthor(Author author, Exhibit exhibit);
 
     void deleteExhibitAuthor(Author author, Exhibit exhibit);
 
     Optional<Author> findByFullName(String fName, String lName);
 
-    default Author loadForeignFields(Author author) {
-        author.setExhibits(findExhibitsByAuthor(author));
+    List<Author> findByExhibit(Exhibit exhibit);
 
-        return author;
-    }
+    Author loadForeignFields(Author author);
 
     default List<Author> loadForeignFields(List<Author> authors) {
-        authors.forEach(a -> a.setExhibits(findExhibitsByAuthor(a)));
+        authors.forEach(this::loadForeignFields);
 
         return authors;
     }
