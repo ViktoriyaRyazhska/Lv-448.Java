@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>">
     <title>Museum</title>
 </head>
 <body>
@@ -35,8 +35,8 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        <a class="btn btn-dark mr-2" href="${pageContext.request.contextPath}/excursions/add-excursion">New</a>
-                        <a class="btn btn-dark" href="">Statistics</a>
+                        <a class="btn btn-dark mr-2" href="<c:url value="/excursions/add-excursion"/>">New</a>
+                        <a class="btn btn-dark" href="<c:url value=""/>">Statistics</a>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
@@ -57,8 +57,8 @@
                                         bulk of the card's content.</p>
                                 </div>
                                 <div class="card-footer text-right">
-                                    <a href="#" class="card-link">Update</a>
-                                    <a href="#" class="card-link">Remove</a>
+                                    <a href="<c:url value=""/>" class="card-link">Update</a>
+                                    <a href="<c:url value=""/>" class="card-link">Remove</a>
                                 </div>
                             </div>
                         </c:forEach>
@@ -71,4 +71,5 @@
 <jsp:include page="fragment/footer.jsp"/>
 </body>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="<c:url value="/static/js/ui.js"/>"></script>
 </html>
