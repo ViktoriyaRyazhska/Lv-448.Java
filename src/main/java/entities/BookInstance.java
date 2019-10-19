@@ -12,7 +12,7 @@ import java.util.Objects;
 public class BookInstance {
     private Long id;
     private Boolean isAvailable;
-    private Long bookId;
+    private Book bookId;
 
     @Override
     public boolean equals(Object o) {

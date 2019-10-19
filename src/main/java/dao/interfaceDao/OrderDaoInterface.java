@@ -2,6 +2,7 @@ package dao.interfaceDao;
 
 import entities.Order;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public interface OrderDaoInterface {
 
     Optional<Order> findById(Long id);
 
-    void update(Long id, Order order);
+    void updateReturnDate(Long id, LocalDate dateReturn);
 
     List<Order> findAll();
 
