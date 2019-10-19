@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>">
     <title>Museum</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="row justify-content-md-center">
             <div class="add-form col-xl-4 border rounded py-3">
                 <h2 class="text-primary text-center">Add new excursion</h2>
-                <form method="post" action="excursions/add-excursion">
+                <form action="<c:url value="/excursions/add-excursion"/>" method="post">
                     <div class="form-group">
                         <label for="excursion-name">Name</label>
                         <input type="text" class="form-control" id="excursion-name"
@@ -34,5 +34,5 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/ui.js"></script>
+<script src="<c:url value="/static/js/ui.js"/>"></script>
 </html>

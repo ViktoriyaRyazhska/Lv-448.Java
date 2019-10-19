@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>">
     <title>Museum</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
 <section class="main-section">
     <div class="container">
         <div class="row">
-            <div>
+            <div class="notification-bar">
                 <c:if test="${not empty successMessage}">
                     <div class="alert alert-success" role="alert">
                             ${successMessage}
@@ -26,7 +26,7 @@
             </div>
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">
-                    <form action="${pageContext.request.contextPath}/employees/by-position" method="post">
+                    <form action="<c:url value="/employees/by-position"/>" method="post">
                         <div class="form-group">
                             <label class="filter-col" for="employee-position">Position:</label>
                             <select class="browser-default custom-select" id="employee-position" name="position">
@@ -41,8 +41,8 @@
                         </div> <!-- form group [employee-position] -->
                     </form>
                     <div class="form-group">
-                        <a class="btn btn-dark mr-2" href="${pageContext.request.contextPath}/employees/add-employee">New</a>
-                        <a class="btn btn-dark" href="${pageContext.request.contextPath}/employees/statistics">Statistics</a>
+                        <a class="btn btn-dark mr-2" href="<c:url value="/employees/add-employee"/>">New</a>
+                        <a class="btn btn-dark" href="<c:url value="/employees/statistics"/>">Statistics</a>
                     </div> <!-- [buttons] -->
                     <div class="form-group">
                         <label class="filter-col" for="employees-additional-filters">Additional:</label>
@@ -92,12 +92,12 @@
                             <td>${employee.position}</td>
                             <td>${employee.audienceName}</td>
                             <td>
-                                <a class="text-dark" href="${pageContext.request.contextPath}/employees/update-employee/${employee.id}">
+                                <a class="text-dark" href="<c:url value="/employees/update-employee/${employee.id}"/>">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                             </td>
                             <td>
-                                <a class="text-dark" href="${pageContext.request.contextPath}/employees/delete-employee/${employee.id}">
+                                <a class="text-dark" href="<c:url value="/employees/delete-employee/${employee.id}"/>">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </td>
@@ -115,5 +115,5 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/ui.js"></script>
+<script src="<c:url value="/static/js/ui.js"/>"></script>
 </html>

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/exhibit/statistics")
+@WebServlet("/exhibits/statistics")
 public class ExhibitStatsServlet extends HttpServlet {
 
     private ExhibitService exhibitService;
