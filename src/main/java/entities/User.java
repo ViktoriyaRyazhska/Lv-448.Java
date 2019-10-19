@@ -20,37 +20,39 @@ public class User {
     private LocalDate registrationDate;
     private String phoneNumber;
     private String email;
-
+    private Address userAddress;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(userSurname, user.userSurname) &&
-                Objects.equals(birthday, user.birthday) &&
-                Objects.equals(registrationDate, user.registrationDate) &&
+        return id.equals(user.id) &&
+                userName.equals(user.userName) &&
+                userSurname.equals(user.userSurname) &&
+                birthday.equals(user.birthday) &&
+                registrationDate.equals(user.registrationDate) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(email, user.email);
+                email.equals(user.email) &&
+                Objects.equals(userAddress, user.userAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, userSurname, birthday, registrationDate, phoneNumber, email);
+        return Objects.hash(id, userName, userSurname, birthday, registrationDate, phoneNumber, email, userAddress);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + userName + '\'' +
-                ", surname='" + userSurname + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userSurname='" + userSurname + '\'' +
                 ", birthday=" + birthday +
                 ", registrationDate=" + registrationDate +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", userAddress=" + userAddress +
                 '}';
     }
 }

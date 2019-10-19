@@ -1,20 +1,16 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.UserDaoInterface;
-import entities.Book;
 import entities.User;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static constants.QueryConstants.MAX_DAYS_TO_RETURN;
-
-@Slf4j
 public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
@@ -26,18 +22,32 @@ public class UserDao implements UserDaoInterface {
     @Override
     public void save(User user) {
         String query = "INSERT INTO users"
-                + "(id, user_name, user_surname, birthday, phone_number, email, date_registration) "
-                + "VALUE (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setString(2, user.getUserName());
-            preparedStatement.setString(3, user.getUserSurname());
-            preparedStatement.setDate(4, Date.valueOf(user.getBirthday()));
-            preparedStatement.setString(5, user.getPhoneNumber());
-            preparedStatement.setString(6, user.getEmail());
-            preparedStatement.setDate(7, Date.valueOf(user.getRegistrationDate()));
+                + "(user_name, user_surname, birthday, phone_number, email, date_registration) "
+                + "VALUE (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getUserSurname());
+            preparedStatement.setDate(3, Date.valueOf(user.getBirthday()));
+            preparedStatement.setString(4, user.getPhoneNumber());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
+            preparedStatement.executeUpdate();
+            try (ResultSet keys = preparedStatement.getGeneratedKeys()) {
+                if (keys.next()) {
+                    user.setId(keys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<User> findAll() {
+        String query = "SELECT * FROM users";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            return extractUsers(preparedStatement.getResultSet()).collect(Collectors.toList());
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -78,8 +88,8 @@ public class UserDao implements UserDaoInterface {
             throw new RuntimeException(e);
         }
     }
-
     // Статистика по читачам середня кількість звернень за певний період
+
     @Override
     public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT COUNT(*) FROM orders WHERE date_order between ? and ?";
@@ -111,17 +121,6 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
-
-    @Override
-    public List<User> findAll() {
-        String query = "SELECT * FROM users";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            return extractUsers(preparedStatement.getResultSet()).collect(Collectors.toList());
-        } catch (SQLException e) {
-            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public List<Long> findAllBookInstanceOnReading(Long userId) {
@@ -157,10 +156,10 @@ public class UserDao implements UserDaoInterface {
                             .id(resultSet.getLong("id"))
                             .userName(resultSet.getString("user_name"))
                             .userSurname(resultSet.getString("user_surname"))
-                            .birthday(Optional.ofNullable(resultSet.getDate("birthday").toLocalDate()).orElse(null))
+                            .birthday(resultSet.getDate("birthday").toLocalDate())
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
-                            .registrationDate(Optional.ofNullable(resultSet.getDate("date_registration").toLocalDate()).orElse(null))
+                            .registrationDate(resultSet.getDate("date_registration").toLocalDate())
                             .build());
         }
         resultSet.close();

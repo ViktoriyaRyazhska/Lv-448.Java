@@ -3,28 +3,28 @@ package dao.implemetsDao;
 import dao.interfaceDao.BookDaoInterface;
 import entities.Book;
 
-import java.sql.Date;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BookDao implements BookDaoInterface {
 
-    private BookInstanceDao bookInstancedao;
+    private Connection connection;
+    private AuthorDao authorDao;
 
-    private final Connection connection;
-
-    public BookDao(Connection connection) {
+    public BookDao(Connection connection, AuthorDao authorDao) {
         this.connection = connection;
+        this.authorDao = authorDao;
     }
-
 
     public void save(Book book) {
         String query = "INSERT INTO books "
-                + "(amount_of_instances, title, release_date)"
-                + "VALUE (?,?,?)";
+                + "(amount_of_instances, title, release_date, id_author)"
+                + "VALUE (?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, book.getAmountOfInstances());
             preparedStatement.setString(2, book.getTitle());
@@ -33,6 +33,7 @@ public class BookDao implements BookDaoInterface {
             } else {
                 preparedStatement.setDate(3, null);
             }
+            preparedStatement.setLong(4, book.getAuthor().getId());
             preparedStatement.executeUpdate();
             try (ResultSet keys = preparedStatement.getGeneratedKeys()) {
                 if (keys.next()) {
@@ -52,7 +53,8 @@ public class BookDao implements BookDaoInterface {
                             .id(resultSet.getLong("id"))
                             .amountOfInstances(resultSet.getInt("amount_of_instances"))
                             .title(resultSet.getString("title"))
-                            .releaseDate(resultSet.getDate("release_date").toLocalDate())
+                            .releaseDate(Optional.ofNullable(resultSet.getDate("release_date").toLocalDate()).orElse(null))
+                            .author(authorDao.findById(resultSet.getLong("id_author")).get())
                             .build());
 
         }
@@ -63,11 +65,11 @@ public class BookDao implements BookDaoInterface {
     @Override
     public Optional<Book> findById(Long id) {
         String query = "SELECT * FROM books WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return extractBooks(resultSet).findAny();
-        } catch (SQLException e) {
+        } catch(SQLException e){
             throw new RuntimeException(e);
         }
     }
@@ -163,13 +165,14 @@ public class BookDao implements BookDaoInterface {
     }
 
     public void update(Long id, Book book) {
-        String query = "UPDATE books SET amount_of_instances = ?, title = ?, release_date = ? WHERE id = ?";
+        String query = "UPDATE books SET amount_of_instances = ?, title = ?, release_date = ?, id_author = ? WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, book.getAmountOfInstances());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setDate(3, Date.valueOf(book.getReleaseDate()));
-            preparedStatement.setLong(4, id);
+            preparedStatement.setLong(4, book.getAuthor().getId());
+            preparedStatement.setLong(5, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
