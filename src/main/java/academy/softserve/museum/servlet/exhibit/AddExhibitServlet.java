@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/add-exhibit")
+@WebServlet("/exhibits/add-exhibit")
 public class AddExhibitServlet extends HttpServlet {
 
     private ExhibitService exhibitService;

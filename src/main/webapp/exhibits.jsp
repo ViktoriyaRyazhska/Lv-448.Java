@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <title>Museum</title>
 </head>
 <body>
@@ -23,7 +23,10 @@
                             <option id="option-3" value="3">by Audience</option>
                         </select>
                     </div> <!-- form group [employee-filters] -->
-                    <form class="form-inline hidden" id="by-author" action="exhibits-by-author" method="post">
+                    <form class="form-inline hidden"
+                          action="${pageContext.request.contextPath}/exhibits/by-author"
+                          method="post"
+                          id="by-author">
                         <div class="form-group">
                             <label class="filter-col" for="author-first-name">First name:</label>
                             <input type="text" class="form-control input-xs" id="author-first-name" name="firstName">
@@ -34,7 +37,10 @@
                             </button>
                         </div> <!-- form group [by-author] -->
                     </form>
-                    <form class="form-inline hidden" action="exhibits-by-employee" method="post" id="by-employee">
+                    <form class="form-inline hidden"
+                          action="${pageContext.request.contextPath}/exhibits/by-employee"
+                          method="post"
+                          id="by-employee">
                         <div class="form-group">
                             <label class="filter-col" for="employee-first-name">First name:</label>
                             <input type="text" class="form-control input-xs" id="employee-first-name" name="firstName">
@@ -45,7 +51,10 @@
                             </button>
                         </div> <!-- form group [by-employee] -->
                     </form>
-                    <form class="form-inline hidden" action="exhibits-by-audience" method="post" id="by-audience">
+                    <form class="form-inline hidden"
+                          action="${pageContext.request.contextPath}/exhibits/by-audience"
+                          method="post"
+                          id="by-audience">
                         <div class="form-group">
                             <label class="filter-col" for="audience">Filter by:</label>
                             <select class="browser-default custom-select" id="audience" name="audience">
@@ -59,8 +68,8 @@
                         </div> <!-- form group [by-audience] -->
                     </form>
                     <div class="form-group">
-                        <a class="btn btn-dark mr-2" href="add-exhibit">New</a>
-                        <a class="btn btn-dark" href="exhibit-statistics">Statistics</a>
+                        <a class="btn btn-dark mr-2" href="${pageContext.request.contextPath}/exhibits/add-exhibit">New</a>
+                        <a class="btn btn-dark" href="${pageContext.request.contextPath}/exhibits/statistics">Statistics</a>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
@@ -102,5 +111,5 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="static/js/ui.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/ui.js"></script>
 </html>

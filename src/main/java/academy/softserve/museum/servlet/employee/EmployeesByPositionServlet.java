@@ -5,8 +5,6 @@ import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/by-position")
+@WebServlet("/employees/by-position")
 public class EmployeesByPositionServlet extends HttpServlet {
 
     private EmployeeService employeeService;

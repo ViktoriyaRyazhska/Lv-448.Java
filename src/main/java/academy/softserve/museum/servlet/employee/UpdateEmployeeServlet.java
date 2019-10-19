@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/update-employee/*")
+@WebServlet(urlPatterns = "/employees/update-employee/*")
 public class UpdateEmployeeServlet extends HttpServlet {
 
     private EmployeeService employeeService;
