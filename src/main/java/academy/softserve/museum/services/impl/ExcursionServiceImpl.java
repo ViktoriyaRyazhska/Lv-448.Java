@@ -62,4 +62,9 @@ public class ExcursionServiceImpl implements ExcursionService {
     public ExcursionStatistic findStatistic(Date dateStart, Date dateEnd) {
         return jdbcExcursionDao.findStatistic(dateStart, dateEnd);
     }
+
+    @Override
+    public List<Excursion> findAvailable(Date dateStart, Date dateEnd) {
+        return jdbcExcursionDao.findAvailable(dateStart, dateEnd);
+    }
 }

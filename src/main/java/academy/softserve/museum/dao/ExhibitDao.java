@@ -18,10 +18,6 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
     List<Exhibit> findByEmployee(Employee employee);
 
-    List<Author> findAuthorsByExhibit(Exhibit exhibit);
-
-    Audience findAudienceByExhibit(Exhibit exhibit);
-
     List<Exhibit> findByAudience(Audience audience);
 
     void updateExhibitAudience(Exhibit exhibit, Audience audience);
@@ -34,18 +30,10 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
     ExhibitStatistic findStatistic();
 
-    default Exhibit loadForeignFields(Exhibit exhibit) {
-        exhibit.setAudience(findAudienceByExhibit(exhibit));
-        exhibit.setAuthors(findAuthorsByExhibit(exhibit));
-
-        return exhibit;
-    }
+    Exhibit loadForeignFields(Exhibit exhibit);
 
     default List<Exhibit> loadForeignFields(List<Exhibit> exhibits) {
-        exhibits.forEach(e -> {
-            e.setAudience(findAudienceByExhibit(e));
-            e.setAuthors(findAuthorsByExhibit(e));
-        });
+        exhibits.forEach(this::loadForeignFields);
 
         return exhibits;
     }

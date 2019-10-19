@@ -26,10 +26,6 @@ public interface ExhibitService {
 
     List<Exhibit> findByAudience(Audience audience);
 
-    List<Author> findAuthorsByExhibit(Exhibit exhibit);
-
-    Audience findAudienceByExhibit(Exhibit exhibit);
-
     boolean updateExhibitAudience(Exhibit exhibit, Audience audience);
 
     boolean addExhibitAuthor(Exhibit exhibit, Author author);

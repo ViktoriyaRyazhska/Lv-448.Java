@@ -22,4 +22,5 @@ public interface ExcursionService {
 
     ExcursionStatistic findStatistic(Date dateStart, Date dateEnd);
 
+    List<Excursion> findAvailable(Date dateStart, Date dateEnd);
 }

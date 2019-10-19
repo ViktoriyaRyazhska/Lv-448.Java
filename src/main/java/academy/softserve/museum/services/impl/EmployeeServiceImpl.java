@@ -1,10 +1,12 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.EmployeeStatistic;
 import academy.softserve.museum.services.EmployeeService;
 import java.sql.Date;
@@ -14,7 +16,6 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeDao employeeDao;
-
 
     public EmployeeServiceImpl() {
         employeeDao = DaoFactory.employeeDao();
@@ -26,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean save(Employee objectToSave) {
-        if (employeeDao.findByUsername(objectToSave.getLogin()) != null) {
+        if (employeeDao.findByUsername(objectToSave.getLogin()).isPresent()) {
             return false;
         } else {
             employeeDao.save(objectToSave);
@@ -74,19 +75,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.findStatistic(dateStart, dateEnd);
     }
 
-    //TODO Change return parameter to Optional<Audience>
-    @Override
-    public Audience findAudienceByEmployee(Employee employee) {
-        return employeeDao.findAudienceByEmployee(employee);
-    }
-
     @Override
     public void updateEmployeeAudience(Employee employee, Audience audience) {
         employeeDao.updateEmployeeAudience(employee, audience);
     }
 
     @Override
+    public List<Employee> findAvailable(Date dateStart, Date dateEnd) {
+        return employeeDao.findAvailable(dateStart, dateEnd);
+    }
+
+    @Override
     public Employee findByFullName(String firstName, String lastName) {
-        return employeeDao.findByFullName(firstName, lastName);
+        return employeeDao.findByFullName(firstName, lastName).orElse(null);
     }
 }

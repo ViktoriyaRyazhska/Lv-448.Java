@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface Crud<T> {
 
-    void save(T objectToSave);
+    long save(T objectToSave);
 
     void deleteById(long id);
 
@@ -13,6 +13,6 @@ public interface Crud<T> {
 
     List<T> findAll();
 
-    void update(T newObject);
+    int update(T newObject);
 
 }

@@ -1,8 +1,9 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AuthorDao;
+import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
-import academy.softserve.museum.dao.impl.jdbc.mappers.ExhibitRowMapper;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.util.JdbcUtils;
@@ -13,22 +14,20 @@ import java.util.Optional;
 
 public class JdbcAuthorDao implements AuthorDao {
 
+    private static JdbcAuthorDao instance;
     private final Connection connection;
+    private ExhibitDao exhibitDao;
 
-    public JdbcAuthorDao(Connection connection) {
+    private JdbcAuthorDao(Connection connection) {
         this.connection = connection;
     }
 
-    @Override
-    public List<Exhibit> findExhibitsByAuthor(Author author) {
-        String EXHIBITS_BY_AUTHOR =
-                "SELECT e.id as exhibit_id, e.type as exhibit_type, e.material as exhibit_material, " +
-                        "e.techic as exhibit_technique, e.name as exhibit_name " +
-                        "FROM exhibits as e " +
-                        "INNER JOIN autor_exhibit as ae " +
-                        "ON e.id = ae.exhibit_id and ae.autor_id = ?";
+    public static JdbcAuthorDao getInstance(Connection connection){
+        if(instance == null){
+            instance = new JdbcAuthorDao(connection);
+        }
 
-        return JdbcUtils.query(connection, EXHIBITS_BY_AUTHOR, new ExhibitRowMapper(), author.getId());
+        return instance;
     }
 
     @Override
@@ -56,10 +55,29 @@ public class JdbcAuthorDao implements AuthorDao {
     }
 
     @Override
-    public void save(Author objectToSave) {
+    public List<Author> findByExhibit(Exhibit exhibit) {
+        String FIND_AUTHORS_BY_EXHIBIT_ID =
+                "SELECT a.id AS author_id, a.first_name AS author_first_name, a.last_name AS author_last_name " +
+                        "FROM autors AS a " +
+                        "INNER JOIN autor_exhibit AS ae " +
+                        "ON a.id = ae.autor_id " +
+                        "WHERE ae.exhibit_id = ? ";
+
+        return JdbcUtils.query(connection, FIND_AUTHORS_BY_EXHIBIT_ID, new AuthorRowMapper(), exhibit.getId());
+    }
+
+    @Override
+    public Author loadForeignFields(Author author) {
+        author.setExhibits(exhibitDao.findByAuthor(author));
+
+        return author;
+    }
+
+    @Override
+    public long save(Author objectToSave) {
         String SAVE_AUTHOR = "INSERT INTO autors(first_name, last_name) VALUES(?, ?)";
 
-        JdbcUtils.update(connection, SAVE_AUTHOR, objectToSave.getFirstName(), objectToSave.getLastName());
+        return JdbcUtils.update(connection, SAVE_AUTHOR, objectToSave.getFirstName(), objectToSave.getLastName());
     }
 
     @Override
@@ -86,10 +104,13 @@ public class JdbcAuthorDao implements AuthorDao {
     }
 
     @Override
-    public void update(Author newObject) {
+        public int update(Author newObject) {
         String UPDATE_AUTHOR = "UPDATE autors set first_name = ?, last_name = ? WHERE id = ?";
 
-        JdbcUtils.update(connection, UPDATE_AUTHOR, newObject.getFirstName(), newObject.getLastName(), newObject.getId());
+        return JdbcUtils.update(connection, UPDATE_AUTHOR, newObject.getFirstName(), newObject.getLastName(), newObject.getId());
     }
 
+    public void setExhibitDao(ExhibitDao exhibitDao) {
+        this.exhibitDao = exhibitDao;
+    }
 }

@@ -2,10 +2,8 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
-import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMaper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeStatisticRowMapper;
-import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
@@ -20,15 +18,19 @@ import java.util.Optional;
 public class JdbcEmployeeDao implements EmployeeDao {
     private final Connection connection;
     private AudienceDao audienceDao;
+    private static JdbcEmployeeDao instance;
 
-    public JdbcEmployeeDao(Connection connection) {
-        this.connection = connection;
-        audienceDao = DaoFactory.audienceDao();
-    }
-
-    public JdbcEmployeeDao(Connection connection, AudienceDao audienceDao) {
+    private JdbcEmployeeDao(Connection connection, AudienceDao audienceDao) {
         this.connection = connection;
         this.audienceDao = audienceDao;
+    }
+
+    public static JdbcEmployeeDao getInstance(Connection connection, AudienceDao audienceDao) {
+        if (instance == null) {
+            instance = new JdbcEmployeeDao(connection, audienceDao);
+        }
+
+        return instance;
     }
 
     @Override
@@ -41,25 +43,22 @@ public class JdbcEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public Employee findByUsername(String username) {
+    public Optional<Employee> findByUsername(String username) {
         String FIND_EMPLOYEE_BY_USERNAME = "SELECT id AS employee_id, first_name AS employee_first_name, " +
                 "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
                 "password AS employee_password FROM employees WHERE login = ?";
 
-        Employee employee = JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username).
-                orElse(null);
-
-        return employee;
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username);
     }
 
     @Override
-    public Employee findByFullName(String firstName, String lastName) {
+    public Optional<Employee> findByFullName(String firstName, String lastName) {
         String FIND_EMPLOYEE_BY_USERNAME = "SELECT id AS employee_id, first_name AS employee_first_name, " +
                 "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
                 "password AS employee_password FROM employees WHERE first_name = ? and last_name = ?";
 
         return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(),
-                firstName, lastName).orElse(null);
+                firstName, lastName);
     }
 
     @Override
@@ -95,12 +94,18 @@ public class JdbcEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public Audience findAudienceByEmployee(Employee employee) {
-        String FIND_AUDIENCE_BY_EMPLOYEE = "SELECT audiences.id as audience_id, " +
-                "name as audience_name FROM audiences INNER JOIN employees " +
-                "ON employees.audience_id = audiences.id and employees.id = ?";
+    public List<Employee> findAvailable(Date dateStart, Date dateEnd) {
+        String FIND_AVAILABLE_TOUR_GUIDES =
+                "SELECT DISTINCT e.id AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, " +
+                        "e.position AS employee_position, e.login AS employee_login, e.password AS employee_password " +
+                        "FROM employees AS e " +
+                        "WHERE e.id NOT IN(" +
+                        "SELECT employee_id FROM timetable " +
+                        "WHERE date_start BETWEEN ? AND ? " +
+                        "OR date_end BETWEEN ? AND ?)";
 
-        return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EMPLOYEE, new AudienceRowMapper(), employee.getId()).orElse(null);
+        return JdbcUtils.query(connection, FIND_AVAILABLE_TOUR_GUIDES, new EmployeeRowMaper(), dateStart, dateEnd,
+                dateStart, dateEnd);
     }
 
     @Override
@@ -111,11 +116,18 @@ public class JdbcEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void save(Employee objectToSave) {
+    public Employee loadForeignFields(Employee employee) {
+        employee.setAudience(audienceDao.findByEmployee(employee).orElse(null));
+
+        return employee;
+    }
+
+    @Override
+    public long save(Employee objectToSave) {
         String SAVE_EMPLOYEE = "INSERT INTO employees(first_name, last_name, position, login, password) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
-        JdbcUtils.update(connection, SAVE_EMPLOYEE, objectToSave.getFirstName(), objectToSave.getLastName(),
+        return JdbcUtils.update(connection, SAVE_EMPLOYEE, objectToSave.getFirstName(), objectToSave.getLastName(),
                 objectToSave.getPosition().toString(), objectToSave.getLogin(), objectToSave.getPassword());
     }
 
@@ -142,11 +154,11 @@ public class JdbcEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void update(Employee newObject) {
+    public int update(Employee newObject) {
         String UPDATE_EMPLOYEE = "UPDATE employees set first_name = ?, last_name = ?, position = ?, " +
                 "login = ?, password = ? WHERE id = ?";
 
-        JdbcUtils.update(connection, UPDATE_EMPLOYEE, newObject.getFirstName(), newObject.getLastName(),
+        return JdbcUtils.update(connection, UPDATE_EMPLOYEE, newObject.getFirstName(), newObject.getLastName(),
                 newObject.getPosition().toString(), newObject.getLogin(), newObject.getPassword(), newObject.getId());
     }
 }

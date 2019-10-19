@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface AuthorService {
 
-    List<Exhibit> findExhibitsByAuthor(Author author);
-
     boolean addExhibitAuthor(Author author, Exhibit exhibit);
 
     boolean deleteExhibitAuthor(Author author, Exhibit exhibit);
