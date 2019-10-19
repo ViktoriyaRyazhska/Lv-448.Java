@@ -50,13 +50,13 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     @Override
-    public void update(Long id, Author author) {
+    public void update(Author author) {
         String query = "UPDATE authors SET first_name = ?, last_name = ? WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, author.getAuthorFirstName());
             preparedStatement.setString(2, author.getAuthorLastName());
-            preparedStatement.setLong(3, id);
+            preparedStatement.setLong(3, author.getId());
             System.out.println("updated");
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

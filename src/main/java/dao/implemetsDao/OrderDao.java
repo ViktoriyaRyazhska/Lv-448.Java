@@ -52,25 +52,6 @@ public class OrderDao implements OrderDaoInterface {
             throw new RuntimeException(e);
         }
     }
-//    @Override
-//    public void save(Author author) {
-//        String query = "INSERT INTO authors"
-//                + "(id, first_name, last_name) "
-//                + "VALUE (?, ?, ?)";
-//        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-//            preparedStatement.setLong(1, author.getId());
-//            preparedStatement.setString(2, author.getAuthorFirstName());
-//            preparedStatement.setString(3, author.getAuthorLastName());
-//            preparedStatement.executeUpdate();
-//            try (ResultSet key = preparedStatement.getGeneratedKeys()) {
-//                if (key.next()) {
-//                    author.setId(key.getLong(1));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
 
     private Stream<Order> extractOrders(ResultSet resultSet) throws SQLException {

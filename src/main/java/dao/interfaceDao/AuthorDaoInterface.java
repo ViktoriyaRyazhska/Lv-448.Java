@@ -11,7 +11,7 @@ public interface AuthorDaoInterface {
 
     Optional<Author> findById(Long id);
 
-    void update(Long id, Author author);
+    void update(Author author);
 
     Optional<Author> findBySurname(String surname);
 
