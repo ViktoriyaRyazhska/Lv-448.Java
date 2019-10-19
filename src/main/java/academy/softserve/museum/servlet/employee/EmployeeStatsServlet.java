@@ -13,13 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.stream.Collectors;
 
-@WebServlet("/employee-statistics")
+@WebServlet("/employees/statistics")
 public class EmployeeStatsServlet extends HttpServlet {
 
     private EmployeeService employeeService;

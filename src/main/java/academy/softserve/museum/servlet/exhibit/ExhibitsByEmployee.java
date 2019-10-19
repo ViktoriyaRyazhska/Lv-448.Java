@@ -1,7 +1,6 @@
 package academy.softserve.museum.servlet.exhibit;
 
 import academy.softserve.museum.entities.Employee;
-import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.ExhibitService;
@@ -15,9 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/exhibits-by-employee")
+@WebServlet("/exhibits/by-employee")
 public class ExhibitsByEmployee extends HttpServlet {
 
     private ExhibitService exhibitService;

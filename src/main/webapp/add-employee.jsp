@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <title>Museum</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="row justify-content-md-center">
             <div class="add-form col-xl-4 border rounded py-3">
                 <h2 class="text-primary text-center">Add new employee</h2>
-                <form action="add-employee" method="post">
+                <form action="employees/add-employee" method="post">
                     <div class="form-group">
                         <label for="employee-firstname">Firstname</label>
                         <input type="text" class="form-control"
@@ -55,7 +55,7 @@
                         </select>
                     </div> <!-- form group [employee-filters] -->
                     <div class="form-group" id="employee-is-am">
-                        <label for="employee-password">Audience</label>
+                        <label for="employee-audience">Audience</label>
                         <input type="number" class="form-control" id="employee-audience"
                                aria-describedby="employee-audience-help"
                                name="audience"
@@ -78,5 +78,5 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="static/js/ui.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/ui.js"></script>
 </html>

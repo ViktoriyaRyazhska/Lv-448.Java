@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/delete-employee/*")
+@WebServlet(urlPatterns = "/employees/delete-employee/*")
 public class DeleteEmployeeServlet extends HttpServlet {
 
     private EmployeeService employeeService;
@@ -22,13 +22,14 @@ public class DeleteEmployeeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         long id = PathParser.getPathVariable(req.getPathInfo());
-        if(employeeService.deleteById(id)) {
-            req.setAttribute("message", "Employee has been successfully deleted");
-        } else {
-            req.setAttribute("message", "Something went wrong!");
+        try {
+            employeeService.deleteById(id);
+            req.setAttribute("successMessage", "Employee has been successfully deleted");
+        } catch (RuntimeException e) {
+            req.setAttribute("failureMessage", "Something went wrong!");
         }
-        resp.sendRedirect(req.getContextPath() + "/employees");
+        req.getRequestDispatcher("/employees").forward(req, resp);
     }
 }

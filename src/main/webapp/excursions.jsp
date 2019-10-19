@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <title>Museum</title>
 </head>
 <body>
@@ -33,14 +33,10 @@
                         <button type="submit" class="btn btn-dark">
                             Filter
                         </button>
-                        <form action="<c:url value="/add-excursion"/>" method="get">
-                            <button type="submit" class="btn btn-dark">
-                                New
-                            </button>
-                        </form>
-                        <button type="submit" class="btn btn-dark">
-                            Statistics
-                        </button>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-dark mr-2" href="${pageContext.request.contextPath}/excursions/add-excursion">New</a>
+                        <a class="btn btn-dark" href="">Statistics</a>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/exhibits-by-audience")
+@WebServlet("/exhibits/by-audience")
 public class ExhibitsByAudience extends HttpServlet {
 
     private ExhibitService exhibitService;
