@@ -1,7 +1,7 @@
 package academy.softserve.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
-import academy.softserve.museum.entities.Audience;
+import academy.softserve.museum.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class JdbcAudienceDaoTest extends JdbcDaoTest {
     private AudienceDao audienceDao;
@@ -103,5 +104,45 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
         String name = "NOT_EXISTING_NAME";
 
         assertEquals(Optional.empty(), audienceDao.findByName(name));
+    }
+
+    @Test
+    void findByExistingAudienceManager(){
+        Employee employee = new Employee(4, "Jeck", "Loper", EmployeePosition.AUDIENCE_MANAGER,
+                "loper_79", "123456qwe");
+        Audience expected = (new Audience(3, "Sculptures"));
+
+        assertAudienceEquals(expected, audienceDao.findByEmployee(employee).orElse(null));
+    }
+
+    @Test
+    void findByExistingManager(){
+        Employee employee = new Employee(1, "Anna", "Kentor", EmployeePosition.MANAGER,
+                "a_kentor", "anna1230");
+
+        assertNull(audienceDao.findByEmployee(employee).orElse(null));
+    }
+
+    @Test
+    void findByNotExistingManager(){
+        Employee employee = new Employee(100500, null, null, null,
+                null, null);
+
+        assertNull(audienceDao.findByEmployee(employee).orElse(null));
+    }
+
+    @Test
+    void findByExistingExhibit(){
+        Exhibit exhibit = new Exhibit(5, ExhibitType.SCULPTURE, "Bronze", null, "A man with a broken nose");
+        Audience expected = new Audience(3, "Sculptures");
+
+        assertAudienceEquals(expected, audienceDao.findByExhibit(exhibit).orElse(null));
+    }
+
+    @Test
+    void findByNotExistingExhibit(){
+        Exhibit exhibit = new Exhibit(1005000, null, null, null, null);
+
+        assertNull(audienceDao.findByExhibit(exhibit).orElse(null));
     }
 }
