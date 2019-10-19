@@ -29,7 +29,7 @@ create table exhibits
     type        varchar(30) not null,
     material    varchar(30),
     techic      varchar(30),
-    audience_id bigint      not null
+    audience_id bigint
         constraint audience_id
             references audiences on delete cascade,
     name varchar(30) not null

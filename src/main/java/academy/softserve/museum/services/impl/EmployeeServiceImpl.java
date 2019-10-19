@@ -1,12 +1,10 @@
 package academy.softserve.museum.services.impl;
 
-import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
-import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.EmployeeStatistic;
 import academy.softserve.museum.services.EmployeeService;
 import java.sql.Date;
@@ -77,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateEmployeeAudience(Employee employee, Audience audience) {
-        employeeDao.updateEmployeeAudience(employee, audience);
+        employeeDao.updateAudience(employee, audience);
     }
 
     @Override

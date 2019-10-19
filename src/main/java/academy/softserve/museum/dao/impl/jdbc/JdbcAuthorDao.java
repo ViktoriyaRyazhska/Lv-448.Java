@@ -31,14 +31,14 @@ public class JdbcAuthorDao implements AuthorDao {
     }
 
     @Override
-    public void addExhibitAuthor(Author author, Exhibit exhibit) {
+    public void addAuthor(Author author, Exhibit exhibit) {
         String ADD_EXHIBIT_AUTHOR = "INSERT INTO autor_exhibit(autor_id, exhibit_id) VALUES(?, ?)";
 
         JdbcUtils.update(connection, ADD_EXHIBIT_AUTHOR, author.getId(), exhibit.getId());
     }
 
     @Override
-    public void deleteExhibitAuthor(Author author, Exhibit exhibit) {
+    public void deleteAuthor(Author author, Exhibit exhibit) {
         String DELETE_EXHIBIT_AUTHOR = "DELETE FROM autor_exhibit WHERE autor_id = ? and exhibit_id = ?";
 
         JdbcUtils.update(connection, DELETE_EXHIBIT_AUTHOR, author.getId(), exhibit.getId());

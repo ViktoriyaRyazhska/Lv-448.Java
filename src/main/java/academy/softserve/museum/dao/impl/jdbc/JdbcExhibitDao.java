@@ -80,21 +80,21 @@ public class JdbcExhibitDao implements ExhibitDao {
     }
 
     @Override
-    public void updateExhibitAudience(Exhibit exhibit, Audience audience) {
+    public void updateAudience(Exhibit exhibit, Audience audience) {
         String UPDATE_EXHIBIT_AUDIENCE = "UPDATE exhibits SET audience_id = ? WHERE id = ?";
 
         JdbcUtils.update(connection, UPDATE_EXHIBIT_AUDIENCE, audience.getId(), exhibit.getId());
     }
 
     @Override
-    public void addExhibitAuthor(Exhibit exhibit, Author author) {
+    public void addAuthor(Exhibit exhibit, Author author) {
         String ADD_EXHIBIT_AUTHOR = "INSERT INTO autor_exhibit(autor_id, exhibit_id) values(?, ?)";
 
         JdbcUtils.update(connection, ADD_EXHIBIT_AUTHOR, author.getId(), exhibit.getId());
     }
 
     @Override
-    public void deleteExhibitAuthor(Exhibit exhibit, Author author) {
+    public void deleteAuthor(Exhibit exhibit, Author author) {
         String DELETE_EXHIBIT_AUTHOR = "DELETE FROM autor_exhibit WHERE autor_id = ? and exhibit_id = ?";
 
         JdbcUtils.update(connection, DELETE_EXHIBIT_AUTHOR, author.getId(), exhibit.getId());

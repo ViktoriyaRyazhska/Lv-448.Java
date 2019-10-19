@@ -233,7 +233,7 @@ public class JdbcEmployeeDaoTest extends JdbcDaoTest {
         Audience newAudience = new Audience(4, "TEST");
 
         audienceDao.save(newAudience);
-        employeeDao.updateEmployeeAudience(employee, newAudience);
+        employeeDao.updateAudience(employee, newAudience);
 
         assertAudienceEquals(newAudience, audienceDao.findByEmployee(employee).orElse(null));
     }
@@ -243,7 +243,7 @@ public class JdbcEmployeeDaoTest extends JdbcDaoTest {
         Employee employee = employees.get(1);
         Audience newAudience = new Audience(100500, "TEST");
 
-        assertThrows(RuntimeException.class, () -> employeeDao.updateEmployeeAudience(employee, newAudience));
+        assertThrows(RuntimeException.class, () -> employeeDao.updateAudience(employee, newAudience));
     }
 
     @Test

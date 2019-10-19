@@ -33,7 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
                 (exhibitDao.findById(exhibit.getId()).isPresent())) {
             return false;
         } else {
-            authorDao.addExhibitAuthor(author, exhibit);
+            authorDao.addAuthor(author, exhibit);
             return true;
         }
     }
@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
     public boolean deleteExhibitAuthor(Author author, Exhibit exhibit) {
         if ((authorDao.findById(author.getId()).isPresent()) &&
                 (exhibitDao.findById(exhibit.getId()).isPresent())) {
-            authorDao.deleteExhibitAuthor(author, exhibit);
+            authorDao.deleteAuthor(author, exhibit);
             return true;
         } else {
             return false;

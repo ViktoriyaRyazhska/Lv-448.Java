@@ -20,11 +20,11 @@ public interface ExhibitDao extends Crud<Exhibit> {
 
     List<Exhibit> findByAudience(Audience audience);
 
-    void updateExhibitAudience(Exhibit exhibit, Audience audience);
+    void updateAudience(Exhibit exhibit, Audience audience);
 
-    void addExhibitAuthor(Exhibit exhibit, Author author);
+    void addAuthor(Exhibit exhibit, Author author);
 
-    void deleteExhibitAuthor(Exhibit exhibit, Author author);
+    void deleteAuthor(Exhibit exhibit, Author author);
 
     Map<Audience, List<Exhibit>> findAllGroupedByAudience();
 

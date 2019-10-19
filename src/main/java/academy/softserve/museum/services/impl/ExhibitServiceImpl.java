@@ -2,7 +2,6 @@ package academy.softserve.museum.services.impl;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.AuthorDao;
-import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
@@ -99,7 +98,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     public boolean updateExhibitAudience(Exhibit exhibit, Audience audience) {
         if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
                 (audienceDao.findById(audience.getId()).isPresent())) {
-            exhibitDao.updateExhibitAudience(exhibit, audience);
+            exhibitDao.updateAudience(exhibit, audience);
             return true;
         } else {
             return false;
@@ -112,7 +111,7 @@ public class ExhibitServiceImpl implements ExhibitService {
                 (authorDao.findById(author.getId()).isPresent())) {
             return false;
         } else {
-            exhibitDao.addExhibitAuthor(exhibit, author);
+            exhibitDao.addAuthor(exhibit, author);
             return true;
         }
     }
@@ -121,7 +120,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     public boolean deleteExhibitAuthor(Exhibit exhibit, Author author) {
         if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
                 (authorDao.findById(author.getId()).isPresent())) {
-            exhibitDao.deleteExhibitAuthor(exhibit, author);
+            exhibitDao.deleteAuthor(exhibit, author);
             return true;
         } else {
             return false;

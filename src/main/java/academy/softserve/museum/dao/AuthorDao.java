@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface AuthorDao extends Crud<Author> {
 
-    void addExhibitAuthor(Author author, Exhibit exhibit);
+    void addAuthor(Author author, Exhibit exhibit);
 
-    void deleteExhibitAuthor(Author author, Exhibit exhibit);
+    void deleteAuthor(Author author, Exhibit exhibit);
 
     Optional<Author> findByFullName(String fName, String lName);
 

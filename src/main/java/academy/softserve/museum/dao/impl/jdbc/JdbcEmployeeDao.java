@@ -109,7 +109,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void updateEmployeeAudience(Employee employee, Audience audience) {
+    public void updateAudience(Employee employee, Audience audience) {
         String UPDATE_EMPLOYEE_AUDIENCE = "UPDATE employees SET audience_id = ? WHERE id = ?";
 
         JdbcUtils.update(connection, UPDATE_EMPLOYEE_AUDIENCE, audience.getId(), employee.getId());

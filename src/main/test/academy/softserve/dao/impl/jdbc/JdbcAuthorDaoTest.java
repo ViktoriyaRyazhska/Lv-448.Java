@@ -6,7 +6,6 @@ import academy.softserve.museum.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -117,7 +116,7 @@ public class JdbcAuthorDaoTest extends JdbcDaoTest {
                 new Exhibit(3, ExhibitType.PAINTING, null, "Watercolor", "Female Saint")
         );
 
-        authorDao.deleteExhibitAuthor(author, exhibit);
+        authorDao.deleteAuthor(author, exhibit);
         authorDao.loadForeignFields(author);
 
         assertExhibitEquals(expected, author.getExhibits());
@@ -127,14 +126,14 @@ public class JdbcAuthorDaoTest extends JdbcDaoTest {
     void deleteNotExistingExhibitAuthor() {
         Exhibit exhibit = new Exhibit(100500, ExhibitType.PAINTING, null, null, null);
         Author author = new Author(1, "Leonardo", "da Vinci");
-        authorDao.deleteExhibitAuthor(author, exhibit);
+        authorDao.deleteAuthor(author, exhibit);
     }
 
     @Test
     void deleteExistingExhibitNotExistingAuthor() {
         Exhibit exhibit = new Exhibit(1, ExhibitType.PAINTING, null, "Oils", "Mona Lisa");
         Author author = new Author(100500, "Leonardo", "da Vinci");
-        authorDao.deleteExhibitAuthor(author, exhibit);
+        authorDao.deleteAuthor(author, exhibit);
     }
 
     @Test
@@ -148,7 +147,7 @@ public class JdbcAuthorDaoTest extends JdbcDaoTest {
 
         assertExhibitEquals(expected, exhibitDao.findByAuthor(author));
 
-        authorDao.addExhibitAuthor(author, exhibit);
+        authorDao.addAuthor(author, exhibit);
 
         expected.add(exhibit);
 
@@ -160,7 +159,7 @@ public class JdbcAuthorDaoTest extends JdbcDaoTest {
         Author author = new Author(100500, null, null);
         Exhibit exhibit = new Exhibit(1, ExhibitType.PAINTING, null, "Oils", "Mona Lisa");
 
-        assertThrows(RuntimeException.class, () -> exhibitDao.addExhibitAuthor(exhibit, author));
+        assertThrows(RuntimeException.class, () -> exhibitDao.addAuthor(exhibit, author));
     }
 
     @Test

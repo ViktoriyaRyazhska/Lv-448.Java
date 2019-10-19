@@ -21,7 +21,7 @@ public interface EmployeeDao extends Crud<Employee> {
 
     List<Employee> findAvailable(Date dateStart, Date dateEnd);
 
-    void updateEmployeeAudience(Employee employee, Audience audience);
+    void updateAudience(Employee employee, Audience audience);
 
     Employee loadForeignFields(Employee employee);
 
