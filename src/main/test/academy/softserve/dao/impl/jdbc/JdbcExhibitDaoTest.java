@@ -245,7 +245,7 @@ public class JdbcExhibitDaoTest extends JdbcDaoTest {
         materialStatistic.put("Clay", 1);
 
         assertEquals(techniqueStatistic, actual.getTechniqueStatistic());
-        assertEquals(techniqueStatistic, actual.getTechniqueStatistic());
+        assertEquals(materialStatistic, actual.getMaterialStatistic());
     }
 
     @Test
