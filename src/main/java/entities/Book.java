@@ -18,7 +18,6 @@ public class Book {
     private LocalDate releaseDate;
     private Set<BookInstance> bookInstanceSet;
     private Author author;
-    private Set<Author> subAuthors;
 
 
     @Override
@@ -29,15 +28,14 @@ public class Book {
         return amountOfInstances == book.amountOfInstances &&
                 id.equals(book.id) &&
                 title.equals(book.title) &&
-                Objects.equals(releaseDate, book.releaseDate) &&
+                releaseDate.equals(book.releaseDate) &&
                 Objects.equals(bookInstanceSet, book.bookInstanceSet) &&
-                Objects.equals(author, book.author) &&
-                Objects.equals(subAuthors, book.subAuthors);
+                Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amountOfInstances, title, releaseDate, bookInstanceSet, author, subAuthors);
+        return Objects.hash(id, amountOfInstances, title, releaseDate, bookInstanceSet, author);
     }
 
     @Override
@@ -49,7 +47,6 @@ public class Book {
                 ", releaseDate=" + releaseDate +
                 ", bookInstanceSet=" + bookInstanceSet +
                 ", author=" + author +
-                ", subAuthors=" + subAuthors +
                 '}';
     }
 }

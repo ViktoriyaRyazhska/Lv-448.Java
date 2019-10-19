@@ -12,7 +12,7 @@ import java.util.Objects;
 public class BookInstance {
     private Long id;
     private Boolean isAvailable;
-    private Book bookId;
+    private Book book;
 
     @Override
     public boolean equals(Object o) {
@@ -33,6 +33,7 @@ public class BookInstance {
         return "BookInstance{" +
                 "id=" + id +
                 ", isAvailable=" + isAvailable +
+                ", book=" + book +
                 '}';
     }
 }

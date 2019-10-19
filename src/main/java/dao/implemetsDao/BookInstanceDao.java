@@ -13,17 +13,19 @@ import java.util.stream.Stream;
 public class BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
+    private BookDao bookDao;
 
-    public BookInstanceDao(Connection connection) {
+    public BookInstanceDao(Connection connection, BookDao bookDao) {
         this.connection = connection;
+        this.bookDao = bookDao;
     }
-
 
     @Override
     public void save(BookInstance bookInstance) {
-        String query = "INSERT INTO book_instance (is_available) VALUE (?)";
+        String query = "INSERT INTO book_instance (is_available, id_book) VALUE (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setBoolean(1, bookInstance.getIsAvailable());
+            preparedStatement.setLong(2, bookInstance.getBook().getId());
             preparedStatement.executeUpdate();
             try (ResultSet key = preparedStatement.getGeneratedKeys()) {
                 if (key.next()) {
@@ -63,6 +65,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
                     BookInstance.builder()
                             .id(resultSet.getLong("id"))
                             .isAvailable(resultSet.getBoolean("is_available"))
+                            .book(bookDao.findById(resultSet.getLong("id_book")).get())
                             .build());
         }
         resultSet.close();
