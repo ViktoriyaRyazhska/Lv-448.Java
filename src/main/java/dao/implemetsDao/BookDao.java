@@ -125,7 +125,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-// to do null pointer exeption
+    // to do null pointer exeption
     @Override
     public List<Book> findBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT * FROM books WHERE release_date BETWEEN ? AND ?";
@@ -150,37 +150,17 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-
-
-
-
-
-
-// remove to bookInstance
-
-    public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
-        String query =
-                "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +
-                        "    WHERE date_order BETWEEN ? AND ?\n" +
-                        "    GROUP BY id_book_instance;";
-
-        Map<Long, Long> map = new HashMap<>();
+    @Override
+    public Book getInfoByBookInstance(Long bookInstanceId) {
+        String query = "SELECT * FROM books JOIN book_instance ON"
+                + " book_instance.id_book = books.id WHERE book_instance.id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setDate(1, Date.valueOf(firstDate));
-            preparedStatement.setDate(2, Date.valueOf(secondDate));
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                map.put(resultSet.getLong("id_book_instance"), resultSet.getLong("COUNT(orders.date_order)"));
-            }
+            preparedStatement.setLong(1, bookInstanceId);
+            return extractBooks(preparedStatement.executeQuery()).findAny().get();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return map;
-
     }
-
-
-
 
     public void update(Long id, Book book) {
         String query = "UPDATE books SET amount_of_instances = ?, title = ?, release_date = ? WHERE id = ?";
@@ -197,8 +177,13 @@ public class BookDao implements BookDaoInterface {
     }
 
     @Override
-    public List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod)
-    {
+    public List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
+        String query = "";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return null;
     }
 

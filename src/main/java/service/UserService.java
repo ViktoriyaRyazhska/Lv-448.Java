@@ -29,23 +29,23 @@ public class UserService {
         return userDao.averageAmountOfOrdersBySomePeriod(fromDate, toDate);
     }
 
-    public List<Book> findAllBookByUserReading(Long userId) {
-        List<Long> allBookInstanceOnReading = userDao.findAllBookInstanceOnReading(userId);
-        List<Book> books = new ArrayList<>();
-        while (allBookInstanceOnReading.iterator().hasNext()) {
-            books.add(bookInstanceDao.getInfoByBookInstance(allBookInstanceOnReading.iterator().next()));
-        }
-        return books;
-    }
-
-    public List<Book> findAllReturnedBookByUser(Long userId) {
-        List<Long> allReturnedBookInstanceByUser = userDao.findAllReturnedBookInstanceByUser(userId);
-        List<Book> books = new ArrayList<>();
-        while (allReturnedBookInstanceByUser.iterator().hasNext()) {
-            books.add(bookInstanceDao.getInfoByBookInstance(allReturnedBookInstanceByUser.iterator().next()));
-        }
-        return books;
-    }
+//    public List<Book> findAllBookByUserReading(Long userId) {
+//        List<Long> allBookInstanceOnReading = userDao.findAllBookInstanceOnReading(userId);
+//        List<Book> books = new ArrayList<>();
+//        while (allBookInstanceOnReading.iterator().hasNext()) {
+//            books.add(bookInstanceDao.getInfoByBookInstance(allBookInstanceOnReading.iterator().next()));
+//        }
+//        return books;
+//    }
+//
+//    public List<Book> findAllReturnedBookByUser(Long userId) {
+//        List<Long> allReturnedBookInstanceByUser = userDao.findAllReturnedBookInstanceByUser(userId);
+//        List<Book> books = new ArrayList<>();
+//        while (allReturnedBookInstanceByUser.iterator().hasNext()) {
+//            books.add(bookInstanceDao.getInfoByBookInstance(allReturnedBookInstanceByUser.iterator().next()));
+//        }
+//        return books;
+//    }
 
 //    public Map<User, Book> geBlackList(Connection connection) {
 //        String query = "SELECT * FROM users inner join orders o on users.id = o.id_users where date_return is null and DATEDIFF(CURDATE(), date_order) > 30";

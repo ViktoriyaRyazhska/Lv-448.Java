@@ -13,7 +13,5 @@ public interface BookInstanceDaoInterface{
 
     void update(Long id, BookInstance bookInstance);
 
-    Book getInfoByBookInstance(Long bookInstanceId);
-
     boolean isAvailable(Long id);
 }

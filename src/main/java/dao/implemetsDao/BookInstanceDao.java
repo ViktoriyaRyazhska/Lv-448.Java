@@ -1,13 +1,12 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.BookInstanceDaoInterface;
-import entities.Book;
 import entities.BookInstance;
 
+import java.sql.Date;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,6 +47,15 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    public List<BookInstance> findAll() {
+        String query = "SELECT * FROM book_instance";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            return extractBookInstances(preparedStatement.executeQuery()).collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Stream<BookInstance> extractBookInstances(ResultSet resultSet) throws SQLException {
         Stream.Builder<BookInstance> builder = Stream.builder();
         while (resultSet.next()) {
@@ -64,10 +72,10 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     @Override
     public void update(Long id, BookInstance bookInstance) {
         String query = "UPDATE book_instance SET is_available = ? WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setBoolean(1, bookInstance.getIsAvailable());
             preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -78,36 +86,27 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         return findById(id).orElse(null).getIsAvailable();
     }
 
-    @Override
-    public Book getInfoByBookInstance(Long bookInstanceId) {
-        String query = "select books.title from book_instance left join books on "
-                + "book_instance.id = books.id_book_instance where book_instance.id = ?;";
 
+    public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
+        String query = "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +
+                "    WHERE date_order BETWEEN ? AND ?\n" +
+                "    GROUP BY id_book_instance;";
+        Map<Long, Long> map = new HashMap<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, bookInstanceId);
+            preparedStatement.setDate(1, Date.valueOf(firstDate));
+            preparedStatement.setDate(2, Date.valueOf(secondDate));
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return Book.builder()
-                    .title(resultSet.getString("title"))
-                    .build();
-
+            while (resultSet.next()) {
+                map.put(resultSet.getLong("id_book_instance"), resultSet.getLong("COUNT(orders.date_order)"));
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-    }
-
-
-    public List<BookInstance> findAll() {
-        String query = "SELECT * FROM book_instance";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            return extractBookInstances(preparedStatement.executeQuery()).collect(Collectors.toList());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return map;
     }
 
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {
-        String query = "SELECT * FROM books JOIN book_instance ON books.id = book_instance.id_book WHERE title = ?;";
+        String query = "SELECT book_instance.id FROM books JOIN book_instance ON books.id = book_instance.id_book WHERE title = ?;";
         List<BookInstance> bookInstanceId = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, bookTitle);

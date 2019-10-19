@@ -16,6 +16,8 @@ public interface BookDaoInterface{
 
     void update(Long id, Book book);
 
+    Book getInfoByBookInstance(Long bookInstanceId);
+
     List<Book> findAllByAuthorSurname(String authorName);
 
     List<Book> findAllBooksBySubAuthor(Long subAuthorId);
