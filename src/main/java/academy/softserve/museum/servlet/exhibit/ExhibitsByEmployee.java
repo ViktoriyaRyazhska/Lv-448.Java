@@ -2,8 +2,10 @@ package academy.softserve.museum.servlet.exhibit;
 
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Exhibit;
+import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.ExhibitService;
+import academy.softserve.museum.services.impl.AudienceServiceImpl;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 import academy.softserve.museum.services.impl.ExhibitServiceImpl;
 
@@ -20,11 +22,13 @@ public class ExhibitsByEmployee extends HttpServlet {
 
     private ExhibitService exhibitService;
     private EmployeeService employeeService;
+    private AudienceService audienceService;
 
     @Override
     public void init() {
         exhibitService = new ExhibitServiceImpl();
         employeeService = new EmployeeServiceImpl();
+        audienceService = new AudienceServiceImpl();
     }
 
     @Override
@@ -32,6 +36,7 @@ public class ExhibitsByEmployee extends HttpServlet {
         Employee employee =
                 employeeService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName"));
         req.setAttribute("exhibits", exhibitService.findByEmployee(employee));
+        req.setAttribute("audiences", audienceService.findAll());
         req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
     }
 }
