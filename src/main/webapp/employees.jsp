@@ -12,17 +12,17 @@
 <section class="main-section">
     <div class="container">
         <div class="row">
-            <div>
-<%--                <c:if test="${not empty successMessage}">--%>
-<%--                    <div class="alert alert-success" role="alert">--%>
-<%--                            ${successMessage}--%>
-<%--                    </div>--%>
-<%--                </c:if>--%>
-<%--                <c:if test="${not empty failureMessage}">--%>
-<%--                    <div class="alert alert-danger" role="alert">--%>
-<%--                            ${failureMessage}--%>
-<%--                    </div>--%>
-<%--                </c:if>--%>
+            <div class="notification-bar">
+                <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success" role="alert">
+                            ${successMessage}
+                    </div>
+                </c:if>
+                <c:if test="${not empty failureMessage}">
+                    <div class="alert alert-danger" role="alert">
+                            ${failureMessage}
+                    </div>
+                </c:if>
             </div>
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">

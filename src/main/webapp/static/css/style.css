@@ -85,3 +85,14 @@
 .w-250 {
     width: 250px !important;
 }
+
+/* NOTIFICATION BAR */
+.alert {
+    position: absolute !important;
+    width: fit-content;
+    top: 88px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 1;
+}
