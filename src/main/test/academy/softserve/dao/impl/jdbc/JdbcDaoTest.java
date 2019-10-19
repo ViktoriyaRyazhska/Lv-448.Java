@@ -2,10 +2,12 @@ package academy.softserve.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.impl.jdbc.JdbcAudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
+import academy.softserve.museum.dao.impl.jdbc.JdbcEmployeeDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
+import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Exhibit;
 
 import java.io.BufferedReader;
@@ -59,6 +61,10 @@ public class JdbcDaoTest {
 
     JdbcExhibitDao jdbcExhibitDao() {
         return (JdbcExhibitDao) DaoFactory.exhibitDao();
+    }
+
+    JdbcEmployeeDao jdbcEmployeeDao() {
+        return (JdbcEmployeeDao) DaoFactory.employeeDao();
     }
 
     private void executeSql(String sqlFilepath) {
@@ -137,6 +143,25 @@ public class JdbcDaoTest {
 
         for (int i = 0; i < a.size(); i++) {
             assertAudienceEquals(a.get(i), b.get(i));
+        }
+    }
+
+    void assertEmployeeEquals(Employee a, Employee b) {
+        assertNotNull(a);
+        assertNotNull(b);
+        assertEquals(a.getPosition(), b.getPosition());
+        assertEquals(a.getPassword(), b.getPassword());
+        assertEquals(a.getLogin(), b.getLogin());
+        assertEquals(a.getFirstName(), b.getFirstName());
+        assertEquals(a.getLastName(), b.getLastName());
+    }
+
+    void assertEmployeeEquals(List<Employee> a, List<Employee> b) {
+        assertNotNull(a);
+        assertNotNull(b);
+
+        for (int i = 0; i < a.size(); i++) {
+            assertEmployeeEquals(a.get(i), b.get(i));
         }
     }
 }

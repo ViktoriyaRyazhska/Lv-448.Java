@@ -65,7 +65,7 @@ public class JdbcUtils {
                 } else if (parameters[i] instanceof String) {
                     statement.setString(i + 1, (String) parameters[i]);
                 } else if (parameters[i] instanceof Date) {
-                    statement.setDate(i + 1, (Date) parameters[i]);
+                    statement.setTimestamp(i + 1, new Timestamp(((Date) parameters[i]).getTime()));
                 } else {
                     throw new RuntimeException("There are no mapping for " + parameters[i].getClass());
                 }
