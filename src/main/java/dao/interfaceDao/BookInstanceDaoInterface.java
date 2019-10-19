@@ -11,7 +11,7 @@ public interface BookInstanceDaoInterface{
 
     Optional<BookInstance> findById(Long id);
 
-    void update(Long id, BookInstance bookInstance);
+    void update(BookInstance bookInstance);
 
     boolean isAvailable(Long id);
 }

@@ -141,12 +141,12 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    public List<Book> findAllByTitle(String title) {
+    public Book findAllByTitle(String title) {
         String query = "SELECT * FROM books WHERE title = ?";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, title);
-            return extractBooks(preparedStatement.executeQuery()).collect(Collectors.toList());
+            return extractBooks(preparedStatement.executeQuery()).findAny().get();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -164,15 +164,14 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    public void update(Long id, Book book) {
+    public void update(Book book) {
         String query = "UPDATE books SET amount_of_instances = ?, title = ?, release_date = ?, id_author = ? WHERE id = ?";
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, book.getAmountOfInstances());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setDate(3, Date.valueOf(book.getReleaseDate()));
             preparedStatement.setLong(4, book.getAuthor().getId());
-            preparedStatement.setLong(5, id);
+            preparedStatement.setLong(5, book.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

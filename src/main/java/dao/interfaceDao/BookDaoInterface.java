@@ -13,7 +13,7 @@ public interface BookDaoInterface {
 
     Optional<Book> findById(Long id);
 
-    void update(Long id, Book book);
+    void update(Book book);
 
     Book getInfoByBookInstance(Long bookInstanceId);
 
