@@ -211,7 +211,7 @@ public class JdbcEmployeeDaoTest extends JdbcDaoTest {
                 toInstant(ZoneOffset.of("+03:00")).toEpochMilli());
         List<Employee> expected = Arrays.asList(employees.get(6), employees.get(5), employees.get(2), employees.get(4),
                 employees.get(1), employees.get(3), employees.get(0));
-        ;
+
 
         assertEmployeeEquals(expected, employeeDao.findAvailable(start, end));
     }

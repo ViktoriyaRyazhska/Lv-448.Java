@@ -9,6 +9,7 @@ import academy.softserve.museum.util.JdbcUtils;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +39,12 @@ public class JdbcExcursionDao implements ExcursionDao {
                         "ON tt.excursion_id = e.id " +
                         "WHERE date_start > ? and date_end < ? " +
                         "GROUP BY e.id, e.name;";
+
+        ExcursionStatistic emptyStatistic = new ExcursionStatistic();
+        emptyStatistic.setExcursionCountMap(new LinkedHashMap<>());
+
         ExcursionStatistic statistic = JdbcUtils.queryForObject(connection, FIND_STATISTIC,
-                new ExcursionStatisticRowMapper(), dateStart, dateEnd).orElse(new ExcursionStatistic());
+                new ExcursionStatisticRowMapper(), dateStart, dateEnd).orElse(emptyStatistic);
 
         statistic.setDateStart(dateStart);
         statistic.setDateEnd(dateEnd);
