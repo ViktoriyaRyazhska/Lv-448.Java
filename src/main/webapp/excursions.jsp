@@ -11,6 +11,18 @@
 <section class="main-section">
     <div class="container">
         <div class="row">
+            <div class="notification-bar">
+                <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success" role="alert">
+                            ${successMessage}
+                    </div>
+                </c:if>
+                <c:if test="${not empty failureMessage}">
+                    <div class="alert alert-danger" role="alert">
+                            ${failureMessage}
+                    </div>
+                </c:if>
+            </div>
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline" role="form">
                     <div class="form-group">
@@ -47,7 +59,7 @@
                     <c:if test="${not empty excursions}">
                         <c:forEach var="excursion" items="${excursions}">
                             <div class="card">
-                                <img class="card-img-top" src="static/img/excursion-placeholder.jpeg"
+                                <img class="card-img-top" src="<c:url value="/static/img/excursion-placeholder.jpeg"/>"
                                      alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">${excursion.name}</h5>
@@ -58,7 +70,7 @@
                                 </div>
                                 <div class="card-footer text-right">
                                     <a href="<c:url value=""/>" class="card-link">Update</a>
-                                    <a href="<c:url value=""/>" class="card-link">Remove</a>
+                                    <a href="<c:url value="/excursions/delete-excursion/${excursion.id}"/>" class="card-link">Remove</a>
                                 </div>
                             </div>
                         </c:forEach>
@@ -70,6 +82,9 @@
 </section>
 <jsp:include page="fragment/footer.jsp"/>
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="<c:url value="/static/js/ui.js"/>"></script>
 </html>

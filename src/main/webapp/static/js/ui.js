@@ -1,4 +1,14 @@
 /**
+ * Notification bar
+ */
+$(document).ready(function(){
+    $(".alert")
+        .delay(2000)
+        .hide('slide', {direction: 'up' },
+            1800, function(){});
+});
+
+/**
  * Employees page
  */
 
@@ -70,13 +80,3 @@ $('#employee-positions').on('change', function() {
     }
 });
 
-
-/**
- * Notification bar
- */
-$(document).ready(function(){
-    $(".alert")
-        .delay(2000)
-        .hide('slide', {direction: 'up' },
-            1800, function(){});
-});
