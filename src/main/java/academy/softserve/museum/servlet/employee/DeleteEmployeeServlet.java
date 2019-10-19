@@ -2,6 +2,7 @@ package academy.softserve.museum.servlet.employee;
 
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
+import academy.softserve.museum.util.PathParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +22,8 @@ public class DeleteEmployeeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long id = PathParser.getPathVariable(req.getPathInfo());
         if(employeeService.deleteById(id)) {
             req.setAttribute("message", "Employee has been successfully deleted");
         } else {

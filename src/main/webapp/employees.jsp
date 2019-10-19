@@ -85,11 +85,9 @@
                                 </a>
                             </td>
                             <td>
-                                <form action="delete-employee/?id=${employee.id}" method="post">
-                                    <button class="bg-none" type="submit">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+                                <a class="text-dark" href="delete-employee/${employee.id}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
