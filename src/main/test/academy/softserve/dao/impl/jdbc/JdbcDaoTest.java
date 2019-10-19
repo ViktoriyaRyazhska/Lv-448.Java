@@ -2,6 +2,7 @@ package academy.softserve.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.impl.jdbc.JdbcAudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
+import academy.softserve.museum.dao.impl.jdbc.JdbcExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
@@ -54,6 +55,10 @@ public class JdbcDaoTest {
 
     JdbcAudienceDao jdbcAudienceDao() {
         return (JdbcAudienceDao) DaoFactory.audienceDao();
+    }
+
+    JdbcExhibitDao jdbcExhibitDao() {
+        return (JdbcExhibitDao) DaoFactory.exhibitDao();
     }
 
     private void executeSql(String sqlFilepath) {
