@@ -49,9 +49,10 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
-    public List<BookInstance> findAll() {
-        String query = "SELECT * FROM book_instance";
+    public List<BookInstance> findAllBookInstanceByBooID(Long bookId) {
+        String query = "SELECT * FROM book_instance WHERE id_book = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookId);
             return extractBookInstances(preparedStatement.executeQuery()).collect(Collectors.toList());
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -73,11 +74,11 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     }
 
     @Override
-    public void update(Long id, BookInstance bookInstance) {
+    public void update(BookInstance bookInstance) {
         String query = "UPDATE book_instance SET is_available = ? WHERE id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setBoolean(1, bookInstance.getIsAvailable());
-            preparedStatement.setLong(2, id);
+            preparedStatement.setLong(2, bookInstance.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
