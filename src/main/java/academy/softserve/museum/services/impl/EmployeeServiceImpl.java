@@ -6,6 +6,7 @@ import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.EmployeeStatistic;
 import academy.softserve.museum.services.EmployeeService;
 import java.sql.Date;
@@ -26,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean save(Employee objectToSave) {
-        if (employeeDao.findByUsername(objectToSave.getLogin()) != null) {
+        if (employeeDao.findByUsername(objectToSave.getLogin()).isPresent()) {
             return false;
         } else {
             employeeDao.save(objectToSave);
@@ -80,7 +81,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<Employee> findAvailable(Date dateStart, Date dateEnd) {
+        return employeeDao.findAvailable(dateStart, dateEnd);
+    }
+
+    @Override
     public Employee findByFullName(String firstName, String lastName) {
-        return employeeDao.findByFullName(firstName, lastName);
+        return employeeDao.findByFullName(firstName, lastName).orElse(null);
     }
 }

@@ -113,10 +113,10 @@ public class JdbcExhibitDao implements ExhibitDao {
     }
 
     @Override
-    public void save(Exhibit objectToSave) {
+    public long save(Exhibit objectToSave) {
         String SAVE_EXHIBIT = "INSERT INTO exhibits(type, material, techic, name) VALUES (?, ?, ?, ?)";
 
-        JdbcUtils.update(connection, SAVE_EXHIBIT, objectToSave.getType().toString(), objectToSave.getMaterial(),
+        return JdbcUtils.update(connection, SAVE_EXHIBIT, objectToSave.getType().toString(), objectToSave.getMaterial(),
                 objectToSave.getTechnique(), objectToSave.getName());
     }
 
@@ -144,10 +144,10 @@ public class JdbcExhibitDao implements ExhibitDao {
     }
 
     @Override
-    public void update(Exhibit newObject) {
+    public int update(Exhibit newObject) {
         String UPDATE_EXHIBIT = "UPDATE exhibits SET type = ?, material = ?, techic = ?, name = ? where id = ?";
 
-        JdbcUtils.update(connection, UPDATE_EXHIBIT, newObject.getType().toString(), newObject.getMaterial(),
+        return JdbcUtils.update(connection, UPDATE_EXHIBIT, newObject.getType().toString(), newObject.getMaterial(),
                 newObject.getTechnique(), newObject.getName(), newObject.getId());
     }
 

@@ -56,10 +56,22 @@ public class JdbcExcursionDao implements ExcursionDao {
     }
 
     @Override
-    public void save(Excursion objectToSave) {
+    public List<Excursion> findAvailable(Date dateStart, Date dateEnd) {
+        String AVAILABLE_EXCURSIONS =
+                "SELECT DISTINCT e.id AS excursion_id, e.name AS excursion_name " +
+                        "FROM timetable AS tt " +
+                        "INNER JOIN excursion AS e " +
+                        "ON e.id = tt.excursion_id  " +
+                        "WHERE date_start BETWEEN ? AND ?";
+
+        return JdbcUtils.query(connection, AVAILABLE_EXCURSIONS, new ExcursionRowMapper(), dateStart, dateEnd);
+    }
+
+    @Override
+    public long save(Excursion objectToSave) {
         String SAVE_EXCURSION = "INSERT INTO excursion(name) values(?)";
 
-        JdbcUtils.update(connection, SAVE_EXCURSION, objectToSave.getName());
+        return JdbcUtils.update(connection, SAVE_EXCURSION, objectToSave.getName());
     }
 
     @Override
@@ -84,10 +96,10 @@ public class JdbcExcursionDao implements ExcursionDao {
     }
 
     @Override
-    public void update(Excursion newObject) {
+    public int update(Excursion newObject) {
         String UPDATE_EXCURSION = "UPDATE excursion SET name = ? WHERE id = ?";
 
-        JdbcUtils.update(connection, UPDATE_EXCURSION, newObject.getName(), newObject.getId());
+        return JdbcUtils.update(connection, UPDATE_EXCURSION, newObject.getName(), newObject.getId());
     }
 
 }

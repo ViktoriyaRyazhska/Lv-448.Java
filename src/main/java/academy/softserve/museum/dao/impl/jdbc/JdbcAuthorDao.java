@@ -74,10 +74,10 @@ public class JdbcAuthorDao implements AuthorDao {
     }
 
     @Override
-    public void save(Author objectToSave) {
+    public long save(Author objectToSave) {
         String SAVE_AUTHOR = "INSERT INTO autors(first_name, last_name) VALUES(?, ?)";
 
-        JdbcUtils.update(connection, SAVE_AUTHOR, objectToSave.getFirstName(), objectToSave.getLastName());
+        return JdbcUtils.update(connection, SAVE_AUTHOR, objectToSave.getFirstName(), objectToSave.getLastName());
     }
 
     @Override
@@ -104,10 +104,10 @@ public class JdbcAuthorDao implements AuthorDao {
     }
 
     @Override
-    public void update(Author newObject) {
+        public int update(Author newObject) {
         String UPDATE_AUTHOR = "UPDATE autors set first_name = ?, last_name = ? WHERE id = ?";
 
-        JdbcUtils.update(connection, UPDATE_AUTHOR, newObject.getFirstName(), newObject.getLastName(), newObject.getId());
+        return JdbcUtils.update(connection, UPDATE_AUTHOR, newObject.getFirstName(), newObject.getLastName(), newObject.getId());
     }
 
     public void setExhibitDao(ExhibitDao exhibitDao) {

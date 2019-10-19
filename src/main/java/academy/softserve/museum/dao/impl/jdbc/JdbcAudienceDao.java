@@ -29,10 +29,10 @@ public class JdbcAudienceDao implements AudienceDao {
     }
 
     @Override
-    public void save(Audience objectToSave) {
+    public long save(Audience objectToSave) {
         String SAVE_AUDIENCE = "INSERT INTO audiences (name) VALUES(?)";
 
-        JdbcUtils.update(connection, SAVE_AUDIENCE, objectToSave.getName());
+        return JdbcUtils.update(connection, SAVE_AUDIENCE, objectToSave.getName());
     }
 
     @Override
@@ -57,10 +57,10 @@ public class JdbcAudienceDao implements AudienceDao {
     }
 
     @Override
-    public void update(Audience newObject) {
+    public int update(Audience newObject) {
         String UPDATE_AUDIENCE = "UPDATE audiences set name = ? WHERE id = ?";
 
-        JdbcUtils.update(connection, UPDATE_AUDIENCE, newObject.getName(), newObject.getId());
+        return JdbcUtils.update(connection, UPDATE_AUDIENCE, newObject.getName(), newObject.getId());
     }
 
     @Override

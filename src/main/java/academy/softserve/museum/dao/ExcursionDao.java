@@ -2,7 +2,9 @@ package academy.softserve.museum.dao;
 
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
+
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface ExcursionDao extends Crud<Excursion> {
@@ -11,4 +13,5 @@ public interface ExcursionDao extends Crud<Excursion> {
 
     Optional<Excursion> findByName(String name);
 
+    List<Excursion> findAvailable(Date dateStart, Date dateEnd);
 }

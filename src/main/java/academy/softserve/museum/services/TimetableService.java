@@ -19,8 +19,4 @@ public interface TimetableService {
 
     boolean update(Timetable newObject);
 
-    List<Employee> findAvailableTourGuides(Date dateStart, Date dateEnd);
-
-    List<Excursion> findAvailableExcursions(Date dateStart, Date dateEnd);
-
 }
