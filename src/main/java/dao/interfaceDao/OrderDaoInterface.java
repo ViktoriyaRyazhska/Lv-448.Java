@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface OrderDaoInterface{
+public interface OrderDaoInterface {
 
     void save(Order order);
 

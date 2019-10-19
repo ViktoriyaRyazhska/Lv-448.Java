@@ -39,7 +39,7 @@ public class AuthorDao implements AuthorDaoInterface {
 
     @Override
     public Optional<Author> findById(Long id) {
-        String query = "select * from authors where id=?";
+        String query = "SELECT * FROM authors where id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

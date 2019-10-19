@@ -2,6 +2,7 @@ package entities;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,8 +15,8 @@ import java.util.Objects;
 public class Order {
 
     private long id;
-    private Date dateOrder;
-    private Date dateReturn;
+    private LocalDate dateOrder;
+    private LocalDate dateReturn;
     private User user;
     private BookInstance bookInstance;
 
