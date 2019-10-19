@@ -79,7 +79,7 @@
                 <div class="card-columns">
                     <c:forEach var="exhibit" items="${exhibits}">
                         <div class="card">
-                            <img class="card-img-top" src="static/img/exhibit-placeholder.jpg" alt="Card image cap">
+                            <img class="card-img-top" src="<c:url value="static/img/exhibit-placeholder.jpg"/>" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">${exhibit.name}</h5>
                                 <h6 class="card-title">Author name</h6>
