@@ -3,20 +3,30 @@ package service;
 
 import dao.implemetsDao.AuthorDao;
 import dao.implemetsDao.BookDao;
+import dao.implemetsDao.BooksSubAuthors;
 import entities.Book;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BookService {
     private AuthorDao authorDao;
     private BookDao bookDao;
+    private BooksSubAuthors booksSubAuthors;
+
+    public BookService(AuthorDao authorDao, BookDao bookDao, BooksSubAuthors booksSubAuthors) {
+        this.authorDao = authorDao;
+        this.bookDao = bookDao;
+        this.booksSubAuthors = booksSubAuthors;
+    }
 
     public void createBook(Book book) {
         bookDao.save(book);
     }
 
-    public void updateBook(Long id, Book book) {
+    public void updateBook(Book book) {
         bookDao.update(book);
     }
 
@@ -51,5 +61,6 @@ public class BookService {
     public Book getInfoByBookInstanceId(Long bookInstanceId) {
         return bookDao.getInfoByBookInstance(bookInstanceId);
     }
+
 
 }

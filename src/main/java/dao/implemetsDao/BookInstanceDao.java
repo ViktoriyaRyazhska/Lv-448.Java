@@ -125,4 +125,32 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    public List<BookInstance> findAllBookInstanceOnReading(Long userId) {
+        String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
+                +" users.id = orders.id_users WHERE date_return is null AND id_users = ?";
+        return findAllBookInstanceByUser(userId, query);
+    }
+
+    public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
+        String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
+                +" users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
+        return findAllBookInstanceByUser(userId, query);
+    }
+
+    private List<BookInstance> findAllBookInstanceByUser(Long userId, String query) {
+        List<BookInstance> bookInstances = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                bookInstances.add(findById(resultSet.getLong("id_book_instance")).get());
+            }
+            return bookInstances;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 }
