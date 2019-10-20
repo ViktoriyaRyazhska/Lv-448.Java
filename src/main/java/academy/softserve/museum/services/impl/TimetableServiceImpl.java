@@ -1,6 +1,8 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.dao.TimetableDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcTimetableDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Timetable;
 import academy.softserve.museum.services.TimetableService;
 
@@ -9,15 +11,15 @@ import java.util.Optional;
 
 public class TimetableServiceImpl implements TimetableService {
 
+    private TimetableDao jdbcTimetableDao;
+
     public TimetableServiceImpl() {
+        this.jdbcTimetableDao = DaoFactory.timetableDao();
     }
 
-    public TimetableServiceImpl(
-            JdbcTimetableDao jdbcTimetableDao) {
+    public TimetableServiceImpl(JdbcTimetableDao jdbcTimetableDao) {
         this.jdbcTimetableDao = jdbcTimetableDao;
     }
-
-    private JdbcTimetableDao jdbcTimetableDao;
 
     @Override
     public void save(Timetable objectToSave) {
