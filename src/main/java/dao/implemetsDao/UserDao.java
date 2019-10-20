@@ -1,6 +1,7 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.UserDaoInterface;
+import entities.Address;
 import entities.User;
 
 import java.sql.*;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
+    private AddressDao addressDao;
 
     public UserDao(Connection connection) {
         this.connection = connection;
@@ -46,7 +48,8 @@ public class UserDao implements UserDaoInterface {
     public List<User> findAll() {
         String query = "SELECT * FROM users";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            return extractUsers(preparedStatement.getResultSet()).collect(Collectors.toList());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractUsers(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -160,11 +163,14 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
+                            .userAddress(addressDao.findById(resultSet.getLong("id")).get())
                             .build());
         }
         resultSet.close();
         return builder.build();
     }
+    //.user(userDao.findById(resultSet.getLong("id_users")).orElseThrow(RuntimeException::new))
+
 
 //    public Map<User, Book> geBlackList() {
 //        String query = "SELECT * FROM users inner join orders o on users.id = o.id_users\n" +

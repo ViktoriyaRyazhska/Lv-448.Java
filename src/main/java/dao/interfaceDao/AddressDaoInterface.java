@@ -11,6 +11,6 @@ public interface AddressDaoInterface {
 
     Optional<Address> findById(Long id);
 
-    void update(Long id, Address address);
+    void update(Address address);
 
 }

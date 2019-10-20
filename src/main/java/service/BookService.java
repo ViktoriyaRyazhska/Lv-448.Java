@@ -4,11 +4,9 @@ package service;
 import dao.implemetsDao.AuthorDao;
 import dao.implemetsDao.BookDao;
 import entities.Book;
-import entities.BookInstance;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 public class BookService {
     private AuthorDao authorDao;
@@ -19,7 +17,7 @@ public class BookService {
     }
 
     public void updateBook(Long id, Book book) {
-        bookDao.update(id, book);
+        bookDao.update(book);
     }
 
     public List<Book> findAllBook() {
@@ -42,15 +40,15 @@ public class BookService {
         return bookDao.findAllBooksBySubAuthor(subAuthorId);
     }
 
-    public List<Book> findBooksBetweenDate(LocalDate fromDate, LocalDate toDate){
+    public List<Book> findBooksBetweenDate(LocalDate fromDate, LocalDate toDate) {
         return bookDao.findBookBetweenDate(fromDate, toDate);
     }
 
-    public Book findBookByTitle(String bookTitle){
+    public Book findBookByTitle(String bookTitle) {
         return bookDao.findAllByTitle(bookTitle);
     }
 
-    public Book getInfoByBookInstanceId(Long bookInstanceId){
+    public Book getInfoByBookInstanceId(Long bookInstanceId) {
         return bookDao.getInfoByBookInstance(bookInstanceId);
     }
 

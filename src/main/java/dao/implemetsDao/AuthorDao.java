@@ -20,12 +20,11 @@ public class AuthorDao implements AuthorDaoInterface {
     @Override
     public void save(Author author) {
         String query = "INSERT INTO authors"
-                + "(id, first_name, last_name) "
-                + "VALUE (?, ?, ?)";
+                + "(first_name, last_name) "
+                + "VALUE (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setLong(1, author.getId());
-            preparedStatement.setString(2, author.getAuthorFirstName());
-            preparedStatement.setString(3, author.getAuthorLastName());
+            preparedStatement.setString(1, author.getAuthorFirstName());
+            preparedStatement.setString(2, author.getAuthorLastName());
             preparedStatement.executeUpdate();
             try (ResultSet key = preparedStatement.getGeneratedKeys()) {
                 if (key.next()) {

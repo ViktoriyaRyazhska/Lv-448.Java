@@ -3,7 +3,6 @@ package entities;
 import lombok.*;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -12,29 +11,27 @@ import java.util.Set;
 @Builder
 public class Address {
 
-    private long id;
+    private Long id;
     private String city;
     private String street;
-    private long buildingNumber;
-    private long apartment;
-    private Set<User> users;
+    private Long buildingNumber;
+    private Long apartment;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Address)) return false;
         Address address = (Address) o;
-        return id == address.id &&
-                buildingNumber == address.buildingNumber &&
-                apartment == address.apartment &&
-                city.equals(address.city) &&
-                street.equals(address.street) &&
-                users.equals(address.users);
+        return getId().equals(address.getId()) &&
+                getCity().equals(address.getCity()) &&
+                getStreet().equals(address.getStreet()) &&
+                getBuildingNumber().equals(address.getBuildingNumber()) &&
+                getApartment().equals(address.getApartment());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, city, street, buildingNumber, apartment, users);
+        return Objects.hash(getId(), getCity(), getStreet(), getBuildingNumber(), getApartment());
     }
 
     @Override
@@ -45,7 +42,6 @@ public class Address {
                 ", street='" + street + '\'' +
                 ", buildingNumber=" + buildingNumber +
                 ", apartment=" + apartment +
-                ", users=" + users +
                 '}';
     }
 }
