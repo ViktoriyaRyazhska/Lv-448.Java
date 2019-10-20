@@ -13,11 +13,7 @@ public interface UserDaoInterface{
 
     Optional<User> findById(Long id);
 
-    void update(Long id, User user);
-
-    List<Long> findAllBookInstanceOnReading(Long userId);
-
-    List<Long> findAllReturnedBookInstanceByUser(Long userId);
+    void update(User user);
 
     List<User> findAll();
 

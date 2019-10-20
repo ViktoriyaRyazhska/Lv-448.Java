@@ -1,6 +1,7 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.UserDaoInterface;
+import entities.BookInstance;
 import entities.User;
 
 import java.sql.*;
@@ -22,8 +23,8 @@ public class UserDao implements UserDaoInterface {
     @Override
     public void save(User user) {
         String query = "INSERT INTO users"
-                + "(user_name, user_surname, birthday, phone_number, email, date_registration) "
-                + "VALUE (?, ?, ?, ?, ?, ?)";
+                + "(user_name, user_surname, birthday, phone_number, email, date_registration, id_address) "
+                + "VALUE (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getUserSurname());
@@ -31,6 +32,7 @@ public class UserDao implements UserDaoInterface {
             preparedStatement.setString(4, user.getPhoneNumber());
             preparedStatement.setString(5, user.getEmail());
             preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
+            preparedStatement.setLong(7, user.getUserAddress().getId());
             preparedStatement.executeUpdate();
             try (ResultSet keys = preparedStatement.getGeneratedKeys()) {
                 if (keys.next()) {
@@ -38,7 +40,7 @@ public class UserDao implements UserDaoInterface {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getLocalizedMessage());
         }
     }
 
@@ -51,7 +53,6 @@ public class UserDao implements UserDaoInterface {
             throw new RuntimeException(e);
         }
     }
-
 
     @Override
     public Integer averageTimeUsingLibrary() {
@@ -69,6 +70,7 @@ public class UserDao implements UserDaoInterface {
     public Integer timeUsingLibraryByUser(Long userId) {
         String query = "select DATEDIFF(CURDATE(), date_registration) from users where id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
@@ -88,8 +90,8 @@ public class UserDao implements UserDaoInterface {
             throw new RuntimeException(e);
         }
     }
-    // Статистика по читачам середня кількість звернень за певний період
 
+    // Статистика по читачам середня кількість звернень за певний період
     @Override
     public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT COUNT(*) FROM orders WHERE date_order between ? and ?";
@@ -105,8 +107,21 @@ public class UserDao implements UserDaoInterface {
     }
 
     @Override
-    public void update(Long id, User user) {
-
+    public void update(User user) {
+        String query = "UPDATE users SET user_name = ?, user_surname = ?, birthday = ?, phone_number = ?,"
+                + " email = ?, id_address = ? WHERE id = ?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getUserSurname());
+            preparedStatement.setDate(3, Date.valueOf(user.getBirthday()));
+            preparedStatement.setString(4, user.getPhoneNumber());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setLong(6, user.getUserAddress().getId());
+            preparedStatement.setLong(7, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
     }
 
     @Override
@@ -119,33 +134,6 @@ public class UserDao implements UserDaoInterface {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-
-    @Override
-    public List<Long> findAllBookInstanceOnReading(Long userId) {
-        String query = "select user_name, user_surname, id_book_instance from users left join orders"
-                + "on users.id = orders.id_users where date_return is null and id_users = ?";
-        return findAllBookInstanceByUser(userId, query);
-    }
-
-    @Override
-    public List<Long> findAllReturnedBookInstanceByUser(Long userId) {
-        String query = "select user_name, user_surname, id_book_instance from users left join orders"
-                + "on users.id = orders.id_users where date_return is not null and id_users = ?";
-        return findAllBookInstanceByUser(userId, query);
-    }
-
-    private List<Long> findAllBookInstanceByUser(Long userId, String query) {
-        List<Long> bookInstanceId = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, userId);
-            bookInstanceId.add(preparedStatement.executeQuery().getLong("id_book_instance"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return bookInstanceId;
     }
 
     private Stream<User> extractUsers(ResultSet resultSet) throws SQLException {

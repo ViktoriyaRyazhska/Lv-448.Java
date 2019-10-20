@@ -18,6 +18,7 @@ public class Book {
     private LocalDate releaseDate;
     private Set<BookInstance> bookInstanceSet;
     private Author author;
+    private Set<Author> subAuthor;
 
 
     @Override

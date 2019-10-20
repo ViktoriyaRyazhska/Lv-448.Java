@@ -15,29 +15,6 @@ public class Author {
     private String authorFirstName;
     private String authorLastName;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getAuthorFirstName() {
-        return authorFirstName;
-    }
-
-    public void setAuthorFirstName(String authorFirstName) {
-        this.authorFirstName = authorFirstName;
-    }
-
-    public String getAuthorLastName() {
-        return authorLastName;
-    }
-
-    public void setAuthorLastName(String authorLastName) {
-        this.authorLastName = authorLastName;
-    }
 
     @Override
     public boolean equals(Object o) {
