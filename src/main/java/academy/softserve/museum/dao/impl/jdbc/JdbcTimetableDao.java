@@ -23,7 +23,7 @@ public class JdbcTimetableDao implements TimetableDao {
     }
 
     public static JdbcTimetableDao getInstance(Connection connection) {
-        if(instance == null){
+        if (instance == null) {
             instance = new JdbcTimetableDao(connection);
         }
 
@@ -48,15 +48,25 @@ public class JdbcTimetableDao implements TimetableDao {
 
     @Override
     public Optional<Timetable> findById(long id) {
-        String FIND_TIMETABLE_BY_ID = "SELECT id AS timetable_id, employee_id, excursion_id, date_start, date_end " +
-                "FROM timetable WHERE id = ?";
+        String FIND_TIMETABLE_BY_ID = "SELECT tt.id AS timetable_id, tt.date_start, tt.date_end, e.id AS employee_id, " +
+                "e.first_name, e.last_name, e.position, e.password, e.login, " +
+                "ex.id AS excursion_id, ex.name AS excursion_name " +
+                "FROM timetable AS tt " +
+                "INNER JOIN employees AS e ON tt.employee_id = e.id " +
+                "INNER JOIN excursion AS ex ON tt.excursion_id = ex.id " +
+                "WHERE tt.id = ?";
 
         return JdbcUtils.queryForObject(connection, FIND_TIMETABLE_BY_ID, new TimetableRowMapper(), id);
     }
 
     @Override
     public List<Timetable> findAll() {
-        String FIND_ALL_TIMETABLES = "SELECT id AS timetable_id, employee_id, excursion_id, date_start, date_end FROM timetable";
+        String FIND_ALL_TIMETABLES = "SELECT tt.id AS timetable_id, tt.date_start, tt.date_end, e.id AS employee_id, " +
+                "e.first_name, e.last_name, e.position, e.password, e.login, " +
+                "ex.id AS excursion_id, ex.name AS excursion_name " +
+                "FROM timetable AS tt " +
+                "INNER JOIN employees AS e ON tt.employee_id = e.id " +
+                "INNER JOIN excursion AS ex ON tt.excursion_id = ex.id ";;
 
         return JdbcUtils.query(connection, FIND_ALL_TIMETABLES, new TimetableRowMapper());
     }
