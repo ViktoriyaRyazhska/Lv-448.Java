@@ -1,9 +1,12 @@
 package academy.softserve.museum.servlet.employee;
 
 import academy.softserve.museum.database.DaoFactory;
+import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
+import academy.softserve.museum.services.impl.AudienceServiceImpl;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -19,14 +22,17 @@ import java.io.IOException;
 public class AddEmployeeServlet extends HttpServlet {
 
     private EmployeeService employeeService;
+    private AudienceService audienceService;
 
     @Override
     public void init() throws ServletException {
          employeeService = new EmployeeServiceImpl();
+         audienceService = new AudienceServiceImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("audiences", audienceService.findAll());
         req.getRequestDispatcher("/add-employee.jsp").include(req,resp);
     }
 
@@ -37,17 +43,22 @@ public class AddEmployeeServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
-        int audience = Integer.parseInt(req.getParameter("audience"));
 
+        Audience audience = new Audience();
+        audience.setId(Integer.parseInt(req.getParameter("audience")));
         Employee employee = new Employee(firstname, lastname, position, username, password);
 
-        if(employeeService.save(employee)) {
-            req.setAttribute("message", "Employee has been successfully added");
+        try {
+            employeeService.save(employee);
+            employeeService.updateEmployeeAudience(employee, audience);
+//            req.setAttribute("message", "Employee has been successfully added");
+//            req.getRequestDispatcher("/employees").forward(req, resp);
             resp.sendRedirect(req.getContextPath() + "/employees");
-        } else {
-            req.setAttribute("message", "Something went wrong!");
-            resp.sendRedirect(req.getContextPath() + "/add-employee");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+//            req.setAttribute("message", "Something went wrong!");
+//            req.getRequestDispatcher("/employees").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/employees");
         }
-
     }
 }

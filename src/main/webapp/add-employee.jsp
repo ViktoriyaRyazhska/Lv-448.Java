@@ -13,7 +13,7 @@
         <div class="row justify-content-md-center">
             <div class="add-form col-xl-4 border rounded py-3">
                 <h2 class="text-primary text-center">Add new employee</h2>
-                <form action="employees/add-employee" method="post">
+                <form action="<c:url value="/employees/add-employee"/>" method="post">
                     <div class="form-group">
                         <label for="employee-firstname">Firstname</label>
                         <input type="text" class="form-control"
@@ -55,12 +55,12 @@
                         </select>
                     </div> <!-- form group [employee-filters] -->
                     <div class="form-group" id="employee-is-am">
-                        <label for="employee-audience">Audience</label>
-                        <input type="number" class="form-control" id="employee-audience"
-                               aria-describedby="employee-audience-help"
-                               name="audience"
-                               value="0"
-                               placeholder="Enter audience number">
+                        <label class="filter-col" for="employee-audience">Audience</label>
+                        <select class="browser-default custom-select" id="employee-audience" name="audience">
+                            <c:forEach var="audience" items="${audiences}">
+                                <option value="${audience.id}">${audience.name}</option>
+                            </c:forEach>
+                        </select>
                         <small id="employee-audience-help" class="form-text text-muted">Allowed only if employee's
                             position is an Audience manager</small>
                     </div>
