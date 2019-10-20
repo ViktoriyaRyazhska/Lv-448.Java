@@ -65,6 +65,10 @@ public class JdbcDaoTest {
         return (JdbcExcursionDao) DaoFactory.excursionDao();
     }
 
+    JdbcTimetableDao jdbcTimetableDao() {
+        return (JdbcTimetableDao) DaoFactory.timetableDao();
+    }
+
     private void executeSql(String sqlFilepath) {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sqlFilepath);
@@ -178,6 +182,25 @@ public class JdbcDaoTest {
 
         for (int i = 0; i < a.size(); i++) {
             assertExcursionEquals(a.get(i), b.get(i));
+        }
+    }
+
+    void assertTimetableEquals(Timetable a, Timetable b) {
+        assertNotNull(a);
+        assertNotNull(b);
+        assertEmployeeEquals(a.getEmployee(), b.getEmployee());
+        assertExcursionEquals(a.getExcursion(), b.getExcursion());
+        assertEquals(a.getDateStart(), b.getDateStart());
+        assertEquals(a.getDateEnd(), b.getDateEnd());
+    }
+
+    void assertTimetableEquals(List<Timetable> a, List<Timetable> b) {
+        assertNotNull(a);
+        assertNotNull(b);
+        assertEquals(a.size(), b.size());
+
+        for (int i = 0; i < a.size(); i++) {
+            assertTimetableEquals(a.get(i), b.get(i));
         }
     }
 }
