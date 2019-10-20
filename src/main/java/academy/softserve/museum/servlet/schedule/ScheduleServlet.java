@@ -1,9 +1,9 @@
 package academy.softserve.museum.servlet.schedule;
 
 
-import academy.softserve.museum.entities.Timetable;
 import academy.softserve.museum.services.TimetableService;
 import academy.softserve.museum.services.impl.TimetableServiceImpl;
+import academy.softserve.museum.entities.mappers.ScheduleDtoMapper;
 import academy.softserve.museum.util.Serializer;
 
 import javax.servlet.ServletException;
@@ -25,9 +25,7 @@ public class ScheduleServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        for (Timetable t:timetableService.findAll()) {
-            System.out.println(t.toString());
-        }
+        req.setAttribute("excursions", Serializer.toJsonString(ScheduleDtoMapper.getSchedule(timetableService.findAll())));
         req.getRequestDispatcher("/schedule.jsp").include(req, resp);
     }
 
