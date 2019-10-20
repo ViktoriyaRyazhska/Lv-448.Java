@@ -50,12 +50,13 @@ public class AddEmployeeServlet extends HttpServlet {
 
         try {
             employeeService.save(employee);
+            long id = employeeService.findByFullName(employee.getFirstName(), employee.getLastName()).getId();
+            employee.setId(id);
             employeeService.updateEmployeeAudience(employee, audience);
 //            req.setAttribute("message", "Employee has been successfully added");
 //            req.getRequestDispatcher("/employees").forward(req, resp);
             resp.sendRedirect(req.getContextPath() + "/employees");
         } catch (RuntimeException e) {
-            e.printStackTrace();
 //            req.setAttribute("message", "Something went wrong!");
 //            req.getRequestDispatcher("/employees").forward(req, resp);
             resp.sendRedirect(req.getContextPath() + "/employees");
