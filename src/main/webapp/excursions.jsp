@@ -62,7 +62,7 @@
                                 <img class="card-img-top" src="<c:url value="/static/img/excursion-placeholder.jpeg"/>"
                                      alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title">${excursion.name}</h5>
+                                    <h4 class="card-title">${excursion.name}</h4>
                                 </div>
                                 <div class="card-footer text-right">
                                     <a href="<c:url value=""/>" class="card-link">Update</a>

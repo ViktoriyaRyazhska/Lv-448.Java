@@ -93,23 +93,28 @@
                         <div class="card">
                             <img class="card-img-top" src="<c:url value="/static/img/exhibit-placeholder.jpg"/>" alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title">${exhibit.name}</h5>
+                                <h4 class="card-title">${exhibit.name}</h4>
                                 <h6 class="card-title">
+                                    <span class="text-primary">Author(s): </span>
                                     <c:forEach var="author" items="${exhibit.authors}">
-                                        <div>${author.firstName} ${author.lastName}</div>
+                                        <span>${author.firstName} ${author.lastName}</span>
                                     </c:forEach>
                                 </h6>
-                                <h6>${exhibit.audience.name}</h6>
-                                <p class="card-text">
+                                <h6 class="card-title">
+                                    <span class="text-primary">Audience: </span>
+                                        ${exhibit.audience.name}</h6>
+                                <h6 class="card-title">
                                     <c:choose>
                                         <c:when test="${not empty exhibit.material}">
+                                            <span class="text-primary">Material: </span>
                                             ${exhibit.material}
                                         </c:when>
                                         <c:otherwise>
+                                            <span class="text-primary">Technique: </span>
                                             ${exhibit.technique}
                                         </c:otherwise>
                                     </c:choose>
-                                </p>
+                                </h6>
                             </div>
                             <div class="card-footer text-right">
                                 <a href="<c:url value=""/>" class="card-link">Update</a>
