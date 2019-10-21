@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class    BookInstanceDao implements BookInstanceDaoInterface {
+public class BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
     private BookDao bookDao;
@@ -105,7 +105,7 @@ public class    BookInstanceDao implements BookInstanceDaoInterface {
                         resultSet.getLong("COUNT(orders.date_order)"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(e);
         }
         return map;
     }
@@ -128,13 +128,13 @@ public class    BookInstanceDao implements BookInstanceDaoInterface {
 
     public List<BookInstance> findAllBookInstanceOnReading(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
-                + " users.id = orders.id_users WHERE date_return is null AND id_users = ?";
+                +" users.id = orders.id_users WHERE date_return is null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
     public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
-                + " users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
+                +" users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
@@ -164,5 +164,6 @@ public class    BookInstanceDao implements BookInstanceDaoInterface {
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
+
 
 }

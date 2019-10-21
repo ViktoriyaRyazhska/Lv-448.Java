@@ -4,7 +4,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -16,10 +15,7 @@ public class Book {
     private int amountOfInstances;
     private String title;
     private LocalDate releaseDate;
-    private Set<BookInstance> bookInstanceSet;
     private Author author;
-    private Set<Author> subAuthor;
-
 
     @Override
     public boolean equals(Object o) {
@@ -30,13 +26,12 @@ public class Book {
                 id.equals(book.id) &&
                 title.equals(book.title) &&
                 releaseDate.equals(book.releaseDate) &&
-                Objects.equals(bookInstanceSet, book.bookInstanceSet) &&
                 Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amountOfInstances, title, releaseDate, bookInstanceSet, author);
+        return Objects.hash(id, amountOfInstances, title, releaseDate, author);
     }
 
     @Override
@@ -46,7 +41,6 @@ public class Book {
                 ", amountOfInstances=" + amountOfInstances +
                 ", title='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
-                ", bookInstanceSet=" + bookInstanceSet +
                 ", author=" + author +
                 '}';
     }

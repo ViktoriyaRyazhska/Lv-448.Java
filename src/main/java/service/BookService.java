@@ -3,27 +3,27 @@ package service;
 
 import dao.implemetsDao.AuthorDao;
 import dao.implemetsDao.BookDao;
-import dao.implemetsDao.BooksSubAuthors;
 import entities.Book;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class BookService {
     private AuthorDao authorDao;
     private BookDao bookDao;
-    private BooksSubAuthors booksSubAuthors;
 
-    public BookService(AuthorDao authorDao, BookDao bookDao, BooksSubAuthors booksSubAuthors) {
+    public BookService(AuthorDao authorDao, BookDao bookDao) {
         this.authorDao = authorDao;
         this.bookDao = bookDao;
-        this.booksSubAuthors = booksSubAuthors;
     }
 
     public void createBook(Book book) {
         bookDao.save(book);
+    }
+
+    public void setSubAuthor(Long bookId, Long authorId){
+        bookDao.setSubAuthorForBook(bookId, authorId);
     }
 
     public void updateBook(Book book) {
@@ -42,12 +42,12 @@ public class BookService {
         return bookDao.findAllByAuthorSurname(authorSurname);
     }
 
-    public List<Book> findAllBooksByAuthor(Long authorId) {
-        return bookDao.findAllBooksByAuthorId(authorId);
+    public List<Book> findAllBooksBySubAuthorId (Long subAuthorsId){
+        return bookDao.findAllBooksBySubAuthorId(subAuthorsId);
     }
 
-    public List<Book> findAllBooksBySubAuthor(Long subAuthorId) {
-        return bookDao.findAllBooksBySubAuthor(subAuthorId);
+    public List<Book> findAllBooksByAuthorId(Long authorId) {
+        return bookDao.findAllBooksByAuthorId(authorId);
     }
 
     public List<Book> findBooksBetweenDate(LocalDate fromDate, LocalDate toDate) {
@@ -55,12 +55,19 @@ public class BookService {
     }
 
     public Book findBookByTitle(String bookTitle) {
-        return bookDao.findAllByTitle(bookTitle);
+        return bookDao.findBookByTitle(bookTitle);
     }
 
     public Book getInfoByBookInstanceId(Long bookInstanceId) {
         return bookDao.getInfoByBookInstance(bookInstanceId);
     }
 
+    public Map<Book, Long> mostPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
+        return bookDao.mostPopularBooks(fromDate, toDate);
+    }
+
+    public Map<Book, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
+        return bookDao.mostUnPopularBooks(fromDate, toDate);
+    }
 
 }

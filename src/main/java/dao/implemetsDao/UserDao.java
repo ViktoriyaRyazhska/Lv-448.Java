@@ -1,7 +1,6 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.UserDaoInterface;
-import entities.Book;
 import entities.BookInstance;
 import entities.User;
 
@@ -158,13 +157,27 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
-                            .userAddress(addressDao.findById(resultSet.getLong("id_address")).get())
+                            .userAddress(addressDao.findById(resultSet.getLong("id")).get())
                             .build());
         }
         resultSet.close();
         return builder.build();
     }
 
+    public Integer averageAgeUsersByBook(Long bookId) {
+        String query = "select AVG(DATEDIFF(CURDATE(), users.birthday)) from users " +
+                "inner join orders on users.id = orders.id_users " +
+                "inner join book_instance bi on orders.id_book_instance = bi.id " +
+                "inner join books b on bi.id_book = b.id where b.id = ?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt("AVG(DATEDIFF(CURDATE(), users.birthday))");
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
 
     public Map<BookInstance, User> geBlackList() {
         String query = "SELECT users.id, id_book_instance FROM users inner join orders o on users.id = o.id_users where date_return is null and DATEDIFF(CURDATE(), date_order) > ?;";
@@ -179,6 +192,22 @@ public class UserDao implements UserDaoInterface {
             return userBookMap;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public Integer averageAgeUsersByAuthor(Long authorId) {
+        String query = "select AVG(DATEDIFF(CURDATE(), users.birthday)) from users " +
+                "inner join orders on users.id = orders.id_users " +
+                "inner join book_instance bi on orders.id_book_instance = bi.id " +
+                "inner join books b on bi.id_book = b.id " +
+                "inner join authors on b.id_author = authors.id where authors.id = ?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, authorId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt("AVG(DATEDIFF(CURDATE(), users.birthday))");
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
         }
     }
 }

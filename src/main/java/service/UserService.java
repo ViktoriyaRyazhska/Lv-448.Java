@@ -16,21 +16,35 @@ public class UserService {
     private BookDao bookDao;
 
 
+    public UserService(UserDao userDao, BookInstanceDao bookInstanceDao) {
+        this.userDao = userDao;
+        this.bookInstanceDao = bookInstanceDao;
+    }
+
     public Integer averageAgeOfUsers() {
         return userDao.averageAgeOfUsers();
     }
 
-    public String averageTimeOfUsingLibrary() {
+    public Integer[] averageTimeOfUsingLibrary() {
         return CalculateDateFromInt.calculateDaysFromInt(userDao.averageTimeUsingLibrary());
     }
 
-    public String timeOfUsingLibraryByUser(Long id) {
+    public Integer[] timeOfUsingLibraryByUser(Long id) {
         return CalculateDateFromInt.calculateDaysFromInt(userDao.timeUsingLibraryByUser(id));
     }
 
     public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate) {
         return userDao.averageAmountOfOrdersBySomePeriod(fromDate, toDate);
     }
+
+    public Integer averageAgeUsersByBook(Long bookId) {
+        return CalculateDateFromInt.calculateDaysFromInt(userDao.averageAgeUsersByBook(bookId))[0];
+    }
+
+    public Integer averageAgeUsersByAuthor(Long authorId) {
+        return CalculateDateFromInt.calculateDaysFromInt(userDao.averageAgeUsersByAuthor(authorId))[0];
+    }
+
 
     public Map<BookInstance, User> getBlackList() {
         Map<BookInstance, User> blackList = userDao.geBlackList();

@@ -11,6 +11,10 @@ public class BookInstanceService {
 
     private BookInstanceDao bookInstanceDao;
 
+    public BookInstanceService(BookInstanceDao bookInstanceDao) {
+        this.bookInstanceDao = bookInstanceDao;
+    }
+
     public void createBookInstance(BookInstance bookInstance) {
         bookInstanceDao.save(bookInstance);
     }
@@ -37,10 +41,18 @@ public class BookInstanceService {
     }
 
     public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
-        return findBookInstanceIdAndCountOrderedByPeriod(firstDate, secondDate);
+        return bookInstanceDao.findBookInstanceIdAndCountOrderedByPeriod(firstDate, secondDate);
     }
 
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {
-        return findAllBookInstanceByTitle(bookTitle);
+        return bookInstanceDao.findAllBookInstanceByTitle(bookTitle);
+    }
+
+    public List<BookInstance> findAllBookInstanceOnReadingByUser(Long userId) {
+        return bookInstanceDao.findAllBookInstanceOnReading(userId);
+    }
+
+    public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
+        return bookInstanceDao.findAllReturnedBookInstanceByUser(userId);
     }
 }

@@ -4,10 +4,9 @@ import dao.interfaceDao.BookDaoInterface;
 import entities.Book;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,6 +41,17 @@ public class BookDao implements BookDaoInterface {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void setSubAuthorForBook(Long bookId, Long authorId) {
+        String query = "INSERT INTO book_sub_authors (id_book, id_author) VALUE (?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookId);
+            preparedStatement.setLong(2, authorId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
         }
     }
 
@@ -97,8 +107,6 @@ public class BookDao implements BookDaoInterface {
         return books;
     }
 
-    // to do delete duplicated code
-
     public List<Book> findAllBooksByAuthorId(Long authorId) {
         String query = "SELECT * FROM books WHERE id_author = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -111,15 +119,14 @@ public class BookDao implements BookDaoInterface {
     }
 
     @Override
-    public List<Book> findAllBooksBySubAuthor(Long authorId) {
+    public List<Book> findAllBooksBySubAuthorId(Long authorId) {
         String query = "SELECT id_book FROM book_sub_authors WHERE id_author = ?;";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, authorId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                books.add(
-                        findById(resultSet.getLong("id_book")).orElse(null));
+                books.add(findById(resultSet.getLong("id_book")).orElse(null));
             }
             return books;
         } catch (SQLException e) {
@@ -141,7 +148,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    public Book findAllByTitle(String title) {
+    public Book findBookByTitle(String title) {
         String query = "SELECT * FROM books WHERE title = ?";
         List<Book> books = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -178,15 +185,65 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    @Override
-    public List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
-        String query = "";
+    public void deleteSubAuthor(Long bookId, Long authorId) {
+        String query = "DELETE FROM book_sub_authors WHERE id_book = ? AND id_author = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookId);
+            preparedStatement.setLong(2, authorId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public Map<Book, Long> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
+        String query = "SELECT id_book,  COUNT(*) FROM orders " +
+                "INNER JOIN book_instance bi ON orders.id_book_instance = bi.id " +
+                "INNER JOIN books b ON bi.id_book = b.id " +
+                "WHERE orders.date_order BETWEEN ? AND ?" +
+                "GROUP BY b.id " +
+                "ORDER BY COUNT(*) DESC;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDate(1, Date.valueOf(startPeriod));
+            preparedStatement.setDate(2, Date.valueOf(endPeriod));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Map<Book, Long> bookCountMap = new LinkedHashMap<>();
+            while (resultSet.next()) {
+                bookCountMap.put(
+                findById(resultSet.getLong("id_book")).get(),
+                resultSet.getLong("COUNT(*)")
+                );
+            }
+            return bookCountMap;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
-        return null;
+    @Override
+    public Map<Book, Long> mostUnPopularBooks(LocalDate startPeriod, LocalDate endPeriod) {
+        String query = "SELECT id_book,  COUNT(*) FROM orders " +
+                "INNER JOIN book_instance bi ON orders.id_book_instance = bi.id " +
+                "INNER JOIN books b ON bi.id_book = b.id " +
+                "WHERE orders.date_order BETWEEN ? AND ?" +
+                "GROUP BY b.id " +
+                "ORDER BY COUNT(*) ASC;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDate(1, Date.valueOf(startPeriod));
+            preparedStatement.setDate(2, Date.valueOf(endPeriod));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Map<Book, Long> bookCountMap = new LinkedHashMap<>();
+            while (resultSet.next()) {
+                bookCountMap.put(
+                        findById(resultSet.getLong("id_book")).get(),
+                        resultSet.getLong("COUNT(*)")
+                );
+            }
+            return bookCountMap;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //    Скільки разів брали певну книжку (в загальному)
