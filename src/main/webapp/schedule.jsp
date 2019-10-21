@@ -11,6 +11,7 @@
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
     <div class="container">
+        <h1 class="text-center mt-4">Excursions schedule</h1>
         <% String excursions = (String) request.getAttribute("excursions"); %>
         <div id="excursion-schedule"></div>
     </div>
