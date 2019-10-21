@@ -3,7 +3,10 @@ package service;
 
 import dao.implemetsDao.AuthorDao;
 import dao.implemetsDao.BookDao;
+import dao.implemetsDao.BookInstanceDao;
+import entities.Author;
 import entities.Book;
+import entities.BookInstance;
 import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
@@ -13,17 +16,37 @@ import java.util.Map;
 public class BookService {
     private AuthorDao authorDao;
     private BookDao bookDao;
+    private BookInstanceDao bookInstanceDao;
 
-    public BookService(AuthorDao authorDao, BookDao bookDao) {
+    public BookService(AuthorDao authorDao, BookDao bookDao, BookInstanceDao bookInstanceDao) {
         this.authorDao = authorDao;
         this.bookDao = bookDao;
+        this.bookInstanceDao = bookInstanceDao;
     }
 
-    public void createBook(Book book) {
-        bookDao.save(book);
+    public void createBook(Book book, Author author) {
+        if (author != null) {
+            book.setAuthor(author);
+            authorDao.save(author);
+            bookDao.save(book);
+            for (int i = 0; i < book.getAmountOfInstances(); i++) {
+                BookInstance bookInstance = BookInstance.builder()
+                        .isAvailable(true)
+                        .book(findBookById(book.getId())).build();
+                bookInstanceDao.save(bookInstance);
+            }
+        } else {
+            bookDao.save(book);
+            for (int i = 0; i < book.getAmountOfInstances(); i++) {
+                BookInstance bookInstance = BookInstance.builder()
+                        .isAvailable(true)
+                        .book(findBookById(book.getId())).build();
+                bookInstanceDao.save(bookInstance);
+            }
+        }
     }
 
-    public void setSubAuthor(Long bookId, Long authorId){
+    public void setSubAuthor(Long bookId, Long authorId) {
         bookDao.setSubAuthorForBook(bookId, authorId);
     }
 
@@ -43,7 +66,7 @@ public class BookService {
         return bookDao.findAllByAuthorSurname(authorSurname);
     }
 
-    public List<Book> findAllBooksBySubAuthorId (Long subAuthorsId){
+    public List<Book> findAllBooksBySubAuthorId(Long subAuthorsId) {
         return bookDao.findAllBooksBySubAuthorId(subAuthorsId);
     }
 
@@ -71,11 +94,11 @@ public class BookService {
         return bookDao.mostUnPopularBooks(fromDate, toDate);
     }
 
-    public Long getAmountOfTimesBookWasTaken(Long id){
+    public Long getAmountOfTimesBookWasTaken(Long id) {
         return bookDao.getAmountOfTimesBookWasTaken(id);
     }
 
-    public Integer[] averageTimeReadingBook(Long id){
+    public Integer[] averageTimeReadingBook(Long id) {
         return CalculateDateFromInt.calculateDaysFromInt(bookDao.getAverageTimeReadingBook(id));
 
     }

@@ -1,24 +1,37 @@
 package service;
 
-import dao.implemetsDao.BookDao;
+import dao.implemetsDao.AddressDao;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.UserDao;
+import entities.Address;
 import entities.BookInstance;
 import entities.User;
 import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class UserService {
     private UserDao userDao;
+    private AddressDao addressDao;
     private BookInstanceDao bookInstanceDao;
-    private BookDao bookDao;
 
 
-    public UserService(UserDao userDao, BookInstanceDao bookInstanceDao) {
+    public UserService(UserDao userDao, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
         this.userDao = userDao;
+        this.addressDao = addressDao;
         this.bookInstanceDao = bookInstanceDao;
+    }
+
+    public void createUser(User user, Address address) {
+        user.setUserAddress(address);
+        addressDao.save(address);
+        userDao.save(user);
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 
     public Integer averageAgeOfUsers() {

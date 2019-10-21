@@ -19,7 +19,6 @@ public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
     private AddressDao addressDao;
-    private UserDao userDao;
     private BookInstanceDao bookInstanceDao;
 
     public UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
@@ -157,7 +156,7 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
-                            .userAddress(addressDao.findById(resultSet.getLong("id")).get())
+                            .userAddress(addressDao.findById(resultSet.getLong("id_address")).get())
                             .build());
         }
         resultSet.close();

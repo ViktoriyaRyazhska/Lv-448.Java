@@ -55,4 +55,8 @@ public class BookInstanceService {
     public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
         return bookInstanceDao.findAllReturnedBookInstanceByUser(userId);
     }
+
+    public Long getAmountOfTimesBookInstanceWasTaken(Long bookInstanceId) {
+        return bookInstanceDao.getAmountOfTimesInstanceWasTaken(bookInstanceId);
+    }
 }
