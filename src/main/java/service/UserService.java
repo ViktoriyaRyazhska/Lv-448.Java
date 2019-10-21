@@ -1,8 +1,10 @@
 package service;
 
+import dao.implemetsDao.AddressDao;
 import dao.implemetsDao.BookDao;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.UserDao;
+import entities.Address;
 import entities.BookInstance;
 import entities.User;
 import utils.CalculateDateFromInt;
@@ -13,12 +15,28 @@ import java.util.Map;
 public class UserService {
     private UserDao userDao;
     private BookInstanceDao bookInstanceDao;
-    private BookDao bookDao;
+    private AddressDao addressDao;
 
 
-    public UserService(UserDao userDao, BookInstanceDao bookInstanceDao) {
+    public UserService(UserDao userDao, BookInstanceDao bookInstanceDao, AddressDao addressDao) {
         this.userDao = userDao;
         this.bookInstanceDao = bookInstanceDao;
+        this.addressDao = addressDao;
+
+    }
+
+    public User findUserById(Long id){
+        return userDao.findById(id).get();
+    }
+
+    public boolean updateUser(User user){
+        if(userDao.findById(user.getId()).isPresent()){
+            userDao.update(user);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public Integer averageAgeOfUsers() {

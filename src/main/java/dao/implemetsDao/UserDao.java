@@ -157,7 +157,7 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
-                            .userAddress(addressDao.findById(resultSet.getLong("id")).get())
+                            .userAddress(addressDao.findById(resultSet.getLong("id_address")).get())
                             .build());
         }
         resultSet.close();
