@@ -37,6 +37,11 @@
     overflow-y: hidden !important;
 }
 
+.nav-item:hover {
+    background: #007bff!important;
+    border-radius: 3px;
+}
+
 
 /* GENERAL */
 #filter-panel,
