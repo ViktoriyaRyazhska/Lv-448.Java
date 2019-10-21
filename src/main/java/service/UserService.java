@@ -10,19 +10,18 @@ import entities.User;
 import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class UserService {
     private UserDao userDao;
-    private BookInstanceDao bookInstanceDao;
     private AddressDao addressDao;
+    private BookInstanceDao bookInstanceDao;
 
-
-    public UserService(UserDao userDao, BookInstanceDao bookInstanceDao, AddressDao addressDao) {
+    public UserService(UserDao userDao, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
         this.userDao = userDao;
-        this.bookInstanceDao = bookInstanceDao;
         this.addressDao = addressDao;
-
+        this.bookInstanceDao = bookInstanceDao;
     }
 
     public User findUserById(Long id){
@@ -37,6 +36,16 @@ public class UserService {
         else {
             return false;
         }
+    }
+
+    public void createUser(User user, Address address) {
+        user.setUserAddress(address);
+        addressDao.save(address);
+        userDao.save(user);
+    }
+
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 
     public Integer averageAgeOfUsers() {

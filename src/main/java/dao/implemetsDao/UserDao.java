@@ -19,7 +19,6 @@ public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
     private AddressDao addressDao;
-    private UserDao userDao;
     private BookInstanceDao bookInstanceDao;
 
     public UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
