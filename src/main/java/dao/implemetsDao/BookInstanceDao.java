@@ -85,11 +85,9 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
-
     public boolean isAvailable(Long id) {
         return findById(id).orElse(null).getIsAvailable();
     }
-
 
     public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
         String query = "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +

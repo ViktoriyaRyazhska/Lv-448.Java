@@ -24,18 +24,6 @@ public class OrderDao implements OrderDaoInterface {
     }
 
     @Override
-    public List<Order> findAll() {
-        String query = "SELECT * FROM orders";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return extractOrders(preparedStatement.executeQuery()).collect(Collectors.toList());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    @Override
     public void save(Order order) {
         String query = "INSERT INTO orders (date_order,id_users,id_book_instance) VALUE(?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -53,6 +41,16 @@ public class OrderDao implements OrderDaoInterface {
         }
     }
 
+    @Override
+    public List<Order> findAll() {
+        String query = "SELECT * FROM orders";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractOrders(preparedStatement.executeQuery()).collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Stream<Order> extractOrders(ResultSet resultSet) throws SQLException {
         Stream.Builder<Order> orders = Stream.builder();

@@ -4,6 +4,7 @@ import entities.Book;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -19,13 +20,15 @@ public interface BookDaoInterface {
 
     List<Book> findAllByAuthorSurname(String authorName);
 
-    List<Book> findAllBooksBySubAuthor(Long subAuthorId);
+    List<Book> findAllBooksBySubAuthorId(Long subAuthorId);
 
     List<Book> findAll();
 
     List<Book> findBookBetweenDate(LocalDate fromDate, LocalDate toDate);
 
-    List<Book> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod);
+    Map<Book, Long> mostPopularBooks(LocalDate startPeriod, LocalDate endPeriod);
+
+    Map<Book, Long> mostUnPopularBooks(LocalDate startPeriod, LocalDate endPeriod);
 
 
 }

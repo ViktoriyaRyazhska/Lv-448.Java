@@ -2,31 +2,41 @@ package service;
 
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.UserDao;
-import entities.Book;
 import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserService {
     private UserDao userDao;
     private BookInstanceDao bookInstanceDao;
 
+    public UserService(UserDao userDao, BookInstanceDao bookInstanceDao) {
+        this.userDao = userDao;
+        this.bookInstanceDao = bookInstanceDao;
+    }
+
     public Integer averageAgeOfUsers() {
         return userDao.averageAgeOfUsers();
     }
 
-    public String averageTimeOfUsingLibrary() {
+    public Integer[] averageTimeOfUsingLibrary() {
         return CalculateDateFromInt.calculateDaysFromInt(userDao.averageTimeUsingLibrary());
     }
 
-    public String timeOfUsingLibraryByUser(Long id) {
+    public Integer[] timeOfUsingLibraryByUser(Long id) {
         return CalculateDateFromInt.calculateDaysFromInt(userDao.timeUsingLibraryByUser(id));
     }
 
     public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate) {
         return userDao.averageAmountOfOrdersBySomePeriod(fromDate, toDate);
+    }
+
+    public Integer averageAgeUsersByBook(Long bookId){
+        return CalculateDateFromInt.calculateDaysFromInt(userDao.averageAgeUsersByBook(bookId))[0];
+    }
+
+    public Integer averageAgeUsersByAuthor(Long authorId){
+        return CalculateDateFromInt.calculateDaysFromInt(userDao.averageAgeUsersByAuthor(authorId))[0];
     }
 
 //    public List<Book> findAllBookByUserReading(Long userId) {
