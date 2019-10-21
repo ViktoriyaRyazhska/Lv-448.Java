@@ -10,6 +10,7 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <welcome-file-list>
+    <welcome-file>/WebFilterTask/booking.jsp</welcome-file>
     <welcome-file>/WebFilterTask/index.jsp</welcome-file>
     <welcome-file>/WebFilterTask/login.jsp</welcome-file>
     <welcome-file>/WebFilterTask/registration.jsp</welcome-file>
