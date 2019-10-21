@@ -17,8 +17,9 @@ public class UserDao implements UserDaoInterface {
     private final Connection connection;
     private AddressDao addressDao;
 
-    public UserDao(Connection connection) {
+    public UserDao(Connection connection, AddressDao addressDao) {
         this.connection = connection;
+        this.addressDao = addressDao;
     }
 
     @Override
@@ -150,7 +151,7 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
-                            .userAddress(addressDao.findById(resultSet.getLong("id")).get())
+                            .userAddress(addressDao.findById(resultSet.getLong("id_address")).get())
                             .build());
         }
         resultSet.close();
