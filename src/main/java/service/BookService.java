@@ -22,6 +22,9 @@ public class BookService {
         this.booksSubAuthors = booksSubAuthors;
     }
 
+    public BookService() {
+    }
+
     public void createBook(Book book) {
         bookDao.save(book);
     }

@@ -4,6 +4,7 @@ import entities.Address;
 import entities.Order;
 import entities.User;
 import service.OrderService;
+import service.UserService;
 
 import java.sql.Connection;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Connection connection = ConnectDB.getConnection();
+        UserService userService = new UserService();
+        System.out.println(userService.averageAgeOfUsers());
 //        AuthorDao authorDao = new AuthorDao(connection);
 //        AddressDao addressDao = new AddressDao(connection);
 //        BookDao bookDao = new BookDao(connection, authorDao);
