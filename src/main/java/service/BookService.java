@@ -4,6 +4,7 @@ package service;
 import dao.implemetsDao.AuthorDao;
 import dao.implemetsDao.BookDao;
 import entities.Book;
+import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -70,4 +71,12 @@ public class BookService {
         return bookDao.mostUnPopularBooks(fromDate, toDate);
     }
 
+    public Long getAmountOfTimesBookWasTaken(Long id){
+        return bookDao.getAmountOfTimesBookWasTaken(id);
+    }
+
+    public Integer[] averageTimeReadingBook(Long id){
+        return CalculateDateFromInt.calculateDaysFromInt(bookDao.getAverageTimeReadingBook(id));
+
+    }
 }

@@ -45,11 +45,9 @@ public class UserService {
         return CalculateDateFromInt.calculateDaysFromInt(userDao.averageAgeUsersByAuthor(authorId))[0];
     }
 
-
     public Map<BookInstance, User> getBlackList() {
         Map<BookInstance, User> blackList = userDao.geBlackList();
         return blackList;
     }
-
 
 }

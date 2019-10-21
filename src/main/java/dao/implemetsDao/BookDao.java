@@ -3,8 +3,8 @@ package dao.implemetsDao;
 import dao.interfaceDao.BookDaoInterface;
 import entities.Book;
 
-import java.sql.*;
 import java.sql.Date;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -134,7 +134,6 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    // to do null pointer exeption
     @Override
     public List<Book> findBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT * FROM books WHERE release_date BETWEEN ? AND ?";
@@ -211,8 +210,8 @@ public class BookDao implements BookDaoInterface {
             Map<Book, Long> bookCountMap = new LinkedHashMap<>();
             while (resultSet.next()) {
                 bookCountMap.put(
-                findById(resultSet.getLong("id_book")).get(),
-                resultSet.getLong("COUNT(*)")
+                        findById(resultSet.getLong("id_book")).get(),
+                        resultSet.getLong("COUNT(*)")
                 );
             }
             return bookCountMap;
@@ -259,7 +258,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    public Long getAverageTimeReadingBook(Long id) {
+    public Integer getAverageTimeReadingBook(Long id) {
         String query = "select AVG(DATEDIFF(date_return,date_order)) from orders " +
                 "inner join book_instance bi on orders.id_book_instance = bi.id " +
                 "inner join books b on bi.id_book = b.id where id_book_instance = ?;";
@@ -267,7 +266,7 @@ public class BookDao implements BookDaoInterface {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return resultSet.getLong("AVG(DATEDIFF(date_return,date_order))");
+            return resultSet.getInt("AVG(DATEDIFF(date_return,date_order))");
         } catch (SQLException e) {
             throw new RuntimeException(e.getLocalizedMessage());
         }
