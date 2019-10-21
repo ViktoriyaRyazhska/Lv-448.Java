@@ -3,6 +3,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AuthorRowMapper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.IdRowMapper;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
@@ -22,8 +23,8 @@ public class JdbcAuthorDao implements AuthorDao {
         this.connection = connection;
     }
 
-    public static JdbcAuthorDao getInstance(Connection connection){
-        if(instance == null){
+    public static JdbcAuthorDao getInstance(Connection connection) {
+        if (instance == null) {
             instance = new JdbcAuthorDao(connection);
         }
 
@@ -77,7 +78,9 @@ public class JdbcAuthorDao implements AuthorDao {
     public long save(Author objectToSave) {
         String SAVE_AUTHOR = "INSERT INTO autors(first_name, last_name) VALUES(?, ?)";
 
-        return JdbcUtils.update(connection, SAVE_AUTHOR, objectToSave.getFirstName(), objectToSave.getLastName());
+        JdbcUtils.update(connection, SAVE_AUTHOR, objectToSave.getFirstName(), objectToSave.getLastName());
+
+        return getLastSavedObjectId();
     }
 
     @Override
@@ -104,10 +107,17 @@ public class JdbcAuthorDao implements AuthorDao {
     }
 
     @Override
-        public int update(Author newObject) {
+    public int update(Author newObject) {
         String UPDATE_AUTHOR = "UPDATE autors set first_name = ?, last_name = ? WHERE id = ?";
 
         return JdbcUtils.update(connection, UPDATE_AUTHOR, newObject.getFirstName(), newObject.getLastName(), newObject.getId());
+    }
+
+    private long getLastSavedObjectId() {
+        String QUERY = "SELECT MAX(id) AS last_id FROM autors";
+
+        return JdbcUtils.queryForObject(connection, QUERY, new IdRowMapper()).
+                orElseThrow(() -> new RuntimeException("Can't get last saved object id"));
     }
 
     public void setExhibitDao(ExhibitDao exhibitDao) {

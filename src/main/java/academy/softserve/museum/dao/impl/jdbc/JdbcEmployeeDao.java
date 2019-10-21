@@ -4,6 +4,7 @@ import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMaper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeStatisticRowMapper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.IdRowMapper;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
@@ -127,15 +128,17 @@ public class JdbcEmployeeDao implements EmployeeDao {
         String SAVE_EMPLOYEE = "INSERT INTO employees(first_name, last_name, position, login, password) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
-        return JdbcUtils.update(connection, SAVE_EMPLOYEE, objectToSave.getFirstName(), objectToSave.getLastName(),
+        JdbcUtils.update(connection, SAVE_EMPLOYEE, objectToSave.getFirstName(), objectToSave.getLastName(),
                 objectToSave.getPosition().toString(), objectToSave.getLogin(), objectToSave.getPassword());
+
+        return getLastSavedObjectId();
     }
 
     @Override
     public void deleteById(long id) {
-        String SAVE_EMPLOYEE = "DELETE FROM employees WHERE id = ?";
+        String DELETE_EMPLOYEE = "DELETE FROM employees WHERE id = ?";
 
-        JdbcUtils.update(connection, SAVE_EMPLOYEE, id);
+        JdbcUtils.update(connection, DELETE_EMPLOYEE, id);
     }
 
     @Override
@@ -160,5 +163,12 @@ public class JdbcEmployeeDao implements EmployeeDao {
 
         return JdbcUtils.update(connection, UPDATE_EMPLOYEE, newObject.getFirstName(), newObject.getLastName(),
                 newObject.getPosition().toString(), newObject.getLogin(), newObject.getPassword(), newObject.getId());
+    }
+
+    private long getLastSavedObjectId() {
+        String QUERY = "SELECT MAX(id) AS last_id FROM employees";
+
+        return JdbcUtils.queryForObject(connection, QUERY, new IdRowMapper()).
+                orElseThrow(() -> new RuntimeException("Can't get last saved object id"));
     }
 }

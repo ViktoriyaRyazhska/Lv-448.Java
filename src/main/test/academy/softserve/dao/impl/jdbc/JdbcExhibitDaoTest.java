@@ -90,7 +90,7 @@ public class JdbcExhibitDaoTest extends JdbcDaoTest {
     void save() {
         Exhibit newExhibit = new Exhibit(9, ExhibitType.PAINTING, null, "TEST", "TEST");
 
-        exhibitDao.save(newExhibit);
+        assertEquals(9, exhibitDao.save(newExhibit));
 
         assertExhibitEquals(newExhibit, exhibitDao.findById(9).orElse(null));
     }

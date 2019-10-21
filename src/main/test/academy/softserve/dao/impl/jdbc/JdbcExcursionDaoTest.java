@@ -87,7 +87,7 @@ public class JdbcExcursionDaoTest extends JdbcDaoTest {
     void save() {
         Excursion newExcursion = new Excursion(5, "TEST");
 
-        excursionDao.save(newExcursion);
+        assertEquals(5, excursionDao.save(newExcursion));
 
         assertExcursionEquals(newExcursion, excursionDao.findById(5).orElse(null));
     }
