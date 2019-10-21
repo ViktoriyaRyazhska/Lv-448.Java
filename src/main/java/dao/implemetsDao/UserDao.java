@@ -161,14 +161,7 @@ public class UserDao implements UserDaoInterface {
                 "inner join orders on users.id = orders.id_users " +
                 "inner join book_instance bi on orders.id_book_instance = bi.id " +
                 "inner join books b on bi.id_book = b.id where b.id = ?;";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, bookId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return resultSet.getInt("AVG(DATEDIFF(CURDATE(), users.birthday))");
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getLocalizedMessage());
-        }
+        return averageAgeUserForUserDao(bookId, query);
     }
 
     public Integer averageAgeUsersByAuthor(Long authorId) {
@@ -177,8 +170,12 @@ public class UserDao implements UserDaoInterface {
                 "inner join book_instance bi on orders.id_book_instance = bi.id " +
                 "inner join books b on bi.id_book = b.id " +
                 "inner join authors on b.id_author = authors.id where authors.id = ?;";
+        return averageAgeUserForUserDao(authorId, query);
+    }
+
+    private Integer averageAgeUserForUserDao(Long id, String query) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, authorId);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt("AVG(DATEDIFF(CURDATE(), users.birthday))");
