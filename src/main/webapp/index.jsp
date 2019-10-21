@@ -9,11 +9,7 @@
 <body>
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <h1 class="text-primary">Best museum ever!</h1>
-        </div>
-    </div>
+    <img id="bg-image" src="<c:url value="/bg.jpg"/>" alt="museum-bg">
 </section>
 <jsp:include page="fragment/footer.jsp"/>
 </body>

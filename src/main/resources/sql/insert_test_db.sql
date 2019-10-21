@@ -60,3 +60,11 @@ VALUES
 (6, 2, '2019-07-03 14:30:00', '2019-07-03 15:30:00'),
 (7, 3, '2019-07-04 19:30:00', '2019-07-04 20:30:00'),
 (5, 4, '2019-07-05 17:30:00', '2019-07-05 18:30:00');
+
+-- SELECT DISTINCT e.id AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name,
+--                         e.position AS employee_position, e.login AS employee_login, e.password AS employee_password
+--                         FROM employees AS e
+--                         WHERE e.id NOT IN(
+--                         SELECT employee_id FROM timetable
+--                         WHERE date_start BETWEEN '2019-07-02 17:00:00' AND '2019-07-03 17:00:00'
+--                         OR date_end BETWEEN '2019-07-02 17:00:00' AND '2019-07-03 17:00:00');

@@ -25,17 +25,16 @@
                 </button>
             </form>
         </div>
+        <% String tourGuides = (String) request.getAttribute("tourGuides"); %>
+        <% String excursionsTotal = (String) request.getAttribute("excursionsTotal"); %>
+        <% String timeTotal = (String) request.getAttribute("timeTotal"); %>
+
+        <h1 class="text-center mt-4">Number of excursions by tour guide</h1>
+        <canvas class="chart" id="tour-guide-excursions-total"></canvas>
+
+        <h1 class="text-center mt-4">Number of minutes by tour guide</h1>
+        <canvas class="chart" id="tour-guide-time-total"></canvas>
     </div> <!-- row [filters-panel] -->
-    <% String tourGuides = (String) request.getAttribute("tourGuides"); %>
-    <% String excursionsTotal = (String) request.getAttribute("excursionsTotal"); %>
-    <% String timeTotal = (String) request.getAttribute("timeTotal"); %>
-
-    <h1 class="text-center mt-4">Number of excursions by tour guide</h1>
-    <canvas class="chart" id="tour-guide-excursions-total"></canvas>
-
-    <h1 class="text-center mt-4">Number of minutes by tour guide</h1>
-    <canvas class="chart" id="tour-guide-time-total"></canvas>
-    </div>
 </section>
 <jsp:include page="fragment/footer.jsp"/>
 </body>

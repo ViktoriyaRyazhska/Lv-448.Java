@@ -9,6 +9,18 @@ $(document).ready(function(){
 });
 
 /**
+ * Navbar active
+ */
+
+
+// $(document).ready(function() {
+//     $('.nav-item, .nav-link').click(function(e){
+//         $('.nav-item').addClass('active');
+//         return false;
+//     });
+// });
+
+/**
  * Employees page
  */
 
@@ -79,4 +91,5 @@ $('#employee-positions').on('change', function() {
         $('#employee-is-am').css('display', 'none');
     }
 });
+
 

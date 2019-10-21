@@ -43,7 +43,7 @@
         "data": {
             "labels": materials,
             "datasets": [{
-                "label": "My First Dataset",
+                "label": "Exhibits count",
                 "data": materialsQuantiy,
                 "fill": true,
                 "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
@@ -79,7 +79,7 @@
         "data": {
             "labels": techniques,
             "datasets": [{
-                "label": "My First Dataset",
+                "label": "Exhibits count",
                 "data": techniquesQuantiy,
                 "fill": true,
                 "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",

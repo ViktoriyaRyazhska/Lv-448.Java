@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<html>
 <header>
     <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand text-primary" href="<c:url value="/museum"/>">Lv-448.MUSEUM</a>
         <ul class="nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link text-white" href="<c:url value="/schedule"/>">Schedule</a>
@@ -24,4 +24,3 @@
         </ul>
     </nav>
 </header>
-</html>
