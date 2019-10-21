@@ -105,7 +105,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
                         resultSet.getLong("COUNT(orders.date_order)"));
             }
         } catch (SQLException e) {
-            e.printStackTrace(e);
+            e.printStackTrace();
         }
         return map;
     }
@@ -164,6 +164,5 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
-
 
 }

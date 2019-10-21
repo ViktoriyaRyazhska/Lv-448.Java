@@ -271,8 +271,6 @@ public class BookDao implements BookDaoInterface {
         } catch (SQLException e) {
             throw new RuntimeException(e.getLocalizedMessage());
         }
-
-
     }
 
 
