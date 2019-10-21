@@ -7,7 +7,6 @@ public class Employee extends Entity {
     private String login;
     private String password;
     private Audience audience;
-    private String audienceName;
 
     public Employee(long id, String firstName, String lastName, EmployeePosition position, String login, String password) {
         super(id);
@@ -94,11 +93,4 @@ public class Employee extends Entity {
                 '}';
     }
 
-    public String getAudienceName() {
-        if (this.audience == null){
-            return "None";
-        }else {
-            return this.audience.getName();
-        }
-    }
 }

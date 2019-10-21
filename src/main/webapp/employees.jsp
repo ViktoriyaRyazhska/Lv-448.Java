@@ -90,7 +90,15 @@
                             <td>${employee.lastName}</td>
                             <td>${employee.login}</td>
                             <td>${employee.position}</td>
-                            <td>${employee.audienceName}</td>
+                            <td>
+                                    <c:choose>
+                                        <c:when test="${not empty employee.audience}">
+                                            ${employee.audience.name}
+                                        </c:when>
+                                        <c:otherwise>
+                                            none
+                                        </c:otherwise>
+                                    </c:choose></td>
                             <td>
                                 <a class="text-dark" href="<c:url value="/employees/update-employee/${employee.id}"/>">
                                     <i class="fas fa-pencil-alt"></i>
