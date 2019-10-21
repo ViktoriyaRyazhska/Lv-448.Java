@@ -12,9 +12,29 @@
     display: none;
 }
 
+.active {
+    background: #a79797;
+    border-radius: 3px;
+}
+
 .bg-none {
     border: none;
     background: rgba(0, 0, 0, 0);
+}
+
+.main-section {
+    overflow: hidden !important;
+}
+
+#bg-image {
+    /*width: 100%;*/
+    max-width: 100%;
+    /*height: auto;*/
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
 }
 
 
