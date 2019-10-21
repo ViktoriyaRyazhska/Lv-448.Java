@@ -22,9 +22,6 @@ public class BooksSubAuthors {
         this.bookDao = bookDao;
     }
 
-    public void setSubAuthors(Long subAuthorsId) {
-
-    }
 
     public List<Author> findAllSubAuthorByBookId(Long bookId) {
         String query = "SELECT id_author FROM book_sub_authors where id_book = ?";
@@ -79,9 +76,5 @@ public class BooksSubAuthors {
         } catch (SQLException e) {
             throw new RuntimeException(e.getLocalizedMessage());
         }
-
-
     }
-
-
 }

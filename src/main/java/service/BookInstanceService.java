@@ -20,7 +20,7 @@ public class BookInstanceService {
     }
 
     public List<BookInstance> findAllBookInstanceByBookId(Long bookId) {
-        return bookInstanceDao.findAllBookInstanceByBooID(bookId);
+        return bookInstanceDao.findAllBookInstanceByBookId(bookId);
     }
 
     public boolean updateBookInstanced(BookInstance bookInstance) {

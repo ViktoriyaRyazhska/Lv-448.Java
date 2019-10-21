@@ -1,24 +1,32 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.UserDaoInterface;
-import entities.Address;
+import entities.Book;
+import entities.BookInstance;
 import entities.User;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static constants.QueryConstants.MAX_DAYS_TO_RETURN;
 
 public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
     private AddressDao addressDao;
+    private UserDao userDao;
+    private BookInstanceDao bookInstanceDao;
 
-    public UserDao(Connection connection) {
+    public UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
         this.connection = connection;
+        this.addressDao = addressDao;
+        this.bookInstanceDao = bookInstanceDao;
     }
 
     @Override
@@ -150,30 +158,27 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
-                            .userAddress(addressDao.findById(resultSet.getLong("id")).get())
+                            .userAddress(addressDao.findById(resultSet.getLong("id_address")).get())
                             .build());
         }
         resultSet.close();
         return builder.build();
     }
 
-//    public Map<User, Book> geBlackList() {
-//        String query = "SELECT * FROM users inner join orders o on users.id = o.id_users\n" +
-//                "where date_return is null and DATEDIFF(CURDATE(), date_order) > ?";
-//        Map<User, Book> userBookMap = new HashMap<>();
-//        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//            preparedStatement.setInt(1, MAX_DAYS_TO_RETURN);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                userBookMap.put(userDao.findById(resultSet.getLong("id")).orElse(null),
-//                        bookInstanceDao.getInfoByBookInstance(resultSet.getLong("id_book_instance")));
-//            }
-//            return userBookMap;
-//        } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
-//            throw new RuntimeException(e);
-//        }
-//    }
 
-
+    public Map<BookInstance, User> geBlackList() {
+        String query = "SELECT users.id, id_book_instance FROM users inner join orders o on users.id = o.id_users where date_return is null and DATEDIFF(CURDATE(), date_order) > ?;";
+        Map<BookInstance, User> userBookMap = new LinkedHashMap<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, MAX_DAYS_TO_RETURN);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                userBookMap.put(bookInstanceDao.findById(resultSet.getLong("id_book_instance")).get(),
+                        findById(resultSet.getLong("id")).get());
+            }
+            return userBookMap;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

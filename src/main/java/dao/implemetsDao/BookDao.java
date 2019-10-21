@@ -65,11 +65,11 @@ public class BookDao implements BookDaoInterface {
     @Override
     public Optional<Book> findById(Long id) {
         String query = "SELECT * FROM books WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return extractBooks(resultSet).findAny();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -187,6 +187,35 @@ public class BookDao implements BookDaoInterface {
         }
 
         return null;
+    }
+
+    //    Скільки разів брали певну книжку (в загальному)
+    public Long getAmountOfTimesBookWasTaken(Long id) {
+        String query = "select count(date_order) from books inner join book_instance bi on books.id = bi.id_book inner join orders o on bi.id = o.id_book_instance where books.id = ?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong("count(date_order)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
+
+    public Long getAverageTimeReadingBook(Long id) {
+        String query = "select AVG(DATEDIFF(date_return,date_order)) from orders " +
+                "inner join book_instance bi on orders.id_book_instance = bi.id " +
+                "inner join books b on bi.id_book = b.id where id_book_instance = ?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong("AVG(DATEDIFF(date_return,date_order))");
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+
+
     }
 
 

@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BookInstanceDao implements BookInstanceDaoInterface {
+public class    BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
     private BookDao bookDao;
@@ -49,7 +49,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
-    public List<BookInstance> findAllBookInstanceByBooID(Long bookId) {
+    public List<BookInstance> findAllBookInstanceByBookId(Long bookId) {
         String query = "SELECT * FROM book_instance WHERE id_book = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, bookId);
@@ -91,17 +91,18 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     }
 
 
-    public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
+    public Map<BookInstance, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
         String query = "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +
                 "    WHERE date_order BETWEEN ? AND ?\n" +
                 "    GROUP BY id_book_instance;";
-        Map<Long, Long> map = new HashMap<>();
+        Map<BookInstance, Long> map = new HashMap<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setDate(1, Date.valueOf(firstDate));
             preparedStatement.setDate(2, Date.valueOf(secondDate));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                map.put(resultSet.getLong("id_book_instance"), resultSet.getLong("COUNT(orders.date_order)"));
+                map.put(findById(resultSet.getLong("id_book_instance")).get(),
+                        resultSet.getLong("COUNT(orders.date_order)"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,13 +128,13 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     public List<BookInstance> findAllBookInstanceOnReading(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
-                +" users.id = orders.id_users WHERE date_return is null AND id_users = ?";
+                + " users.id = orders.id_users WHERE date_return is null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
     public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
-                +" users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
+                + " users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
@@ -149,8 +150,19 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+    //    Скільки разів брали певну книжку по примірникам
+    public Long getAmountOfTimesInstanceWasTaken(Long id) {
+        String query = "select count(date_order) from orders where id_book_instance = ?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong("count(date_order)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
 
 }
