@@ -116,8 +116,10 @@ public class JdbcExhibitDao implements ExhibitDao {
     public long save(Exhibit objectToSave) {
         String SAVE_EXHIBIT = "INSERT INTO exhibits(type, material, techic, name) VALUES (?, ?, ?, ?)";
 
-        return JdbcUtils.update(connection, SAVE_EXHIBIT, objectToSave.getType().toString(), objectToSave.getMaterial(),
+        JdbcUtils.update(connection, SAVE_EXHIBIT, objectToSave.getType().toString(), objectToSave.getMaterial(),
                 objectToSave.getTechnique(), objectToSave.getName());
+
+        return getLastSavedObjectId();
     }
 
     @Override
@@ -177,6 +179,13 @@ public class JdbcExhibitDao implements ExhibitDao {
 
         return JdbcUtils.queryForObject(connection, STATISTIC_BY_MATERIAL, new ExhibitTypeStatisticMapper(statisticField),
                 type.toString()).orElse(null);
+    }
+
+    private long getLastSavedObjectId() {
+        String QUERY = "SELECT MAX(id) AS last_id FROM exhibits";
+
+        return JdbcUtils.queryForObject(connection, QUERY, new IdRowMapper()).
+                orElseThrow(() -> new RuntimeException("Can't get last saved object id"));
     }
 
     public void setAuthorDao(AuthorDao authorDao) {

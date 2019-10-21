@@ -84,7 +84,7 @@ public class JdbcAuthorDaoTest extends JdbcDaoTest {
     void save() {
         Author newAuthor = new Author(authors.size() + 1, "TEST_FIRST_NAME", "TEST_LAST_NAME");
 
-        authorDao.save(newAuthor);
+        assertEquals(authors.size() + 1, authorDao.save(newAuthor));
 
         assertAuthorEquals(newAuthor, authorDao.findById(authors.size() + 1).orElse(null));
     }

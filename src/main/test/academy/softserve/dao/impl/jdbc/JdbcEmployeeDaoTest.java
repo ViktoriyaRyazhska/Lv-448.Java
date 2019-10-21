@@ -44,7 +44,7 @@ public class JdbcEmployeeDaoTest extends JdbcDaoTest {
     void save() {
         Employee employee = new Employee(8, "TEST", "TEST", EmployeePosition.MANAGER, "TEST", "TEST");
 
-        employeeDao.save(employee);
+        assertEquals(8, employeeDao.save(employee));
 
         assertEmployeeEquals(employee, employeeDao.findById(8).orElse(null));
     }

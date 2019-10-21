@@ -3,6 +3,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.TimetableDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMaper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionRowMapper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.IdRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.TimetableRowMapper;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
@@ -35,8 +36,10 @@ public class JdbcTimetableDao implements TimetableDao {
         String SAVE_TIMETABLE = "INSERT INTO timetable(employee_id, excursion_id, date_start, date_end) " +
                 "VALUES (?, ?, ?, ?)";
 
-        return JdbcUtils.update(connection, SAVE_TIMETABLE, objectToSave.getEmployee().getId(), objectToSave.getExcursion().getId(),
+        JdbcUtils.update(connection, SAVE_TIMETABLE, objectToSave.getEmployee().getId(), objectToSave.getExcursion().getId(),
                 objectToSave.getDateStart(), objectToSave.getDateEnd());
+
+        return getLastSavedObjectId();
     }
 
     @Override
@@ -66,7 +69,8 @@ public class JdbcTimetableDao implements TimetableDao {
                 "ex.id AS excursion_id, ex.name AS excursion_name " +
                 "FROM timetable AS tt " +
                 "INNER JOIN employees AS e ON tt.employee_id = e.id " +
-                "INNER JOIN excursion AS ex ON tt.excursion_id = ex.id ";;
+                "INNER JOIN excursion AS ex ON tt.excursion_id = ex.id ";
+        ;
 
         return JdbcUtils.query(connection, FIND_ALL_TIMETABLES, new TimetableRowMapper());
     }
@@ -78,5 +82,12 @@ public class JdbcTimetableDao implements TimetableDao {
 
         return JdbcUtils.update(connection, UPDATE_TIMETABLE, newObject.getEmployee().getId(), newObject.getExcursion().getId(),
                 newObject.getDateStart(), newObject.getDateEnd(), newObject.getId());
+    }
+
+    private long getLastSavedObjectId() {
+        String QUERY = "SELECT MAX(id) AS last_id FROM timetable";
+
+        return JdbcUtils.queryForObject(connection, QUERY, new IdRowMapper()).
+                orElseThrow(() -> new RuntimeException("Can't get last saved object id"));
     }
 }
