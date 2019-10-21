@@ -2,6 +2,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.AudienceRowMapper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.IdRowMapper;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Exhibit;
@@ -20,8 +21,8 @@ public class JdbcAudienceDao implements AudienceDao {
         this.connection = connection;
     }
 
-    public static JdbcAudienceDao getInstance(Connection connection){
-        if(instance == null){
+    public static JdbcAudienceDao getInstance(Connection connection) {
+        if (instance == null) {
             instance = new JdbcAudienceDao(connection);
         }
 
@@ -32,7 +33,9 @@ public class JdbcAudienceDao implements AudienceDao {
     public long save(Audience objectToSave) {
         String SAVE_AUDIENCE = "INSERT INTO audiences (name) VALUES(?)";
 
-        return JdbcUtils.update(connection, SAVE_AUDIENCE, objectToSave.getName());
+        JdbcUtils.update(connection, SAVE_AUDIENCE, objectToSave.getName());
+
+        return getLastSavedObjectId();
     }
 
     @Override
@@ -89,4 +92,10 @@ public class JdbcAudienceDao implements AudienceDao {
         return JdbcUtils.queryForObject(connection, FIND_AUDIENCE_BY_EXHIBIT_ID, new AudienceRowMapper(), exhibit.getId());
     }
 
+    private long getLastSavedObjectId() {
+        String QUERY = "SELECT MAX(id) AS last_id FROM audiences";
+
+        return JdbcUtils.queryForObject(connection, QUERY, new IdRowMapper()).
+                orElseThrow(() -> new RuntimeException("Can't get last saved object id"));
+    }
 }

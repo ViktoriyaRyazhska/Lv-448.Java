@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class JdbcTimetableDaoTest extends JdbcDaoTest {
@@ -122,7 +123,7 @@ public class JdbcTimetableDaoTest extends JdbcDaoTest {
                 localDateTimeToDate(LocalDateTime.parse("2019-07-05T17:30:00")),
                 localDateTimeToDate(LocalDateTime.parse("2019-07-05T17:30:00")));
 
-        timetableDao.save(newTimetable);
+        assertEquals(9, timetableDao.save(newTimetable));
 
         assertTimetableEquals(newTimetable, timetableDao.findById(9).orElse(null));
     }

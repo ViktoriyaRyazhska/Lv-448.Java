@@ -35,7 +35,7 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
     void save() {
         Audience expected = new Audience(4, "TEST_AUDIENCE_NAME");
 
-        audienceDao.save(expected);
+        assertEquals(4, audienceDao.save(expected));
 
         assertAudienceEquals(expected, audienceDao.findById(4).orElse(null));
     }

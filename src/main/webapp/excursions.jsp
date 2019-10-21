@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <a class="btn btn-dark mr-2" href="<c:url value="/excursions/add-excursion"/>">New</a>
-                        <a class="btn btn-dark" href="<c:url value=""/>">Statistics</a>
+                        <a class="btn btn-dark" href="<c:url value="/excursions/statistics"/>">Statistics</a>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>

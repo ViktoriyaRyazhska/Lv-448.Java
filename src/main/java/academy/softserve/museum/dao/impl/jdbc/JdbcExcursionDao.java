@@ -3,6 +3,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 import academy.softserve.museum.dao.ExcursionDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.ExcursionStatisticRowMapper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.IdRowMapper;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
 import academy.softserve.museum.util.JdbcUtils;
@@ -76,7 +77,9 @@ public class JdbcExcursionDao implements ExcursionDao {
     public long save(Excursion objectToSave) {
         String SAVE_EXCURSION = "INSERT INTO excursion(name) values(?)";
 
-        return JdbcUtils.update(connection, SAVE_EXCURSION, objectToSave.getName());
+        JdbcUtils.update(connection, SAVE_EXCURSION, objectToSave.getName());
+
+        return getLastSavedObjectId();
     }
 
     @Override
@@ -107,4 +110,10 @@ public class JdbcExcursionDao implements ExcursionDao {
         return JdbcUtils.update(connection, UPDATE_EXCURSION, newObject.getName(), newObject.getId());
     }
 
+    private long getLastSavedObjectId() {
+        String QUERY = "SELECT MAX(id) AS last_id FROM excursion";
+
+        return JdbcUtils.queryForObject(connection, QUERY, new IdRowMapper()).
+                orElseThrow(() -> new RuntimeException("Can't get last saved object id"));
+    }
 }

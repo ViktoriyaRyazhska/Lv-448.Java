@@ -56,8 +56,30 @@
         });
     });
 
-    let timeLineStart = new Date(excursions[0].start);
-    let timeLineEnd = new Date(excursions[6].end);
+    console.log(excursions);
+
+    function getTimeLineStart(arr) {
+        let start = new Date(arr[0].start);
+        arr.forEach(function (element) {
+            if (element.start < start) {
+                start = element.start;
+            }
+        });
+        return start;
+    }
+
+    function getTimeLineEnd(arr) {
+        let end = new Date(arr[0].end);
+        arr.forEach(function (element) {
+            if (element.end > end) {
+                end = element.end;
+            }
+        });
+        return end;
+    }
+
+    const timeLineStart = getTimeLineStart(excursions);
+    const timeLineEnd = getTimeLineEnd(excursions);
 
     /**
      * Visualize schedule
