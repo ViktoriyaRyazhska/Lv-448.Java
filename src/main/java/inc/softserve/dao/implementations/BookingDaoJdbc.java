@@ -5,7 +5,6 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.entities.Booking;
-import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;
@@ -104,7 +103,21 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
-    private Stream<Booking> extractBookings(ResultSet rs) throws SQLException {
+    @Override
+    public Set<Booking> findBookingsByHotelIdAndDate(Long hotelId, LocalDate fromDate) {
+        String query = "SELECT * FROM bookings " +
+                "WHERE hotel_id = ? AND checkin > ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, hotelId);
+            prepStat.setDate(2, Date.valueOf(fromDate));
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractBookings(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        private Stream<Booking> extractBookings(ResultSet rs) throws SQLException {
         Stream.Builder<Booking> builder = Stream.builder();
         while (rs.next()){
             Booking booking = new Booking();

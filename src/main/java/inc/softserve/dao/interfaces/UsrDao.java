@@ -5,7 +5,7 @@ import inc.softserve.entities.Usr;
 import java.util.Optional;
 import java.util.Set;
 
-public interface UsrDao {
+public interface UsrDao extends Read<Usr> {
 
     Usr save(Usr usr);
 

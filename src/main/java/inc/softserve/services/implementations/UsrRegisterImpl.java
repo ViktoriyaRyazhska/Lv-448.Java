@@ -14,11 +14,14 @@ import inc.softserve.entities.Visa;
 import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 import inc.softserve.services.intefaces.UsrRegisterService;
+import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
+import inc.softserve.utils.rethrowing_lambdas.ThrowingRunnable;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -42,7 +45,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
 
     @Override
     public String register(UsrDto usrDto, VisaDto visaDto) {
-
         if (exists(usrDto)) {
             return "An account with such an email already exists!";
         }
@@ -55,19 +57,21 @@ public class UsrRegisterImpl implements UsrRegisterService {
         if (passwordCheck(usrDto.getPassword()) != null) {
             return "Given password is not valid!";
         }
-//        try {
-//            conn.setAutoCommit(false);
+        try {
+            conn.setAutoCommit(false);
             Usr usr = usrDao.save(convertDtoToUser(usrDto));
             visaDao.save(convertDtoToVisa(visaDto, usr));
+            conn.commit();
+            conn.setAutoCommit(true);
             return "The account is created successfully.";
-//        } catch (SQLException e) {
-//            try {
-//                conn.setAutoCommit(true);
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//            return "Oops, something happened";
-//        }
+        } catch (SQLException e) {
+            return "Oops, something happened";
+        } finally {
+            ThrowingLambdas.runnable(() -> {
+                conn.rollback();
+                conn.setAutoCommit(true);
+            });
+        }
     }
 
     private String generateHashPassword(UsrDto usrDto, String salt){
@@ -97,6 +101,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return user;
     }
 
+    // TODO - return optional if all data is missing or throw an exception if dates are not valid.
     private Visa convertDtoToVisa(VisaDto visaDto, Usr user){
         Visa visa = new Visa();
         visa.setVisaNumber(visaDto.getVisaNumber());

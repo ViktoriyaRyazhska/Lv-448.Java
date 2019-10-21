@@ -7,30 +7,21 @@
 </head>
 <body>
 <div class="width30">
-    <form action="login" method="post">
-
-        <%--        <tr>--%>
-        <%--            <td>Email:</td>--%>
-        <%--            <td><input type="email" name="email" /></td>--%>
-        <%--        <tr>--%>
-        <%--            <td>Password:</td>--%>
-        <%--            <td><input type="password" name="password" /></td>--%>
-        <%--        <tr>--%>
-        <%--            <td></td>--%>
-        <%--            <td><input type="submit" value="login" /></td>--%>
-        <%--        </tr>--%>
+    <form action="login.jsp" method="POST">
             <div class="form-line">
-                <label for="email"><b>Email</b></label>
-                <input type="text" placeholder="Enter Email" name="email" required>
+                <label>
+                    <b>Email: </b><input type="text" placeholder="Enter Email" name="email" required>
+                </label>
             </div>
-
             <div class="form-line">
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
+                <label>
+                    <b>Password: </b><input type="password" placeholder="Enter Password" name="password" required>
+                </label>
             </div>
-        <button type="submit" class="registerbtn">Register</button>
-
-
+        <button type="submit" class="registerbtn">Sign in</button>
+        <div class="container signin">
+            <p>Haven't created an account yet? <a href="registration.jsp">Sign up</a>.</p>
+        </div>
     </form>
 </div>
 </body>

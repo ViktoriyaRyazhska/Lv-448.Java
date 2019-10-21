@@ -106,6 +106,9 @@ public class HotelDaoJdbc implements HotelDao {
             hotel.setStreet(rs.getString("street"));
             hotel.setStreetNumber(rs.getString("street_number"));
             hotel.setStars(Hotel.Stars.valueOf(rs.getString("stars")));
+            hotel.setCity(cityDao
+                    .findById(rs.getLong("city_id"))
+                    .orElseThrow());
             builder.accept(hotel);
         }
         return builder.build();

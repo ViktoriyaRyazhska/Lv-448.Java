@@ -6,7 +6,7 @@ import java.util.function.Function;
 //@Slf4j
 public class ThrowingLambdas {
 
-    public static <T> Consumer<T> consumer(ThrowingConsumer<T, Exception> throwingConsumer) {
+    public static <T> Consumer<T> consumer(final ThrowingConsumer<T, Exception> throwingConsumer) {
         return x -> {
             try {
                 throwingConsumer.accept(x);
@@ -16,7 +16,7 @@ public class ThrowingLambdas {
         };
     }
 
-    public static <T1, T2> Function<T1, T2> function(ThrowingFunction<T1, T2, Exception> throwingFunction){
+    public static <T1, T2> Function<T1, T2> function(final ThrowingFunction<T1, T2, Exception> throwingFunction) {
         return x -> {
             try {
                 return throwingFunction.apply(x);
@@ -24,5 +24,13 @@ public class ThrowingLambdas {
                 throw new RuntimeException(e);
             }
         };
+    }
+
+    public static void runnable(final ThrowingRunnable<Exception> throwingRunnable) {
+        try {
+            throwingRunnable.run();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

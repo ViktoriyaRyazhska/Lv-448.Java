@@ -5,13 +5,13 @@ import inc.softserve.entities.Country;
 import java.util.Optional;
 import java.util.Set;
 
-public interface CountryDao {
+public interface CountryDao extends Read<Country> {
 
     Set<Country> findAll();
 
-    Set<Country> findCountriesVisitedByUsr(Long usrId);
-
     Optional<Country> findById(Long id);
+
+    Set<Country> findCountriesVisitedByUsr(Long usrId);
 
     Optional<Country> findByCountryName(String country);
 }

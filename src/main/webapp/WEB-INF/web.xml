@@ -27,13 +27,4 @@
     <filter-name>LoginFilter</filter-name>
     <url-pattern>/hotel.jsp</url-pattern>
   </filter-mapping>
-
-  <context-param>
-    <param-name>db_connection</param-name>
-    <param-value>inc.softserve.database.ConnectDb</param-value>
-  </context-param>
-  <context-param>
-    <param-name>usr_dao</param-name>
-    <param-value>inc.softserve.dao.implementations.UsrDaoJdbc</param-value>
-  </context-param>
 </web-app>

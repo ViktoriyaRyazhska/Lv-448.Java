@@ -11,17 +11,17 @@
 </head>
 <body>
     <h2>
-        <c:out value="${city}"/>
+        <c:out value="${country}"/>
     </h2>
 
     <table>
-        <c:forEach var="hotel" items="${hotels}" >
+        <c:forEach var="city" items="${cities}" >
             <div>
-                <a href="/city/${hotel.hotel_name}">${hotel.hotelName}</a>
+<%--                <a href="../${country}/${city.city}">${city.city}</a>--%>
+                <a href="../country/${country}/city/${city.city}?id=${city.id}">${city.city}</a>
             </div>
         </c:forEach>
     </table>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

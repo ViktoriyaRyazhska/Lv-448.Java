@@ -1,0 +1,16 @@
+:root{
+    font-size: 16px;
+}
+span.requiredFieldClass{
+    color: red;
+}
+span.requiredFieldClass:hover{
+    color: red;
+    font-size: 1.5em;
+}
+@media (min-width: 600px) {
+    body{
+        margin: auto;
+        max-width: 855px;
+    }
+}

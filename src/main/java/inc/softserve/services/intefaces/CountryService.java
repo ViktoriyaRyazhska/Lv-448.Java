@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface CountryService {
 
-    Set<Country> findAll();
+    Set<Country> findCountriesAndTheirCities();
 }

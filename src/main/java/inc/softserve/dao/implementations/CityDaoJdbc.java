@@ -69,14 +69,43 @@ public class CityDaoJdbc implements CityDao {
     }
 
     @Override
-    public Set<City> findByCountryName(String country) {
+    public Set<City> findByCountryId(Long countryId) {
         String query = "SELECT * FROM cities WHERE country_id = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setString(2, country);
+            prepStat.setLong(1, countryId);
             ResultSet resultSet = prepStat.executeQuery();
             return extractCities(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
          //   log.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Set<City> findByCountryName(String country){
+        String query = "SELECT * FROM cities " +
+                "INNER JOIN countries " +
+                "ON cities.country_id  = countries.id " +
+                "WHERE country = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setString(1, country);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractCities(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<City> findByCountryAndCity(Long countryId, String city){
+        String query = "SELECT * FROM cities " +
+                "WHERE country_id = ? AND city = ?";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, countryId);
+            prepStat.setString(2, city);
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractCities(resultSet).findAny();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

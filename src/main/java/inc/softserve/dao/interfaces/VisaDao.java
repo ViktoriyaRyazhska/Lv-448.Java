@@ -5,7 +5,7 @@ import inc.softserve.entities.Visa;
 import java.util.Optional;
 import java.util.Set;
 
-public interface VisaDao {
+public interface VisaDao extends Read<Visa> {
 
     Visa save(Visa visa);
 

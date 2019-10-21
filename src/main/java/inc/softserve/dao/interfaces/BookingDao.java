@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface BookingDao {
+public interface BookingDao extends Read<Booking> {
 
     Booking save(Booking booking);
 
@@ -19,6 +19,8 @@ public interface BookingDao {
     Set<Booking> findBookingsByRoomId(Long roomId);
 
     Set<Booking> findBookingsByRoomIdAndDate(Long roomId, LocalDate fromDate);
+
+    Set<Booking> findBookingsByHotelIdAndDate(Long hotelId, LocalDate fromDate);
 
     Set<Booking> findBookingsByUsrId(Long usrId);
 

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
-public interface RoomDao {
+public interface RoomDao extends Read<Room> {
 
     Set<Room> findAll();
 

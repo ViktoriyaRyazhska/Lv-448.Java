@@ -1,9 +1,6 @@
 package inc.softserve.servlets;
 
-import inc.softserve.dao.implementations.CountryDaoJdbc;
-import inc.softserve.database.ConnectDb;
 import inc.softserve.entities.Country;
-import inc.softserve.services.implementations.CountryServiceImpl;
 import inc.softserve.services.intefaces.CountryService;
 
 import javax.servlet.ServletException;
@@ -20,15 +17,16 @@ public class WelcomeServlet extends HttpServlet {
     private CountryService countryService;
 
     @Override
-    public void init() throws ServletException {
-        countryService = new CountryServiceImpl(new CountryDaoJdbc(ConnectDb.connectBase()));
+    public void init() {
+        countryService = (CountryService) getServletContext().getAttribute("countryService");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        Set<Country> countries = countryService.findAll();
+        Set<Country> countries = countryService.findCountriesAndTheirCities();
         req.setAttribute("countries", countries);
-        req.getRequestDispatcher("/index.jsp")
+        req
+                .getRequestDispatcher("/index.jsp")
                 .include(req, resp);
     }
 }
