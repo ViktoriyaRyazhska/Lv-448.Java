@@ -94,7 +94,12 @@
                             <img class="card-img-top" src="<c:url value="/static/img/exhibit-placeholder.jpg"/>" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">${exhibit.name}</h5>
-                                <h6 class="card-title">Author name</h6>
+                                <h6 class="card-title">
+                                    <c:forEach var="author" items="${exhibit.authors}">
+                                        <div>${author.firstName} ${author.lastName}</div>
+                                    </c:forEach>
+                                </h6>
+                                <h6>${exhibit.audience.name}</h6>
                                 <p class="card-text">
                                     <c:choose>
                                         <c:when test="${not empty exhibit.material}">

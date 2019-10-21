@@ -16,11 +16,17 @@
                 <form action="<c:url value="/exhibits/add-exhibit"/>" method="post">
                     <div class="form-group">
                         <label for="exhibit-type">Type</label>
-                        <select class="browser-default custom-select" id="exhibit-type">
+                        <select class="browser-default custom-select" id="exhibit-type" name="type">
                             <c:forEach var="type" items="${types}">
                                 <option value="${type}">${type}</option>
                             </c:forEach>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exhibit-name">Name</label>
+                        <input type="text" class="form-control" id="exhibit-name"
+                               name="name"
+                               placeholder="Enter exhibit name">
                     </div>
                     <div class="form-group">
                         <label for="exhibit-material">Material</label>
@@ -36,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exhibit-audience">Audience</label>
-                        <select class="browser-default custom-select" id="exhibit-audience">
+                        <select class="browser-default custom-select" id="exhibit-audience" name="audience">
                             <c:forEach var="audience" items="${audiences}">
                                 <option value="${audience.id}">${audience.name}</option>
                             </c:forEach>
