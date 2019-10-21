@@ -52,14 +52,17 @@
                         </select>
                     </div> <!-- form group [additional-filters] -->
                 </div>
-                <form class="form-inline additional-filter hidden" id="free-guides">
+                <form action="<c:url value="/employees/free-guides"/>"
+                      method="post"
+                      class="form-inline additional-filter hidden"
+                      id="free-guides" >
                     <div class="form-group">
                         <label class="filter-col" for="date-time-from">Date/Time from:</label>
-                        <input type="datetime-local" class="form-control input-xs w-250" id="date-time-from">
+                        <input type="datetime-local" class="form-control input-xs w-250" id="date-time-from" name="from">
                     </div> <!-- form group [date-from] -->
                     <div class="form-group">
                         <label class="filter-col" for="date-time-till">Date/Time till:</label>
-                        <input type="datetime-local" class="form-control input-xs w-250" id="date-time-till">
+                        <input type="datetime-local" class="form-control input-xs w-250" id="date-time-till" name="till">
                     </div> <!-- form group [date-till] -->
                     <button type="submit" class="btn btn-dark">
                         Show
