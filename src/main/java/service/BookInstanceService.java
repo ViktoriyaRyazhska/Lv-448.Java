@@ -11,6 +11,10 @@ public class BookInstanceService {
 
     private BookInstanceDao bookInstanceDao;
 
+    public BookInstanceService(BookInstanceDao bookInstanceDao) {
+        this.bookInstanceDao = bookInstanceDao;
+    }
+
     public void createBookInstance(BookInstance bookInstance) {
         bookInstanceDao.save(bookInstance);
     }
@@ -20,7 +24,7 @@ public class BookInstanceService {
     }
 
     public List<BookInstance> findAllBookInstanceByBookId(Long bookId) {
-        return bookInstanceDao.findAllBookInstanceByBooID(bookId);
+        return bookInstanceDao.findAllBookInstanceByBookId(bookId);
     }
 
     public boolean updateBookInstanced(BookInstance bookInstance) {
@@ -36,11 +40,23 @@ public class BookInstanceService {
         return bookInstanceDao.isAvailable(bookInstance);
     }
 
-    public Map<Long, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
-        return findBookInstanceIdAndCountOrderedByPeriod(firstDate, secondDate);
+    public Map<BookInstance, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
+        return bookInstanceDao.findBookInstanceIdAndCountOrderedByPeriod(firstDate, secondDate);
     }
 
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {
-        return findAllBookInstanceByTitle(bookTitle);
+        return bookInstanceDao.findAllBookInstanceByTitle(bookTitle);
+    }
+
+    public List<BookInstance> findAllBookInstanceOnReadingByUser(Long userId) {
+        return bookInstanceDao.findAllBookInstanceOnReading(userId);
+    }
+
+    public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
+        return bookInstanceDao.findAllReturnedBookInstanceByUser(userId);
+    }
+
+    public Long getAmountOfTimesBookInstanceWasTaken(Long bookInstanceId) {
+        return bookInstanceDao.getAmountOfTimesInstanceWasTaken(bookInstanceId);
     }
 }

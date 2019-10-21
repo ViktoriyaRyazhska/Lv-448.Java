@@ -4,6 +4,7 @@ import dao.interfaceDao.AuthorDaoInterface;
 import entities.Author;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,18 +38,6 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     @Override
-    public Optional<Author> findById(Long id) {
-        String query = "SELECT * FROM authors where id=?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return extractAuthors(resultSet).findAny();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void update(Author author) {
         String query = "UPDATE authors SET first_name = ?, last_name = ? WHERE id = ?";
 
@@ -60,6 +49,34 @@ public class AuthorDao implements AuthorDaoInterface {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Author> findById(Long id) {
+        String query = "SELECT * FROM authors where id=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractAuthors(resultSet).findAny();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Author> findAllSubAuthorByBookId(Long bookId) {
+        String query = "SELECT id_author FROM book_sub_authors where id_book = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, bookId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Author> subAuthors = new ArrayList<>();
+            while (resultSet.next()) {
+                long id_author = resultSet.getLong("id_author");
+                subAuthors.add(findById(id_author).get());
+            }
+            return subAuthors;
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getLocalizedMessage());
         }
     }
 

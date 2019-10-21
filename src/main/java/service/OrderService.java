@@ -26,17 +26,17 @@ public class OrderService {
         return orderDao.findAll();
     }
 
-    public boolean updateByOrder(Order orderToUpdate) {
+    public Order findById(Long id) {
+        return orderDao.findById(id).get();
+    }
+
+    public boolean updateReturnDate(Order orderToUpdate) {
         if (orderDao.findById(orderToUpdate.getId()).isPresent()) {
             orderDao.updateReturnDate(orderToUpdate.getId(), orderToUpdate.getDateReturn());
             return true;
         } else {
             return false;
         }
-    }
-
-    public Order findById(Long id) {
-        return orderDao.findById(id).get();
     }
 
     public List<Order> findAllByUserId(Long id) {

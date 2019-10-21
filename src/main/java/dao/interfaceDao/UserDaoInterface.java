@@ -1,9 +1,11 @@
 package dao.interfaceDao;
 
+import entities.BookInstance;
 import entities.User;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -24,4 +26,6 @@ public interface UserDaoInterface{
     Integer timeUsingLibraryByUser(Long userId);
 
     Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate);
+
+    Map<BookInstance, User> geBlackList();
 }
