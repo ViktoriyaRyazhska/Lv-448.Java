@@ -2,7 +2,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
-import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMaper;
+import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.EmployeeStatisticRowMapper;
 import academy.softserve.museum.dao.impl.jdbc.mappers.IdRowMapper;
 import academy.softserve.museum.entities.Audience;
@@ -73,7 +73,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                 "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
                 "password AS employee_password FROM employees WHERE position = ?";
 
-        return JdbcUtils.query(connection, FIND_BY_POSITION, new EmployeeRowMaper(), position.toString());
+        return JdbcUtils.query(connection, FIND_BY_POSITION, new EmployeeRowMapper(), position.toString());
     }
 
     /**
@@ -92,7 +92,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                 "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
                 "password AS employee_password FROM employees WHERE login = ?";
 
-        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(), username);
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMapper(), username);
     }
 
     /**
@@ -112,7 +112,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                 "last_name AS employee_last_name, position AS employee_position, login AS employee_login, " +
                 "password AS employee_password FROM employees WHERE first_name = ? and last_name = ?";
 
-        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMaper(),
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_USERNAME, new EmployeeRowMapper(),
                 firstName, lastName);
     }
 
@@ -177,7 +177,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                         "WHERE date_start BETWEEN ? AND ? " +
                         "OR date_end BETWEEN ? AND ?)";
 
-        return JdbcUtils.query(connection, FIND_AVAILABLE_TOUR_GUIDES, new EmployeeRowMaper(), dateStart, dateEnd,
+        return JdbcUtils.query(connection, FIND_AVAILABLE_TOUR_GUIDES, new EmployeeRowMapper(), dateStart, dateEnd,
                 dateStart, dateEnd);
     }
 
@@ -257,7 +257,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
     public Optional<Employee> findById(long id) {
         String FIND_EMPLOYEE_BY_ID = "SELECT id AS employee_id, first_name AS employee_first_name, last_name AS employee_last_name, " +
                 "position AS employee_position, login AS employee_login, password AS employee_password FROM employees WHERE id = ?";
-        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_ID, new EmployeeRowMaper(), id);
+        return JdbcUtils.queryForObject(connection, FIND_EMPLOYEE_BY_ID, new EmployeeRowMapper(), id);
     }
 
     /**
@@ -270,7 +270,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
         String FIND_ALL_EMPLOYEE = "SELECT id AS employee_id, first_name AS employee_first_name, last_name AS employee_last_name, " +
                 "position AS employee_position, login AS employee_login, password AS employee_password FROM employees";
 
-        return JdbcUtils.query(connection, FIND_ALL_EMPLOYEE, new EmployeeRowMaper());
+        return JdbcUtils.query(connection, FIND_ALL_EMPLOYEE, new EmployeeRowMapper());
     }
 
     /**

@@ -9,14 +9,25 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class used for creating Timetable object from ResultSet.
+ */
 public class TimetableRowMapper implements RowMapper<Timetable> {
+
+    /**
+     * Method for creating Timetable object from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating Timetable object.
+     * @return Timetable object created from ResultSet.
+     */
     @Override
     public Timetable mapRow(ResultSet resultSet) {
         Timetable timetable = new Timetable();
         Employee employee = new Employee();
         Excursion excursion = new Excursion();
 
-        try{
+        try {
             timetable.setId(resultSet.getLong("timetable_id"));
             timetable.setDateStart(new Date(resultSet.getTimestamp("date_start").getTime()));
             timetable.setDateEnd(new Date(resultSet.getTimestamp("date_end").getTime()));
@@ -34,7 +45,7 @@ public class TimetableRowMapper implements RowMapper<Timetable> {
             timetable.setExcursion(excursion);
 
             return timetable;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

@@ -6,8 +6,18 @@ import academy.softserve.museum.entities.EmployeePosition;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EmployeeRowMaper implements RowMapper<Employee> {
+/**
+ * Class used for creating Employee from ResultSet.
+ */
+public class EmployeeRowMapper implements RowMapper<Employee> {
 
+    /**
+     * Method for creating Employee from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating Employee.
+     * @return Employee created from ResultSet.
+     */
     @Override
     public Employee mapRow(ResultSet resultSet) {
         Employee employee = new Employee();

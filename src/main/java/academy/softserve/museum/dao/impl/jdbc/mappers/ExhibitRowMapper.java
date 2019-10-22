@@ -6,8 +6,18 @@ import academy.softserve.museum.entities.ExhibitType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class used for creating Exhibit from ResultSet.
+ */
 public class ExhibitRowMapper implements RowMapper<Exhibit> {
 
+    /**
+     * Method for creating Exhibit from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating Exhibit.
+     * @return Exhibit created from ResultSet.
+     */
     @Override
     public Exhibit mapRow(ResultSet resultSet) {
         Exhibit exhibit = new Exhibit();

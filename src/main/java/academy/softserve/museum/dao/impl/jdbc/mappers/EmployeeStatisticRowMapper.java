@@ -15,12 +15,12 @@ public class EmployeeStatisticRowMapper implements RowMapper<EmployeeStatistic> 
         EmployeeStatistic statistic = new EmployeeStatistic();
         Map<Employee, Integer> workTimeMap = new HashMap<>();
         Map<Employee, Integer> excursionCount = new HashMap<>();
-        EmployeeRowMaper employeeRowMaper = new EmployeeRowMaper();
+        EmployeeRowMapper employeeRowMapper = new EmployeeRowMapper();
         Employee employee;
 
         try {
             do {
-                employee = employeeRowMaper.mapRow(resultSet);
+                employee = employeeRowMapper.mapRow(resultSet);
                 workTimeMap.put(employee, resultSet.getInt("excursion_time"));
                 excursionCount.put(employee, resultSet.getInt("excursion_count"));
             } while (resultSet.next());

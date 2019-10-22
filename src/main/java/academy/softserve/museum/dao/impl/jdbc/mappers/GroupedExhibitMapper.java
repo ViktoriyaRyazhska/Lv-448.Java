@@ -7,8 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class GroupedAudienceMapper implements RowMapper<Map<Audience, List<Exhibit>>> {
+/**
+ * Class used for creating groped Exhibits by Audience from ResultSet.
+ */
+public class GroupedExhibitMapper implements RowMapper<Map<Audience, List<Exhibit>>> {
 
+    /**
+     * Method for creating groped Exhibits from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating groped Exhibits.
+     * @return groped Exhibits created from ResultSet.
+     */
     @Override
     public Map<Audience, List<Exhibit>> mapRow(ResultSet resultSet) {
         Map<Audience, List<Exhibit>> groupedAudiences = new HashMap<>();

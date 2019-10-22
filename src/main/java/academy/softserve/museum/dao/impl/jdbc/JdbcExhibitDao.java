@@ -4,7 +4,6 @@ import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.dao.impl.jdbc.mappers.*;
-import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import academy.softserve.museum.util.JdbcUtils;
@@ -203,7 +202,7 @@ public class JdbcExhibitDao implements ExhibitDao {
                         "INNER JOIN audiences AS a " +
                         "ON e.audience_id = a.id";
 
-        return JdbcUtils.queryForObject(connection, FIND_EXHIBIT_WITH_AUDIENCE, new GroupedAudienceMapper()).orElse(null);
+        return JdbcUtils.queryForObject(connection, FIND_EXHIBIT_WITH_AUDIENCE, new GroupedExhibitMapper()).orElse(null);
     }
 
     /**
