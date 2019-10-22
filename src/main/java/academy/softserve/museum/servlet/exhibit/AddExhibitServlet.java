@@ -4,10 +4,15 @@ import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.entities.ExhibitType;
 import academy.softserve.museum.services.AudienceService;
+import academy.softserve.museum.services.AuthorService;
 import academy.softserve.museum.services.ExhibitService;
 import academy.softserve.museum.services.impl.AudienceServiceImpl;
+import academy.softserve.museum.services.impl.AuthorServiceImpl;
 import academy.softserve.museum.services.impl.ExhibitServiceImpl;
+import academy.softserve.museum.servlet.author.AuthorsServlet;
+
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,14 +29,16 @@ public class AddExhibitServlet extends HttpServlet {
 
     private ExhibitService exhibitService;
     private AudienceService audienceService;
+    private AuthorService authorService;
 
     /**
      * Method initializes required resources
      */
     @Override
-    public void init() throws ServletException {
+    public void init() {
         exhibitService = new ExhibitServiceImpl();
         audienceService = new AudienceServiceImpl();
+        authorService = new AuthorServiceImpl();
     }
 
     /**
@@ -46,6 +53,8 @@ public class AddExhibitServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AuthorsServlet.dropCounter();
+        req.setAttribute("authors", authorService.findAll());
         req.setAttribute("types", exhibitService.getTypes());
         req.setAttribute("audiences", audienceService.findAll());
         req.getRequestDispatcher("/add-exhibit.jsp").include(req,resp);
@@ -71,14 +80,18 @@ public class AddExhibitServlet extends HttpServlet {
         audience.setId(Long.parseLong(req.getParameter("audience")));
         Exhibit exhibit = new Exhibit(exhibitType, material, technic, name);
 
-        try {
-            exhibitService.save(exhibit);
-            long id = exhibitService.findByName(exhibit.getName()).get().getId();
-            exhibit.setId(id);
-            exhibitService.updateExhibitAudience(exhibit, audience);
-            resp.sendRedirect(req.getContextPath() + "/exhibits");
-        } catch (RuntimeException e) {
-            resp.sendRedirect(req.getContextPath() + "/exhibits");
+        for(String key:req.getParameterMap().keySet()){
+            System.out.println("key:" + key + ":" + req.getParameter(key));
         }
+
+//        try {
+//            exhibitService.save(exhibit);
+//            long id = exhibitService.findByName(exhibit.getName()).get().getId();
+//            exhibit.setId(id);
+//            exhibitService.updateExhibitAudience(exhibit, audience);
+//            resp.sendRedirect(req.getContextPath() + "/exhibits");
+//        } catch (RuntimeException e) {
+//            resp.sendRedirect(req.getContextPath() + "/exhibits");
+//        }
     }
 }

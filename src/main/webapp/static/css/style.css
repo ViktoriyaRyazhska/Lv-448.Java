@@ -122,3 +122,11 @@
     margin: auto;
     z-index: 1;
 }
+
+.author-select {
+    max-width: 86%!important;
+}
+
+.fas {
+    line-height: 1.5!important;
+}

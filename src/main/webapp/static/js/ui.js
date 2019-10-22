@@ -8,6 +8,9 @@ $(document).ready(function(){
             1800, function(){});
 });
 
+/**
+ * Display active nav item
+ */
 $(document).ready(function() {
     $('li.active').removeClass('active');
     $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
@@ -65,6 +68,25 @@ $('#exhibit-additional-filters').on('change', function() {
         $('#by-audience').addClass('hidden');
     }
 });
+
+/**
+ * Add many authors
+ */
+
+let count = 2;
+$('.add-more-authors').click(function() {
+    $.get('http://localhost:8080/museum/authors', function (data) {
+        $('.author-group').append(data);
+        count++;
+    });
+});
+
+$('#new-exhibit-form').delegate('.delete-more-authors', 'click', function () {
+    console.log("Clicked");
+    $(this).parent().find('.author-select').remove();
+    $(this).remove();
+});
+
 
 /**
  * Add employee page
