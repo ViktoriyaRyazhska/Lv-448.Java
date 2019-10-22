@@ -19,8 +19,8 @@ public class ConnectDB {
     public static Connection getConnection() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
             Class.forName(DB_DRIVER);
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

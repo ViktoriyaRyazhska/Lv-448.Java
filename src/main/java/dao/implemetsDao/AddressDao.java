@@ -10,9 +10,18 @@ import java.util.stream.Stream;
 public class AddressDao implements AddressDaoInterface {
 
     private Connection connection;
+    private static AddressDao addressDao;
 
-    public AddressDao(Connection connection) {
+    private AddressDao(Connection connection) {
         this.connection = connection;
+    }
+
+    public static AddressDao getInstance(Connection connection) {
+        if (addressDao == null) {
+            addressDao = new AddressDao(connection);
+        }
+
+        return addressDao;
     }
 
     @Override
