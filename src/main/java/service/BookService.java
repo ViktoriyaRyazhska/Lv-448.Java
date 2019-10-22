@@ -39,7 +39,7 @@ public class BookService {
     }
 
     public Book findBookById(Long id) {
-        return bookDao.findById(id).get();
+        return bookDao.findById(id).orElseThrow(() -> new IllegalArgumentException(""));
     }
 
     public List<Book> findAllBooksByAuthorSurname(String authorSurname) {

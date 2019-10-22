@@ -89,7 +89,7 @@ public class BookDao implements BookDaoInterface {
             ResultSet resultSet = preparedStatement.executeQuery();
             return extractBooks(resultSet).findAny();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getLocalizedMessage());
         }
     }
 

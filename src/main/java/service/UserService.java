@@ -3,6 +3,7 @@ package service;
 import dao.implemetsDao.AddressDao;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.UserDao;
+import database.DaoFactory;
 import entities.Address;
 import entities.BookInstance;
 import entities.User;
@@ -17,10 +18,10 @@ public class UserService {
     private AddressDao addressDao;
     private BookInstanceDao bookInstanceDao;
 
-    public UserService(UserDao userDao, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
-        this.userDao = userDao;
-        this.addressDao = addressDao;
-        this.bookInstanceDao = bookInstanceDao;
+    public UserService() {
+        this.userDao = DaoFactory.userDao();
+        this.addressDao = DaoFactory.addressDao();
+        this.bookInstanceDao = DaoFactory.bookInstanceDao();
     }
 
     public User findUserById(Long id){

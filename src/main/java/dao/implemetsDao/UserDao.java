@@ -21,7 +21,6 @@ public class UserDao implements UserDaoInterface {
     private static UserDao userDao;
     private AddressDao addressDao;
     private BookInstanceDao bookInstanceDao;
-    private static UserDao userDao;
 
     private UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
         this.connection = connection;

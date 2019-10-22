@@ -1,6 +1,7 @@
 package service;
 
 import dao.implemetsDao.AuthorDao;
+import database.DaoFactory;
 import entities.Author;
 
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.List;
 public class AuthorService {
     private AuthorDao authorDao;
 
-    public AuthorService(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public AuthorService() {
+        authorDao = DaoFactory.authorDao();
     }
 
     public void createAuthor(Author author) {
@@ -29,7 +30,7 @@ public class AuthorService {
         return authorDao.findById(id).get();
     }
 
-    public List<Author> findAllSubAuthorByBookId (Long bookId){
+    public List<Author> findAllSubAuthorByBookId(Long bookId) {
         return authorDao.findAllSubAuthorByBookId(bookId);
     }
 
@@ -37,11 +38,7 @@ public class AuthorService {
         return authorDao.findAll();
     }
 
-    public Author findAuthorBySurname(String surname) throws IllegalAccessException {
-        if (authorDao.findBySurname(surname).isPresent()) {
-            return authorDao.findBySurname(surname).get();
-        } else {
-            throw new IllegalAccessException("Author not found");
-        }
+    public Author findAuthorBySurname(String surname) {
+        return authorDao.findBySurname(surname).orElseThrow(()-> new IllegalArgumentException("WRONG SURNAME"));
     }
 }

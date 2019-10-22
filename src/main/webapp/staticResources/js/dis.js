@@ -1,12 +1,12 @@
-// /**
-//  * Notification bar
-//  */
-// $(document).ready(function(){
-//     $(".alert")
-//         .delay(2000)
-//         .hide('slide', {direction: 'up' },
-//             1800, function(){});
-// });
+/**
+ * Notification bar
+ */
+$(document).ready(function(){
+    $(".alert")
+        .delay(2000)
+        .hide('slide', {direction: 'up' },
+            1800, function(){});
+});
 
 /**
  * Employees page
@@ -61,23 +61,23 @@ $('#exhibit-additional-filters').on('change', function() {
     }
 });
 
-// /**
-//  * Add employee page
-//  */
-//
-// /**
-//  * Show audience input only if employee position is an Audience manager
-//  */
-// $('#employee-positions').on('change', function() {
-//     if($(this).children(":selected").attr("id") === 'option-2') {
-//         // $('#employee-is-am').removeClass('hidden');
-//         // $('#employee-is-am').addClass('visible');
-//         $('#employee-is-am').css('display', 'block');
-//     } else {
-//         // $('#employee-is-am').removeClass('visible');
-//         // $('#employee-is-am').addClass('hidden');
-//         $('#employee-is-am').css('display', 'none');
-//     }
-// });
+/**
+ * Add employee page
+ */
+
+/**
+ * Show audience input only if employee position is an Audience manager
+ */
+$('#employee-positions').on('change', function() {
+    if($(this).children(":selected").attr("id") === 'option-2') {
+        // $('#employee-is-am').removeClass('hidden');
+        // $('#employee-is-am').addClass('visible');
+        $('#employee-is-am').css('display', 'block');
+    } else {
+        // $('#employee-is-am').removeClass('visible');
+        // $('#employee-is-am').addClass('hidden');
+        $('#employee-is-am').css('display', 'none');
+    }
+});
 
 
