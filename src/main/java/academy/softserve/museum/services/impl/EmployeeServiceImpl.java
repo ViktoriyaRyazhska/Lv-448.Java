@@ -1,5 +1,6 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
@@ -14,13 +15,16 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeDao employeeDao;
+    private final AudienceDao audienceDao;
 
     public EmployeeServiceImpl() {
         employeeDao = DaoFactory.employeeDao();
+        audienceDao = DaoFactory.audienceDao();
     }
 
-    public EmployeeServiceImpl(EmployeeDao employeeDao) {
+    public EmployeeServiceImpl(EmployeeDao employeeDao, AudienceDao audienceDao) {
         this.employeeDao = employeeDao;
+        this.audienceDao = audienceDao;
     }
 
     @Override
@@ -59,8 +63,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void update(Employee newObject) {
-        employeeDao.update(newObject);
+    public boolean update(Employee newObject) {
+        if (employeeDao.findByFullName(newObject.getFirstName(), newObject.getLastName())
+                .isPresent()) {
+            employeeDao.update(newObject);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -74,8 +84,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void updateEmployeeAudience(Employee employee, Audience audience) {
-        employeeDao.updateAudience(employee, audience);
+    public boolean updateEmployeeAudience(Employee employee, Audience audience) {
+        if ((employeeDao.findByFullName(employee.getFirstName(), employee.getLastName())
+                .isPresent())
+                && (audienceDao.findByName(audience.getName()).isPresent())) {
+            employeeDao.updateAudience(employee, audience);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
