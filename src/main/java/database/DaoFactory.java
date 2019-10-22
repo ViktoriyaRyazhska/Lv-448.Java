@@ -1,7 +1,6 @@
 package database;
 
-import dao.implemetsDao.AddressDao;
-import dao.implemetsDao.AuthorDao;
+import dao.implemetsDao.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +23,7 @@ public final class DaoFactory {
             Class.forName(DB_DRIVER);
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
-
+            throw new RuntimeException(e);
         }
     }
 
@@ -32,9 +31,36 @@ public final class DaoFactory {
         return AddressDao.getInstance(connection);
     }
 
-    public static AuthorDao authorDao(){
+    public static AuthorDao authorDao() {
         return AuthorDao.getInstance(connection);
     }
 
+    public static BookDao bookDao() {
+        AuthorDao authorDao = AuthorDao.getInstance(connection);
+        BookDao bookDao = BookDao.getInstance(connection, authorDao);
+
+        bookDao.setAuthorDao(authorDao);
+
+        return bookDao;
+    }
+
+    public static BookInstanceDao bookInstanceDao() {
+        BookDao bookDao = BookDao.getInstance(connection, authorDao());
+        BookInstanceDao bookInstanceDao = BookInstanceDao.getInstance(connection, bookDao);
+
+        return bookInstanceDao;
+    }
+
+    public static UserDao userDao() {
+        UserDao userDao = UserDao.getInstance(connection, addressDao(), bookInstanceDao());
+
+        return userDao;
+    }
+
+    public static OrderDao orderDao() {
+        OrderDao orderDao = OrderDao.getInstance(connection, userDao(), bookInstanceDao());
+
+        return orderDao;
+    }
 
 }

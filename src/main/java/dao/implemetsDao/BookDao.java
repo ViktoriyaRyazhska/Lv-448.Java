@@ -12,12 +12,21 @@ import java.util.stream.Stream;
 
 public class BookDao implements BookDaoInterface {
 
-    private Connection connection;
+    private final Connection connection;
     private AuthorDao authorDao;
+    private static BookDao bookDao;
 
-    public BookDao(Connection connection, AuthorDao authorDao) {
+    private BookDao(Connection connection, AuthorDao authorDao) {
         this.connection = connection;
         this.authorDao = authorDao;
+    }
+
+    public static BookDao getInstance(Connection connection, AuthorDao authorDao) {
+        if (bookDao == null) {
+            bookDao = new BookDao(connection, authorDao);
+        }
+
+        return bookDao;
     }
 
     public void save(Book book) {
@@ -272,5 +281,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-
+    public void setAuthorDao(AuthorDao authorDao) {
+        this.authorDao = authorDao;
+    }
 }
