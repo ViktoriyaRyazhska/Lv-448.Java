@@ -1,5 +1,7 @@
 package dao.implemetsDao;
 
+import dao.interfaceDao.AddressDaoInterface;
+import dao.interfaceDao.BookInstanceDaoInterface;
 import dao.interfaceDao.UserDaoInterface;
 import entities.BookInstance;
 import entities.User;
@@ -18,17 +20,17 @@ import static constants.QueryConstants.MAX_DAYS_TO_RETURN;
 public class UserDao implements UserDaoInterface {
 
     private final Connection connection;
-    private AddressDao addressDao;
-    private BookInstanceDao bookInstanceDao;
+    private AddressDaoInterface addressDaoInterface;
+    private BookInstanceDaoInterface bookInstanceDaoInterface;
     private static UserDao userDao;
 
-    private UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
+    private UserDao(Connection connection, AddressDaoInterface addressDaoInterface, BookInstanceDaoInterface bookInstanceDaoInterface) {
         this.connection = connection;
-        this.addressDao = addressDao;
-        this.bookInstanceDao = bookInstanceDao;
+        this.addressDaoInterface = addressDaoInterface;
+        this.bookInstanceDaoInterface = bookInstanceDaoInterface;
     }
 
-    public static UserDao getInstance(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
+    public static UserDao getInstance(Connection connection, AddressDaoInterface addressDao, BookInstanceDaoInterface bookInstanceDao) {
         if (userDao == null) {
             userDao = new UserDao(connection, addressDao, bookInstanceDao);
         }
@@ -165,13 +167,14 @@ public class UserDao implements UserDaoInterface {
                             .phoneNumber(resultSet.getString("phone_number"))
                             .email(resultSet.getString("email"))
                             .registrationDate(resultSet.getDate("date_registration").toLocalDate())
-                            .userAddress(addressDao.findById(resultSet.getLong("id_address")).get())
+                            .userAddress(addressDaoInterface.findById(resultSet.getLong("id_address")).get())
                             .build());
         }
         resultSet.close();
         return builder.build();
     }
 
+    @Override
     public Integer averageAgeUsersByBook(Long bookId) {
         String query = "select AVG(DATEDIFF(CURDATE(), users.birthday)) from users " +
                 "inner join orders on users.id = orders.id_users " +
@@ -187,7 +190,7 @@ public class UserDao implements UserDaoInterface {
             preparedStatement.setInt(1, MAX_DAYS_TO_RETURN);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                userBookMap.put(bookInstanceDao.findById(resultSet.getLong("id_book_instance")).get(),
+                userBookMap.put(bookInstanceDaoInterface.findById(resultSet.getLong("id_book_instance")).get(),
                         findById(resultSet.getLong("id")).get());
             }
             return userBookMap;
@@ -196,6 +199,7 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    @Override
     public Integer averageAgeUsersByAuthor(Long authorId) {
         String query = "select AVG(DATEDIFF(CURDATE(), users.birthday)) from users " +
                 "inner join orders on users.id = orders.id_users " +
@@ -215,4 +219,6 @@ public class UserDao implements UserDaoInterface {
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
+
+
 }

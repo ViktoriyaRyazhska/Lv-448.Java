@@ -28,4 +28,8 @@ public interface UserDaoInterface{
     Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate);
 
     Map<BookInstance, User> geBlackList();
+
+    Integer averageAgeUsersByAuthor(Long authorId);
+
+    Integer averageAgeUsersByBook(Long bookId);
 }

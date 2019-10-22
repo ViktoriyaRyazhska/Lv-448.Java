@@ -1,5 +1,6 @@
 package dao.implemetsDao;
 
+import dao.interfaceDao.BookDaoInterface;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import entities.BookInstance;
 
@@ -13,17 +14,17 @@ import java.util.stream.Stream;
 public class BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
-    private BookDao bookDao;
+    private BookDaoInterface bookDaoInterface;
     private static BookInstanceDao bookInstanceDao;
 
-    private BookInstanceDao(Connection connection, BookDao bookDao) {
+    private BookInstanceDao(Connection connection, BookDaoInterface bookDaoInterface) {
         this.connection = connection;
-        this.bookDao = bookDao;
+        this.bookDaoInterface = bookDaoInterface;
     }
 
-    public static BookInstanceDao getInstance(Connection connection, BookDao bookDao) {
+    public static BookInstanceDao getInstance(Connection connection, BookDaoInterface bookDaoInterface) {
         if (bookInstanceDao == null) {
-            bookInstanceDao = new BookInstanceDao(connection, bookDao);
+            bookInstanceDao = new BookInstanceDao(connection, bookDaoInterface);
         }
 
         return bookInstanceDao;
@@ -59,6 +60,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    @Override
     public List<BookInstance> findAllBookInstanceByBookId(Long bookId) {
         String query = "SELECT * FROM book_instance WHERE id_book = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -76,7 +78,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
                     BookInstance.builder()
                             .id(resultSet.getLong("id"))
                             .isAvailable(resultSet.getBoolean("is_available"))
-                            .book(bookDao.findById(resultSet.getLong("id_book")).get())
+                            .book(bookDaoInterface.findById(resultSet.getLong("id_book")).get())
                             .build());
         }
         resultSet.close();
@@ -95,12 +97,12 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
-
+    @Override
     public boolean isAvailable(Long id) {
         return findById(id).orElse(null).getIsAvailable();
     }
 
-
+    @Override
     public Map<BookInstance, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
         String query = "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +
                 "    WHERE date_order BETWEEN ? AND ?\n" +
@@ -120,6 +122,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         return map;
     }
 
+    @Override
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {
         String query = "SELECT book_instance.id FROM books JOIN book_instance ON books.id = book_instance.id_book WHERE title = ?;";
         List<BookInstance> bookInstanceId = new ArrayList<>();
@@ -136,12 +139,14 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    @Override
     public List<BookInstance> findAllBookInstanceOnReading(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
                 + " users.id = orders.id_users WHERE date_return is null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
+    @Override
     public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
                 + " users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
@@ -163,6 +168,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     }
 
     //    Скільки разів брали певну книжку по примірникам
+    @Override
     public Long getAmountOfTimesInstanceWasTaken(Long id) {
         String query = "select count(date_order) from orders where id_book_instance = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

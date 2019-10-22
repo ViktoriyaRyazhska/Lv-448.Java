@@ -1,6 +1,8 @@
 package dao.implemetsDao;
 
+import dao.interfaceDao.BookInstanceDaoInterface;
 import dao.interfaceDao.OrderDaoInterface;
+import dao.interfaceDao.UserDaoInterface;
 import entities.Order;
 
 import java.sql.*;
@@ -13,18 +15,18 @@ import java.util.stream.Stream;
 public class OrderDao implements OrderDaoInterface {
 
     private final Connection connection;
-    private UserDao userDao;
-    private BookInstanceDao bookInstanceDao;
+    private UserDaoInterface userDao;
+    private BookInstanceDaoInterface bookInstanceDao;
     private static OrderDao orderDao;
 
 
-    public OrderDao(Connection connection, UserDao userDao, BookInstanceDao bookInstanceDao) {
+    public OrderDao(Connection connection, UserDaoInterface userDao, BookInstanceDaoInterface bookInstanceDao) {
         this.connection = connection;
         this.userDao = userDao;
         this.bookInstanceDao = bookInstanceDao;
     }
 
-    public static OrderDao getInstance(Connection connection, UserDao userDao, BookInstanceDao bookInstanceDao) {
+    public static OrderDao getInstance(Connection connection, UserDaoInterface userDao, BookInstanceDaoInterface bookInstanceDao) {
         if (orderDao == null) {
             orderDao = new OrderDao(connection, userDao, bookInstanceDao);
         }

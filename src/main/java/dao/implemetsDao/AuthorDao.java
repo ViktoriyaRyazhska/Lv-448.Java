@@ -73,6 +73,7 @@ public class AuthorDao implements AuthorDaoInterface {
         }
     }
 
+    @Override
     public List<Author> findAllSubAuthorByBookId(Long bookId) {
         String query = "SELECT id_author FROM book_sub_authors where id_book = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -112,7 +113,6 @@ public class AuthorDao implements AuthorDaoInterface {
         resultSet.close();
         return authors.build();
     }
-
 
     @Override
     public Optional<Author> findBySurname(String surname) {

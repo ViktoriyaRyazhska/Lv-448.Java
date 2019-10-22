@@ -1,13 +1,15 @@
 package service;
 
 import dao.implemetsDao.AddressDao;
+import dao.interfaceDao.AddressDaoInterface;
+import database.DaoFactory;
 import entities.Address;
 
 public class AddressService {
-    private AddressDao addressDao;
+    private AddressDaoInterface addressDao;
 
-    public AddressService(AddressDao addressDao) {
-        this.addressDao = addressDao;
+    public AddressService() {
+        this.addressDao = DaoFactory.addressDao();
     }
 
     public void createAddress(Address address) {

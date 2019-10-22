@@ -17,4 +17,6 @@ public interface AuthorDaoInterface {
 
     List<Author> findAll();
 
+    List<Author> findAllSubAuthorByBookId(Long bookId);
+
 }

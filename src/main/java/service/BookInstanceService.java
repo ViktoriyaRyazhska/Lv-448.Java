@@ -1,6 +1,8 @@
 package service;
 
 import dao.implemetsDao.BookInstanceDao;
+import dao.interfaceDao.BookInstanceDaoInterface;
+import database.DaoFactory;
 import entities.BookInstance;
 
 import java.time.LocalDate;
@@ -9,10 +11,10 @@ import java.util.Map;
 
 public class BookInstanceService {
 
-    private BookInstanceDao bookInstanceDao;
+    private BookInstanceDaoInterface bookInstanceDao;
 
-    public BookInstanceService(BookInstanceDao bookInstanceDao) {
-        this.bookInstanceDao = bookInstanceDao;
+    public BookInstanceService() {
+        this.bookInstanceDao = DaoFactory.bookInstanceDao();
     }
 
     public void createBookInstance(BookInstance bookInstance) {

@@ -1,15 +1,17 @@
 package service;
 
 import dao.implemetsDao.AuthorDao;
+import dao.interfaceDao.AuthorDaoInterface;
+import database.DaoFactory;
 import entities.Author;
 
 import java.util.List;
 
 public class AuthorService {
-    private AuthorDao authorDao;
+    private AuthorDaoInterface authorDao;
 
-    public AuthorService(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public AuthorService() {
+        this.authorDao = DaoFactory.authorDao();
     }
 
     public void createAuthor(Author author) {

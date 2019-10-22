@@ -1,9 +1,12 @@
 package service;
 
 import dao.implemetsDao.AddressDao;
-import dao.implemetsDao.BookDao;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.UserDao;
+import dao.interfaceDao.AddressDaoInterface;
+import dao.interfaceDao.BookInstanceDaoInterface;
+import dao.interfaceDao.UserDaoInterface;
+import database.DaoFactory;
 import entities.Address;
 import entities.BookInstance;
 import entities.User;
@@ -14,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 public class UserService {
-    private UserDao userDao;
-    private AddressDao addressDao;
-    private BookInstanceDao bookInstanceDao;
+    private UserDaoInterface userDao;
+    private AddressDaoInterface addressDao;
+    private BookInstanceDaoInterface bookInstanceDao;
 
-    public UserService(UserDao userDao, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
-        this.userDao = userDao;
-        this.addressDao = addressDao;
-        this.bookInstanceDao = bookInstanceDao;
+    public UserService() {
+        this.userDao = DaoFactory.userDao();
+        this.addressDao = DaoFactory.addressDao();
+        this.bookInstanceDao = DaoFactory.bookInstanceDao();
     }
 
     public User findUserById(Long id){
