@@ -14,11 +14,14 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
     private BookDao bookDao;
+    private BookInstance bookInstance;
 
     public BookInstanceDao(Connection connection, BookDao bookDao) {
         this.connection = connection;
         this.bookDao = bookDao;
     }
+
+
 
     @Override
     public void save(BookInstance bookInstance) {

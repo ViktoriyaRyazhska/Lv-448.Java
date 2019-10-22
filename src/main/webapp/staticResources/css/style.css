@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.visible {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    background: #a79797;
+    border-radius: 3px;
+}
+
+.bg-none {
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
+
+.main-section {
+    overflow: hidden !important;
+}
+
+#bg-image {
+    /*width: 100%;*/
+    max-width: 100%;
+    /*height: auto;*/
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+}
+
+/*.nav-item:hover {*/
+/*    background: #007bff!important;*/
+/*    border-radius: 3px;*/
+/*}*/
+
+
+/* GENERAL */
+#filter-panel,
+.custom-list,
+#excursion-schedule {
+    margin-top: 30px;
+}
+
+#filter-panel .form-control {
+    width: 120px;
+}
+
+#filter-panel .form-group label {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#filter-panel .form-group button {
+    margin-left: 5px;
+}
+
+#filter-panel .form-group {
+    margin-right: 10px;
+}
+
+.additional-filter {
+    margin-top: 10px;
+}
+
+/* EMPLOYEES */
+#employees-list {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#employees-list .table td,
+#employees-list .table th {
+    text-align: center;
+}
+
+#employees-list .table td:first-child,
+#employees-list .table th:first-child {
+    text-align: left;
+}
+
+
+/* LOGIN */
+.login-form {
+    margin-top: 30vh;
+}
+
+/* ADD NEW EMPLOYEE */
+.add-form,
+.update-form {
+    margin-top: 8vh;
+}
+
+#employee-is-am {
+    display: none;
+}
+
+/* CHARTS */
+.chart {
+    margin-top: 30px;
+}
+
+.w-250 {
+    width: 250px !important;
+}
+
+/* NOTIFICATION BAR */
+.alert {
+    position: absolute !important;
+    width: fit-content;
+    top: 88px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 1;
+}

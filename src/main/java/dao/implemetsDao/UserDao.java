@@ -17,7 +17,8 @@ import static constants.QueryConstants.MAX_DAYS_TO_RETURN;
 
 public class UserDao implements UserDaoInterface {
 
-    private final Connection connection;
+    private static Connection connection;
+    private static UserDao userDao;
     private AddressDao addressDao;
     private BookInstanceDao bookInstanceDao;
 
@@ -28,6 +29,7 @@ public class UserDao implements UserDaoInterface {
     }
 
     @Override
+
     public void save(User user) {
         String query = "INSERT INTO users"
                 + "(user_name, user_surname, birthday, phone_number, email, date_registration, id_address) "

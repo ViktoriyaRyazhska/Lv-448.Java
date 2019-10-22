@@ -12,10 +12,19 @@ import java.util.stream.Stream;
 
 public class AuthorDao implements AuthorDaoInterface {
 
-    private final Connection connection;
+    private Connection connection;
+    private static AuthorDao authorDao;
 
     public AuthorDao(Connection connection) {
         this.connection = connection;
+    }
+
+    public static AuthorDao getInstance(Connection connection) {
+        if (authorDao == null) {
+            authorDao = new AuthorDao(connection);
+        }
+
+        return authorDao;
     }
 
     @Override
