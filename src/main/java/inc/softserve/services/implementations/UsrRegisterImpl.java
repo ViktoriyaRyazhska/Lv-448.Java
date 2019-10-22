@@ -59,7 +59,9 @@ public class UsrRegisterImpl implements UsrRegisterService {
         try {
             conn.setAutoCommit(false);
             Usr usr = usrDao.save(convertDtoToUser(usrDto));
-            visaDao.save(convertDtoToVisa(visaDto, usr));
+            if (visaDto != null) {
+                visaDao.save(convertDtoToVisa(visaDto, usr));
+            }
             conn.commit();
             conn.setAutoCommit(true);
             return "The account is created successfully.";
@@ -102,14 +104,18 @@ public class UsrRegisterImpl implements UsrRegisterService {
     // TODO - return optional if all data is missing or throw an exception if dates are not valid.
     private Visa convertDtoToVisa(VisaDto visaDto, Usr user){
         Visa visa = new Visa();
-        visa.setVisaNumber(visaDto.getVisaNumber());
-        visa.setIssued(visaDto.getIssued());
-        visa.setExpirationDate(visaDto.getExpirationDate());
-        visa.setCountry(countryDao
-                .findByCountryName(visaDto.getCountry())
-                .orElseThrow()
-        );
-        visa.setUsr(user);
+        if (visaDto != null ) {
+            visa.setVisaNumber(visaDto.getVisaNumber());
+            visa.setIssued(visaDto.getIssued());
+            visa.setExpirationDate(visaDto.getExpirationDate());
+            visa.setCountry(countryDao
+                    .findByCountryName(visaDto.getCountry())
+                    .orElseThrow()
+            );
+            visa.setUsr(user);
+        }else{
+            return  visa;
+        }
         return  visa;
 
     }
@@ -191,12 +197,16 @@ public class UsrRegisterImpl implements UsrRegisterService {
     }
 
     public VisaDto initVisaDto(String country, String ExpirationDate, String issued, String visaNumber){
-        VisaDto visa = new VisaDto();
-        visa.setCountry(country);
-        visa.setExpirationDate(generateDate(ExpirationDate));
-        visa.setIssued(generateDate(issued));
-        visa.setVisaNumber(visaNumber);
-        return visa;
+        if (country.isEmpty()) {
+            return null;
+        } else {
+            VisaDto visa = new VisaDto();
+            visa.setCountry(country);
+            visa.setExpirationDate(generateDate(ExpirationDate));
+            visa.setIssued(generateDate(issued));
+            visa.setVisaNumber(visaNumber);
+            return visa;
+        }
     }
 
     private boolean isValidDate(String date) {

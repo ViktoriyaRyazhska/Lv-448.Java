@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             Usr user = userService.LoginIn(email, password);
             if (user != null) {
                 session.setAttribute("user", user);
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                response.sendRedirect(request.getContextPath() + "/index");
             } else {
                 messages.put("login", "Unknown login, please try again");
             }
