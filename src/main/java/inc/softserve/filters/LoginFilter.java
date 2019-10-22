@@ -24,7 +24,7 @@ public class LoginFilter implements Filter {
         if (loggedIn) {
             filterChain.doFilter(request, response);
         } else {
-            response.sendRedirect(response.encodeRedirectURL("/Lv_448_Java_war/login.jsp"));
+            response.sendRedirect(response.encodeRedirectURL("/login.jsp"));
         }
 
     }

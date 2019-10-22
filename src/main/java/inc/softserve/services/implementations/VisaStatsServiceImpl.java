@@ -3,9 +3,10 @@ package inc.softserve.services.implementations;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
+import inc.softserve.entities.Country;
 import inc.softserve.services.intefaces.VisaStatsService;
 
-import java.util.Optional;
+import java.util.*;
 
 public class VisaStatsServiceImpl implements VisaStatsService {
 
@@ -31,4 +32,15 @@ public class VisaStatsServiceImpl implements VisaStatsService {
         return countryDao.findByCountryName(country)
                 .map(c -> visaDao.issuedVisas(c.getCountry()));
     }
+
+    public Map<String, Integer> countVisasIssuedByAllCountry() {
+        Map<String, Integer> countrys = new HashMap<>();
+        for (Country country : countryDao.findAll()) {
+            Integer count = countVisasIssuedByCountry(country.getCountry()).orElseThrow();
+            countrys.put(country.getCountry(), count);
+        }
+        return countrys;
+    }
+
+
 }
