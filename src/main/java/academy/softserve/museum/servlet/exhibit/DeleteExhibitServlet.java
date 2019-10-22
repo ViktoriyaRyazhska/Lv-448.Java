@@ -1,8 +1,10 @@
 package academy.softserve.museum.servlet.exhibit;
 
+import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.services.ExhibitService;
 import academy.softserve.museum.services.impl.ExhibitServiceImpl;
 import academy.softserve.museum.util.PathParser;
+import com.sun.xml.internal.ws.api.message.Message;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -45,9 +47,9 @@ public class DeleteExhibitServlet extends HttpServlet {
         long id = PathParser.getPathVariable(req.getPathInfo());
         try {
             exhibitService.deleteById(id);
-            req.setAttribute("successMessage", "Exhibit has been successfully deleted");
+            req.setAttribute(MessageType.SUCCESS, "Exhibit has been successfully deleted");
         } catch (RuntimeException e) {
-            req.setAttribute("failureMessage", "Something went wrong!");
+            req.setAttribute(MessageType.FAILURE, "Something went wrong!");
         }
         req.getRequestDispatcher("/exhibits").forward(req, resp);
     }

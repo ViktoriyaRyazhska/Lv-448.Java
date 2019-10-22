@@ -1,8 +1,10 @@
 package academy.softserve.museum.servlet.excursion;
 
+import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.services.ExcursionService;
 import academy.softserve.museum.services.impl.ExcursionServiceImpl;
 import academy.softserve.museum.util.PathParser;
+import com.sun.xml.internal.ws.api.message.Message;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,9 +46,9 @@ public class DeleteExcursionServlet extends HttpServlet {
         long id = PathParser.getPathVariable(req.getPathInfo());
         try {
             excursionService.deleteById(id);
-            req.setAttribute("successMessage", "Excursion has been successfully deleted");
+            req.setAttribute(MessageType.SUCCESS, "Excursion has been successfully deleted");
         } catch (RuntimeException e) {
-            req.setAttribute("failureMessage", "Something went wrong!");
+            req.setAttribute(MessageType.FAILURE, "Something went wrong!");
         }
         req.getRequestDispatcher("/excursions").forward(req, resp);
     }
