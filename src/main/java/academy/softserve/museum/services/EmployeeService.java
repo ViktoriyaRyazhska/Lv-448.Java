@@ -22,13 +22,13 @@ public interface EmployeeService {
 
     Employee findByFullName(String firstName, String lastName);
 
-    void update(Employee newObject);
+    boolean update(Employee newObject);
 
     List<Employee> findByPosition(EmployeePosition position);
 
     EmployeeStatistic findStatistic(Date dateStart, Date dateEnd);
 
-    void updateEmployeeAudience(Employee employee, Audience audience);
+    boolean updateEmployeeAudience(Employee employee, Audience audience);
 
     List<Employee> findAvailable(Date dateStart, Date dateEnd);
 }

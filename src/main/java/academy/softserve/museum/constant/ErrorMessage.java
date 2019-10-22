@@ -30,4 +30,6 @@ public class ErrorMessage {
     public static final String TIMETABLE_NOT_DELETED = "TIMETABLE not deleted. Object with such id does not exist. Id: ";
     public static final String TIMETABLE_NOT_UPDATED = "TIMETABLE not updated. Object with such name does not exist. Id: ";
 
+    public static final String OBJECT_NOT_FOUND = "Object not found";
+
 }
