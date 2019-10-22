@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/login")
+@WebServlet(value = {"/login"})
 public class LoginServlet extends HttpServlet {
     private UsrRegisterImpl userService;
 
@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Map<String, String> messages = userService.validateData(email, password);

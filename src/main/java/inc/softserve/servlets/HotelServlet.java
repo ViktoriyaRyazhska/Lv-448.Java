@@ -28,6 +28,7 @@ public class HotelServlet extends HttpServlet {
         String city = req.getPathInfo().replace("/", "");
         Set<Hotel> hotels = hotelService.findHotelsByCityId(cityId, LocalDate.now());
         req.setAttribute("city", city);
+        req.setAttribute("cityId", cityId);
         req.setAttribute("hotels", hotels);
         req.getRequestDispatcher("/hotels.jsp").include(req, resp);
     }

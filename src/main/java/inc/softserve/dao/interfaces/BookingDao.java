@@ -1,5 +1,6 @@
 package inc.softserve.dao.interfaces;
 
+import inc.softserve.dto.RoomDto;
 import inc.softserve.entities.Booking;
 import inc.softserve.entities.stats.RoomBooking;
 
@@ -27,4 +28,6 @@ public interface BookingDao extends Read<Booking> {
     List<RoomBooking> showAllFutureBookings(Long hotelId);
 
     List<RoomBooking> findByRoomIdAndDate(Long roomId, LocalDate fromDate);
+
+    Set<RoomDto> tmpfindByRoomIdAndDate(Long roomId, LocalDate from);
 }

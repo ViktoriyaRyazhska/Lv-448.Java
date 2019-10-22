@@ -27,6 +27,11 @@ public class HotelServiceImpl implements HotelService {
         this.countryDao = countryDao;
     }
 
+    @Override
+    public Set<Hotel> findAvailableHotelsInCity(Long cityId, LocalDate startPeriod, LocalDate endPeriod){
+        return hotelDao.findHotelsByCityIdAndDate(cityId, startPeriod, endPeriod);
+    }
+
     /**
      *
      * @return all hotels without their bookings
@@ -36,6 +41,7 @@ public class HotelServiceImpl implements HotelService {
         return hotelDao.findAll();
     }
 
+    @Deprecated
     @Override
     public Set<Hotel> findHotelsByCityId(Long cityId, LocalDate fromDate) {
         return hotelDao.findHotelsByCityId(cityId)
@@ -52,6 +58,7 @@ public class HotelServiceImpl implements HotelService {
      * @param cityName - a name of a city
      * @return - all hotels that are in the city
      */
+    @Deprecated
     @Override
     public Set<Hotel> findHotelsByCountryAndCity(String countryName, final String cityName, final LocalDate fromDate){
         return countryDao.findByCountryName(countryName)

@@ -28,7 +28,6 @@ public class RegistrationServlet extends HttpServlet {
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/registration.jsp");
         requestDispatcher.forward(req, resp);
-
     }
 
     @Override

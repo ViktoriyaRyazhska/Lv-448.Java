@@ -26,7 +26,8 @@
         </c:forEach>
     </div>
 
-    <form id="formId" action="/hotels/search" method="POST">
+    <!-- TODO - add mapping -->
+    <form id="formId" action="/hotels/" method="POST">
         <fieldset>
             <legend>Search for a hotel</legend>
             <label>
@@ -40,9 +41,10 @@
                 <span class="requiredFieldClass" title="Required field">*</span>
             </label>
             <label>
-                City: <input type="text" name="cityName" placeholder="For instance, Las Vegas" required>
+                City: <input id="cityIn" type="text" name="cityName" placeholder="For instance, Las Vegas" required>
             </label>
-            <button type="submit">Search</button>
+            <br/>
+            <button id="submit" type="submit">Search</button>
         </fieldset>
     </form>
 

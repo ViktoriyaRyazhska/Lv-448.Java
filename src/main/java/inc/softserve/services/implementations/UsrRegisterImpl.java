@@ -39,7 +39,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
         this.usrDao = new UsrDaoJdbc(conn);
         this.countryDao = new CountryDaoJdbc(conn);
         this.visaDao = new VisaDaoJdbc(conn, usrDao, countryDao);
-
     }
 
 
@@ -65,12 +64,11 @@ public class UsrRegisterImpl implements UsrRegisterService {
             conn.setAutoCommit(true);
             return "The account is created successfully.";
         } catch (SQLException e) {
-            return "Oops, something happened";
-        } finally {
             ThrowingLambdas.runnable(() -> {
                 conn.rollback();
                 conn.setAutoCommit(true);
             });
+            return "Oops, something happened";
         }
     }
 

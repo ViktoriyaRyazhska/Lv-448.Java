@@ -21,14 +21,15 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Set<RoomDto> findAvailableRooms(Long hotelId, final LocalDate from) {
-        return bookingDao.findBookingsByHotelIdAndDate(hotelId, from)
-                .stream()
-                .map(booking -> RoomDto.builder()
-                        .room(booking.getRoom())
-                        .bookedTo(booking.getCheckin())
-                        .bookedFrom(booking.getCheckout())
-                        .build()
-                )
-                .collect(Collectors.toSet());
+        return bookingDao.tmpfindByRoomIdAndDate(hotelId, from);
+//        return bookingDao.findBookingsByHotelIdAndDate(hotelId, from)
+//                .stream()
+//                .map(booking -> RoomDto.builder()
+//                        .room(booking.getRoom())
+//                        .bookedTo(booking.getCheckout())
+//                        .bookedFrom(booking.getCheckin())
+//                        .build()
+//                )
+//                .collect(Collectors.toSet());
     }
 }

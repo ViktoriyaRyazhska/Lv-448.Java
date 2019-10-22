@@ -7,10 +7,8 @@ import inc.softserve.entities.stats.HotelStats;
 import inc.softserve.entities.stats.time_utils.Day;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +18,8 @@ import java.util.stream.Stream;
 // @Slf4j
 public class HotelDaoJdbc implements HotelDao {
 
+    //TODO
+    private static final String TABLE_NAME = "";
     private final Connection connection;
     private final CityDao cityDao;
 
@@ -67,10 +67,33 @@ public class HotelDaoJdbc implements HotelDao {
     }
 
     @Override
+    public Set<Hotel> findHotelsByCityIdAndDate(Long cityId, LocalDate startPeriod, LocalDate endPeriod){
+        String query = "SELECT DISTINCT hotels.* FROM rooms " +
+                "INNER JOIN cities " +
+                "ON rooms.city_id = cities.id " +
+                "LEFT JOIN bookings " +
+                "ON rooms.id = bookings.room_id " +
+                "INNER JOIN hotels " +
+                "ON rooms.hotel_id = hotels.id " +
+                "WHERE rooms.city_id = ? " +
+                "AND order_date IS NULL " +
+                "OR (checkin >= ? AND checkout <= ?)";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
+            prepStat.setLong(1, cityId);
+            prepStat.setDate(2, Date.valueOf(startPeriod));
+            prepStat.setDate(3, Date.valueOf(endPeriod));
+            ResultSet resultSet = prepStat.executeQuery();
+            return extractHotels(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<HotelStats> calcStats() {
         String query = "SELECT hotel_name, " +
                 "COUNT(usr_id) AS count_users, " +
-                "AVG(DATEDIFF(checkout, checkin)) AS average_booking_time " +
+                "AVG(DATEDIFF(?, ?)) AS average_booking_time " +
                 "FROM hotels " +
                 "INNER JOIN bookings " +
                 "ON hotels.id = bookings.hotel_id " +

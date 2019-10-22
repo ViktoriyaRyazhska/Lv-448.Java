@@ -4,6 +4,7 @@ import inc.softserve.dao.interfaces.BookingDao;
 import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.dto.RoomDto;
 import inc.softserve.entities.Booking;
 import inc.softserve.entities.stats.RoomBooking;
 
@@ -152,6 +153,7 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    @Deprecated
     @Override
     public List<RoomBooking> showAllFutureBookings(Long hotelId) {
         String query = "SELECT rooms.id, rooms.chamber_number, rooms.luxury, rooms.bedrooms, rooms.hotel_id, rooms.city_id, " +
@@ -170,6 +172,7 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    @Deprecated
     private Stream<RoomBooking> extractFutureBookings(ResultSet rs) throws SQLException {
         Stream.Builder<RoomBooking> builder = Stream.builder();
         while (rs.next()){
@@ -185,6 +188,7 @@ public class BookingDaoJdbc implements BookingDao {
         return builder.build();
     }
 
+    @Deprecated
     @Override
     public List<RoomBooking> findByRoomIdAndDate(Long roomId, LocalDate fromDate) {
         String query = "SELECT * FROM bookings WHERE room_id = ? AND bookings.checkin > ?";
@@ -197,5 +201,40 @@ public class BookingDaoJdbc implements BookingDao {
 //            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Set<RoomDto> tmpfindByRoomIdAndDate(Long roomId, LocalDate from){ // TODO - put to Room dao
+        String query = "SELECT * FROM rooms " +
+                "LEFT JOIN bookings " +
+                "ON rooms.id = bookings.room_id " +
+                "WHERE rooms.hotel_id = ? AND (checkin > ? OR checkin IS NULL)";
+        try (PreparedStatement prepStat = connection.prepareStatement(query)){
+            prepStat.setLong(1, roomId);
+            prepStat.setDate(2, Date.valueOf(from));
+            ResultSet resultSet = prepStat.executeQuery();
+            return tmp(resultSet).collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Stream<RoomDto> tmp(ResultSet rs) throws SQLException { // TODO - put to Room dao
+        Stream.Builder<RoomDto> builder = Stream.builder();
+        while (rs.next()){
+            RoomDto roomBooking = RoomDto.builder()
+                    .room(roomDao
+                            .findById(rs.getLong("id"))
+                            .orElseThrow())
+                    .bookedFrom(Optional.ofNullable(rs.getDate("checkin"))
+                            .map(Date::toLocalDate)
+                            .orElse(null))
+                    .bookedTo(Optional.ofNullable(rs.getDate("checkout"))
+                            .map(Date::toLocalDate)
+                            .orElse(null))
+                    .build();
+            builder.accept(roomBooking);
+        }
+        return builder.build();
     }
 }
