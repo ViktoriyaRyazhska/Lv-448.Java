@@ -1,5 +1,6 @@
 package academy.softserve.museum.servlet.exhibit;
 
+import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.AuthorService;
@@ -48,9 +49,17 @@ public class ExhibitsByAuthor extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Author author = authorService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName")).get();
-        req.setAttribute("audiences", audienceService.findAll());
-        req.setAttribute("exhibits", exhibitService.findByAuthor(author));
-        req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
+        try {
+            Author author = authorService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName")).get();
+            req.setAttribute("audiences", audienceService.findAll());
+            req.setAttribute("exhibits", exhibitService.findByAuthor(author));
+            req.setAttribute(MessageType.SUCCESS, "Found " + exhibitService.findByAuthor(author).size() + " result(s)");
+            req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
+        } catch (RuntimeException e) {
+            req.setAttribute(MessageType.FAILURE, "Author does not exist");
+            req.setAttribute("audiences", audienceService.findAll());
+            req.setAttribute("exhibits", exhibitService.findAll());
+            req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
+        }
     }
 }
