@@ -8,17 +8,10 @@ $(document).ready(function(){
             1800, function(){});
 });
 
-/**
- * Navbar active
- */
-
-
-// $(document).ready(function() {
-//     $('.nav-item, .nav-link').click(function(e){
-//         $('.nav-item').addClass('active');
-//         return false;
-//     });
-// });
+$(document).ready(function() {
+    $('li.active').removeClass('active');
+    $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+});
 
 /**
  * Employees page
