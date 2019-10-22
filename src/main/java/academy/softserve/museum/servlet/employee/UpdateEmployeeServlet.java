@@ -3,7 +3,9 @@ package academy.softserve.museum.servlet.employee;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
+import academy.softserve.museum.services.impl.AudienceServiceImpl;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 import academy.softserve.museum.util.PathParser;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdateEmployeeServlet extends HttpServlet {
 
     private EmployeeService employeeService;
+    private AudienceService audienceService;
 
     /**
      * Method initializes required resources
@@ -29,6 +32,7 @@ public class UpdateEmployeeServlet extends HttpServlet {
     @Override
     public void init() {
         employeeService = new EmployeeServiceImpl();
+        audienceService = new AudienceServiceImpl();
     }
 
     /**
@@ -46,6 +50,7 @@ public class UpdateEmployeeServlet extends HttpServlet {
         long pathVariable = PathParser.getPathVariable(req.getPathInfo());
         Employee employee = employeeService.findById(pathVariable).get();
         req.setAttribute("employee", employee);
+        req.setAttribute("audiences", audienceService.findAll());
         req.getRequestDispatcher("/update-employee.jsp").include(req, resp);
     }
 

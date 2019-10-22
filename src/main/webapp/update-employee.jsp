@@ -59,11 +59,12 @@
                         </select>
                     </div>
                     <div class="form-group" id="employee-is-am">
-                        <label for="employee-audience">Audience</label>
-                        <input type="number" class="form-control" id="employee-audience"
-                               aria-describedby="employee-audience-help"
-                               name="audience"
-                               placeholder="Enter audience number">
+                        <label class="filter-col" for="employee-audience">Audience</label>
+                        <select class="browser-default custom-select" id="employee-audience" name="audience">
+                            <c:forEach var="audience" items="${audiences}">
+                                <option value="${audience.id}">${audience.name}</option>
+                            </c:forEach>
+                        </select>
                         <small id="employee-audience-help" class="form-text text-muted">Allowed only if employee's
                             position is an Audience manager</small>
                     </div>
