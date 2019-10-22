@@ -13,16 +13,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class processes requests for /excursions url.
+ *
+ * @version 1.0
+ */
 @WebServlet("/excursions")
 public class ExcursionServlet extends HttpServlet {
 
     private ExcursionService excursionService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() {
         excursionService = new ExcursionServiceImpl();
     }
 
+    /**
+     * Method processes GET request for /excursions url.
+     * and returns /excursions.jsp with list of excursions
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Excursion> excursions;

@@ -9,7 +9,7 @@
 <body>
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
-    <img id="bg-image" src="<c:url value="/bg.jpg"/>" alt="museum-bg">
+    <img id="bg-image" src="<c:url value="/static/img/bg.jpg"/>" alt="museum-bg">
 </section>
 <jsp:include page="fragment/footer.jsp"/>
 </body>

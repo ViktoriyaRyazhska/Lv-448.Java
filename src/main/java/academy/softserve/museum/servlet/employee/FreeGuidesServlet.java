@@ -1,6 +1,5 @@
 package academy.softserve.museum.servlet.employee;
 
-import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
@@ -14,24 +13,35 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class processes requests for /employees/free-guides url.
+ *
+ * @version 1.0
+ */
 @WebServlet("/employees/free-guides")
 public class FreeGuidesServlet extends HttpServlet {
 
     private EmployeeService employeeService;
 
+    /**
+     * Method initializes required resources.
+     */
     @Override
-    public void init() throws ServletException {
+    public void init() {
         employeeService = new EmployeeServiceImpl();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-    }
-
+    /**
+     * Method processes POST request for /employees/free-guides url
+     * and returns a list of free tour guides for given time range.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Date dateTimeFrom =

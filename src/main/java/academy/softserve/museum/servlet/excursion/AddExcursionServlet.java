@@ -13,29 +13,56 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class processes requests for /excursions/add-excursion url.
+ *
+ * @version 1.0
+ */
 @WebServlet("/excursions/add-excursion")
 public class AddExcursionServlet extends HttpServlet {
 
     private ExcursionService excursionService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
-    public void init() throws ServletException {
+    public void init() {
         excursionService = new ExcursionServiceImpl();
     }
 
+    /**
+     * Method processes GET request for /excursions/add-excursion url
+     * and returns /add-excursion.jsp form
+     * for adding new excursions.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/add-excursion.jsp").include(req,resp);
     }
 
+    /**
+     * Method processes POST request for /excursions/add-excursion url
+     * gets parameters from request object,
+     * creates new Excursion object and passes it to service layer.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
         Excursion excursion = new Excursion(name);
         if(excursionService.save(excursion)){
-            req.setAttribute("message", "Excursion has been successfully added");
+            req.setAttribute("successMessage", "Excursion has been successfully added");
         } else {
-            req.setAttribute("message", "Something went wrong!");
+            req.setAttribute("failureMessage", "Something went wrong!");
         }
         resp.sendRedirect(req.getContextPath() + "/excursions");
     }

@@ -14,18 +14,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class processes requests for /exhibits/add-exhibit url.
+ *
+ * @version 1.0
+ */
 @WebServlet("/exhibits/add-exhibit")
 public class AddExhibitServlet extends HttpServlet {
 
     private ExhibitService exhibitService;
     private AudienceService audienceService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() throws ServletException {
         exhibitService = new ExhibitServiceImpl();
         audienceService = new AudienceServiceImpl();
     }
 
+    /**
+     * Method processes GET request for /exhibits/add-exhibit url
+     * and returns /add-exhibit.jsp form
+     * for adding new exhibits.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("types", exhibitService.getTypes());
@@ -33,6 +51,15 @@ public class AddExhibitServlet extends HttpServlet {
         req.getRequestDispatcher("/add-exhibit.jsp").include(req,resp);
     }
 
+    /**
+     * Method processes POST request for /exhibits/add-exhibit url
+     * gets parameters from request object,
+     * creates new Exhibit object and passes it to service layer.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");

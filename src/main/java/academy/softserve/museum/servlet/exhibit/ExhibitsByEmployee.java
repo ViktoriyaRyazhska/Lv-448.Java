@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class processes requests for /exhibits/by-employee url.
+ *
+ * @version 1.0
+ */
 @WebServlet("/exhibits/by-employee")
 public class ExhibitsByEmployee extends HttpServlet {
 
@@ -22,6 +27,9 @@ public class ExhibitsByEmployee extends HttpServlet {
     private EmployeeService employeeService;
     private AudienceService audienceService;
 
+    /**
+     * Method initializes required resources.
+     */
     @Override
     public void init() {
         exhibitService = new ExhibitServiceImpl();
@@ -29,6 +37,15 @@ public class ExhibitsByEmployee extends HttpServlet {
         audienceService = new AudienceServiceImpl();
     }
 
+    /**
+     * Method processes POST request for /exhibits/by-employee url
+     * and returns list of exhibits by given employee.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Employee employee =

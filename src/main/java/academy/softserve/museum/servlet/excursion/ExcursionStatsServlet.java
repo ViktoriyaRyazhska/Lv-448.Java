@@ -1,6 +1,5 @@
 package academy.softserve.museum.servlet.excursion;
 
-import academy.softserve.museum.entities.dto.ExcursionStatsDto;
 import academy.softserve.museum.entities.mappers.ExcursionStatsDtoMapper;
 import academy.softserve.museum.services.ExcursionService;
 import academy.softserve.museum.services.impl.ExcursionServiceImpl;
@@ -16,21 +15,49 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Class processes requests for /excursions/statistics url.
+ *
+ * @version 1.0
+ */
 @WebServlet("/excursions/statistics")
 public class ExcursionStatsServlet extends HttpServlet {
 
     private ExcursionService excursionService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
-    public void init() throws ServletException {
+    public void init() {
         excursionService = new ExcursionServiceImpl();
     }
 
+    /**
+     * Method processes GET request for /excursions/statistics url
+     * and returns /excursion-chart.jsp for visualization
+     * of employee statistics.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/excursion-chart.jsp").include(req, resp);
     }
 
+    /**
+     * Method processes POST request for /excursions/statistics url
+     * and returns /excursion-chart.jsp with excursion statistics
+     * for given date range.
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Date dateTimeFrom =
