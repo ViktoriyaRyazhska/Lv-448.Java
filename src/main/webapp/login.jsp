@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="width30">
-    <form action="login.jsp" method="POST">
+    <form action="login" method="POST">
             <div class="form-line">
                 <label>
                     <b>Email: </b><input type="text" placeholder="Enter Email" name="email" required>
@@ -20,7 +20,7 @@
             </div>
         <button type="submit" class="registerbtn">Sign in</button>
         <div class="container signin">
-            <p>Haven't created an account yet? <a href="registration.jsp">Sign up</a>.</p>
+            <p>Haven't created an account yet? <a href="registration">Sign up</a>.</p>
         </div>
     </form>
 </div>

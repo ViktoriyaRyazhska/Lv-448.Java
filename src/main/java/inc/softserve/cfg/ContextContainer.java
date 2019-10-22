@@ -27,4 +27,5 @@ class ContextContainer {
     static RoomService roomService = new RoomServiceImpl(roomDao, bookingDao);
     static VisaStatsService visaStatsService = new VisaStatsServiceImpl(visaDao, usrDao, countryDao);
     static HotelStatsService hotelStatsService = new HotelStatsServiceImpl(hotelDao, roomDao);
+    static BookingService bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao);
 }

@@ -19,7 +19,7 @@ public class RegistrationServlet extends HttpServlet {
     private UsrRegisterImpl usrRegistration;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         usrRegistration = new UsrRegisterImpl();
     }
 

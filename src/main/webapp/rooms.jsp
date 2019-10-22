@@ -6,33 +6,40 @@
 
 </head>
 <body>
-    <form action="#" method="GET">
+
+    <c:forEach var="roomPojo" items="${roomsPojo}" varStatus="seq">
+    <form action="/booking" method="GET">
         <fieldset>
             <legend>Book a room!</legend>
-<%--            <label>--%>
-<%--                Select checkin: <input class="datepicker" type="text"/>--%>
-<%--            </label>--%>
-<%--            <br/>--%>
-<%--            <label>--%>
-<%--                Select checkout: <input class="datepicker" type="text"/>--%>
-<%--            </label>--%>
-            <c:forEach var="roomPojo" items="${roomsPojo}" varStatus="seq">
+<%--            <c:forEach var="roomPojo" items="${roomsPojo}" varStatus="seq">--%>
                 <p>
                     <c:out value="${roomPojo.chamberNumber}"/>
                     <c:out value="${roomPojo.luxury}"/>
                     <c:out value="${roomPojo.bedrooms}"/>
                 </p>
                 <label>
-                    Select checkin: <input class="${roomPojo.id}" type="text" onclick="unavailableDays(${roomPojo.id})"/>
+                    Select checkin: <input class="${roomPojo.id}"
+                                           type="text"
+                                           name="checkin"
+                                           onclick="unavailableDays(${roomPojo.id})"
+                                           required/>
                 </label>
                 <br/>
                 <label>
-                    Select checkout: <input class="${roomPojo.id}" type="text" onclick="unavailableDays(${roomPojo.id})"/>
+                    Select checkout: <input class="${roomPojo.id}"
+                                            type="text"
+                                            name="checkout"
+                                            onclick="unavailableDays(${roomPojo.id})"
+                                            required/>
                 </label>
                 <br/>
-            </c:forEach>
+                <input type="hidden" name="room_id" value="${roomPojo.hotel.id}">
+                <input type="hidden" name="hotel_id" value="${roomPojo.id}">
+                <button id="submit" type="submit">Book!</button>
+<%--            </c:forEach>--%>
         </fieldset>
     </form>
+    </c:forEach>
 
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
