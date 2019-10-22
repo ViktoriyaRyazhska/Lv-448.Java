@@ -3,12 +3,8 @@ package inc.softserve.cfg;
 import inc.softserve.dao.implementations.*;
 import inc.softserve.dao.interfaces.*;
 import inc.softserve.database.ConnectDb;
-import inc.softserve.services.implementations.CountryServiceImpl;
-import inc.softserve.services.implementations.HotelServiceImpl;
-import inc.softserve.services.implementations.RoomServiceImpl;
-import inc.softserve.services.intefaces.CountryService;
-import inc.softserve.services.intefaces.HotelService;
-import inc.softserve.services.intefaces.RoomService;
+import inc.softserve.services.implementations.*;
+import inc.softserve.services.intefaces.*;
 import lombok.Getter;
 
 import java.sql.Connection;
@@ -29,4 +25,6 @@ class ContextContainer {
     static CountryService countryService = new CountryServiceImpl(countryDao, cityDao);
     static HotelService hotelService = new HotelServiceImpl(bookingDao, hotelDao, cityDao, countryDao);
     static RoomService roomService = new RoomServiceImpl(roomDao, bookingDao);
+    static VisaStatsService visaStatsService = new VisaStatsServiceImpl(visaDao, usrDao, countryDao);
+    static HotelStatsService hotelStatsService = new HotelStatsServiceImpl(hotelDao, roomDao);
 }

@@ -7,6 +7,7 @@ import inc.softserve.entities.Hotel;
 import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomBooking;
 import inc.softserve.services.intefaces.BookingService;
+import inc.softserve.utils.mappers.ObjectToJsonMapper;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -56,7 +57,7 @@ public class BookingStatsServiceImp implements BookingService {
         return rooms;
     }
 
-    public Map<String, List<Room>> allFreeRoomsInCity(LocalDate now, LocalDate checkIn, LocalDate checkOut, Long cityId){
+    public String   allFreeRoomsInCity(LocalDate now, LocalDate checkIn, LocalDate checkOut, Long cityId){
       //  Set<Room> allBookedRoom = roomDao.findAllFutureBookedRoomsByCityId(cityId);
         Set<Room> allBookedRoom = roomDao.findRoomsByCityId(cityId);
         List<RoomBooking> bookRooms = bookDao.findByRoomIdAndDate(1L, LocalDate.now());
@@ -69,7 +70,7 @@ public class BookingStatsServiceImp implements BookingService {
         return convertSetToMap(allBookedRoom);
     }
 
-    private Map<String, List<Room>> convertSetToMap(Set<Room> allFreeRoomsInCity){
+    private String convertSetToMap(Set<Room> allFreeRoomsInCity){
         Set<String> hotelName = new TreeSet<>();
         Map<String, List<Room>> sort = new HashMap<>();
         for (Room room : allFreeRoomsInCity){
@@ -86,7 +87,7 @@ public class BookingStatsServiceImp implements BookingService {
 
            // hotelName.add(name);
         }
-        return sort;
+        return ObjectToJsonMapper.map(sort);
 
     }
 
@@ -97,8 +98,9 @@ public class BookingStatsServiceImp implements BookingService {
 //                LocalDate.parse("2019/12/11", formatter), 1L);
 //
 //
+//
 //     //   Set<Room> allBookedRoom = roomDao.findRoomsByCityId(1L);
-//        System.out.println(test);
+//        System.out.println(ObjectToJsonMapper.map(test));
 //    }
 
 }

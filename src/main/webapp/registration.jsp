@@ -45,20 +45,20 @@
         <hr>
         <div class="form-line">
             <label>
-                <b>Visa Number: </b><input type="text" placeholder="Number Visa" name="numbervisa" required>
+                <b>Visa Number: </b><input type="text" placeholder="Number Visa" name="numbervisa">
             </label>
         </div>
         <div class="form-line">
-            <label><b>Issued: </b><input type="text" placeholder="YYYY/MM/DD" name="start" required></label>
+            <label><b>Issued: </b><input type="text" placeholder="YYYY/MM/DD" name="start"></label>
         </div>
         <div class="form-line">
             <label>
-                <b>Expiration: </b> <input type="text" placeholder="YYYY/MM/DD" name="end" required>
+                <b>Expiration: </b> <input type="text" placeholder="YYYY/MM/DD" name="end">
             </label>
         </div>
         <div class="form-line">
             <label>
-                <b>Country: </b><input type="text" placeholder="Country" name="country" required>
+                <b>Country: </b><input type="text" placeholder="Country" name="country">
             </label>
         </div>
         <button type="submit" class="registerbtn">Register</button>

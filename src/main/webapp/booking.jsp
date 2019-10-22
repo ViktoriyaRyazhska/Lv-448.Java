@@ -4,57 +4,20 @@
 <html>
 <head>
     <meta charset="utf-8">
-
 </head>
 <body>
 <div>
 
-    <div>
-        <c:forEach var="book" items="${bookings}" >
-            <div>
-                <span>${book}</span>
-                <c:forEach var="book" items="${bookings}" >
-                    <div>
-                        <span>${book}</span>
-                            <%--                <span>${book.room.hotel.hotelName}</span>--%>
-
-                        <span> = </span>
-                    </div>
-                </c:forEach>
-<%--                <span>${book.room.hotel.hotelName}</span>--%>
-
-                <span> = </span>
-            </div>
-        </c:forEach>
-
-    </div>
-
-    <div class="width30">
-        <form action="booking" method="post">
-<%--            <select class="mdb-select md-form colorful-select dropdown-primary">--%>
-<%--             <c:forEach var="book" items="${bookings}" >--%>
-<%--                <option value=${book.room.hotel.id}>${book.room.hotel.hotelName}</option>--%>
-<%--             </c:forEach>--%>
-<%--            </select>--%>
-
-<%--            <select class="mdb-select md-form colorful-select dropdown-primary">--%>
-<%--                <c:forEach var="book" items="${bookings}" >--%>
-<%--                    <option value=${book.room.id}>${book.room.chamberNumber}</option>--%>
-<%--                </c:forEach>--%>
-<%--            </select>--%>
-
-
-
-<%--            <button type="submit" class="registerbtn">SAVE</button>--%>
-<%--        </form>--%>
-    </div>
-
-
+    <% String bookings = (String) request.getAttribute("bookings");%>
 </div>
+</body>
+<script>
+    bookingsJson = <%= bookings%>
+    console.log(bookingsJson.Lviv);
 
+    console.log(bookingsJson.Lviv);
 
+</script>
+<c:out value="${bookingsJson.Lviv}"/>
 
-
-
-            </body>
 </html>

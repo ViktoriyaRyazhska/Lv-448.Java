@@ -7,10 +7,8 @@ import inc.softserve.entities.stats.HotelStats;
 import inc.softserve.entities.stats.time_utils.Day;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

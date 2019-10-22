@@ -3,6 +3,7 @@ package inc.softserve.dao.interfaces;
 import inc.softserve.entities.Hotel;
 import inc.softserve.entities.stats.HotelStats;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

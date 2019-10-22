@@ -45,9 +45,8 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
       //  Set<RoomBooking> bookings;
-       Map<String, List<Room>> bookings = bookingService.allFreeRoomsInCity(LocalDate.now(), LocalDate.parse("2019/11/11", formatter),
-                LocalDate.parse("2019/12/11", formatter), 1L);
-;
+       String bookings = bookingService.allFreeRoomsInCity(LocalDate.now(), LocalDate.parse("2019/11/11", formatter),
+                LocalDate.parse("2019/12/11", formatter), 1L);;
 
         req.setAttribute("bookings", bookings);
       //  req.setAttribute("text", "WORK");

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Set;
 
-//@WebServlet(value = "/rooms")
+@WebServlet(value = "/rooms")
 public class RoomServlet extends HttpServlet {
 
     private RoomService roomService;
