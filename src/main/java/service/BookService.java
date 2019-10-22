@@ -4,9 +4,7 @@ package service;
 import dao.implemetsDao.AuthorDao;
 import dao.implemetsDao.BookDao;
 import dao.implemetsDao.BookInstanceDao;
-import entities.Author;
 import entities.Book;
-import entities.BookInstance;
 import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
@@ -24,26 +22,8 @@ public class BookService {
         this.bookInstanceDao = bookInstanceDao;
     }
 
-    public void createBook(Book book, Author author) {
-        if (author != null) {
-            book.setAuthor(author);
-            authorDao.save(author);
-            bookDao.save(book);
-            for (int i = 0; i < book.getAmountOfInstances(); i++) {
-                BookInstance bookInstance = BookInstance.builder()
-                        .isAvailable(true)
-                        .book(findBookById(book.getId())).build();
-                bookInstanceDao.save(bookInstance);
-            }
-        } else {
-            bookDao.save(book);
-            for (int i = 0; i < book.getAmountOfInstances(); i++) {
-                BookInstance bookInstance = BookInstance.builder()
-                        .isAvailable(true)
-                        .book(findBookById(book.getId())).build();
-                bookInstanceDao.save(bookInstance);
-            }
-        }
+    public void createBook(Book book) {
+        bookDao.save(book);
     }
 
     public void setSubAuthor(Long bookId, Long authorId) {
