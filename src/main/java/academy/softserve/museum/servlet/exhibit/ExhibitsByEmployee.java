@@ -1,5 +1,6 @@
 package academy.softserve.museum.servlet.exhibit;
 
+import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
@@ -48,10 +49,19 @@ public class ExhibitsByEmployee extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Employee employee =
-                employeeService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName"));
-        req.setAttribute("exhibits", exhibitService.findByEmployee(employee));
-        req.setAttribute("audiences", audienceService.findAll());
-        req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
+        try {
+            Employee employee =
+                    employeeService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName"));
+            req.setAttribute("exhibits", exhibitService.findByEmployee(employee));
+            req.setAttribute("audiences", audienceService.findAll());
+            req.setAttribute(MessageType.SUCCESS, "Found " + exhibitService.findByEmployee(employee).size() + " result(s)");
+            req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
+        } catch (RuntimeException e) {
+            req.setAttribute(MessageType.FAILURE, "Employee does not exist");
+            req.setAttribute("audiences", audienceService.findAll());
+            req.setAttribute("exhibits", exhibitService.findAll());
+            req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
+        }
+
     }
 }
