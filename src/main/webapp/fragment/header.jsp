@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <header>
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand text-primary" href="<c:url value="/museum"/>">MUSEUM</a>
+        <a class="navbar-brand text-primary" href="<c:url value="/"/>">MUSEUM</a>
         <ul class="nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link text-white" href="<c:url value="/schedule"/>">Schedule</a>
@@ -18,9 +18,9 @@
             </li>
         </ul>
         <ul class="nav ml-auto">
-            <li class="nav-item ml-auto">
-                <a class="nav-link text-white" href="#">Logout</a>
-            </li>
+<%--            <li class="nav-item ml-auto">--%>
+<%--                <a class="nav-link text-white" href="#">Logout</a>--%>
+<%--            </li>--%>
         </ul>
     </nav>
 </header>
