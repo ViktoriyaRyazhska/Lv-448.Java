@@ -12,15 +12,24 @@ import java.util.stream.Stream;
 
 public class OrderDao implements OrderDaoInterface {
 
-    private Connection connection;
+    private final Connection connection;
     private UserDao userDao;
     private BookInstanceDao bookInstanceDao;
+    private static OrderDao orderDao;
 
 
     public OrderDao(Connection connection, UserDao userDao, BookInstanceDao bookInstanceDao) {
         this.connection = connection;
         this.userDao = userDao;
         this.bookInstanceDao = bookInstanceDao;
+    }
+
+    public static OrderDao getInstance(Connection connection, UserDao userDao, BookInstanceDao bookInstanceDao) {
+        if (orderDao == null) {
+            orderDao = new OrderDao(connection, userDao, bookInstanceDao);
+        }
+
+        return orderDao;
     }
 
     @Override

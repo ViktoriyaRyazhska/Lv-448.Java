@@ -14,13 +14,20 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     private final Connection connection;
     private BookDao bookDao;
-    private BookInstance bookInstance;
+    private static BookInstanceDao bookInstanceDao;
 
-    public BookInstanceDao(Connection connection, BookDao bookDao) {
+    private BookInstanceDao(Connection connection, BookDao bookDao) {
         this.connection = connection;
         this.bookDao = bookDao;
     }
 
+    public static BookInstanceDao getInstance(Connection connection, BookDao bookDao) {
+        if (bookInstanceDao == null) {
+            bookInstanceDao = new BookInstanceDao(connection, bookDao);
+        }
+
+        return bookInstanceDao;
+    }
 
 
     @Override
@@ -131,13 +138,13 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
 
     public List<BookInstance> findAllBookInstanceOnReading(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
-                +" users.id = orders.id_users WHERE date_return is null AND id_users = ?";
+                + " users.id = orders.id_users WHERE date_return is null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
     public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
-                +" users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
+                + " users.id = orders.id_users WHERE date_return is not null AND id_users = ?";
         return findAllBookInstanceByUser(userId, query);
     }
 
@@ -159,7 +166,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     public Long getAmountOfTimesInstanceWasTaken(Long id) {
         String query = "select count(date_order) from orders where id_book_instance = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getLong("count(date_order)");

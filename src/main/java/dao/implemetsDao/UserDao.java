@@ -21,11 +21,20 @@ public class UserDao implements UserDaoInterface {
     private static UserDao userDao;
     private AddressDao addressDao;
     private BookInstanceDao bookInstanceDao;
+    private static UserDao userDao;
 
-    public UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
+    private UserDao(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
         this.connection = connection;
         this.addressDao = addressDao;
         this.bookInstanceDao = bookInstanceDao;
+    }
+
+    public static UserDao getInstance(Connection connection, AddressDao addressDao, BookInstanceDao bookInstanceDao) {
+        if (userDao == null) {
+            userDao = new UserDao(connection, addressDao, bookInstanceDao);
+        }
+
+        return userDao;
     }
 
     @Override
