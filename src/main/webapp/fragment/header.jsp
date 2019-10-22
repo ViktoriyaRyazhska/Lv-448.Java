@@ -5,7 +5,7 @@
         <a class="navbar-brand text-primary" href="<c:url value="/"/>">MUSEUM</a>
         <ul class="nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link text-white" href="<c:url value="/schedule"/>">Schedule</a>
+                <a class="nav-link text-white" href="<c:url value="/schedule"/>">Schedule<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="<c:url value="/excursions"/>">Excursions</a>
