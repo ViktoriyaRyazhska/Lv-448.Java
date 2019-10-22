@@ -53,8 +53,8 @@ a {
 
 .width30 {
     display: block;
-    width: 30%;
-    margin: 30vh auto 0 auto;
+    width: 50%;
+    margin: 10vh auto 0 auto;
     box-shadow: 0 0 5px rgba(0,0,0, 0.4);
     padding: 10px;
 }
@@ -62,4 +62,12 @@ a {
 .form-line{
     display: block;
     width: 100%;
+}
+
+.required-field-class {
+    color: red!important;
+}
+.required-field-class:hover {
+    color: red;
+    font-size: 1.5em!important;
 }

@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./css/registration.css">
+    <link rel="stylesheet" href="<c:url value="/css/registration.css"/>">
     <title>Registration Page</title>
 </head>
 <body>
@@ -14,30 +15,48 @@
         <hr>
         <div class="form-line">
             <label>
+                <span class="required-field-class" title="Required field">*</span>
+            </label>
+            <label>
                 <b>First Name: <input type="text" placeholder="Enter First Name:" name="firstname" required></b>
             </label>
         </div>
         <div class="form-line">
+            <label>
+                <span class="required-field-class" title="Required field">*</span>
+            </label>
             <label>
                 <b>Last Name: <input type="text" placeholder="Enter Last Name:" name="lastname" required></b>
             </label>
         </div>
         <div class="form-line">
             <label>
+                <span class="required-field-class" title="Required field">*</span>
+            </label>
+            <label>
                 <b>Email <input type="text" placeholder="Enter Email" name="email" required></b>
             </label>
         </div>
         <div class="form-line">
+            <label>
+                <span class="required-field-class" title="Required field">*</span>
+            </label>
             <label>
                 <b>Password: </b><input type="password" placeholder="Enter Password" name="password" required>
             </label>
         </div>
         <div class="form-line">
             <label>
+                <span class="required-field-class" title="Required field">*</span>
+            </label>
+            <label>
                 <b>Date Birthday: </b><input type="text" placeholder="YYYY/MM/DD" name="date" required>
             </label>
         </div>
         <div class="form-line">
+            <label>
+                <span class="required-field-class" title="Required field">*</span>
+            </label>
             <label>
                 <b>Phone number: </b><input type="text" placeholder="Phone number" name="phone" required>
             </label>

@@ -11,7 +11,7 @@
 
   <welcome-file-list>
     <welcome-file>/WebFilterTask/booking.jsp</welcome-file>
-    <welcome-file>/WebFilterTask/index.jsp</welcome-file>
+<!--    <welcome-file>/WebFilterTask/index.jsp</welcome-file>-->
     <welcome-file>/WebFilterTask/login.jsp</welcome-file>
     <welcome-file>/WebFilterTask/registration.jsp</welcome-file>
   </welcome-file-list>
@@ -25,6 +25,6 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
-    <url-pattern>/hotel.jsp</url-pattern>
+    <url-pattern>/hotels.jsp</url-pattern>
   </filter-mapping>
 </web-app>

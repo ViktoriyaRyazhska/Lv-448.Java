@@ -10,10 +10,16 @@
     <form action="login" method="POST">
             <div class="form-line">
                 <label>
+                    <span class="required-field-class" title="Required field">*</span>
+                </label>
+                <label>
                     <b>Email: </b><input type="text" placeholder="Enter Email" name="email" required>
                 </label>
             </div>
             <div class="form-line">
+                <label>
+                    <span class="required-field-class" title="Required field">*</span>
+                </label>
                 <label>
                     <b>Password: </b><input type="password" placeholder="Enter Password" name="password" required>
                 </label>
