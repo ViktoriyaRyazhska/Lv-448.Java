@@ -1,6 +1,5 @@
 package service;
 
-import dao.implemetsDao.AuthorDao;
 import dao.interfaceDao.AuthorDaoInterface;
 import database.DaoFactory;
 import entities.Author;
@@ -31,7 +30,7 @@ public class AuthorService {
         return authorDao.findById(id).get();
     }
 
-    public List<Author> findAllSubAuthorByBookId (Long bookId){
+    public List<Author> findAllSubAuthorByBookId(Long bookId) {
         return authorDao.findAllSubAuthorByBookId(bookId);
     }
 
@@ -39,11 +38,11 @@ public class AuthorService {
         return authorDao.findAll();
     }
 
-    public Author findAuthorBySurname(String surname) throws IllegalAccessException {
+    public Author findAuthorBySurname(String surname) {
         if (authorDao.findBySurname(surname).isPresent()) {
             return authorDao.findBySurname(surname).get();
         } else {
-            throw new IllegalAccessException("Author not found");
+            throw new IllegalArgumentException("Author not found");
         }
     }
 }
