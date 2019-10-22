@@ -3,19 +3,23 @@ package service;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.OrderDao;
 import dao.implemetsDao.UserDao;
+import dao.interfaceDao.BookInstanceDaoInterface;
+import dao.interfaceDao.OrderDaoInterface;
+import dao.interfaceDao.UserDaoInterface;
+import database.DaoFactory;
 import entities.Order;
 
 import java.util.List;
 
 public class OrderService {
-    private OrderDao orderDao;
-    private UserDao userDao;
-    private BookInstanceDao bookInstanceDao;
+    private OrderDaoInterface orderDao;
+    private UserDaoInterface userDao;
+    private BookInstanceDaoInterface bookInstanceDao;
 
-    public OrderService(OrderDao orderDao, UserDao userDao, BookInstanceDao bookInstanceDao) {
-        this.orderDao = orderDao;
-        this.userDao = userDao;
-        this.bookInstanceDao = bookInstanceDao;
+    public OrderService() {
+        this.orderDao = DaoFactory.orderDao();
+        this.userDao = DaoFactory.userDao();
+        this.bookInstanceDao = DaoFactory.bookInstanceDao();
     }
 
     public void createOrder(Order orderToSave) {

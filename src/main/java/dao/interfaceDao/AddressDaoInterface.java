@@ -1,8 +1,8 @@
 package dao.interfaceDao;
 
 import entities.Address;
+import service.OrderService;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface AddressDaoInterface {
@@ -12,5 +12,4 @@ public interface AddressDaoInterface {
     Optional<Address> findById(Long id);
 
     void update(Address address);
-
 }

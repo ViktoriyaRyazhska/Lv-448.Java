@@ -1,6 +1,6 @@
 package dao.implemetsDao;
 
-import dao.interfaceDao.BookDaoInterface;
+import dao.interfaceDao.AuthorDaoInterface;
 import entities.Book;
 
 import java.sql.Date;
@@ -10,20 +10,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BookDao implements BookDaoInterface {
+public class BookDao implements dao.interfaceDao.BookDaoInterface {
 
     private final Connection connection;
-    private AuthorDao authorDao;
+    private AuthorDaoInterface authorDaoInterface;
     private static BookDao bookDao;
 
-    private BookDao(Connection connection, AuthorDao authorDao) {
+    private BookDao(Connection connection, AuthorDaoInterface authorDaoInterface) {
         this.connection = connection;
-        this.authorDao = authorDao;
+        this.authorDaoInterface = authorDaoInterface;
     }
 
-    public static BookDao getInstance(Connection connection, AuthorDao authorDao) {
+    public static BookDao getInstance(Connection connection, AuthorDaoInterface authorDaoInterface) {
         if (bookDao == null) {
-            bookDao = new BookDao(connection, authorDao);
+            bookDao = new BookDao(connection, authorDaoInterface);
         }
 
         return bookDao;
@@ -53,6 +53,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
+    @Override
     public void setSubAuthorForBook(Long bookId, Long authorId) {
         String query = "INSERT INTO book_sub_authors (id_book, id_author) VALUE (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -73,7 +74,7 @@ public class BookDao implements BookDaoInterface {
                             .amountOfInstances(resultSet.getInt("amount_of_instances"))
                             .title(resultSet.getString("title"))
                             .releaseDate(Optional.ofNullable(resultSet.getDate("release_date").toLocalDate()).orElse(null))
-                            .author(authorDao.findById(resultSet.getLong("id_author")).get())
+                            .author(authorDaoInterface.findById(resultSet.getLong("id_author")).get())
                             .build());
 
         }
@@ -116,6 +117,7 @@ public class BookDao implements BookDaoInterface {
         return books;
     }
 
+    @Override
     public List<Book> findAllBooksByAuthorId(Long authorId) {
         String query = "SELECT * FROM books WHERE id_author = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -156,6 +158,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
+    @Override
     public Book findBookByTitle(String title) {
         String query = "SELECT * FROM books WHERE title = ?";
         List<Book> books = new ArrayList<>();
@@ -255,6 +258,7 @@ public class BookDao implements BookDaoInterface {
     }
 
     //    Скільки разів брали певну книжку (в загальному)
+    @Override
     public Long getAmountOfTimesBookWasTaken(Long id) {
         String query = "select count(date_order) from books inner join book_instance bi on books.id = bi.id_book inner join orders o on bi.id = o.id_book_instance where books.id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -281,7 +285,7 @@ public class BookDao implements BookDaoInterface {
         }
     }
 
-    public void setAuthorDao(AuthorDao authorDao) {
-        this.authorDao = authorDao;
-    }
+//    public void setAuthorDao(AuthorDao authorDao) {
+//        this.authorDao = authorDao;
+//    }
 }

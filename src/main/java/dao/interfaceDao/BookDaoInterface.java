@@ -12,7 +12,17 @@ public interface BookDaoInterface {
 
     void save(Book book);
 
+    void setSubAuthorForBook(Long bookId, Long authorId);
+
+    List<Book> findAllBooksByAuthorId(Long authorId);
+
     Optional<Book> findById(Long id);
+
+    Book findBookByTitle(String title);
+
+    Long getAmountOfTimesBookWasTaken(Long id);
+
+    Integer getAverageTimeReadingBook(Long id);
 
     void update(Book book);
 

@@ -3,6 +3,9 @@ package service;
 import dao.implemetsDao.AddressDao;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.UserDao;
+import dao.interfaceDao.AddressDaoInterface;
+import dao.interfaceDao.BookInstanceDaoInterface;
+import dao.interfaceDao.UserDaoInterface;
 import database.DaoFactory;
 import entities.Address;
 import entities.BookInstance;
@@ -14,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 public class UserService {
-    private UserDao userDao;
-    private AddressDao addressDao;
-    private BookInstanceDao bookInstanceDao;
+    private UserDaoInterface userDao;
+    private AddressDaoInterface addressDao;
+    private BookInstanceDaoInterface bookInstanceDao;
 
     public UserService() {
         this.userDao = DaoFactory.userDao();
