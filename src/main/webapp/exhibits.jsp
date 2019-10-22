@@ -80,6 +80,7 @@
                         </div> <!-- form group [by-audience] -->
                     </form>
                     <div class="form-group">
+                        <a class="btn btn-dark mr-2" href="<c:url value="/exhibits"/>">Clear</a>
                         <a class="btn btn-dark mr-2" href="<c:url value="/exhibits/add-exhibit"/>">New</a>
                         <a class="btn btn-dark" href="<c:url value="/exhibits/statistics"/>">Statistics</a>
                     </div> <!-- form group [buttons] -->
