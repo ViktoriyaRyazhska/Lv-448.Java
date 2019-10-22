@@ -1,5 +1,7 @@
 package academy.softserve.museum.servlet.employee;
 
+import academy.softserve.museum.constant.MessageType;
+import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -44,22 +47,31 @@ public class FreeGuidesServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Date dateTimeFrom =
-                new Date(LocalDateTime.parse(req.getParameter("from"))
-                        .toInstant(ZoneOffset.of("+02:00"))
-                        .toEpochMilli());
+        try {
+            Date dateTimeFrom =
+                    new Date(LocalDateTime.parse(req.getParameter("from"))
+                            .toInstant(ZoneOffset.of("+02:00"))
+                            .toEpochMilli());
 
-        Date dateTimeTill =
-                new Date(LocalDateTime.parse(req.getParameter("till"))
-                        .toInstant(ZoneOffset.of("+02:00"))
-                        .toEpochMilli());
+            Date dateTimeTill =
+                    new Date(LocalDateTime.parse(req.getParameter("till"))
+                            .toInstant(ZoneOffset.of("+02:00"))
+                            .toEpochMilli());
 
-        req.setAttribute("employees",
-                employeeService.findAvailable(dateTimeFrom, dateTimeTill)
-                        .stream()
-                        .filter(e -> e.getPosition() == EmployeePosition.TOUR_GUIDE).collect(Collectors.toList()));
+            List<Employee> freeGuides = employeeService.findAvailable(dateTimeFrom, dateTimeTill)
+                    .stream()
+                    .filter(e -> e.getPosition() == EmployeePosition.TOUR_GUIDE).collect(Collectors.toList());
 
-        req.getRequestDispatcher("/employees.jsp").include(req, resp);
+            int size = freeGuides.size();
+
+            req.setAttribute("employees", freeGuides);
+            req.setAttribute(MessageType.SUCCESS, "There are " + size + " free guides");
+            req.getRequestDispatcher("/employees.jsp").include(req, resp);
+        } catch (RuntimeException e) {
+            req.setAttribute(MessageType.FAILURE, "Invalid date range");
+            req.setAttribute("employees", employeeService.findAll());
+            req.getRequestDispatcher("/employees.jsp").include(req, resp);
+        }
     }
 
 }

@@ -42,8 +42,6 @@ public class EmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Employee> employees = employeeService.findAll();
-        System.out.println(req.getAttribute("failureMessage"));
-        req.getAttribute("failureMessage");
         req.setAttribute("employees", employees);
         req.getRequestDispatcher("/employees.jsp").include(req,resp);
     }
