@@ -22,7 +22,7 @@ public interface EmployeeService {
 
     Optional<Employee> findByFullName(String firstName, String lastName);
 
-    boolean update(Employee newObject);
+    boolean update(EmployeeDto dto);
 
     List<Employee> findByPosition(EmployeePosition position);
 

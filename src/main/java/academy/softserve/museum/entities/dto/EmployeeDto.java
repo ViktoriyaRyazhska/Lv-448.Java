@@ -4,12 +4,23 @@ import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.EmployeePosition;
 
 public class EmployeeDto {
+    private Long id;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
     private EmployeePosition position;
     private Long audienceId;
+
+    public EmployeeDto(Long id, String firstName, String lastName, String username, String password, EmployeePosition position, Long audienceId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.position = position;
+        this.audienceId = audienceId;
+    }
 
     public EmployeeDto(String firstName, String lastName, String username, String password, EmployeePosition position, Long audienceId) {
         this.firstName = firstName;
@@ -18,6 +29,14 @@ public class EmployeeDto {
         this.password = password;
         this.position = position;
         this.audienceId = audienceId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

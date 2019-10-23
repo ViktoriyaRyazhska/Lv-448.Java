@@ -85,10 +85,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean update(Employee newObject) {
-        if (employeeDao.findByFullName(newObject.getFirstName(), newObject.getLastName())
-                .isPresent()) {
-            employeeDao.update(newObject);
+    public boolean update(EmployeeDto dto) {
+        if (employeeDao.findById(dto.getId()).isPresent()) {
+            Employee employee = new Employee(
+                    dto.getId(),
+                    dto.getFirstName(),
+                    dto.getLastName(),
+                    dto.getPosition(),
+                    dto.getUsername(),
+                    dto.getPassword()
+            );
+            employeeDao.update(employee);
+            Audience audience = new Audience();
+            audience.setId(dto.getAudienceId());
+
+            employeeDao.updateAudience(employee, audience);
             return true;
         } else {
             throw new NotUpdatedException(ErrorMessage.EMPLOYEE_NOT_UPDATED);

@@ -3,6 +3,7 @@ package academy.softserve.museum.servlet.employee;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.dto.EmployeeDto;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.AudienceServiceImpl;
@@ -65,22 +66,18 @@ public class UpdateEmployeeServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        long id = Integer.parseInt(req.getParameter("id"));
-
+        Long id = PathParser.getPathVariable(req.getPathInfo());
+        System.out.println("id " + id);
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
-        int audienceId = Integer.parseInt(req.getParameter("audience"));
+        Long audienceId = Long.parseLong(req.getParameter("audience"));
 
-        Audience audience = new Audience();
-        audience.setId(audienceId);
+        EmployeeDto dto = new EmployeeDto(id, firstName, lastName, username, password, position, audienceId);
 
-        Employee employee = new Employee(id, firstName, lastName, position, username, password);
-
-        employeeService.update(employee);
-        employeeService.updateEmployeeAudience(employee, audience);
+        employeeService.update(dto);
         resp.sendRedirect(req.getContextPath() + "/employees");
     }
 }
