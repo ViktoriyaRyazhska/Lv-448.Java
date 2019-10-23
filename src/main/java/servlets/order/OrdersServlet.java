@@ -1,7 +1,6 @@
-package servlets.Author;
+package servlets.order;
 
-import Dto.AuthorDto;
-import service.AuthorService;
+import service.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/authors")
-public class AuthorsServlet extends HttpServlet {
-    private AuthorService authorService;
+@WebServlet("/orders")
+public class OrdersServlet extends HttpServlet {
+    private OrderService orderService;
 
     @Override
     public void init() throws ServletException {
-        authorService = new AuthorService();
+        orderService = new OrderService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("authors", authorService.findAllAuthors());
-        req.getRequestDispatcher("/authors.jsp").include(req, resp);
+        req.setAttribute("orders", orderService.findAllOrders());
+        req.getRequestDispatcher("/order.jsp").include(req, resp);
     }
 }

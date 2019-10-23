@@ -1,7 +1,6 @@
 package servlets.Books;
 
 import database.DaoFactory;
-import service.BookInstanceService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

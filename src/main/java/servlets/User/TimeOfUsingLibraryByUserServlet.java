@@ -1,7 +1,6 @@
 package servlets.User;
 
 import database.DaoFactory;
-import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

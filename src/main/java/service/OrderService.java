@@ -1,5 +1,6 @@
 package service;
 
+import Dto.OrderDto;
 import dao.implemetsDao.BookInstanceDao;
 import dao.implemetsDao.OrderDao;
 import dao.implemetsDao.UserDao;
@@ -45,6 +46,15 @@ public class OrderService {
 
     public List<Order> findAllByUserId(Long id) {
         return orderDao.findAllByUserId(id);
+    }
+
+    private OrderDto convertEntityToDto (Order order){
+OrderDto.builder()
+        .id(order.getId())
+        .dateOrder(order.getDateOrder())
+        .dateReturn(order.getDateReturn())
+        .bookInstance(order.getBookInstance())
+        .user(order.getUser());
     }
 
 }
