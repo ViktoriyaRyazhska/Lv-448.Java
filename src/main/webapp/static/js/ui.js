@@ -73,11 +73,9 @@ $('#exhibit-additional-filters').on('change', function() {
  * Add many authors
  */
 
-let count = 2;
 $('.add-more-authors').click(function() {
     $.get('http://localhost:8080/museum/authors', function (data) {
         $('.author-group').append(data);
-        count++;
     });
 });
 

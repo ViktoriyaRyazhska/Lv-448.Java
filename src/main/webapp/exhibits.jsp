@@ -119,7 +119,7 @@
                                 </h6>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="<c:url value=""/>" class="card-link">Update</a>
+<%--                                <a href="<c:url value=""/>" class="card-link">Update</a>--%>
                                 <a href="<c:url value="/exhibits/delete-exhibit/${exhibit.id}"/>" class="card-link">Remove</a>
                             </div>
                         </div>
