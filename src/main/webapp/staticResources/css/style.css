@@ -12,6 +12,11 @@ body{
     font-family: "Roboto Light";
 }
 
+.card-book-fs{
+    font-size: 18px;
+    font-family: "Roboto Light";
+}
+
 .visible {
     display: flex;
 }

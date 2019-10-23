@@ -11,6 +11,7 @@ import entities.BookInstance;
 import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,8 +80,14 @@ public class BookService {
         return bookDaoInterface.findBookBetweenDate(fromDate, toDate);
     }
 
-    public Book findBookByTitle(String bookTitle) {
-        return bookDaoInterface.findBookByTitle(bookTitle);
+    public List<Book> findBookByTitle(String bookTitle) {
+        List<Book> listBook = new ArrayList<>();
+        if (bookDaoInterface.findBookByTitle(bookTitle) == null) {
+            throw new IllegalArgumentException("Book is not found!");
+        } else {
+            listBook.add(bookDaoInterface.findBookByTitle(bookTitle));
+            return listBook;
+        }
     }
 
     public Book getInfoByBookInstanceId(Long bookInstanceId) {
