@@ -2,30 +2,32 @@ package servlets.Books;
 
 import entities.Author;
 import entities.Book;
+import service.AuthorService;
 import service.BookService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @WebServlet("/add-book")
 public class BooksCreateServlet extends HttpServlet {
 
     private BookService bookService;
+    private AuthorService authorService;
 
     @Override
     public void init() {
         bookService = new BookService();
+        authorService = new AuthorService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("authors", authorService.findAllAuthors());
         req.getRequestDispatcher("/add-book.jsp").include(req, resp);
     }
 
@@ -33,31 +35,21 @@ public class BooksCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
         String releaseDate = req.getParameter("releaseDate");
-        String amountOfInstances = req.getParameter("amountOfInstances");
-        String surname = req.getParameter("surname");
-        String firstName = req.getParameter("firstName");
+        int amountOfInstances = Integer.parseInt(req.getParameter("amountOfInstances"));
 
-        Author author = Author.builder().authorLastName(surname).authorFirstName(firstName).build();
+        Long id = Long.parseLong(req.getParameter("author"));
+
+        Author author = authorService.findAuthorById(id);
         Book book = Book.builder().title(title)
                 .releaseDate(LocalDate.parse(releaseDate))
-                .amountOfInstances(Integer.parseInt(amountOfInstances))
+                .amountOfInstances(amountOfInstances)
                 .author(author)
                 .build();
-
-        req.getRequestDispatcher("/add-author.jsp").include(req, resp);
+        try {
+            bookService.createBook(book, author);
+            resp.sendRedirect(req.getContextPath() + "/books");
+        } catch (RuntimeException e) {
+            resp.sendRedirect(req.getContextPath() + "/books");
+        }
     }
 }
-
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String name = req.getParameter("name");
-//        String surname = req.getParameter("surname");
-//        Author author = Author.builder().authorFirstName(name).authorLastName(surname).build();
-//        try {
-//            authorService.createAuthor(author);
-//            resp.sendRedirect(req.getContextPath() + "/authors");
-//        } catch (RuntimeException e) {
-//            resp.sendRedirect(req.getContextPath() + "/authors");
-//        }
-//    }
-//}
-//

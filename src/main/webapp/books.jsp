@@ -85,7 +85,7 @@
                     <%--                        </div> <!-- form group [by-audience] -->--%>
                     <%--                    </form>--%>
                     <div class="form-group">
-                        <a class="btn btn-primary mr-2" href="<c:url value="/add-author"/>">Create</a>
+                        <a class="btn btn-primary mr-2" href="<c:url value="/add-book"/>">Create</a>
                         <%--                        <a class="btn btn-primary" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
                     </div> <!-- form group [buttons] -->
                 </div>
@@ -117,7 +117,7 @@
                                 <h6>
                                     Author:
                                     <span class="card-book-fs"> ${book.getAuthor().getAuthorLastName()}</span>
-                                    <span class="card-book-fs">${book.getAuthor().getAuthorFirstName()}</span>
+                                    <span c>${book.getAuthor().getAuthorFirstName()}</span>
                                 </h6>
                             </div>
                         </div>
