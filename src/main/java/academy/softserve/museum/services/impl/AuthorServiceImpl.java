@@ -22,17 +22,33 @@ public class AuthorServiceImpl implements AuthorService {
     private AuthorDao authorDao;
     private ExhibitDao exhibitDao;
 
+    /**
+     * Default constructor
+     */
     public AuthorServiceImpl() {
         authorDao = DaoFactory.authorDao();
         exhibitDao = DaoFactory.exhibitDao();
     }
 
+    /**
+     * Constructor with 2 parameters
+     *
+     * @param authorDao
+     * @param exhibitDao
+     */
     public AuthorServiceImpl(JdbcAuthorDao authorDao,
             JdbcExhibitDao exhibitDao) {
         this.authorDao = authorDao;
         this.exhibitDao = exhibitDao;
     }
 
+    /**
+     * Method for adding new Author for Exhibit
+     *
+     * @param author Author you want to add Exhibit
+     * @param exhibit Exhibit you want to add for Author
+     * @return true if the add was successful
+     */
     @Override
     public boolean addExhibitAuthor(Author author, Exhibit exhibit) {
         if ((authorDao.findById(author.getId()).isPresent()) &&
@@ -44,6 +60,13 @@ public class AuthorServiceImpl implements AuthorService {
         }
     }
 
+    /**
+     * Method for deleting Exhibit's Author
+     *
+     * @param author Author which must be deleted
+     * @param exhibit Exhibit for which yow want to delete Author
+     * @return true if the delete was successful
+     */
     @Override
     public boolean deleteExhibitAuthor(Author author, Exhibit exhibit) {
         if ((authorDao.findById(author.getId()).isPresent()) &&
@@ -55,28 +78,43 @@ public class AuthorServiceImpl implements AuthorService {
         }
     }
 
+    /**
+     * Method for saving objects in database
+     *
+     * @return true if the save was successful
+     */
     @Override
-    public boolean save(AuthorDto dto) {
-        if (authorDao.findByFullName(dto.getFirstName(), dto.getLastName())
+    public boolean save(AuthorDto authorDto) {
+        if (authorDao.findByFullName(authorDto.getFirstName(), authorDto.getLastName())
                 .isPresent()) {
             throw new NotSavedException(ErrorMessage.AUTHOR_NOT_SAVED);
         } else {
-            Author author = new Author(dto.getFirstName(), dto.getLastName());
+            Author author = new Author(authorDto.getFirstName(), authorDto.getLastName());
             authorDao.save(author);
             return true;
         }
     }
 
+    /**
+     * Method for deleting object Author by id
+     *
+     * @return true if the delete was successful
+     */
     @Override
     public boolean deleteById(long id) {
         if (authorDao.findById(id).isPresent()) {
             authorDao.deleteById(id);
             return true;
         } else {
-         throw new NotDeletedException(ErrorMessage.AUTHOR_NOT_DELETED);
+            throw new NotDeletedException(ErrorMessage.AUTHOR_NOT_DELETED);
         }
     }
 
+    /**
+     * Method, that returns object Author wrapped in Optional by id
+     *
+     * @return Object Audience wrapped in Optional
+     */
     @Override
     public Optional<Author> findById(long id) {
         Author author = authorDao.findById(id).orElse(null);
@@ -84,27 +122,42 @@ public class AuthorServiceImpl implements AuthorService {
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
+    /**
+     * Method for finding Author by first and last names
+     *
+     * @return Author object wrapped in Optional
+     */
     @Override
     public Optional<Author> findByFullName(String fName, String lName) {
         Author author = authorDao.findByFullName(fName, lName).orElse(null);
-            return Optional.of(Optional.of(authorDao.loadForeignFields(author))
-                    .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
+        return Optional.of(Optional.of(authorDao.loadForeignFields(author))
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
+    /**
+     * Method, that returns all objects of Author
+     *
+     * @return list of Author
+     */
     @Override
     public List<Author> findAll() {
         List<Author> authorList = authorDao.loadForeignFields(authorDao.findAll());
-        if(authorList.size() < 1){
+        if (authorList.size() < 1) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return authorList;
     }
 
+    /**
+     * Method, that updates given object Author
+     *
+     * @return true if the update was successful
+     */
     @Override
-    public boolean update(Author newObject) {
-        if (authorDao.findByFullName(newObject.getFirstName(), newObject.getLastName())
+    public boolean update(Author author) {
+        if (authorDao.findByFullName(author.getFirstName(), author.getLastName())
                 .isPresent()) {
-            authorDao.update(newObject);
+            authorDao.update(author);
             return true;
         } else {
             throw new NotUpdatedException(ErrorMessage.AUTHOR_NOT_UPDATED);
