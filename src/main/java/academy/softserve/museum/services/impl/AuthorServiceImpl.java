@@ -8,6 +8,7 @@ import academy.softserve.museum.dao.impl.jdbc.JdbcExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
+import academy.softserve.museum.entities.dto.AuthorDto;
 import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.exception.NotFoundException;
 import academy.softserve.museum.exception.NotSavedException;
@@ -55,12 +56,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public boolean save(Author objectToSave) {
-        if (authorDao.findByFullName(objectToSave.getFirstName(), objectToSave.getLastName())
+    public boolean save(AuthorDto dto) {
+        if (authorDao.findByFullName(dto.getFirstName(), dto.getLastName())
                 .isPresent()) {
             throw new NotSavedException(ErrorMessage.AUTHOR_NOT_SAVED);
         } else {
-            authorDao.save(objectToSave);
+            Author author = new Author(dto.getFirstName(), dto.getLastName());
+            authorDao.save(author);
             return true;
         }
     }

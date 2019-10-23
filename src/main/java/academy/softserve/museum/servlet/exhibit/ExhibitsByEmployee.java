@@ -51,7 +51,7 @@ public class ExhibitsByEmployee extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Employee employee =
-                    employeeService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName"));
+                    employeeService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName")).get();
             req.setAttribute("exhibits", exhibitService.findByEmployee(employee));
             req.setAttribute("audiences", audienceService.findAll());
             req.setAttribute(MessageType.SUCCESS, "Found " + exhibitService.findByEmployee(employee).size() + " result(s)");

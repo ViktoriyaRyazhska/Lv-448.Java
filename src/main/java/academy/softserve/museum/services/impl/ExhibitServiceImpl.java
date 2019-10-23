@@ -6,6 +6,7 @@ import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
+import academy.softserve.museum.entities.dto.ExhibitDto;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.exception.NotFoundException;
@@ -35,11 +36,30 @@ public class ExhibitServiceImpl implements ExhibitService {
     }
 
     @Override
-    public boolean save(Exhibit objectToSave) {
-        if (exhibitDao.findByName(objectToSave.getName()).isPresent()) {
+    public boolean save(ExhibitDto dto) {
+        if (exhibitDao.findByName(dto.getName()).isPresent()) {
             throw new NotSavedException(ErrorMessage.EXHIBIT_NOT_SAVED);
         } else {
-            exhibitDao.save(objectToSave);
+            Exhibit exhibit = new Exhibit(
+                    dto.getType(),
+                    dto.getMaterial(),
+                    dto.getTechnique(),
+                    dto.getName());
+
+            exhibitDao.save(exhibit);
+            Long exhibitId = exhibitDao.findByName(exhibit.getName()).get().getId();
+            exhibit.setId(exhibitId);
+
+            Audience audience = new Audience();
+            audience.setId(dto.getAudienceId());
+
+            exhibitDao.updateAudience(exhibit, audience);
+
+            for (Long id : dto.getAuthorsId()) {
+                Author author = new Author();
+                author.setId(id);
+                exhibitDao.addAuthor(exhibit, author);
+            }
             return true;
         }
     }
