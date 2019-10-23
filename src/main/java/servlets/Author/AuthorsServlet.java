@@ -1,5 +1,6 @@
 package servlets.Author;
 
+import Dto.AuthorDto;
 import service.AuthorService;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/authors")
 public class AuthorsServlet extends HttpServlet {
@@ -20,7 +22,8 @@ public class AuthorsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("authors", authorService.findAllAuthors());
+        List<AuthorDto> allAuthors = authorService.findAllAuthors();
+        req.setAttribute("authors", allAuthors);
         req.getRequestDispatcher("/authors.jsp").include(req, resp);
     }
 }

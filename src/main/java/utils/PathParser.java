@@ -1,0 +1,10 @@
+package utils;
+
+public class PathParser {
+    private PathParser() {}
+
+    public static int getPathVariable(String path) {
+        String firstLine = path.split("\n")[0].replaceAll("/", "");
+        return Integer.parseInt(firstLine);
+    }
+}

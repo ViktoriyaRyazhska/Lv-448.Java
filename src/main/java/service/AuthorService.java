@@ -1,16 +1,20 @@
 package service;
 
+import Dto.AuthorDto;
 import dao.interfaceDao.AuthorDaoInterface;
 import database.DaoFactory;
 import entities.Author;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AuthorService {
     private AuthorDaoInterface authorDao;
+    private UserService userService;
 
     public AuthorService() {
         this.authorDao = DaoFactory.authorDao();
+        this.userService = new UserService();
     }
 
     public void createAuthor(Author author) {
@@ -30,19 +34,36 @@ public class AuthorService {
         return authorDao.findById(id).get();
     }
 
-    public List<Author> findAllSubAuthorByBookId(Long bookId) {
-        return authorDao.findAllSubAuthorByBookId(bookId);
+    public List<AuthorDto> findAllSubAuthorByBookId(Long bookId) {
+        return authorDao.findAllSubAuthorByBookId(bookId)
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Author> findAllAuthors() {
-        return authorDao.findAll();
+    public List<AuthorDto> findAllAuthors() {
+        return authorDao.findAll().stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
-    public Author findAuthorBySurname(String surname) {
-        if (authorDao.findBySurname(surname).isPresent()) {
-            return authorDao.findBySurname(surname).get();
+    public List<AuthorDto> findAuthorBySurname(String surname) {
+        if (!authorDao.findBySurname(surname).isEmpty()) {
+            return authorDao.findBySurname(surname).stream()
+                    .map(this::convertEntityToDto)
+                    .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException("Author not found");
         }
+    }
+
+    private AuthorDto convertEntityToDto(Author author) {
+        AuthorDto authorDto = AuthorDto.builder()
+                .id(author.getId())
+                .name(author.getAuthorFirstName())
+                .surname(author.getAuthorLastName())
+                .averageAgeUser(userService.averageAgeUsersByAuthor(author.getId()))
+                .build();
+        return authorDto;
     }
 }

@@ -1,8 +1,5 @@
 package service;
 
-import dao.implemetsDao.AddressDao;
-import dao.implemetsDao.BookInstanceDao;
-import dao.implemetsDao.UserDao;
 import dao.interfaceDao.AddressDaoInterface;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import dao.interfaceDao.UserDaoInterface;
@@ -27,23 +24,22 @@ public class UserService {
         this.bookInstanceDao = DaoFactory.bookInstanceDao();
     }
 
-    public User findUserById(Long id){
+    public User findUserById(Long id) {
         return userDao.findById(id).get();
     }
 
-    public boolean updateUser(User user){
-        if(userDao.findById(user.getId()).isPresent()){
+    public boolean updateUser(User user) {
+        if (userDao.findById(user.getId()).isPresent()) {
             userDao.update(user);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     public void createUser(User user, Address address) {
-        user.setUserAddress(address);
         addressDao.save(address);
+        user.setUserAddress(address);
         userDao.save(user);
     }
 
