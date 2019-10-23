@@ -43,10 +43,10 @@ public class EmployeesByPositionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
-        List<Employee> employeesByPosition = employeeService.findByPosition(position);
         if(position.equals(EmployeePosition.NONE)) {
             resp.sendRedirect(req.getContextPath() + "/employees");
         } else {
+            List<Employee> employeesByPosition = employeeService.findByPosition(position);
             req.setAttribute("employees", employeesByPosition);
             req.getRequestDispatcher("/employees.jsp").include(req, resp);
         }
