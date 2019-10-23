@@ -1,8 +1,10 @@
 package academy.softserve.museum.servlet.exhibit;
 
 import academy.softserve.museum.entities.Audience;
+import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.entities.ExhibitType;
+import academy.softserve.museum.entities.dto.ExhibitDto;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.AuthorService;
 import academy.softserve.museum.services.ExhibitService;
@@ -12,6 +14,8 @@ import academy.softserve.museum.services.impl.ExhibitServiceImpl;
 import academy.softserve.museum.servlet.author.AuthorsServlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -75,23 +79,24 @@ public class AddExhibitServlet extends HttpServlet {
         String material = req.getParameter("material");
         String technic = req.getParameter("technic");
         ExhibitType exhibitType = ExhibitType.valueOf(req.getParameter("type"));
+        Long audienceId = Long.parseLong(req.getParameter("audience"));
+        List<Long> authors = new ArrayList<>();
 
-        Audience audience = new Audience();
-        audience.setId(Long.parseLong(req.getParameter("audience")));
-        Exhibit exhibit = new Exhibit(exhibitType, material, technic, name);
-
-        for(String key:req.getParameterMap().keySet()){
-            System.out.println("key:" + key + ":" + req.getParameter(key));
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        for(String key: parameterMap.keySet()){
+            if(key.matches("^author-([0-9]{1,3})$")) {
+                authors.add(Long.parseLong(req.getParameter(key)));
+            }
         }
 
-//        try {
-//            exhibitService.save(exhibit);
-//            long id = exhibitService.findByName(exhibit.getName()).get().getId();
-//            exhibit.setId(id);
-//            exhibitService.updateExhibitAudience(exhibit, audience);
-//            resp.sendRedirect(req.getContextPath() + "/exhibits");
-//        } catch (RuntimeException e) {
-//            resp.sendRedirect(req.getContextPath() + "/exhibits");
-//        }
+        ExhibitDto exhibitDto = new ExhibitDto(exhibitType, name, material, technic, audienceId, authors);
+
+        exhibitService.save(exhibitDto);
+
+        try {
+            resp.sendRedirect(req.getContextPath() + "/exhibits");
+        } catch (RuntimeException e) {
+            resp.sendRedirect(req.getContextPath() + "/exhibits");
+        }
     }
 }

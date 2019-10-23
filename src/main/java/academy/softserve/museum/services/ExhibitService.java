@@ -1,6 +1,7 @@
 package academy.softserve.museum.services;
 
 import academy.softserve.museum.entities.*;
+import academy.softserve.museum.entities.dto.ExhibitDto;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface ExhibitService {
 
-    boolean save(Exhibit objectToSave);
+    boolean save(ExhibitDto dto);
 
     boolean deleteById(long id);
 

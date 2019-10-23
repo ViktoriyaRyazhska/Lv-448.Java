@@ -3,6 +3,7 @@ package academy.softserve.museum.servlet.employee;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.dto.EmployeeDto;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.AudienceServiceImpl;
@@ -62,21 +63,19 @@ public class AddEmployeeServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String firstname = req.getParameter("firstname");
-        String lastname = req.getParameter("lastname");
+        String firstName = req.getParameter("firstname");
+        String lastName = req.getParameter("lastname");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         EmployeePosition position = EmployeePosition.valueOf(req.getParameter("position"));
 
-        Audience audience = new Audience();
-        audience.setId(Integer.parseInt(req.getParameter("audience")));
-        Employee employee = new Employee(firstname, lastname, position, username, password);
+        Long audienceId = (Long.parseLong(req.getParameter("audience")));
+
+        EmployeeDto employeeDto = new EmployeeDto(firstName, lastName, username, password, position, audienceId);
+
 
         try {
-            employeeService.save(employee);
-            long id = employeeService.findByFullName(employee.getFirstName(), employee.getLastName()).getId();
-            employee.setId(id);
-            employeeService.updateEmployeeAudience(employee, audience);
+            employeeService.save(employeeDto);
 //            req.setAttribute("message", "Employee has been successfully added");
 //            req.getRequestDispatcher("/employees").forward(req, resp);
             resp.sendRedirect(req.getContextPath() + "/employees");

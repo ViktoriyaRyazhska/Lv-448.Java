@@ -2,6 +2,7 @@ package academy.softserve.museum.servlet.author;
 
 import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.entities.Author;
+import academy.softserve.museum.entities.dto.AuthorDto;
 import academy.softserve.museum.services.AuthorService;
 import academy.softserve.museum.services.impl.AuthorServiceImpl;
 
@@ -32,13 +33,10 @@ public class AddAuthorServlet extends HttpServlet {
         try {
             String firstname = req.getParameter("firstname");
             String lastname = req.getParameter("lastname");
-            Author author = new Author(firstname, lastname);
-            authorService.save(author);
-//            req.getRequestDispatcher("/exhibits").include(req, resp);
+            AuthorDto authorDto = new AuthorDto(firstname, lastname);
+            authorService.save(authorDto);
             resp.sendRedirect(req.getContextPath() + "/exhibits");
         } catch (RuntimeException e) {
-//            req.setAttribute(MessageType.FAILURE, "Something went wrong");
-//            req.getRequestDispatcher("/exhibits").include(req, resp);
             resp.sendRedirect(req.getContextPath() + "/exhibits");
         }
     }

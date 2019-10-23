@@ -5,6 +5,7 @@ import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
+import academy.softserve.museum.entities.dto.ExhibitDto;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import academy.softserve.museum.services.ExhibitService;
 
@@ -23,18 +24,37 @@ public class ExhibitServiceImpl implements ExhibitService {
     }
 
     public ExhibitServiceImpl(ExhibitDao exhibitDao, AuthorDao authorDao,
-            AudienceDao audienceDao) {
+                              AudienceDao audienceDao) {
         this.exhibitDao = exhibitDao;
         this.authorDao = authorDao;
         this.audienceDao = audienceDao;
     }
 
     @Override
-    public boolean save(Exhibit objectToSave) {
-        if (exhibitDao.findByName(objectToSave.getName()).isPresent()) {
+    public boolean save(ExhibitDto dto) {
+        if (exhibitDao.findByName(dto.getName()).isPresent()) {
             return false;
         } else {
-            exhibitDao.save(objectToSave);
+            Exhibit exhibit = new Exhibit(
+                    dto.getType(),
+                    dto.getMaterial(),
+                    dto.getTechnique(),
+                    dto.getName());
+
+            exhibitDao.save(exhibit);
+            Long exhibitId = exhibitDao.findByName(exhibit.getName()).get().getId();
+            exhibit.setId(exhibitId);
+
+            Audience audience = new Audience();
+            audience.setId(dto.getAudienceId());
+
+            exhibitDao.updateAudience(exhibit, audience);
+
+            for (Long id : dto.getAuthorsId()) {
+                Author author = new Author();
+                author.setId(id);
+                exhibitDao.addAuthor(exhibit, author);
+            }
             return true;
         }
     }
@@ -52,9 +72,9 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public Optional<Exhibit> findById(long id) {
         Exhibit exhibit = exhibitDao.findById(id).orElse(null);
-        if(exhibit != null){
+        if (exhibit != null) {
             return Optional.of(exhibitDao.loadForeignFields(exhibit));
-        }else{
+        } else {
             return Optional.empty();
         }
     }
@@ -62,9 +82,9 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public Optional<Exhibit> findByName(String name) {
         Exhibit exhibit = exhibitDao.findByName(name).orElse(null);
-        if(exhibit != null){
+        if (exhibit != null) {
             return Optional.of(exhibitDao.loadForeignFields(exhibit));
-        }else{
+        } else {
             return Optional.empty();
         }
     }

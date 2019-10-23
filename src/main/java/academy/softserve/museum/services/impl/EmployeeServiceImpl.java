@@ -6,6 +6,7 @@ import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.dto.EmployeeDto;
 import academy.softserve.museum.entities.statistic.EmployeeStatistic;
 import academy.softserve.museum.services.EmployeeService;
 import java.sql.Date;
@@ -28,11 +29,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean save(Employee objectToSave) {
-        if (employeeDao.findByUsername(objectToSave.getLogin()).isPresent()) {
+    public boolean save(EmployeeDto dto) {
+        if (employeeDao.findByUsername(dto.getUsername()).isPresent()) {
             return false;
         } else {
-            employeeDao.save(objectToSave);
+            Employee employee = new Employee(
+                    dto.getFirstName(),
+                    dto.getLastName(),
+                    dto.getPosition(),
+                    dto.getUsername(),
+                    dto.getPassword());
+
+            employeeDao.save(employee);
+            Long id = employeeDao.findByFullName(employee.getFirstName(), employee.getLastName()).get().getId();
+            employee.setId(id);
+
+            Audience audience = new Audience();
+            audience.setId(dto.getAudienceId());
+
+            employeeDao.updateAudience(employee, audience);
             return true;
         }
     }
