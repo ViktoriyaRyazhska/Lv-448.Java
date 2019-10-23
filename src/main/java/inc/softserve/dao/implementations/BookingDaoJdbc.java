@@ -203,12 +203,13 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    //TODO - debug
     @Override
     public Set<RoomDto> tmpfindByRoomIdAndDate(Long roomId, LocalDate from){ // TODO - put to Room dao
         String query = "SELECT * FROM rooms " +
                 "LEFT JOIN bookings " +
                 "ON rooms.id = bookings.room_id " +
-                "WHERE rooms.hotel_id = ? AND (checkin > ? OR checkin IS NULL)";
+                "WHERE rooms.hotel_id = ? AND (checkin >= ? OR checkin IS NULL)";
         try (PreparedStatement prepStat = connection.prepareStatement(query)){
             prepStat.setLong(1, roomId);
             prepStat.setDate(2, Date.valueOf(from));

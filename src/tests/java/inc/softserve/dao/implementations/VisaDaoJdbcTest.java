@@ -4,22 +4,25 @@ import inc.softserve.dao.db_test_utils.FieldChecked;
 import inc.softserve.dao.db_test_utils.InitDataBase;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 class VisaDaoJdbcTest {
 
@@ -27,6 +30,20 @@ class VisaDaoJdbcTest {
     private static UsrDao usrDao;
     private static CountryDao countryDao;
     private static VisaDaoJdbc visaDaoJdbc;
+
+    @Mock
+    UsrDao usrDaoMock;
+
+    @BeforeEach
+    void testMock(){
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    void test(){
+        when(usrDaoMock.findAll()).thenReturn(Collections.singleton(new Usr()));
+        System.out.println(usrDaoMock.findAll());
+    }
 
     @BeforeAll
     static void init() throws SQLException {
@@ -45,8 +62,8 @@ class VisaDaoJdbcTest {
     void save(){
         Usr usr = new Usr();
         Country country = new Country();
-        country.setId((long) 4);
-        usr.setId((long) 2);
+        country.setId(4L);
+        usr.setId(4L);
         Visa visa = new Visa();
         visa.setVisaNumber("q4123fadsf");
         visa.setUsr(usr);

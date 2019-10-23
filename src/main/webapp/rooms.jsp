@@ -33,8 +33,8 @@
                                             required/>
                 </label>
                 <br/>
-                <input type="hidden" name="room_id" value="${roomPojo.hotel.id}">
-                <input type="hidden" name="hotel_id" value="${roomPojo.id}">
+                <input type="hidden" name="hotel_id" value="${roomPojo.hotel.id}">
+                <input type="hidden" name="room_id" value="${roomPojo.id}">
                 <button id="submit" type="submit">Book!</button>
 <%--            </c:forEach>--%>
         </fieldset>

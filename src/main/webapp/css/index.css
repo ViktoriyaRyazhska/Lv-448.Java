@@ -4,7 +4,7 @@
     padding: 0;
 }
 :root{
-    font-size: 160px;
+    font-size: 16px;
 }
 span.requiredFieldClass{
     color: red;
