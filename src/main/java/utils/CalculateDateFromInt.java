@@ -27,6 +27,5 @@ public class CalculateDateFromInt {
         result[2] = days;
 
         return result;
-
     }
 }

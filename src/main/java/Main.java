@@ -1,17 +1,10 @@
-//import dao.implemetsDao.UserDao;
-////import database.DaoFactory;
-////import entities.Address;
-////import entities.User;
-////import service.UserService;
-////
-////import java.sql.Date;
-////
-////class Main{
-////       public static void main(String[] args) {
-////           UserDao userDao = DaoFactory.userDao();
-////           UserService userService = new UserService(userDao);
-////           User build = User.builder().userSurname("fsdfsd").userName("sfdds").phoneNumber("saterd").birthday(Date.valueOf("2010-01-01").toLocalDate()).email("gfdgdfgdf").build();
-////           Address build1 = Address.builder().city("Lvivi").apartment((long) 23).buildingNumber((long) 324532).street("dfsg").build();
-////           userService.createUser(build, build1);
-////       }
-////   }
+//import java.time.Period;
+//
+//class Main {
+//    public static void main(String[] args) {
+//        UserService userService = new UserService();
+//        User build = User.builder().userSurname("Kopylchak").userName("Vitalik").phoneNumber("+380950022333").birthday(Date.valueOf("2010-01-01").toLocalDate()).email("emailvitalik@mail.com").build();
+//        Address build1 = Address.builder().city("Lvivi").apartment(1L).buildingNumber(2L).street("Kulparkivska").build();
+//        userService.createUser(build, build1);
+//    }
+//}

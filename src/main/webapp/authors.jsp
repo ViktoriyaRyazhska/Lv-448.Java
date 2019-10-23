@@ -58,14 +58,14 @@
                                  alt="Card image cap">
                             <div class="card-body">
                                 <h6>Name:
-                                    <span class="card-author-title"> ${author.authorFirstName}</span>
+                                    <span class="card-author-title"> ${author.name}</span>
                                 </h6>
                                 <h6>
                                     Surname :
-                                    <span class="card-author-title"> ${author.authorLastName}</span>
+                                    <span class="card-author-title"> ${author.surname}</span>
                                 </h6>
                                 <hr>
-                                <h6>Average age of readers: 26</h6>
+                                <h6>Average age of readers: ${author.averageAgeUser}</h6>
                                 <hr>
                                 <div class="link-author-container">
 

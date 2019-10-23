@@ -1,4 +1,4 @@
-package academy.softserve.museum.util;
+package utils;
 
 public class PathParser {
     private PathParser() {}
