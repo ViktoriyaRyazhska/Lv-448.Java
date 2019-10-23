@@ -44,7 +44,7 @@
                                     <h4 class="card-title">${excursion.name}</h4>
                                 </div>
                                 <div class="card-footer text-right">
-                                    <a href="<c:url value=""/>" class="card-link">Update</a>
+<%--                                    <a href="<c:url value=""/>" class="card-link">Update</a>--%>
                                     <a href="<c:url value="/excursions/delete-excursion/${excursion.id}"/>" class="card-link">Remove</a>
                                 </div>
                             </div>

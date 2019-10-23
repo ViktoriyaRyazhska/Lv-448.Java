@@ -5,7 +5,10 @@ import academy.softserve.museum.dao.TimetableDao;
 import academy.softserve.museum.dao.impl.jdbc.JdbcTimetableDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
+import academy.softserve.museum.entities.Employee;
+import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.Timetable;
+import academy.softserve.museum.entities.dto.TimetableDto;
 import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.exception.NotFoundException;
 import academy.softserve.museum.exception.NotSavedException;
@@ -28,9 +31,14 @@ public class TimetableServiceImpl implements TimetableService {
     }
 
     @Override
-    public void save(Timetable objectToSave) {
+    public void save(TimetableDto dto) {
         try {
-            jdbcTimetableDao.save(objectToSave);
+            Employee employee = new Employee();
+            employee.setId(dto.getEmployeeId());
+            Excursion excursion = new Excursion();
+            excursion.setId(dto.getExcursionId());
+            Timetable timetable = new Timetable(employee, excursion, dto.getDateTimeFrom(), dto.getDateTimeTill());
+            jdbcTimetableDao.save(timetable);
         }catch (Exception e){
             throw new NotSavedException(ErrorMessage.TIMETABLE_NOT_SAVED);
         }

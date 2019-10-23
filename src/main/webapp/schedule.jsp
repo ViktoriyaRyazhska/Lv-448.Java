@@ -11,6 +11,35 @@
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
     <div class="container">
+        <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
+            <form class="form-inline" action="<c:url value="/schedule"/>" method="post" role="form">
+                <div class="form-group">
+                    <label class="filter-col" for="date-time-from">Date/Time from:</label>
+                    <input type="datetime-local" class="form-control input-xs w-250" name="from" id="date-time-from">
+                    <label class="filter-col" for="date-time-till">Date/Time till:</label>
+                    <input type="datetime-local" class="form-control input-xs w-250" name="till" id="date-time-till">
+                </div> <!-- form group [date-time-till] -->
+                <div class="form-group mt-2">
+                    <label class="filter-col" for="schedule-employee">Tour guide:</label>
+                    <select class="browser-default custom-select" id="schedule-employee"
+                            name="employee">
+                        <c:forEach var="employee" items="${employees}">
+                            <option value="${employee.id}">${employee.firstName} ${employee.lastName}</option>
+                        </c:forEach>
+                    </select>
+                    <label class="filter-col" for="schedule-excursion">Excursion:</label>
+                    <select class="browser-default custom-select" id="schedule-excursion"
+                            name="excursion">
+                        <c:forEach var="excursion" items="${excursionList}">
+                            <option value="${excursion.id}">${excursion.name}</option>
+                        </c:forEach>
+                    </select>
+                    <button type="submit" class="btn btn-dark">
+                        Add
+                    </button>
+                </div>
+            </form>
+        </div>
         <h1 class="text-center mt-4">Excursions schedule</h1>
         <% String excursions = (String) request.getAttribute("excursions"); %>
         <div id="excursion-schedule"></div>
