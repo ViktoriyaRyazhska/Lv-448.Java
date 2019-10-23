@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="<c:url value="/static/css/style.css"/>">
     <title>Museum</title>
 </head>
-<body>
+<body class="no-overflow">
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
     <img id="bg-image" src="<c:url value="/static/img/bg.jpg"/>" alt="museum-bg">
