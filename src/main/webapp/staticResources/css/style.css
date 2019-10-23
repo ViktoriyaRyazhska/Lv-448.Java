@@ -3,6 +3,14 @@
     margin: 0;
     padding: 0;
 }
+body{
+    background-color: #e5e5ea!important;
+}
+
+.card-author-title {
+    font-size: 24px;
+    font-family: "Roboto Light";
+}
 
 .visible {
     display: flex;
@@ -51,7 +59,7 @@
 }
 
 #filter-panel .form-control {
-    width: 120px;
+    width: 220px;
 }
 
 #filter-panel .form-group label {
