@@ -13,7 +13,7 @@ public interface AuthorService {
 
     boolean deleteExhibitAuthor(Author author, Exhibit exhibit);
 
-    boolean save(AuthorDto dto);
+    boolean save(Author objectToSave);
 
     boolean deleteById(long id);
 

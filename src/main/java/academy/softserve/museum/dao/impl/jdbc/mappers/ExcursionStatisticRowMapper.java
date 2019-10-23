@@ -8,8 +8,18 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class used for creating ExcursionStatistic from ResultSet.
+ */
 public class ExcursionStatisticRowMapper implements RowMapper<ExcursionStatistic> {
 
+    /**
+     * Method for creating ExcursionStatistic from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating ExcursionStatistic.
+     * @return ExcursionStatistic created from ResultSet.
+     */
     @Override
     public ExcursionStatistic mapRow(ResultSet resultSet) {
         ExcursionStatistic statistic = new ExcursionStatistic();

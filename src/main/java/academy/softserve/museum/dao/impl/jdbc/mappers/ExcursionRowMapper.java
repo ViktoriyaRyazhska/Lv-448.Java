@@ -5,8 +5,18 @@ import academy.softserve.museum.entities.Excursion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class used for creating Excursion from ResultSet.
+ */
 public class ExcursionRowMapper implements RowMapper<Excursion> {
 
+    /**
+     * Method for creating Excursion from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating Excursion.
+     * @return Excursion created from ResultSet.
+     */
     @Override
     public Excursion mapRow(ResultSet resultSet) {
         Excursion excursion = new Excursion();

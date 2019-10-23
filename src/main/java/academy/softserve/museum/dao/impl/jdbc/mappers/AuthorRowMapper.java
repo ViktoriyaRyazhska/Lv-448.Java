@@ -5,8 +5,18 @@ import academy.softserve.museum.entities.Author;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class used for creating Author from ResultSet.
+ */
 public class AuthorRowMapper implements RowMapper<Author> {
 
+    /**
+     * Method for creating Author from ResultSet.
+     *
+     * @param resultSet object with needed data for
+     *                  creating Author.
+     * @return Author created from ResultSet.
+     */
     @Override
     public Author mapRow(ResultSet resultSet) {
         Author author = new Author();

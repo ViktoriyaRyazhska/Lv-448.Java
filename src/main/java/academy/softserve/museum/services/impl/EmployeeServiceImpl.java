@@ -1,15 +1,20 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.constant.ErrorMessage;
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
-import academy.softserve.museum.entities.dto.EmployeeDto;
 import academy.softserve.museum.entities.statistic.EmployeeStatistic;
+import academy.softserve.museum.exception.NotDeletedException;
+import academy.softserve.museum.exception.NotFoundException;
+import academy.softserve.museum.exception.NotSavedException;
+import academy.softserve.museum.exception.NotUpdatedException;
 import academy.softserve.museum.services.EmployeeService;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,25 +34,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean save(EmployeeDto dto) {
-        if (employeeDao.findByUsername(dto.getUsername()).isPresent()) {
-            return false;
+    public boolean save(Employee objectToSave) {
+        if (employeeDao.findByUsername(objectToSave.getLogin()).isPresent()) {
+            throw new NotSavedException(ErrorMessage.EMPLOYEE_NOT_SAVED);
         } else {
-            Employee employee = new Employee(
-                    dto.getFirstName(),
-                    dto.getLastName(),
-                    dto.getPosition(),
-                    dto.getUsername(),
-                    dto.getPassword());
-
-            employeeDao.save(employee);
-            Long id = employeeDao.findByFullName(employee.getFirstName(), employee.getLastName()).get().getId();
-            employee.setId(id);
-
-            Audience audience = new Audience();
-            audience.setId(dto.getAudienceId());
-
-            employeeDao.updateAudience(employee, audience);
+            employeeDao.save(objectToSave);
             return true;
         }
     }
@@ -58,23 +49,24 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDao.deleteById(id);
             return true;
         } else {
-            return false;
+            throw new NotDeletedException(ErrorMessage.EMPLOYEE_NOT_DELETED);
         }
     }
 
     @Override
     public Optional<Employee> findById(long id) {
         Employee employee = employeeDao.findById(id).orElse(null);
-        if (employee != null) {
-            return Optional.of(employeeDao.loadForeignFields(employee));
-        } else {
-            return Optional.empty();
-        }
+            return Optional.of(Optional.of(employeeDao.loadForeignFields(employee))
+                    .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDao.loadForeignFields(employeeDao.findAll());
+        List<Employee> employeeList = employeeDao.loadForeignFields(employeeDao.findAll());
+        if(employeeList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return employeeList;
     }
 
     @Override
@@ -84,18 +76,26 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDao.update(newObject);
             return true;
         } else {
-            return false;
+            throw new NotUpdatedException(ErrorMessage.EMPLOYEE_NOT_UPDATED);
         }
     }
 
     @Override
     public List<Employee> findByPosition(EmployeePosition position) {
-        return employeeDao.loadForeignFields(employeeDao.findByPosition(position));
+        List<Employee> employeeList = employeeDao.loadForeignFields(employeeDao.findByPosition(position));
+        if(employeeList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return employeeList;
     }
 
     @Override
     public EmployeeStatistic findStatistic(Date dateStart, Date dateEnd) {
-        return employeeDao.findStatistic(dateStart, dateEnd);
+        try {
+            return employeeDao.findStatistic(dateStart, dateEnd);
+        } catch (Exception e){
+        throw new  NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
     }
 
     @Override
@@ -106,17 +106,22 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDao.updateAudience(employee, audience);
             return true;
         } else {
-            return false;
+            throw new NotUpdatedException(ErrorMessage.EMPLOYEE_AUDIENCE_NOT_UPDATED);
         }
     }
 
     @Override
     public List<Employee> findAvailable(Date dateStart, Date dateEnd) {
-        return employeeDao.findAvailable(dateStart, dateEnd);
+        List<Employee> employeeList = employeeDao.findAvailable(dateStart, dateEnd);
+        if(employeeList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return employeeList;
     }
 
     @Override
-    public Employee findByFullName(String firstName, String lastName) {
-        return employeeDao.findByFullName(firstName, lastName).orElse(null);
+    public Optional<Employee> findByFullName(String firstName, String lastName) {
+        return Optional.of(employeeDao.findByFullName(firstName, lastName)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 }

@@ -1,9 +1,14 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.constant.ErrorMessage;
 import academy.softserve.museum.dao.ExcursionDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
+import academy.softserve.museum.exception.NotDeletedException;
+import academy.softserve.museum.exception.NotFoundException;
+import academy.softserve.museum.exception.NotSavedException;
+import academy.softserve.museum.exception.NotUpdatedException;
 import academy.softserve.museum.services.ExcursionService;
 import java.sql.Date;
 import java.util.List;
@@ -11,60 +16,74 @@ import java.util.Optional;
 
 public class ExcursionServiceImpl implements ExcursionService {
 
-    private ExcursionDao jdbcExcursionDao = DaoFactory.excursionDao();
+    private ExcursionDao excursionDao = DaoFactory.excursionDao();
 
     @Override
     public boolean save(Excursion objectToSave) {
-        if (jdbcExcursionDao.findByName(objectToSave.getName()).isPresent()) {
-            return false;
+        if (excursionDao.findByName(objectToSave.getName()).isPresent()) {
+            throw new NotSavedException(ErrorMessage.EXCURSION_NOT_SAVED);
         } else {
-            jdbcExcursionDao.save(objectToSave);
+            excursionDao.save(objectToSave);
             return true;
         }
     }
 
     @Override
     public boolean deleteById(long id) {
-        if (jdbcExcursionDao.findById(id).isPresent()) {
-            jdbcExcursionDao.deleteById(id);
+        if (excursionDao.findById(id).isPresent()) {
+            excursionDao.deleteById(id);
             return true;
         } else {
-            return false;
+            throw new NotDeletedException(ErrorMessage.EXCURSION_NOT_DELETED);
         }
     }
 
     @Override
     public Optional<Excursion> findById(long id) {
-        return jdbcExcursionDao.findById(id);
+        return Optional.of(excursionDao.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
     @Override
     public Optional<Excursion> findByName(String name) {
-        return jdbcExcursionDao.findByName(name);
+        return Optional.of(excursionDao.findByName(name)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
     @Override
     public List<Excursion> findAll() {
-        return jdbcExcursionDao.findAll();
+        List<Excursion> excursionList = excursionDao.findAll();
+        if(excursionList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return excursionList;
     }
 
     @Override
     public boolean update(Excursion newObject) {
-        if (jdbcExcursionDao.findByName(newObject.getName()).isPresent()) {
-            jdbcExcursionDao.update(newObject);
+        if (excursionDao.findByName(newObject.getName()).isPresent()) {
+            excursionDao.update(newObject);
             return true;
         } else {
-            return false;
+            throw new NotUpdatedException(ErrorMessage.EXCURSION_NOT_UPDATED);
         }
     }
 
     @Override
     public ExcursionStatistic findStatistic(Date dateStart, Date dateEnd) {
-        return jdbcExcursionDao.findStatistic(dateStart, dateEnd);
+        try {
+            return excursionDao.findStatistic(dateStart, dateEnd);
+        } catch (Exception e){
+            throw new  NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
     }
 
     @Override
     public List<Excursion> findAvailable(Date dateStart, Date dateEnd) {
-        return jdbcExcursionDao.findAvailable(dateStart, dateEnd);
+        List<Excursion> excursionList = excursionDao.findAvailable(dateStart, dateEnd);
+        if(excursionList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return excursionList;
     }
 }

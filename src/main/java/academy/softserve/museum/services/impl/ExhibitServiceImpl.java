@@ -1,12 +1,16 @@
 package academy.softserve.museum.services.impl;
 
+import academy.softserve.museum.constant.ErrorMessage;
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
-import academy.softserve.museum.entities.dto.ExhibitDto;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
+import academy.softserve.museum.exception.NotDeletedException;
+import academy.softserve.museum.exception.NotFoundException;
+import academy.softserve.museum.exception.NotSavedException;
+import academy.softserve.museum.exception.NotUpdatedException;
 import academy.softserve.museum.services.ExhibitService;
 
 import java.util.*;
@@ -24,37 +28,18 @@ public class ExhibitServiceImpl implements ExhibitService {
     }
 
     public ExhibitServiceImpl(ExhibitDao exhibitDao, AuthorDao authorDao,
-                              AudienceDao audienceDao) {
+            AudienceDao audienceDao) {
         this.exhibitDao = exhibitDao;
         this.authorDao = authorDao;
         this.audienceDao = audienceDao;
     }
 
     @Override
-    public boolean save(ExhibitDto dto) {
-        if (exhibitDao.findByName(dto.getName()).isPresent()) {
-            return false;
+    public boolean save(Exhibit objectToSave) {
+        if (exhibitDao.findByName(objectToSave.getName()).isPresent()) {
+            throw new NotSavedException(ErrorMessage.EXHIBIT_NOT_SAVED);
         } else {
-            Exhibit exhibit = new Exhibit(
-                    dto.getType(),
-                    dto.getMaterial(),
-                    dto.getTechnique(),
-                    dto.getName());
-
-            exhibitDao.save(exhibit);
-            Long exhibitId = exhibitDao.findByName(exhibit.getName()).get().getId();
-            exhibit.setId(exhibitId);
-
-            Audience audience = new Audience();
-            audience.setId(dto.getAudienceId());
-
-            exhibitDao.updateAudience(exhibit, audience);
-
-            for (Long id : dto.getAuthorsId()) {
-                Author author = new Author();
-                author.setId(id);
-                exhibitDao.addAuthor(exhibit, author);
-            }
+            exhibitDao.save(objectToSave);
             return true;
         }
     }
@@ -65,33 +50,31 @@ public class ExhibitServiceImpl implements ExhibitService {
             exhibitDao.deleteById(id);
             return true;
         } else {
-            return false;
+            throw new NotDeletedException(ErrorMessage.EXHIBIT_NOT_DELETED);
         }
     }
 
     @Override
     public Optional<Exhibit> findById(long id) {
         Exhibit exhibit = exhibitDao.findById(id).orElse(null);
-        if (exhibit != null) {
-            return Optional.of(exhibitDao.loadForeignFields(exhibit));
-        } else {
-            return Optional.empty();
-        }
+        return Optional.of(Optional.of(exhibitDao.loadForeignFields(exhibit))
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
     @Override
     public Optional<Exhibit> findByName(String name) {
         Exhibit exhibit = exhibitDao.findByName(name).orElse(null);
-        if (exhibit != null) {
-            return Optional.of(exhibitDao.loadForeignFields(exhibit));
-        } else {
-            return Optional.empty();
-        }
+        return Optional.of(Optional.of(exhibitDao.loadForeignFields(exhibit))
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
     @Override
     public List<Exhibit> findAll() {
-        return exhibitDao.loadForeignFields(exhibitDao.findAll());
+        List<Exhibit> exhibitList = exhibitDao.loadForeignFields(exhibitDao.findAll());
+        if(exhibitList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return exhibitList;
     }
 
     @Override
@@ -100,18 +83,26 @@ public class ExhibitServiceImpl implements ExhibitService {
             exhibitDao.update(newObject);
             return true;
         } else {
-            return false;
+            throw new NotUpdatedException(ErrorMessage.EXHIBIT_NOT_UPDATED);
         }
     }
 
     @Override
     public List<Exhibit> findByAuthor(Author author) {
-        return exhibitDao.loadForeignFields(exhibitDao.findByAuthor(author));
+        List<Exhibit> exhibitList = exhibitDao.loadForeignFields(exhibitDao.findByAuthor(author));
+        if(exhibitList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return exhibitList;
     }
 
     @Override
     public List<Exhibit> findByEmployee(Employee employee) {
-        return exhibitDao.loadForeignFields(exhibitDao.findByEmployee(employee));
+        List<Exhibit> exhibitList = exhibitDao.loadForeignFields(exhibitDao.findByEmployee(employee));
+        if(exhibitList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return exhibitList;
     }
 
     @Override
@@ -121,7 +112,7 @@ public class ExhibitServiceImpl implements ExhibitService {
             exhibitDao.updateAudience(exhibit, audience);
             return true;
         } else {
-            return false;
+            throw new NotUpdatedException(ErrorMessage.EXHIBIT_AUDIENCE_NOT_UPDATED);
         }
     }
 
@@ -129,7 +120,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     public boolean addExhibitAuthor(Exhibit exhibit, Author author) {
         if ((exhibitDao.findById(exhibit.getId()).isPresent()) &&
                 (authorDao.findById(author.getId()).isPresent())) {
-            return false;
+            throw new NotSavedException(ErrorMessage.EXHIBIT_AUTHOR_NOT_SAVED);
         } else {
             exhibitDao.addAuthor(exhibit, author);
             return true;
@@ -143,20 +134,27 @@ public class ExhibitServiceImpl implements ExhibitService {
             exhibitDao.deleteAuthor(exhibit, author);
             return true;
         } else {
-            return false;
+            throw new NotDeletedException(ErrorMessage.EXHIBIT_NOT_DELETED);
         }
     }
 
     @Override
     public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
-        return exhibitDao.findAllGroupedByAudience();
+        Map<Audience, List<Exhibit>> map = exhibitDao.findAllGroupedByAudience();
+        if(map.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return map;
     }
 
     @Override
     public ExhibitStatistic findStatistic() {
-        return exhibitDao.findStatistic();
+        try {
+            return exhibitDao.findStatistic();
+        } catch (Exception e){
+            throw new  NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
     }
-
 
     public List<ExhibitType> getTypes() {
         return Arrays.asList(ExhibitType.values());
@@ -164,6 +162,10 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     @Override
     public List<Exhibit> findByAudience(Audience audience) {
-        return exhibitDao.findByAudience(audience);
+        List<Exhibit> exhibitList = exhibitDao.findByAudience(audience);
+        if(exhibitList.size() < 1){
+            throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
+        }
+        return exhibitList;
     }
 }
