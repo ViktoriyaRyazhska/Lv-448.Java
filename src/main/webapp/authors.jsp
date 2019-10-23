@@ -50,7 +50,7 @@
 
 
         <div class="row">
-            <div class="custom-list" id="excursions-list">
+            <div class="custom-list">
                 <div class="card-columns">
                     <c:forEach var="author" items="${authors}">
                         <div class="card">
