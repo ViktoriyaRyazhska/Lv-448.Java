@@ -115,12 +115,13 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     @Override
-    public Optional<Author> findBySurname(String surname) {
-        String query = "SELECT * FROM authors where last_name = ?";
+    public List<Author> findBySurname(String surname) {
+        String query = "SELECT * FROM authors where last_name = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, surname);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return extractAuthors(resultSet).findAny();
+            List<Author> authors = new ArrayList<>();
+            return extractAuthors(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

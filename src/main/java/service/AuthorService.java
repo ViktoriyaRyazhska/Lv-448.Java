@@ -4,6 +4,7 @@ import dao.interfaceDao.AuthorDaoInterface;
 import database.DaoFactory;
 import entities.Author;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorService {
@@ -38,9 +39,9 @@ public class AuthorService {
         return authorDao.findAll();
     }
 
-    public Author findAuthorBySurname(String surname) {
-        if (authorDao.findBySurname(surname).isPresent()) {
-            return authorDao.findBySurname(surname).get();
+    public List<Author> findAuthorBySurname(String surname) {
+        if (!authorDao.findBySurname(surname).isEmpty()) {
+            return authorDao.findBySurname(surname);
         } else {
             throw new IllegalArgumentException("Author not found");
         }

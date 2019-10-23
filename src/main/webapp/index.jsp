@@ -6,11 +6,10 @@
     <title>Index</title>
 </head>
 <jsp:include page="menu.jsp"/>
-<body>
-
-
-
-
+<body style="overflow: hidden">
+<section class="main-section">
+    <img id="bg-image" src="<c:url value="/staticResources/img/library-wallpaper.jpg"/>" alt="museum-bg">
+</section>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"

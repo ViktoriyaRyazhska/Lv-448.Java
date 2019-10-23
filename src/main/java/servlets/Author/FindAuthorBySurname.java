@@ -1,6 +1,5 @@
 package servlets.Author;
 
-import entities.Author;
 import service.AuthorService;
 
 import javax.servlet.ServletException;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/by_surname")
+@WebServlet("/authors_by_surname")
 public class FindAuthorBySurname extends HttpServlet {
 
     private AuthorService authorService;
@@ -23,8 +22,7 @@ public class FindAuthorBySurname extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Author author = authorService.findAuthorBySurname(req.getParameter("surname"));
-            req.setAttribute("author", authorService.findAuthorBySurname(author.getAuthorLastName()));
+            req.setAttribute("authors", authorService.findAuthorBySurname(req.getParameter("surname")));
         } catch (IllegalArgumentException e) {
             req.setAttribute("failureMessage", e.getLocalizedMessage());
         }
