@@ -1,4 +1,4 @@
-package User;
+package servlets.User;
 
 import database.DaoFactory;
 import service.UserService;
