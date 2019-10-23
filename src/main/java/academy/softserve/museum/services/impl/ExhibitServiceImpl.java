@@ -182,7 +182,7 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     @Override
     public List<Exhibit> findByAudience(Audience audience) {
-        List<Exhibit> exhibitList = exhibitDao.findByAudience(audience);
+        List<Exhibit> exhibitList = exhibitDao.loadForeignFields(exhibitDao.findByAudience(audience));
         if(exhibitList.size() < 1){
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
