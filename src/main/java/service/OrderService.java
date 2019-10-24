@@ -1,9 +1,6 @@
 package service;
 
-import Dto.OrderDto;
-import dao.implemetsDao.BookInstanceDao;
-import dao.implemetsDao.OrderDao;
-import dao.implemetsDao.UserDao;
+import dto.OrderDto;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import dao.interfaceDao.OrderDaoInterface;
 import dao.interfaceDao.UserDaoInterface;
@@ -11,6 +8,7 @@ import database.DaoFactory;
 import entities.Order;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderService {
     private OrderDaoInterface orderDao;
@@ -27,8 +25,8 @@ public class OrderService {
         orderDao.save(orderToSave);
     }
 
-    public List<Order> findAllOrders() {
-        return orderDao.findAll();
+    public List<OrderDto> findAllOrders() {
+        return orderDao.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
     public Order findById(Long id) {
@@ -48,13 +46,15 @@ public class OrderService {
         return orderDao.findAllByUserId(id);
     }
 
-    private OrderDto convertEntityToDto (Order order){
-OrderDto.builder()
-        .id(order.getId())
-        .dateOrder(order.getDateOrder())
-        .dateReturn(order.getDateReturn())
-        .bookInstance(order.getBookInstance())
-        .user(order.getUser());
+    private OrderDto convertEntityToDto(Order order) {
+        OrderDto user = OrderDto.builder()
+                .id(order.getId())
+                .dateOrder(order.getDateOrder())
+                .dateReturn(order.getDateReturn())
+                .bookInstance(order.getBookInstance())
+                .user(order.getUser())
+                .build();
+        return user;
     }
 
 }

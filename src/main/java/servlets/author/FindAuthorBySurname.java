@@ -1,6 +1,5 @@
-package servlets.Author;
+package servlets.author;
 
-import Dto.AuthorDto;
 import service.AuthorService;
 
 import javax.servlet.ServletException;
@@ -9,10 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/authors")
-public class AuthorsServlet extends HttpServlet {
+@WebServlet("/authors_by_surname")
+public class FindAuthorBySurname extends HttpServlet {
+
     private AuthorService authorService;
 
     @Override
@@ -21,8 +20,13 @@ public class AuthorsServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("authors", authorService.findAllAuthors());
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("authors", authorService.findAuthorBySurname(req.getParameter("surname")));
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("failureMessage", e.getLocalizedMessage());
+        }
         req.getRequestDispatcher("/authors.jsp").include(req, resp);
+
     }
 }

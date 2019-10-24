@@ -1,4 +1,4 @@
-package servlets.User;
+package servlets.user;
 
 import database.DaoFactory;
 
@@ -10,17 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-
-@WebServlet("/timeOfUsingLibraryByUser")
-public class TimeOfUsingLibraryByUserServlet extends HttpServlet {
+@WebServlet("/averageTimeOfUsingLibrary")
+public class AverageTimeOfUsingLibraryServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        Integer value = (DaoFactory.userDao().timeUsingLibraryByUser(Long.parseLong(id)));
+        Integer value = DaoFactory.userDao().averageTimeUsingLibrary();
         request.setAttribute("value", value);
         request.getRequestDispatcher("/test.jsp").forward(request, response);
     }
 }
-
-

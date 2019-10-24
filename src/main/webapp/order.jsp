@@ -80,52 +80,76 @@
                         </div> <!-- form group [by-audience] -->
                     </form>
                     <div class="form-group">
-                        <a class="btn btn-dark mr-2" href="<c:url value="/exhibits/add-exhibit"/>">New</a>
-                        <a class="btn btn-dark" href="<c:url value="/exhibits/statistics"/>">Statistics</a>
+                        <a class="btn btn-primary mr-2" href="<c:url value="/add-order"/>">Create</a>
+                        <a class="btn btn-primary mr2" href="<c:url value="/exhibits/statistics"/>">Statistics</a>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
         </div> <!-- row [filters-panel] -->
+
+
         <div class="row">
-            <div class="custom-list" id="excursions-list">
+            <div class="custom-list">
                 <div class="card-columns">
                     <c:forEach var="order" items="${orders}">
                         <div class="card">
-<%--                            <img class="card-img-top" src="<c:url value="/static/img/exhibit-placeholder.jpg"/>" alt="Card image cap">--%>
                             <div class="card-body">
-                                <h4 class="card-title">Date order open: ${order.dateOrder}</h4>
-                                <h4 class="card-title">Date order close: ${order.dateReturn}</h4>
-<%--                                <h6 class="card-title">--%>
-<%--                                    <span class="text-primary">Author(s): </span>--%>
-<%--                                    <c:forEach var="author" items="${exhibit.authors}">--%>
-<%--                                        <span>${author.firstName} ${author.lastName}</span>--%>
-<%--                                    </c:forEach>--%>
-<%--                                </h6>--%>
-<%--                                <h6 class="card-title">--%>
-<%--                                    <span class="text-primary">Audience: </span>--%>
-<%--                                        ${exhibit.audience.name}</h6>--%>
-<%--                                <h6 class="card-title">--%>
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${not empty exhibit.material}">--%>
-<%--                                            <span class="text-primary">Material: </span>--%>
-<%--                                            ${exhibit.material}--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:otherwise>--%>
-<%--                                            <span class="text-primary">Technique: </span>--%>
-<%--                                            ${exhibit.technique}--%>
-<%--                                        </c:otherwise>--%>
-<%--                                    </c:choose>--%>
-<%--                                </h6>--%>
-<%--                            </div>--%>
-                            <div class="card-footer text-right">
-                                <a href="<c:url value=""/>" class="card-link">Update</a>
-                                <a href="<c:url value="/exhibits/delete-exhibit/${exhibit.id}"/>" class="card-link">Remove</a>
+                                <div class="card-title order-field-placeholder">Order S/N:
+                                    <span class="order-card-field">${order.id}</span>
+                                </div>
+                                <hr>
+                                <div class="card-title order-field-placeholder">User:
+                                    <span class="order-card-field">${order.user.userName}</span>
+                                    <span class="order-card-field">${order.user.userSurname}</span>
+                                </div>
+                                <hr>
+                                <div class="card-title order-field-placeholder">Date order open:
+                                    <span class="order-card-field">${order.dateOrder}</span>
+                                </div>
+                                <div class="card-title order-field-placeholder">Date order close:
+                                    <span class="order-card-field">${order.dateReturn}</span>
+                                </div>
+                                <hr>
+                                <div class="card-title order-field-placeholder">Book title
+                                    <span class="order-card-field">${order.bookInstance.book.title} </span>
+                                </div>
+                                <div class="card-title order-field-placeholder">Book instance S/N:
+                                    <span class="order-card-field">${order.bookInstance.id}</span>
+                                </div>
+                                    <%--                                <h6 class="card-title">--%>
+                                    <%--                                    <span class="text-primary">Author(s): </span>--%>
+                                    <%--                                    <c:forEach var="author" items="${exhibit.authors}">--%>
+                                    <%--                                        <span>${author.firstName} ${author.lastName}</span>--%>
+                                    <%--                                    </c:forEach>--%>
+                                    <%--                                </h6>--%>
+                                    <%--                                <h6 class="card-title">--%>
+                                    <%--                                    <span class="text-primary">Audience: </span>--%>
+                                    <%--                                        ${exhibit.audience.name}</h6>--%>
+                                    <%--                                <h6 class="card-title">--%>
+                                    <%--                                    <c:choose>--%>
+                                    <%--                                        <c:when test="${not empty exhibit.material}">--%>
+                                    <%--                                            <span class="text-primary">Material: </span>--%>
+                                    <%--                                            ${exhibit.material}--%>
+                                    <%--                                        </c:when>--%>
+                                    <%--                                        <c:otherwise>--%>
+                                    <%--                                            <span class="text-primary">Technique: </span>--%>
+                                    <%--                                            ${exhibit.technique}--%>
+                                    <%--                                        </c:otherwise>--%>
+                                    <%--                                    </c:choose>--%>
+                                    <%--                                </h6>--%>
+                                    <%--                            </div>--%>
+                                    <%--                            <div class="card-footer text-right">--%>
+                                    <%--                                <a href="<c:url value=""/>" class="card-link">Update</a>--%>
+                                    <%--                                <a href="<c:url value="/exhibits/delete-exhibit/${exhibit.id}"/>" class="card-link">Remove</a>--%>
+                                    <%--                            </div>--%>
                             </div>
                         </div>
                     </c:forEach>
                 </div>
             </div>
         </div>
+
+
     </div>
 </section>
 

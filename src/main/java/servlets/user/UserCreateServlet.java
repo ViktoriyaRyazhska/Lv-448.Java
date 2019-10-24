@@ -1,4 +1,4 @@
-package servlets.User;
+package servlets.user;
 
 import entities.Address;
 import entities.User;

@@ -1,4 +1,4 @@
-package servlets.Books;
+package servlets.books;
 
 import service.BookService;
 

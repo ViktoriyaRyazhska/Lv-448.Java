@@ -1,4 +1,4 @@
-package servlets.Author;
+package servlets.author;
 
 import entities.Author;
 import service.AuthorService;
