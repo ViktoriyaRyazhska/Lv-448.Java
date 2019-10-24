@@ -13,7 +13,15 @@
         <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
         <hr>
+
         <div class="form-line">
+            <div>
+                <c:forEach var="configParams" items="${errors}">
+                    <c:if test="${configParams.key=='empty'}">
+                        <c:out value="${configParams.value}" />
+                    </c:if>
+                </c:forEach>
+            </div>
             <label>
                 <span class="required-field-class" title="Required field">*</span>
             </label>
@@ -30,6 +38,13 @@
             </label>
         </div>
         <div class="form-line">
+            <div>
+                <c:forEach var="configParams" items="${errors}">
+                    <c:if test="${configParams.key=='email'}">
+                        <c:out value="${configParams.value}" />
+                    </c:if>
+                </c:forEach>
+            </div>
             <label>
                 <span class="required-field-class" title="Required field">*</span>
             </label>
@@ -38,6 +53,13 @@
             </label>
         </div>
         <div class="form-line">
+            <div>
+                <c:forEach var="configParams" items="${errors}">
+                    <c:if test="${configParams.key=='pass'}">
+                        <c:out value="${configParams.value}" />
+                    </c:if>
+                </c:forEach>
+            </div>
             <label>
                 <span class="required-field-class" title="Required field">*</span>
             </label>
@@ -46,14 +68,28 @@
             </label>
         </div>
         <div class="form-line">
+            <div>
+                <c:forEach var="configParams" items="${errors}">
+                    <c:if test="${configParams.key=='date'}">
+                        <c:out value="${configParams.value}" />
+                    </c:if>
+                </c:forEach>
+            </div>
             <label>
                 <span class="required-field-class" title="Required field">*</span>
             </label>
             <label>
-                <b>Date Birthday: </b><input type="text" placeholder="YYYY/MM/DD" name="date" required>
+                <b>Date Birthday: </b><input type="text" placeholder="YYYY-MM-DD" name="date" required>
             </label>
         </div>
         <div class="form-line">
+            <div>
+                <c:forEach var="configParams" items="${errors}">
+                    <c:if test="${configParams.key=='phone'}">
+                        <c:out value="${configParams.value}" />
+                    </c:if>
+                </c:forEach>
+            </div>
             <label>
                 <span class="required-field-class" title="Required field">*</span>
             </label>
@@ -68,11 +104,11 @@
             </label>
         </div>
         <div class="form-line">
-            <label><b>Issued: </b><input type="text" placeholder="YYYY/MM/DD" name="start"></label>
+            <label><b>Issued: </b><input type="text" placeholder="YYYY-MM-DD" name="start"></label>
         </div>
         <div class="form-line">
             <label>
-                <b>Expiration: </b> <input type="text" placeholder="YYYY/MM/DD" name="end">
+                <b>Expiration: </b> <input type="text" placeholder="YYYY-MM-DD" name="end">
             </label>
         </div>
         <div class="form-line">
@@ -80,6 +116,7 @@
                 <b>Country: </b><input type="text" placeholder="Country" name="country">
             </label>
         </div>
+
         <button type="submit" class="registerbtn">Register</button>
     </div>
     <div class="container signin">

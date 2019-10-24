@@ -33,7 +33,6 @@ public class StatisticServlet extends HttpServlet {
     private VisaStatsService visaStatsService;
     private HotelStatsService hotelStatsService;
 
-
     @Override
     public void init() throws ServletException {
         visaStatsService = (VisaStatsService) getServletContext().getAttribute("visaStatsService");
@@ -46,8 +45,7 @@ public class StatisticServlet extends HttpServlet {
         Usr user = (Usr) session.getAttribute("user");
         List<HotelStats> hotelsList = hotelStatsService.calcHotelStats();
         req.setAttribute("statisticCountry", visaStatsService.countVisasIssuedByAllCountry());
-       // req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail(user.getEmail()));
-        req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail("user@gmail.com").orElseThrow());
+        req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail(user.getEmail()));
         req.setAttribute("hotelsList", hotelsList);
         req.getRequestDispatcher("/statistic.jsp")
                 .include(req, resp);

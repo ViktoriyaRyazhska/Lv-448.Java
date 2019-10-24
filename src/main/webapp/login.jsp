@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,8 +8,15 @@
 </head>
 <body>
 <div class="width30">
-    <form action="login" method="POST">
+    <form action="/login" method="POST">
             <div class="form-line">
+                <div>
+                    <c:forEach var="configParams" items="${messages}">
+                        <c:if test="${configParams.key=='email'}">
+                            <c:out value="${configParams.value}" />
+                        </c:if>
+                    </c:forEach>
+                </div>
                 <label>
                     <span class="required-field-class" title="Required field">*</span>
                 </label>

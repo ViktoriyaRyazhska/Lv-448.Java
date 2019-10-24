@@ -12,4 +12,14 @@ public class VisaDto {
     private LocalDate issued;
     private LocalDate expirationDate;
     private String country;
+
+    public VisaDto() {
+    }
+
+    public VisaDto(String visaNumber, LocalDate issued, LocalDate expirationDate, String country) {
+        this.visaNumber = visaNumber;
+        this.issued = issued;
+        this.expirationDate = expirationDate;
+        this.country = country;
+    }
 }
