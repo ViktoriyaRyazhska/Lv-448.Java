@@ -14,7 +14,7 @@ import java.util.Objects;
 @Builder
 public class Order {
 
-    private long id;
+    private Long id;
     private LocalDate dateOrder;
     private LocalDate dateReturn;
     private User user;
@@ -25,11 +25,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id &&
-                dateOrder.equals(order.dateOrder) &&
-                dateReturn.equals(order.dateReturn) &&
-                user.equals(order.user) &&
-                bookInstance.equals(order.bookInstance);
+        return id.equals(order.id) &&
+                Objects.equals(dateOrder, order.dateOrder) &&
+                Objects.equals(dateReturn, order.dateReturn) &&
+                Objects.equals(user, order.user) &&
+                Objects.equals(bookInstance, order.bookInstance);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package service;
 
-import Dto.AuthorDto;
+import dto.AuthorDto;
 import dao.interfaceDao.AuthorDaoInterface;
 import database.DaoFactory;
 import entities.Author;

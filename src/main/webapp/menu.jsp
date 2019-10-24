@@ -18,7 +18,7 @@
                 <a class="nav-link" href="#">Users</a>
             </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#">Orders</a>
+                    <a class="nav-link " href="<c:url value="/orders"/>">Orders</a>
                 </li>
             </ul>
         </div>

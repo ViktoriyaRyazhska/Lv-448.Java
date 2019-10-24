@@ -8,7 +8,7 @@
 <jsp:include page="menu.jsp"/>
 <body style="overflow: hidden">
 <section class="main-section">
-    <img id="bg-image" src="<c:url value="/staticResources/img/library-wallpaper.jpg"/>" alt="museum-bg">
+    <img id="bg-image" src="<c:url value="/staticResources/img/library-wallpaper3.jpg"/>" alt="museum-bg">
 </section>
 </body>
 

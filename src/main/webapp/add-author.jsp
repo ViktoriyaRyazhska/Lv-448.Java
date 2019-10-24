@@ -19,13 +19,13 @@
                         <label for="author-name">Name</label>
                         <input type="text" class="form-control" id="author-name"
                                name="name"
-                               placeholder="Enter author name">
+                               placeholder="Enter author name" required>
                     </div>
                     <div class="form-group">
                         <label for="author-surname">Surname</label>
                         <input type="text" class="form-control" id="author-surname"
                                name="surname"
-                               placeholder="Enter surname author">
+                               placeholder="Enter surname author" required>
                     </div>
 
                     <div class="text-right">
