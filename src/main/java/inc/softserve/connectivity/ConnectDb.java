@@ -1,4 +1,4 @@
-package inc.softserve.database;
+package inc.softserve.connectivity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 
 //@Slf4j
 public class ConnectDb {
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String USER = System.getenv("db_user");
+    private static final String PASSWORD = System.getenv("db_password");
     private static final String CONNECT_URL = "jdbc:mysql://localhost:3306/" +
             "travel_agency?" +
             "useUnicode=true&" +

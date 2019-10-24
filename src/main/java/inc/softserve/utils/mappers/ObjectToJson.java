@@ -3,7 +3,7 @@ package inc.softserve.utils.mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ObjectToJsonMapper {
+public class ObjectToJson {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

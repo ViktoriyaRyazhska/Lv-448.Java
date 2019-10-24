@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 //@Slf4j
 public class CountryDaoJdbc implements CountryDao {
 
+    private static final String TABLE_NAME = "countries";
+
     private final Connection connection;
 
     public CountryDaoJdbc(Connection connection) {

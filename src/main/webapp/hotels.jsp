@@ -17,32 +17,46 @@
     <c:forEach var="hotel" items="${hotels}" >
         <ul>
             <li>
-                <a href="/rooms?hotelId=${hotel.id}">${hotel.hotelName}</a>
+                <a href="<c:url value="/rooms?hotelId=${hotel.id}"/>">${hotel.hotelName}</a>
             </li>
         </ul>
     </c:forEach>
 
 
-    <!-- TODO - redo URL mapping -->
-    <form action="/available_hotels" method="GET">
-        <fieldset>
-            <legend>Search for available hotels during a period</legend>
-            <label>
-                Select checkin: <input type="date" name="checkin">
-            </label>
-            <br/>
-            <label>
-                Select checkout: <input type="date" name="checkout">
-            </label>
-            <br/>
-            <input type="hidden" name="city_id" value="${cityId}">
-            <button id="submit" type="submit">Search</button>
-        </fieldset>
-    </form>
+    <c:if test="${not empty hotels}">
+        <!-- TODO - redo URL mapping -->
+        <form action="<c:url value="/hotels/${city}"/>" method="GET">
+            <fieldset>
+                <legend>Search for available hotels during a period</legend>
+                <label>
+                    Select checkin: <input class="datepicker" type="text" name="checkin">
+                </label>
+                <br/>
+                <label>
+                    Select checkout: <input class="datepicker" type="text" name="checkout">
+                </label>
+                <br/>
+                <input type="hidden" name="cityId" value="${cityId}">
+                <button id="submit" type="submit">Search</button>
+            </fieldset>
+        </form>
+    </c:if>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<%--    <script src="js/date_picker.js"></script>--%>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        (function () {
+            $('.datepicker').datepicker({
+                minDate: new Date(),
+                maxDate: twoYearsFromNow()
+            });
+
+            function twoYearsFromNow() {
+                let now = new Date();
+                return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
+            }
+        })();
+    </script>
 </body>
 </html>

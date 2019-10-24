@@ -1,6 +1,7 @@
 package inc.softserve.servlets;
 
 import inc.softserve.entities.Country;
+import inc.softserve.exceptions.ContextParameterNotFound;
 import inc.softserve.services.intefaces.CountryService;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,9 @@ public class WelcomeServlet extends HttpServlet {
     @Override
     public void init() {
         countryService = (CountryService) getServletContext().getAttribute("countryService");
+        if (countryService == null){
+            throw new ContextParameterNotFound();
+        }
     }
 
     @Override

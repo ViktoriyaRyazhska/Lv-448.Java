@@ -4,13 +4,10 @@ import inc.softserve.dao.interfaces.BookingDao;
 import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dao.interfaces.UsrDao;
-import inc.softserve.dto.RoomDto;
 import inc.softserve.entities.Booking;
-import inc.softserve.entities.stats.RoomBooking;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,6 +15,8 @@ import java.util.stream.Stream;
 
 //@Slf4j
 public class BookingDaoJdbc implements BookingDao {
+
+    private static final String TABLE_NAME = "bookings";
 
     private final Connection connection;
     private final UsrDao usrDao;
@@ -91,9 +90,11 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    // TODO - refactor!!!
     @Override
     public Set<Booking> findBookingsByRoomIdAndDate(Long roomId, LocalDate fromDate){
-        String query = "SELECT * FROM bookings WHERE room_id = ? AND bookings.checkin > ?";
+        String query = "SELECT * FROM bookings " +
+                "WHERE room_id = ? AND checkin > ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, roomId);
             prepStat.setDate(2, Date.valueOf(fromDate));
@@ -104,6 +105,7 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    // TODO - refactor!!!
     @Override
     public Set<Booking> findBookingsByHotelIdAndDate(Long hotelId, LocalDate fromDate) {
         String query = "SELECT * FROM bookings " +
@@ -153,89 +155,17 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
-    @Deprecated
     @Override
-    public List<RoomBooking> showAllFutureBookings(Long hotelId) {
-        String query = "SELECT rooms.id, rooms.chamber_number, rooms.luxury, rooms.bedrooms, rooms.hotel_id, rooms.city_id, " +
-                "bookings.checkin, bookings.checkout " +
-                "FROM rooms " +
-                "INNER JOIN bookings " +
-                "ON bookings.room_id = rooms.id " +
-                "WHERE bookings.hotel_id = ? AND bookings.checkin > CURDATE()";
+    public Set<Booking> findOccupiedDates(Long roomId, LocalDate from){
+        String query = "SELECT checkin, checkout FROM bookings " +
+                "WHERE room_id = ? " +
+                "AND checkin > ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setLong(1, hotelId);
-            ResultSet resultSet = prepStat.executeQuery();
-            return extractFutureBookings(resultSet).collect(Collectors.toList());
-        } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Deprecated
-    private Stream<RoomBooking> extractFutureBookings(ResultSet rs) throws SQLException {
-        Stream.Builder<RoomBooking> builder = Stream.builder();
-        while (rs.next()){
-            RoomBooking roomBooking = RoomBooking.builder()
-                    .room(roomDao
-                            .findById(rs.getLong("id"))
-                            .orElseThrow())
-                    .checkin(rs.getDate("checkin").toLocalDate())
-                    .checkout(rs.getDate("checkout").toLocalDate())
-                    .build();
-            builder.accept(roomBooking);
-        }
-        return builder.build();
-    }
-
-    @Deprecated
-    @Override
-    public List<RoomBooking> findByRoomIdAndDate(Long roomId, LocalDate fromDate) {
-        String query = "SELECT * FROM bookings WHERE room_id = ? AND bookings.checkin > ?";
-        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setLong(1, roomId);
-            prepStat.setDate(2, Date.valueOf(fromDate));
-            ResultSet resultSet = prepStat.executeQuery();
-            return extractFutureBookings(resultSet).collect(Collectors.toList());
-        } catch (SQLException e) {
-//            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    //TODO - debug
-    @Override
-    public Set<RoomDto> tmpfindByRoomIdAndDate(Long roomId, LocalDate from){ // TODO - put to Room dao
-        String query = "SELECT * FROM rooms " +
-                "LEFT JOIN bookings " +
-                "ON rooms.id = bookings.room_id " +
-                "WHERE rooms.hotel_id = ? AND (checkin >= ? OR checkin IS NULL)";
-        try (PreparedStatement prepStat = connection.prepareStatement(query)){
             prepStat.setLong(1, roomId);
             prepStat.setDate(2, Date.valueOf(from));
-            ResultSet resultSet = prepStat.executeQuery();
-            return tmp(resultSet).collect(Collectors.toSet());
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Stream<RoomDto> tmp(ResultSet rs) throws SQLException { // TODO - put to Room dao
-        Stream.Builder<RoomDto> builder = Stream.builder();
-        while (rs.next()){
-            RoomDto roomBooking = RoomDto.builder()
-                    .room(roomDao
-                            .findById(rs.getLong("id"))
-                            .orElseThrow())
-                    .bookedFrom(Optional.ofNullable(rs.getDate("checkin"))
-                            .map(Date::toLocalDate)
-                            .orElse(null))
-                    .bookedTo(Optional.ofNullable(rs.getDate("checkout"))
-                            .map(Date::toLocalDate)
-                            .orElse(null))
-                    .build();
-            builder.accept(roomBooking);
-        }
-        return builder.build();
     }
 }

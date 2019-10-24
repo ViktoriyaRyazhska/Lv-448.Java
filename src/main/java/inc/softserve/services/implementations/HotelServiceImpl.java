@@ -7,6 +7,7 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.entities.City;
 import inc.softserve.entities.Country;
 import inc.softserve.entities.Hotel;
+import inc.softserve.exceptions.InvalidTimePeriod;
 import inc.softserve.services.intefaces.HotelService;
 
 import java.time.LocalDate;
@@ -29,7 +30,10 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Set<Hotel> findAvailableHotelsInCity(Long cityId, LocalDate startPeriod, LocalDate endPeriod){
-        return hotelDao.findHotelsByCityIdAndDate(cityId, startPeriod, endPeriod);
+        if (startPeriod.compareTo(endPeriod) > 0){
+            throw new InvalidTimePeriod();
+        }
+        return hotelDao.findHotelsByCityIdAndPeriod(cityId, startPeriod, endPeriod);
     }
 
     /**
@@ -46,9 +50,6 @@ public class HotelServiceImpl implements HotelService {
     public Set<Hotel> findHotelsByCityId(Long cityId, LocalDate fromDate) {
         return hotelDao.findHotelsByCityId(cityId)
                 .stream()
-                .peek(hotel -> hotel.setBookedRooms(
-                        bookingDao.findBookingsByHotelIdAndDate(hotel.getId(), fromDate)
-                ))
                 .collect(Collectors.toUnmodifiableSet());
     }
 
@@ -73,9 +74,6 @@ public class HotelServiceImpl implements HotelService {
                         hotelDao.findHotelsByCityId(cityId)
                                 .stream()
                 )
-                .peek(hotel -> hotel.setBookedRooms(
-                        bookingDao.findBookingsByHotelIdAndDate(hotel.getId(), fromDate)
-                ))
                 .collect(Collectors.toUnmodifiableSet());
     }
 }

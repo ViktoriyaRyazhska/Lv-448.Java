@@ -1,4 +1,4 @@
-package inc.softserve.dto;
+package inc.softserve.dto.on_request;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class BookingDto {
+public class BookingReqDto {
 
     private final LocalDate checkin;
     private final LocalDate checkout;
@@ -15,7 +15,7 @@ public class BookingDto {
     private final Long hotelId;
 
     @Builder
-    public BookingDto(LocalDate checkin, LocalDate checkout, Long usrId, Long roomId, Long hotelId) {
+    public BookingReqDto(LocalDate checkin, LocalDate checkout, Long usrId, Long roomId, Long hotelId) {
         this.checkin = checkin;
         this.checkout = checkout;
         this.usrId = usrId;

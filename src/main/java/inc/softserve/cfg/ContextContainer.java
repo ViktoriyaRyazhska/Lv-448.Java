@@ -32,4 +32,5 @@ class ContextContainer {
     static SaltGen saltGen = new JavaNativeSaltGen();
     static UsrRegisterService usrRegisterService= new UsrRegisterImpl(saltGen, usrDao, visaDao, countryDao, connection);
     static BookingService bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao);
+    static RoomStatsService roomStatsService = new RoomStatsServiceImpl(roomDao);
 }

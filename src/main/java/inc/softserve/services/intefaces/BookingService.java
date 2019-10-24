@@ -1,14 +1,9 @@
 package inc.softserve.services.intefaces;
 
-import inc.softserve.dto.BookingDto;
-import inc.softserve.entities.Booking;
-import inc.softserve.entities.Hotel;
+import inc.softserve.dto.on_request.BookingReqDto;
 
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
 
 public interface BookingService {
-    void book(BookingDto bookingDto, LocalDate orderDate);
+    void book(BookingReqDto bookingReqDto, LocalDate orderDate);
 }
