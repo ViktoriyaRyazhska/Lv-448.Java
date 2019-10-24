@@ -95,8 +95,11 @@ public class BookService {
         return bookDaoInterface.findAllBooksByAuthorId(authorId).stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
-    public List<Book> findBooksBetweenDate(LocalDate fromDate, LocalDate toDate) {
-        return bookDaoInterface.findBookBetweenDate(fromDate, toDate);
+    public List<BookDto> findBooksBetweenDate(LocalDate fromDate, LocalDate toDate) {
+        return bookDaoInterface.findBookBetweenDate(fromDate, toDate)
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
     public List<BookDto> findBookByTitle(String bookTitle) {
