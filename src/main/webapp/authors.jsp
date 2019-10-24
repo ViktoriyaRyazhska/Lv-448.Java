@@ -77,7 +77,7 @@
 
                                     <div class="link-author">
                                         <a class="card-author-links"
-                                           href="<c:url value="/books-by-co-author-id/${author.id}"/>"
+                                           href="<c:url value="/books-by-sub-author-id/${author.id}"/>"
                                            class="card-link">Books
                                             as the co-author</a>
                                     </div>

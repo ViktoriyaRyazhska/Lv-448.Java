@@ -1,7 +1,7 @@
 package service;
 
 
-import Dto.BookDto;
+import dto.BookDto;
 import dao.interfaceDao.AuthorDaoInterface;
 import dao.interfaceDao.BookDaoInterface;
 import dao.interfaceDao.BookInstanceDaoInterface;
@@ -81,8 +81,14 @@ public class BookService {
         return bookDaoInterface.findAllByAuthorSurname(authorSurname);
     }
 
-    public List<Book> findAllBooksBySubAuthorId(Long subAuthorsId) {
-        return bookDaoInterface.findAllBooksBySubAuthorId(subAuthorsId);
+    public List<BookDto> findAllBooksBySubAuthorId(Long subAuthorsId) {
+        List<BookDto> collect = bookDaoInterface.findAllBooksBySubAuthorId(subAuthorsId)
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+        collect.stream().forEach(System.out::println);
+
+        return collect;
     }
 
     public List<BookDto> findAllBooksByAuthorId(Long authorId) {
@@ -93,12 +99,12 @@ public class BookService {
         return bookDaoInterface.findBookBetweenDate(fromDate, toDate);
     }
 
-    public List<Book> findBookByTitle(String bookTitle) {
-        List<Book> listBook = new ArrayList<>();
+    public List<BookDto> findBookByTitle(String bookTitle) {
+        List<BookDto> listBook = new ArrayList<>();
         if (bookDaoInterface.findBookByTitle(bookTitle) == null) {
             throw new IllegalArgumentException("Book is not found!");
         } else {
-            listBook.add(bookDaoInterface.findBookByTitle(bookTitle));
+            listBook.add(convertEntityToDto(bookDaoInterface.findBookByTitle(bookTitle)));
             return listBook;
         }
     }

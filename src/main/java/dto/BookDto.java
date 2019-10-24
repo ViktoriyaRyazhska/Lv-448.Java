@@ -1,4 +1,4 @@
-package Dto;
+package dto;
 
 import entities.Author;
 import lombok.Builder;
