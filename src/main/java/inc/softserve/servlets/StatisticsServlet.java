@@ -22,7 +22,6 @@ public class StatisticsServlet extends HttpServlet {
 
     private VisaStatsService visaStatsService;
     private HotelStatsService hotelStatsService;
-    private RoomStatsService roomStatsService;
 
     @Override
     public void init() {

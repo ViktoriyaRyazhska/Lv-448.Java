@@ -41,6 +41,22 @@
 <%--        <h4>${country.hotelName}</h4>--%>
     </c:forEach>
     </table>
+    <c:forEach var="hotel" items="${hotelsList}">
+        <form action="/room_statistics/" method="GET">
+            <fieldset>
+                <legend>Room statistics</legend>
+                <c:out value="${hotel.hotelName}"/>
+                <label>
+                    Select start period: <input class="datepicker" type="text" name="start_period" required>
+                </label>
+                <label>
+                    Select end period: <input class="datepicker" type="text" name="end_period" required>
+                </label>
+                <input hidden value="${hotel.id}" name="hotel_id">
+                <input hidden value="${hotel.name}" name="hotel_name">
+            </fieldset>
+        </form>
+    </c:forEach>
 </div>
 
 </body>
