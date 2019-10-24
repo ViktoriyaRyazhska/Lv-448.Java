@@ -95,11 +95,10 @@
 
 
         <div class="row">
-            <div class="custom-list" id="excursions-list">
+            <div class="custom-list">
                 <div class="card-columns">
                     <c:forEach var="book" items="${books}">
                         <div class="card">
-                                <%--                        <option value="${author.id}">${author.authorFirstName}, ${author.authorLastName}</option>--%>
                             <img class="card-img-top" src="<c:url value="/staticResources/img/book-img.jpg"/>"
                                  alt="Card image cap">
                             <div class="card-body">
@@ -122,9 +121,12 @@
 
                                 <h6>
                                     Author:
-                                    <span class="card-book-fs"> ${book.getAuthor().getAuthorLastName()}</span>
-                                    <span c>${book.getAuthor().getAuthorFirstName()}</span>
+                                    <span> ${book.author.authorLastName}</span>
+                                    <span>${book.author.authorFirstName}</span>
                                 </h6>
+                                <hr>
+                                    Availability:
+                                    <span>${book.isAvailable}</span>
                             </div>
                         </div>
                     </c:forEach>

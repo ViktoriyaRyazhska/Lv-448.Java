@@ -17,6 +17,7 @@ public class Book {
     private LocalDate releaseDate;
     private Author author;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

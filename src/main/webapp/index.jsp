@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Index</title>
+    <title>Library</title>
 </head>
 <jsp:include page="menu.jsp"/>
 <body style="overflow: hidden">

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet("/findUsersById")
-public class FindUserByIdServlet extends HttpServlet{
+public class FindUserByIdServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
