@@ -34,29 +34,29 @@ $(document).ready(function(){
  */
 $('#exhibit-additional-filters').on('change', function() {
     if($(this).children(":selected").attr("id") === 'option-1') {
-        $('#by-author').removeClass('hidden');
-        $('#by-author').addClass('visible');
+        $('#by-title').removeClass('hidden');
+        $('#by-title').addClass('visible');
 
-        $('#by-employee').addClass('hidden');
+        $('#by-independence').addClass('hidden');
 
         $('#by-audience').addClass('hidden');
     } else if($(this).children(":selected").attr("id") === 'option-2') {
-        $('#by-employee').removeClass('hidden');
-        $('#by-employee').addClass('visible');
+        $('#by-independence').removeClass('hidden');
+        $('#by-independence').addClass('visible');
 
-        $('#by-author').addClass('hidden');
+        $('#by-title').addClass('hidden');
 
         $('#by-audience').addClass('hidden');
     } else if($(this).children(":selected").attr("id") === 'option-3') {
         $('#by-audience').removeClass('hidden');
         $('#by-audience').addClass('visible');
 
-        $('#by-author').addClass('hidden');
+        $('#by-title').addClass('hidden');
 
-        $('#by-employee').addClass('hidden');
+        $('#by-independence').addClass('hidden');
     } else {
-        $('#by-author').addClass('hidden');
-        $('#by-employee').addClass('hidden');
+        $('#by-title').addClass('hidden');
+        $('#by-independence').addClass('hidden');
         $('#by-audience').addClass('hidden');
     }
 });
@@ -78,6 +78,17 @@ $('#employee-positions').on('change', function() {
         // $('#employee-is-am').addClass('hidden');
         $('#employee-is-am').css('display', 'none');
     }
+});
+
+
+$('#select-book').on('change',function() {
+    var bookId = this.value;
+    console.log("bookId", bookId);
+    $(this).parent().find('.book-instance-wrapper').remove();
+    $.get('http://localhost:8080/library/books-instances/' + bookId , function (data) {
+        console.log(data);
+        $('.books-group').append(data);
+    });
 });
 
 

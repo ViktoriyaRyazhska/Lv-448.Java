@@ -19,11 +19,6 @@ public class IndependenceBooksServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String fromDate = req.getParameter("fromDate");
         String toDate = req.getParameter("toDate");

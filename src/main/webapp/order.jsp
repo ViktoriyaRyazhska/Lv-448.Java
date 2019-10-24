@@ -13,11 +13,6 @@
     <div class="container">
         <div class="row">
             <div class="notification-bar">
-                <c:if test="${not empty successMessage}">
-                    <div class="alert alert-success" role="alert">
-                            ${successMessage}
-                    </div>
-                </c:if>
                 <c:if test="${not empty failureMessage}">
                     <div class="alert alert-danger" role="alert">
                             ${failureMessage}

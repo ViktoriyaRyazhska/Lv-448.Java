@@ -128,9 +128,9 @@ public class BookService {
         return bookDaoInterface.getAmountOfTimesBookWasTaken(id);
     }
 
-    public Integer[] averageTimeReadingBook(Long id) {
-        return CalculateDateFromInt.calculateDaysFromInt(bookDaoInterface.getAverageTimeReadingBook(id));
-
+    public String averageTimeReadingBook(Long id) {
+        Integer[] integers = CalculateDateFromInt.calculateDaysFromInt(bookDaoInterface.getAverageTimeReadingBook(id));
+        return "Years: " + integers[0] + " Months: " + integers[1] + " Days: " + integers[2];
     }
 
     private BookDto convertEntityToDto(Book book) {
@@ -141,6 +141,8 @@ public class BookService {
                 .releaseDate(book.getReleaseDate())
                 .isAvailable(isAnyAvailable(book))
                 .author(book.getAuthor())
+                .averageTimeReading(averageTimeReadingBook(book.getId()))
+                .amountOfTimesBookWasTaken(getAmountOfTimesBookWasTaken(book.getId()))
                 .build();
         return bookDto;
     }
