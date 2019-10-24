@@ -24,74 +24,87 @@
                     </div>
                 </c:if>
             </div>
+
+
+
+
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">
                     <div class="form-group">
-                        <label class="filter-col">Search :</label>
-                        <%--                        <select class="browser-default custom-select" id="exhibit-additional-filters">--%>
-                        <%--                            <option id="option-0" value="0" selected>Options...</option>--%>
-                        <%--                            <option id="option-1" value="1">Author Surname</option>--%>
-                        <%--                            <option id="option-2" value="2">Employee</option>--%>
-                        <%--                            <option id="option-3" value="3">Audience</option>--%>
-                        <%--                        </select>--%>
+                        <label class="filter-col" for="exhibit-additional-filters">Filter by:</label>
+                        <select class="browser-default custom-select" id="exhibit-additional-filters">
+                            <option id="option-0" value="0" selected>Options...</option>
+                            <option id="option-1" value="1">Title</option>
+                            <option id="option-2" value="2">Independence</option>
+                            <option id="option-3" value="3">by Audience</option>
+                        </select>
                     </div> <!-- form group [employee-filters] -->
-
-
-                    <form class="form-inline "
+                    <form class="form-inline hidden"
                           action="<c:url value="/by_title"/>"
                           method="post"
-                          id="by-book">
+                          id="by-title">
                         <div class="form-group">
-                            <%--                            <label class="filter-col" for="author-last-name" >Author Surname:</label>--%>
-                            <input type="text" class="form-control input-xs" id="book-title" name="title"
-                                   placeholder="Enter book title">
+                            <input type="text" class="form-control input-xs" id="title-book" name="title" placeholder="Please enter book title">
                             <button type="submit" class="btn btn-primary">
                                 Search
                             </button>
-                        </div> <!-- form group [by-author] -->
+                        </div>
                     </form>
 
+                    <form class="form-inline hidden"
+                          action="<c:url value="/"/>"
+                          method="post"
+                          id="by-independence">
+                        <div class="form-group">
+                            <label class="filter-col" for="independence-date-from">Date from:</label>
+                            <input type="date" class="form-control input-xs" id="independence-date-from" name="dateFrom">
+                            <label class="filter-col" for="independence-date-to">Date to:</label>
+                            <input type="date" class="form-control input-xs" id="independence-date-to" name="dateTo">
+                            <button type="submit" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+                    </form>
 
-                    <%--                    <form class="form-inline hidden"--%>
-                    <%--                          action="<c:url value="/exhibits/by-employee"/>"--%>
-                    <%--                          method="post"--%>
-                    <%--                          id="by-employee">--%>
-                    <%--                        <div class="form-group">--%>
-                    <%--                            <label class="filter-col" for="employee-first-name">First name:</label>--%>
-                    <%--                            <input type="text" class="form-control input-xs" id="employee-first-name" name="firstName">--%>
-                    <%--                            <label class="filter-col" for="employee-last-name">Last name:</label>--%>
-                    <%--                            <input type="text" class="form-control input-xs" id="employee-last-name" name="lastName">--%>
-                    <%--                            <button type="submit" class="btn btn-primary">--%>
-                    <%--                                Filter--%>
-                    <%--                            </button>--%>
-                    <%--                        </div> <!-- form group [by-employee] -->--%>
-                    <%--                    </form>--%>
-
-
-                    <%--                    <form class="form-inline hidden"--%>
-                    <%--                          action="<c:url value="/exhibits/by-audience"/>"--%>
-                    <%--                          method="post"--%>
-                    <%--                          id="by-audience">--%>
-                    <%--                        <div class="form-group">--%>
-                    <%--                            <label class="filter-col" for="audience">Filter by:</label>--%>
-                    <%--                            &lt;%&ndash;                            <select class="browser-default custom-select" id="audience" name="audience">&ndash;%&gt;--%>
-                    <%--                            &lt;%&ndash;                                <c:forEach var="audience" items="${audiences}">&ndash;%&gt;--%>
-                    <%--                            &lt;%&ndash;                                    <option value="${audience.id}">${audience.name}</option>&ndash;%&gt;--%>
-                    <%--                            &lt;%&ndash;                                </c:forEach>&ndash;%&gt;--%>
-                    <%--                            &lt;%&ndash;                            </select>&ndash;%&gt;--%>
-                    <%--                            <button type="submit" class="btn btn-primary">--%>
-                    <%--                                Filter--%>
-                    <%--                            </button>--%>
-                    <%--                        </div> <!-- form group [by-audience] -->--%>
-                    <%--                    </form>--%>
+                    <form class="form-inline hidden"
+                          action="<c:url value="/exhibits/by-audience"/>"
+                          method="post"
+                          id="by-audience">
+                        <div class="form-group">
+                            <label class="filter-col" for="audience">Filter by:</label>
+                            <select class="browser-default custom-select" id="audience" name="audience">
+                                <c:forEach var="audience" items="${audiences}">
+                                    <option value="${audience.id}">${audience.name}</option>
+                                </c:forEach>
+                            </select>
+                            <button type="submit" class="btn btn-dark">
+                                Filter
+                            </button>
+                        </div> <!-- form group [by-audience] -->
+                    </form>
                     <div class="form-group">
-                        <a class="btn btn-primary mr-2" href="<c:url value="/add-book"/>">Create</a>
-                        <%--                        <a class="btn btn-primary" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
+                        <a class="btn btn-primary mr-2" href="<c:url value="/add-order"/>">Create</a>
+<%--                        <a class="btn btn-primary mr2" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
-        </div>
-        <!-- row [filters-panel] -->
+        </div> <!-- row [filters-panel] -->
+<%--                    <form class="form-inline "--%>
+<%--                          action="<c:url value="/by_title"/>"--%>
+<%--                          method="post"--%>
+<%--                          id="by-book">--%>
+<%--                        <div class="form-group">--%>
+<%--                            <label class="filter-col" for="author-last-name">Author Surname:</label>--%>
+<%--                            <input type="text" class="form-control input-xs" id="book-title" name="title"--%>
+<%--                                   placeholder="Enter book title">--%>
+<%--                            <button type="submit" class="btn btn-primary">--%>
+<%--                                Search--%>
+<%--                            </button>--%>
+<%--                        </div> <!-- form group [by-author] -->--%>
+<%--                    </form>--%>
+
+
+
 
 
         <div class="row">
@@ -115,18 +128,26 @@
                                 </h6>
                                 <hr>
                                 <h6>
-                                    Average time reading:
-                                    <span class="card-book-fs"> ${book.}</span>
-                                </h6>
-
-                                <h6>
                                     Author:
                                     <span> ${book.author.authorLastName}</span>
                                     <span>${book.author.authorFirstName}</span>
                                 </h6>
                                 <hr>
-                                    Availability:
-                                    <span>${book.isAvailable}</span>
+                                <h6>
+                                    Was taken:
+                                    <span class="card-book-fs"> ${book.amountOfTimesBookWasTaken} time(s)</span>
+                                </h6>
+
+                                <h6>
+                                    Average time reading:
+                                    <h6>
+                                    <span class="card-book-fs">${book.averageTimeReading}</span>
+                                    </h6>
+                                    </h6>
+                                <hr>
+
+                                Availability:
+                                <span>${book.isAvailable}</span>
                             </div>
                         </div>
                     </c:forEach>
@@ -136,4 +157,9 @@
     </div>
 </section>
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="<c:url value="/staticResources/js/dis.js"/>"></script>
 </html>

@@ -274,7 +274,7 @@ public class BookDao implements dao.interfaceDao.BookDaoInterface {
     public Integer getAverageTimeReadingBook(Long id) {
         String query = "select AVG(DATEDIFF(date_return,date_order)) from orders " +
                 "inner join book_instance bi on orders.id_book_instance = bi.id " +
-                "inner join books b on bi.id_book = b.id where id_book_instance = ?;";
+                "inner join books b on bi.id_book = b.id where id_book = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

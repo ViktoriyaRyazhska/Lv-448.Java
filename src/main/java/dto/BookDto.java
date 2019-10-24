@@ -17,14 +17,7 @@ public class BookDto {
     private LocalDate releaseDate;
     private Author author;
     private String isAvailable;
-
-    public BookDto(Long id, Integer amountOfInstances, String title, LocalDate releaseDate, Author author, String isAvailable) {
-        this.id = id;
-        this.amountOfInstances = amountOfInstances;
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.author = author;
-        this.isAvailable = isAvailable;
-    }
+    private Long amountOfTimesBookWasTaken;
+    private String averageTimeReading;
 
 }
