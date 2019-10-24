@@ -32,7 +32,7 @@ public class TimetableServiceImpl implements TimetableService {
      *
      * @param timetableDao
      */
-    public TimetableServiceImpl(JdbcTimetableDao timetableDao) {
+    public TimetableServiceImpl(TimetableDao timetableDao) {
         this.timetableDao = timetableDao;
     }
 
