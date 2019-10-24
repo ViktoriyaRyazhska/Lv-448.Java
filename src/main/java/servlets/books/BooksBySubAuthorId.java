@@ -1,4 +1,4 @@
-package servlets.Books;
+package servlets.books;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

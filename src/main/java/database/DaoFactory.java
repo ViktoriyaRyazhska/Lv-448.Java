@@ -16,7 +16,6 @@ public final class DaoFactory {
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/"
             + "library?"
-            + "useUnicode=true&"
             + "useSSL=false&"
             + "serverTimezone=UTC&"
             + "allowPublicKeyRetrieval=true";

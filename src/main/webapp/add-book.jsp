@@ -44,6 +44,7 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Choose author</label>
                         <select class="browser-default custom-select mt-3" name="author" required>
                             <c:forEach var="author" items="${authors}">
                                 <option value="${author.id}">${author.surname} ${author.name}</option>
