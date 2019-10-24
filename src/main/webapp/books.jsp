@@ -28,23 +28,37 @@
                 <div class="form-inline">
                     <div class="form-group">
                         <label class="filter-col">Search :</label>
-                        <%--                        <select class="browser-default custom-select" id="exhibit-additional-filters">--%>
-                        <%--                            <option id="option-0" value="0" selected>Options...</option>--%>
-                        <%--                            <option id="option-1" value="1">Author Surname</option>--%>
-                        <%--                            <option id="option-2" value="2">Employee</option>--%>
-                        <%--                            <option id="option-3" value="3">Audience</option>--%>
-                        <%--                        </select>--%>
+<%--                                                <select class="browser-default custom-select" id="exhibit-additional-filters">--%>
+<%--                                                    <option id="option-0" value="0" selected>Options...</option>--%>
+<%--                                                    <option id="option-1" value="1">Author Surname</option>--%>
+<%--                                                    <option id="option-2" value="2">Employee</option>--%>
+<%--                                                    <option id="option-3" value="3">Audience</option>--%>
+<%--                                                </select>--%>
                     </div> <!-- form group [employee-filters] -->
 
 
                     <form class="form-inline "
                           action="<c:url value="/by_title"/>"
-                          method="post"
-                          id="by-book">
+                          method="post">
                         <div class="form-group">
                             <%--                            <label class="filter-col" for="author-last-name" >Author Surname:</label>--%>
                             <input type="text" class="form-control input-xs" id="book-title" name="title"
                                    placeholder="Enter book title">
+                            <button type="submit" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div> <!-- form group [by-author] -->
+                    </form>
+
+                    <form class="form-inline "
+                          action="<c:url value="/independenceBooks"/>"
+                          method="post">
+                        <div class="form-group">
+                            <%--                            <label class="filter-col" for="author-last-name" >Author Surname:</label>--%>
+                            <input type="text" class="form-control input-xs" id="book-title" name="fromDate"
+                                   placeholder="independence period start">
+                            <input type="text" class="form-control input-xs" id="book-title" name="toDate"
+                                       placeholder="independence period end">
                             <button type="submit" class="btn btn-primary">
                                 Search
                             </button>
