@@ -1,7 +1,5 @@
-package academy.softserve.dao.impl.jdbc;
+package academy.softserve.museum.dao.impl.jdbc;
 
-import academy.softserve.museum.dao.impl.jdbc.JdbcAuthorDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcExhibitDao;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import org.junit.jupiter.api.BeforeEach;

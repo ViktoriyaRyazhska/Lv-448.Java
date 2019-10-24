@@ -1,4 +1,4 @@
-package academy.softserve.dao.impl.jdbc;
+package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
