@@ -30,6 +30,7 @@
 
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">
+
                     <div class="form-group">
                         <label class="filter-col" for="exhibit-additional-filters">Filter by:</label>
                         <select class="browser-default custom-select" id="exhibit-additional-filters">
@@ -38,7 +39,8 @@
                             <option id="option-2" value="2">Independence</option>
                             <option id="option-3" value="3">by Audience</option>
                         </select>
-                    </div> <!-- form group [employee-filters] -->
+                    </div>
+
                     <form class="form-inline hidden"
                           action="<c:url value="/by_title"/>"
                           method="post"
@@ -52,14 +54,14 @@
                     </form>
 
                     <form class="form-inline hidden"
-                          action="<c:url value="/"/>"
+                          action="<c:url value="/independenceBooks"/>"
                           method="post"
                           id="by-independence">
                         <div class="form-group">
                             <label class="filter-col" for="independence-date-from">Date from:</label>
-                            <input type="date" class="form-control input-xs" id="independence-date-from" name="dateFrom">
+                            <input type="date" class="form-control input-xs" id="independence-date-from" name="fromDate">
                             <label class="filter-col" for="independence-date-to">Date to:</label>
-                            <input type="date" class="form-control input-xs" id="independence-date-to" name="dateTo">
+                            <input type="date" class="form-control input-xs" id="independence-date-to" name="toDate">
                             <button type="submit" class="btn btn-primary">
                                 Search
                             </button>

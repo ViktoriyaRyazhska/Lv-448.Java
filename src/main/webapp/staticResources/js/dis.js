@@ -37,7 +37,7 @@ $('#exhibit-additional-filters').on('change', function() {
         $('#by-title').removeClass('hidden');
         $('#by-title').addClass('visible');
 
-        $('#by-employee').addClass('hidden');
+        $('#by-independence').addClass('hidden');
 
         $('#by-audience').addClass('hidden');
     } else if($(this).children(":selected").attr("id") === 'option-2') {
