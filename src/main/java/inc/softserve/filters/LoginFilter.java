@@ -20,13 +20,11 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
         boolean loggedIn = session != null && session.getAttribute("user") != null;
-
         if (loggedIn) {
             filterChain.doFilter(request, response);
         } else {
             response.sendRedirect(response.encodeRedirectURL("/login.jsp"));
         }
-
     }
 
     @Override

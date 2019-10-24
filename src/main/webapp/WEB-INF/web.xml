@@ -8,11 +8,15 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
   <display-name>Archetype Created Web Application</display-name>
-
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404.jsp</location>
+  </error-page>
   <welcome-file-list>
-    <welcome-file>/WebFilterTask/index.jsp</welcome-file>
-    <welcome-file>/WebFilterTask/login.jsp</welcome-file>
-    <welcome-file>/WebFilterTask/registration.jsp</welcome-file>
+    <welcome-file>/WebFilterTask/index</welcome-file>
+    <welcome-file>/WebFilterTask/</welcome-file>
+    <welcome-file>/WebFilterTask/login</welcome-file>
+    <welcome-file>/WebFilterTask/registration</welcome-file>
   </welcome-file-list>
   <filter>
     <filter-name>LoginFilter</filter-name>
@@ -20,15 +24,16 @@
   </filter>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
-    <url-pattern>/city.jsp</url-pattern>
+    <url-pattern>/booking</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
-    <url-pattern>/hotels.jsp</url-pattern>
+    <url-pattern>/rooms/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/statistics</url-pattern>
   </filter-mapping>
 
-  <error-page>
-    <error-code>404</error-code>
-    <location>/404.jsp</location>
-  </error-page>
+
 </web-app>
