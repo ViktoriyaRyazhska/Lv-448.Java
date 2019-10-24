@@ -24,9 +24,4 @@ public class HotelStatsServiceImpl implements HotelStatsService {
     public List<HotelStats> calcHotelStats() {
         return hotelDao.calcStats();
     }
-
-    @Override
-    public Set<RoomStats> calcRoomStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod){
-        return roomDao.calcStats(hotelId, startPeriod, endPeriod);
-    }
 }

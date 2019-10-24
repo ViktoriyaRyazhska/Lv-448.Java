@@ -10,6 +10,4 @@ import java.util.Set;
 public interface HotelStatsService {
 
     List<HotelStats> calcHotelStats();
-
-    Set<RoomStats> calcRoomStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod);
 }

@@ -2,7 +2,7 @@ package inc.softserve.cfg;
 
 import inc.softserve.dao.implementations.*;
 import inc.softserve.dao.interfaces.*;
-import inc.softserve.database.ConnectDb;
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 import inc.softserve.services.implementations.*;

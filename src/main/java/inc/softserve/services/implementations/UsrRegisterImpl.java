@@ -6,7 +6,7 @@ import inc.softserve.dao.implementations.VisaDaoJdbc;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
-import inc.softserve.database.ConnectDb;
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
 import inc.softserve.entities.Usr;
@@ -32,7 +32,7 @@ import java.util.*;
 
 public class UsrRegisterImpl implements UsrRegisterService {
 
-    private SaltGen saltGen; //= new JavaNativeSaltGen(); // TODO - impl a singleton container or make static
+    private SaltGen saltGen;
     private UsrDao usrDao;
     private VisaDao visaDao;
     private CountryDao countryDao;

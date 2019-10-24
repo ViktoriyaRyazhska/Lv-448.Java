@@ -39,7 +39,7 @@ public class StatisticsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Usr user = (Usr) session.getAttribute("user"); // TODO - use real data instead of the stub
+        Usr user = (Usr) session.getAttribute("user");
         List<HotelStats> hotelsList = hotelStatsService.calcHotelStats();
         req.setAttribute("statisticCountry", visaStatsService.countVisasIssuedByAllCountry());
         req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail(user.getEmail()));

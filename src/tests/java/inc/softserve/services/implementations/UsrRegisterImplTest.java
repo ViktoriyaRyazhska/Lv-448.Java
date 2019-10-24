@@ -1,8 +1,8 @@
 package inc.softserve.services.implementations;
 
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.dao.implementations.*;
 import inc.softserve.dao.interfaces.*;
-import inc.softserve.database.ConnectDb;
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
 import inc.softserve.entities.Usr;
@@ -13,11 +13,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UsrRegisterImplTest {
 

@@ -2,7 +2,7 @@ package inc.softserve.services.implementations;
 
 import inc.softserve.dao.implementations.*;
 import inc.softserve.dao.interfaces.*;
-import inc.softserve.database.ConnectDb;
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.entities.Usr;
 import inc.softserve.services.intefaces.ClientStatsService;
 import org.junit.jupiter.api.BeforeAll;
