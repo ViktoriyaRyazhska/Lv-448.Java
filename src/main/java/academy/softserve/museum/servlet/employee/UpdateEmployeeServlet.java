@@ -4,6 +4,7 @@ import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.entities.dto.EmployeeDto;
+import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.AudienceServiceImpl;
@@ -77,7 +78,11 @@ public class UpdateEmployeeServlet extends HttpServlet {
 
         EmployeeDto dto = new EmployeeDto(id, firstName, lastName, username, password, position, audienceId);
 
-        employeeService.update(dto);
+        try {
+            employeeService.update(dto);
+        } catch (NotDeletedException e) {
+            resp.sendRedirect(req.getContextPath() + "/employees");
+        }
         resp.sendRedirect(req.getContextPath() + "/employees");
     }
 }

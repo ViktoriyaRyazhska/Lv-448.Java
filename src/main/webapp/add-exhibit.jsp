@@ -12,6 +12,18 @@
 <section class="main-section">
     <div class="container">
         <div class="row justify-content-md-center">
+            <div class="notification-bar">
+                <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success" role="alert">
+                            ${successMessage}
+                    </div>
+                </c:if>
+                <c:if test="${not empty failureMessage}">
+                    <div class="alert alert-danger" role="alert">
+                            ${failureMessage}
+                    </div>
+                </c:if>
+            </div>
             <div class="add-form col-xl-4 border rounded py-3">
                 <h2 class="text-primary text-center">Add new exhibit</h2>
                 <form action="<c:url value="/exhibits/add-exhibit"/>" id="new-exhibit-form" method="post">

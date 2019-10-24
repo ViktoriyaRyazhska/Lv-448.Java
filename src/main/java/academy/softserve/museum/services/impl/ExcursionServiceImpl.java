@@ -40,7 +40,7 @@ public class ExcursionServiceImpl implements ExcursionService {
      * @return true if the save was successful
      */
     @Override
-    public boolean save(Excursion objectToSave) {
+    public boolean save(Excursion objectToSave) throws NotSavedException {
         if (excursionDao.findByName(objectToSave.getName()).isPresent()) {
             throw new NotSavedException(ErrorMessage.EXCURSION_NOT_SAVED);
         } else {

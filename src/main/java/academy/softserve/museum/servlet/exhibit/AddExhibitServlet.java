@@ -1,10 +1,12 @@
 package academy.softserve.museum.servlet.exhibit;
 
+import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Author;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.entities.ExhibitType;
 import academy.softserve.museum.entities.dto.ExhibitDto;
+import academy.softserve.museum.exception.NotSavedException;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.AuthorService;
 import academy.softserve.museum.services.ExhibitService;
@@ -74,7 +76,7 @@ public class AddExhibitServlet extends HttpServlet {
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String name = req.getParameter("name");
         String material = req.getParameter("material");
         String technic = req.getParameter("technic");
@@ -91,12 +93,14 @@ public class AddExhibitServlet extends HttpServlet {
 
         ExhibitDto exhibitDto = new ExhibitDto(exhibitType, name, material, technic, audienceId, authors);
 
-        exhibitService.save(exhibitDto);
-
         try {
+            exhibitService.save(exhibitDto);
+            req.setAttribute(MessageType.SUCCESS, "ALES GUT!");
             resp.sendRedirect(req.getContextPath() + "/exhibits");
-        } catch (RuntimeException e) {
-            resp.sendRedirect(req.getContextPath() + "/exhibits");
+        } catch (NotSavedException e) {
+            req.setAttribute(MessageType.FAILURE, e.getMessage());
+            req.getRequestDispatcher("/add-exhibit.jsp").forward(req, resp);
         }
+
     }
 }
