@@ -3,6 +3,8 @@ package inc.softserve.cfg;
 import inc.softserve.dao.implementations.*;
 import inc.softserve.dao.interfaces.*;
 import inc.softserve.database.ConnectDb;
+import inc.softserve.security.JavaNativeSaltGen;
+import inc.softserve.security.SaltGen;
 import inc.softserve.services.implementations.*;
 import inc.softserve.services.intefaces.*;
 import lombok.Getter;
@@ -27,4 +29,6 @@ class ContextContainer {
     static RoomService roomService = new RoomServiceImpl(roomDao, bookingDao);
     static VisaStatsService visaStatsService = new VisaStatsServiceImpl(visaDao, usrDao, countryDao);
     static HotelStatsService hotelStatsService = new HotelStatsServiceImpl(hotelDao, roomDao);
+    static SaltGen saltGen = new JavaNativeSaltGen();
+    static UsrRegisterService usrRegisterService= new UsrRegisterImpl(saltGen, usrDao, visaDao, countryDao, connection);
 }

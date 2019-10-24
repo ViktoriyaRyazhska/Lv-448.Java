@@ -16,7 +16,11 @@ import inc.softserve.security.SaltGen;
 import inc.softserve.services.intefaces.UsrRegisterService;
 import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
 import inc.softserve.utils.rethrowing_lambdas.ThrowingRunnable;
+import org.apache.catalina.Session;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,33 +32,38 @@ import java.util.*;
 
 public class UsrRegisterImpl implements UsrRegisterService {
 
-    private SaltGen saltGen = new JavaNativeSaltGen(); // TODO - impl a singleton container or make static
+    private SaltGen saltGen; //= new JavaNativeSaltGen(); // TODO - impl a singleton container or make static
     private UsrDao usrDao;
     private VisaDao visaDao;
     private CountryDao countryDao;
     private Connection conn;
 
-    public UsrRegisterImpl() {
-        conn = ConnectDb.connectBase();
-        this.usrDao = new UsrDaoJdbc(conn);
-        this.countryDao = new CountryDaoJdbc(conn);
-        this.visaDao = new VisaDaoJdbc(conn, usrDao, countryDao);
+    public UsrRegisterImpl(SaltGen saltGen, UsrDao usrDao, VisaDao visaDao, CountryDao countryDao, Connection conn) {
+        this.saltGen = saltGen;
+        this.usrDao = usrDao;
+        this.visaDao = visaDao;
+        this.countryDao = countryDao;
+        this.conn = conn;
     }
 
-
     @Override
-    public String register(UsrDto usrDto, VisaDto visaDto) {
+    public Map<String, String> register(UsrDto usrDto, VisaDto visaDto) {
+        Map<String, String> error = new HashMap<>();
         if (exists(usrDto)) {
-            return "An account with such an email already exists!";
+            error.put("empty", "An account with such an email already exists!");
+            return error;
         }
         if (!isEmailValid(usrDto.getEmail())) {
-            return "Given email is not valid!";
+            error.put("email", "Given email is not valid!");
+            return error;
         }
         if (!isPhoneNumberValid(usrDto.getPhoneNumber())) {
-            return "Given phone number is not valid!";
+            error.put("phone", "Given phone number is not valid!");
+            return error;
         }
-        if (passwordCheck(usrDto.getPassword()) != null) {
-            return "Given password is not valid!";
+        if (isValidDate(usrDto.getBirthDate()) ) {
+            error.put("date", "Date is not valid!");
+            return error;
         }
         try {
             conn.setAutoCommit(false);
@@ -64,13 +73,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
             }
             conn.commit();
             conn.setAutoCommit(true);
-            return "The account is created successfully.";
+            return error;
         } catch (SQLException e) {
             ThrowingLambdas.runnable(() -> {
                 conn.rollback();
                 conn.setAutoCommit(true);
             });
-            return "Oops, something happened";
+            error.put("Oops", "Oops, something happened");
+            return error;
         }
     }
 
@@ -81,10 +91,8 @@ public class UsrRegisterImpl implements UsrRegisterService {
             byte[] hash = messageDigest.digest(resultPass.getBytes(StandardCharsets.US_ASCII));
             return (new String(hash, StandardCharsets.US_ASCII));
         } catch (NoSuchAlgorithmException e) {
-            //TODO - add logging
             throw new RuntimeException(e);
         }
-
     }
 
     private Usr convertDtoToUser(UsrDto usrDto){
@@ -92,7 +100,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
         String salt = saltGen.get();
         user.setFirstName(usrDto.getFirstName());
         user.setLastName(usrDto.getLastName());
-        user.setBirthDate(usrDto.getBirthDate());
+        user.setBirthDate(generateDate(usrDto.getBirthDate()));
         user.setEmail(usrDto.getEmail());
         user.setPasswordHash(generateHashPassword(usrDto, salt));
         user.setSalt(salt);
@@ -101,7 +109,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return user;
     }
 
-    // TODO - return optional if all data is missing or throw an exception if dates are not valid.
     private Visa convertDtoToVisa(VisaDto visaDto, Usr user){
         Visa visa = new Visa();
         if (visaDto != null ) {
@@ -117,12 +124,10 @@ public class UsrRegisterImpl implements UsrRegisterService {
             return  visa;
         }
         return  visa;
-
     }
 
     private boolean exists(UsrDto usrDto){
-        // usrCrudJdbs.findByEmail(usr.getEmail())
-        return false; //TODO - implement find by id method
+        return usrDao.findByEmail(usrDto.getEmail()).isPresent();
     }
 
     private boolean isEmailValid(String email){
@@ -131,33 +136,31 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return email.matches(regex);
     }
 
-    private String passwordCheck(String password){
-        return null; // TODO
-    }
-
     private boolean isPhoneNumberValid(String phoneNumber){
         return phoneNumber.matches("^[+]*[(]?[0-9]{1,4}[)]?[-\\s./0-9]*$");
     }
 
-    public Usr LoginIn(String email, String password) {
+    @Override
+    public Usr login(String email, String password) {
         Optional<Usr> user = usrDao.findByEmail(email);
         if (user.isPresent()) {
             if(isValidPassword(user.get(), password)){
                 return user.get();
+            }else {
+                throw new RuntimeException("Password incorrect!");
             }
+        }else {
+            return user.orElse(null);
         }
-        return user.orElse(null);
     }
 
     public Map<String, String> validateData(String email, String password){
         Map<String, String> messages = new HashMap<>();
         if(email.isBlank() || password.isBlank()){
-            System.out.println("Given email is not valid!");
             messages.put("email", "Enter login and password");
         }
         if(!isEmailValid(email)){
-            System.out.println("Given email is not valid!1");
-            messages.put("email", "Given email is not valid!1");
+            messages.put("email", "Given email is not valid!");
         }
         return messages;
     }
@@ -177,10 +180,17 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return userPassHash.equals(passHash);
     }
 
-    public void LoginOut(){
-
+    public boolean LoginOut(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        if(request.getParameter("user") != null ) {
+            session.invalidate();
+            return true;
+        }else {
+            return false;
+        }
     }
 
+    @Override
     public UsrDto initUsrDto(String firstName, String lastName, String email, String phone, String date, String password){
         UsrDto user = new UsrDto();
         user.setFirstName(firstName);
@@ -188,14 +198,16 @@ public class UsrRegisterImpl implements UsrRegisterService {
         user.setEmail(email);
         user.setPhoneNumber(phone);
         user.setPassword(password);
-        user.setBirthDate(generateDate(date));
+        user.setBirthDate(date);
         return user;
     }
-    private LocalDate generateDate(String date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+    public LocalDate generateDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(date, formatter);
     }
 
+    @Override
     public VisaDto initVisaDto(String country, String ExpirationDate, String issued, String visaNumber){
         if (country.isEmpty()) {
             return null;

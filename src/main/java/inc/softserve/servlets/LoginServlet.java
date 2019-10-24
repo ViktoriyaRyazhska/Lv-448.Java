@@ -3,6 +3,8 @@ package inc.softserve.servlets;
 import inc.softserve.entities.Usr;
 import inc.softserve.services.implementations.UsrRegisterImpl;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,32 +16,49 @@ import java.util.Map;
 
 @WebServlet(value = {"/login"})
 public class LoginServlet extends HttpServlet {
+
     private UsrRegisterImpl userService;
 
     @Override
-    public void init() throws ServletException {
-        this.userService = new UsrRegisterImpl();
+    public void init() {
+        this.userService = (UsrRegisterImpl) getServletContext().getAttribute("usrRegisterService");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        ServletContext servletContext = getServletContext();
+        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/login.jsp");
+        requestDispatcher.forward(request, response);
+    //    request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Map<String, String> messages = userService.validateData(email, password);
         HttpSession session=request.getSession();
         if (messages.isEmpty()) {
-            Usr user = userService.LoginIn(email, password);
+            Usr user = null;
+            try {
+                user = userService.login(email, password);
+            } catch (RuntimeException e) {
+                messages.put("email", "Entered email or Password incorrect!");
+                request.setAttribute("messages", messages);
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+            }
             if (user != null) {
                 session.setAttribute("user", user);
                 response.sendRedirect(request.getContextPath() + "/index");
             } else {
-                messages.put("login", "Unknown login, please try again");
+                messages.put("email", "Entered email or Password incorrect!");
+                request.setAttribute("messages", messages);
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+
             }
+        } else {
+            request.setAttribute("messages", messages);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
 

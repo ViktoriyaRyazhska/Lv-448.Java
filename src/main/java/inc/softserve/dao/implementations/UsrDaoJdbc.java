@@ -112,6 +112,7 @@ public class UsrDaoJdbc implements UsrDao {
             usr.setId(rs.getLong("id"));
             usr.setEmail(rs.getString("email"));
             usr.setPhoneNumber(rs.getString("phone_number"));
+            usr.setPasswordHash(rs.getString("password_hash"));
             usr.setSalt(rs.getString("salt"));
             usr.setFirstName(rs.getString("firstname"));
             usr.setLastName(rs.getString("lastname"));
