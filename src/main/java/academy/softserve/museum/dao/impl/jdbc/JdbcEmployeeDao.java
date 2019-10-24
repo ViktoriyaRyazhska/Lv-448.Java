@@ -176,7 +176,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
                         "SELECT employee_id FROM timetable " +
                         "WHERE date_start BETWEEN ? AND ? " +
                         "OR date_end BETWEEN ? AND ? " +
-                        "OR NOT (date_start > ? AND date_end < ?))";
+                        "OR (date_start < ? AND date_end > ?))";
 
         return JdbcUtils.query(connection, FIND_AVAILABLE_TOUR_GUIDES, new EmployeeRowMapper(), dateStart, dateEnd,
                 dateStart, dateEnd, dateStart, dateEnd);
