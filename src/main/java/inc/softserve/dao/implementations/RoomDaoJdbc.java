@@ -4,7 +4,6 @@ import inc.softserve.dao.interfaces.HotelDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomStats;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -16,6 +15,8 @@ import java.util.stream.Stream;
 
 //@Slf4j
 public class RoomDaoJdbc implements RoomDao {
+
+    private static final String TABLE_NAME = "rooms";
 
     private final Connection connection;
     private final HotelDao hotelDao;
@@ -92,14 +93,15 @@ public class RoomDaoJdbc implements RoomDao {
     }
 
     @Override
-    public Set<Room> findAllFutureBookedRoomsByCityId(Long cityId){
+    public Set<Room> findAllFutureBookedRoomsByCityId(Long cityId, LocalDate from){
         String query = "SELECT * FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON rooms.id = bookings.room_id " +
                 "WHERE rooms.city_id = ? " +
-                "AND bookings.checkin > CURDATE()";
+                "AND bookings.checkin > ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, cityId);
+            prepStat.setDate(2, Date.valueOf(from));
             ResultSet resultSet = prepStat.executeQuery();
             return extractRooms(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
@@ -108,7 +110,7 @@ public class RoomDaoJdbc implements RoomDao {
     }
 
     @Override
-    public Set<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod) {
+    public List<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod) {
         String query = "SELECT chamber_number, COUNT(*) AS room_count FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON bookings.room_id = rooms.id " +
@@ -119,7 +121,7 @@ public class RoomDaoJdbc implements RoomDao {
             prepStat.setDate(2, Date.valueOf(endPeriod));
             prepStat.setLong(3, hotelId);
             ResultSet resultSet = prepStat.executeQuery();
-            return extractRoomStats(resultSet).collect(Collectors.toSet());
+            return extractRoomStats(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
 //            log.error(e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -132,11 +134,7 @@ public class RoomDaoJdbc implements RoomDao {
             RoomStats roomStats = RoomStats.builder()
                     .hotel(hotelDao
                             .findById(rs.getLong("hotel_id"))
-                            .orElseThrow(() -> {
-                                String errorMessage = "There is a room that is not bind to any hotel";
-//                                log.error(errorMessage);
-                                return new RuntimeException(errorMessage);
-                            }))
+                            .orElseThrow())
                     .chamberNumber(rs.getInt("chamber_number"))
                     .roomCount(rs.getInt("room_count"))
                     .build();

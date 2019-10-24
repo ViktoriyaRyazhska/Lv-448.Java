@@ -27,7 +27,7 @@
     </div>
 
     <!-- TODO - add mapping -->
-    <form id="formId" action="/hotels/" method="POST">
+    <form id="formId" action="<c:url value="/hotels/"/>" method="POST">
         <fieldset>
             <legend>Search for a hotel</legend>
             <label>
@@ -44,7 +44,7 @@
                 City: <input id="cityIn" type="text" name="cityName" placeholder="For instance, Las Vegas" required>
             </label>
             <br/>
-            <button id="submit" type="submit">Search</button>
+            <button id="submitId" type="submit">Search</button>
         </fieldset>
     </form>
 
@@ -57,5 +57,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
+    <script>
+        (function () {
+            $("#submitId").on("click", function(e){
+                e.preventDefault();
+                let city = $('#cityIn').val();
+                $('#formId').attr('action', '/hotels/' + city).submit();
+            });
+        })();
+    </script>
 </body>
 </html>

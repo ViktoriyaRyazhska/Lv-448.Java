@@ -11,7 +11,6 @@
     <form action="/booking" method="GET">
         <fieldset>
             <legend>Book a room!</legend>
-<%--            <c:forEach var="roomPojo" items="${roomsPojo}" varStatus="seq">--%>
                 <p>
                     <c:out value="${roomPojo.chamberNumber}"/>
                     <c:out value="${roomPojo.luxury}"/>
@@ -36,17 +35,14 @@
                 <input type="hidden" name="hotel_id" value="${roomPojo.hotel.id}">
                 <input type="hidden" name="room_id" value="${roomPojo.id}">
                 <button id="submit" type="submit">Book!</button>
-<%--            </c:forEach>--%>
         </fieldset>
     </form>
     </c:forEach>
-
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        // TODO - add max date
         // TODO - replace onclick with event lister
         // TODO - add validation that checkin is less or equal to checkout
         Date.prototype.yyyymmdd = function() {
@@ -58,27 +54,26 @@
             ].join('-');
         };
 
-
         let periods = {};
         let currentRoomId;
         (function () {
-            let bookedRooms = ${rooms};
-            console.log(bookedRooms);
-            bookedRooms.forEach(room => {
-                period = function (from, to) {
-                    let period = [];
-                    let i = from;
-                    while (i <= to){
-                        period.push(i.yyyymmdd());
-                        i = new Date(i.setDate(i.getDate() + 1));
-                    }
-                    return period;
-                }(new Date(room.bookedFrom), new Date(room.bookedTo));
-                if (room.room.id in periods){
-                    periods[room.room.id] = periods[room.room.id].concat(period)
-                } else {
-                    periods[room.room.id] = period;
-                }
+            let roomsInfo = ${roomsJson};
+            console.log(roomsInfo);
+            roomsInfo.forEach(room => {
+                periods[room.id] = [];
+                let period = [];
+                room.bookings.forEach(booking => {
+                    period = function (from, to) {
+                        let period = [];
+                        let i = from;
+                        while (i <= to){
+                            period.push(i.yyyymmdd());
+                            i = new Date(i.setDate(i.getDate() + 1));
+                        }
+                        return period;
+                    }(new Date(booking.bookedFrom), new Date(booking.bookedTill));
+                    periods[room.id] = periods[room.id].concat(period);
+                })
             });
 
             for (let [key, value] of Object.entries(periods)) {
@@ -87,24 +82,20 @@
             }
         })();
 
-        // $(document).ready(function(){
-        //     $('.datepicker').datepicker({
-        //         minDate: new Date(),
-        //         beforeShowDay: function(date){
-        //             let string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-        //             return [ periods[1].indexOf(string) === -1 ]
-        //         }
-        //     });
-        // });
-
         function unavailableDays(roomId) {
             $('.' + roomId).datepicker({
                 minDate: new Date(),
+                maxDate: twoYearsFromNow(),
                 beforeShowDay: function(date){
                     let string = jQuery.datepicker.formatDate('yy-mm-dd', date);
                     return [ periods[roomId].indexOf(string) === -1 ]
                 }
             });
+        }
+
+        function twoYearsFromNow() {
+            let now = new Date();
+            return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
         }
     </script>
 </body>

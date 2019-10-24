@@ -17,7 +17,7 @@ public class LoginServlet extends HttpServlet {
     private UsrRegisterImpl userService;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         this.userService = new UsrRegisterImpl();
     }
 

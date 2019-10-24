@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 //@Slf4j
 public class UsrDaoJdbc implements UsrDao {
 
+    private static final String TABLE_NAME = "users";
+
     private final Connection connection;
 
     public UsrDaoJdbc(Connection connection) {

@@ -1,6 +1,7 @@
 package inc.softserve.servlets;
 
 import inc.softserve.entities.Hotel;
+import inc.softserve.exceptions.ContextParameterNotFound;
 import inc.softserve.services.intefaces.HotelService;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,9 @@ public class HotelServlet extends HttpServlet {
     @Override
     public void init() {
         hotelService = (HotelService) getServletContext().getAttribute("hotelService");
+        if (hotelService == null){
+            throw new ContextParameterNotFound();
+        }
     }
 
     @Override

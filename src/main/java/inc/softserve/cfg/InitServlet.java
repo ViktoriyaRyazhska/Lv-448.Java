@@ -1,11 +1,12 @@
 package inc.softserve.cfg;
 
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
 public class InitServlet extends HttpServlet {
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         onStartup();
     }
 
@@ -24,5 +25,14 @@ public class InitServlet extends HttpServlet {
                         field -> Map.entry(field.getName(), field.get(null))
                 ))
                 .forEach(entry -> ctx.setAttribute(entry.getKey(), entry.getValue()));
+    }
+
+    @Override
+    public void destroy() {
+        try {
+            ConnectDb.connectBase().close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -2,7 +2,7 @@ package inc.softserve.dao.implementations;
 
 import inc.softserve.dao.db_test_utils.FieldChecked;
 import inc.softserve.dao.interfaces.UsrDao;
-import inc.softserve.database.ConnectDb;
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.entities.Usr;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;

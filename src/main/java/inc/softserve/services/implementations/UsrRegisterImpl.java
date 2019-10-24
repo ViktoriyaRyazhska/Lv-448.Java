@@ -6,7 +6,7 @@ import inc.softserve.dao.implementations.VisaDaoJdbc;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
-import inc.softserve.database.ConnectDb;
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
 import inc.softserve.entities.Usr;
@@ -15,7 +15,6 @@ import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 import inc.softserve.services.intefaces.UsrRegisterService;
 import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
-import inc.softserve.utils.rethrowing_lambdas.ThrowingRunnable;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -24,7 +23,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class UsrRegisterImpl implements UsrRegisterService {
 

@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface RoomService {
 
-    Set<RoomDto> findAvailableRooms(Long hotelId, LocalDate from);
+    Set<RoomDto> findRoomsAndTheirBookingsStartingFrom(Long hotelId, LocalDate from);
 }

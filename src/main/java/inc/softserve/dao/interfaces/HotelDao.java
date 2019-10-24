@@ -16,7 +16,7 @@ public interface HotelDao extends Read<Hotel> {
 
     Set<Hotel> findHotelsByCityId(Long cityId);
 
-    Set<Hotel> findHotelsByCityIdAndDate(Long cityId, LocalDate startPeriod, LocalDate endPeriod);
+    Set<Hotel> findHotelsByCityIdAndPeriod(Long cityId, LocalDate startPeriod, LocalDate endPeriod);
 
     List<HotelStats> calcStats();
 }

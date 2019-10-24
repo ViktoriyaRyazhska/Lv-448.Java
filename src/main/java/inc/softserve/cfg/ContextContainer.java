@@ -2,7 +2,7 @@ package inc.softserve.cfg;
 
 import inc.softserve.dao.implementations.*;
 import inc.softserve.dao.interfaces.*;
-import inc.softserve.database.ConnectDb;
+import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.services.implementations.*;
 import inc.softserve.services.intefaces.*;
 import lombok.Getter;
@@ -28,4 +28,5 @@ class ContextContainer {
     static VisaStatsService visaStatsService = new VisaStatsServiceImpl(visaDao, usrDao, countryDao);
     static HotelStatsService hotelStatsService = new HotelStatsServiceImpl(hotelDao, roomDao);
     static BookingService bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao);
+    static RoomStatsService roomStatsService = new RoomStatsServiceImpl(roomDao);
 }

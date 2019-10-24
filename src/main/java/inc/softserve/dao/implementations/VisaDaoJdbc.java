@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 // @Slf4j
 public class VisaDaoJdbc implements VisaDao {
 
+    private static final String TABLE_NAME = "travel_visas";
+
     private final Connection connection;
     private final UsrDao usrDao;
     private final CountryDao countryDao;

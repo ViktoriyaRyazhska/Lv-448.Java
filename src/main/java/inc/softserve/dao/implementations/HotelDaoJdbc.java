@@ -18,8 +18,8 @@ import java.util.stream.Stream;
 // @Slf4j
 public class HotelDaoJdbc implements HotelDao {
 
-    //TODO
-    private static final String TABLE_NAME = "";
+    private static final String TABLE_NAME = "hotels";
+
     private final Connection connection;
     private final CityDao cityDao;
 
@@ -67,7 +67,7 @@ public class HotelDaoJdbc implements HotelDao {
     }
 
     @Override
-    public Set<Hotel> findHotelsByCityIdAndDate(Long cityId, LocalDate startPeriod, LocalDate endPeriod){
+    public Set<Hotel> findHotelsByCityIdAndPeriod(Long cityId, LocalDate startPeriod, LocalDate endPeriod){
         String query = "SELECT DISTINCT hotels.* FROM rooms " +
                 "INNER JOIN cities " +
                 "ON rooms.city_id = cities.id " +
@@ -93,7 +93,7 @@ public class HotelDaoJdbc implements HotelDao {
     public List<HotelStats> calcStats() {
         String query = "SELECT hotel_name, " +
                 "COUNT(usr_id) AS count_users, " +
-                "AVG(DATEDIFF(?, ?)) AS average_booking_time " +
+                "AVG(DATEDIFF(checkout, checkin)) AS average_booking_time " +
                 "FROM hotels " +
                 "INNER JOIN bookings " +
                 "ON hotels.id = bookings.hotel_id " +

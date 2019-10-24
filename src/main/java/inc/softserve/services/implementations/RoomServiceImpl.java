@@ -4,6 +4,7 @@ import inc.softserve.dao.interfaces.BookingDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dto.RoomDto;
 import inc.softserve.services.intefaces.RoomService;
+import inc.softserve.utils.mappers.RoomToRoomInfo;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -20,16 +21,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Set<RoomDto> findAvailableRooms(Long hotelId, final LocalDate from) {
-        return bookingDao.tmpfindByRoomIdAndDate(hotelId, from);
-//        return bookingDao.findBookingsByHotelIdAndDate(hotelId, from)
-//                .stream()
-//                .map(booking -> RoomDto.builder()
-//                        .room(booking.getRoom())
-//                        .bookedTo(booking.getCheckout())
-//                        .bookedFrom(booking.getCheckin())
-//                        .build()
-//                )
-//                .collect(Collectors.toSet());
+    public Set<RoomDto> findRoomsAndTheirBookingsStartingFrom(Long hotelId, final LocalDate from){
+        return roomDao.findByHotelId(hotelId).stream()
+                .peek(room -> room.setBooking(
+                        bookingDao.findBookingsByRoomIdAndDate(room.getId(), from)
+                ))
+                .map(RoomToRoomInfo::map)
+                .collect(Collectors.toSet());
     }
 }

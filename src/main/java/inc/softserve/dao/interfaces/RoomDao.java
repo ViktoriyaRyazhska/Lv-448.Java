@@ -4,6 +4,7 @@ import inc.softserve.entities.Room;
 import inc.softserve.entities.stats.RoomStats;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public interface RoomDao extends Read<Room> {
 
     Set<Room> findRoomsByCityId(Long cityId);
 
-    Set<Room> findAllFutureBookedRoomsByCityId(Long cityId);
+    Set<Room> findAllFutureBookedRoomsByCityId(Long cityId, LocalDate from);
 
-    Set<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod);
+    List<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod);
 }
