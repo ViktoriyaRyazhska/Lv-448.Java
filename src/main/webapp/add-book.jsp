@@ -26,24 +26,25 @@
                         <label for="title">Title:</label>
                         <input type="text" class="form-control" id="title"
                                name="title"
-                               placeholder="Enter book title" required>
+                               placeholder="Enter book title">
                     </div>
 
-                    <div class="form-group">
-                        <label for="author-surname">Release date</label>
-                        <input type="date" class="form-control" id="author-surname"
-                               name="releaseDate"
-                               placeholder="Enter date release:" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="author-surname">Release date</label>
+                            <input type="date" class="form-control" id="author-surname"
+                                   name="releaseDate"
+                                   placeholder="Enter date release:" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="amountOfInstances">Amount of instances:</label>
-                        <input type="number" class="form-control" id="amountOfInstances"
-                               name="amountOfInstances"
+                        <div class="form-group">
+                            <label for="amountOfInstances">Amount of instances:</label>
+                            <input type="number" class="form-control" id="amountOfInstances"
+                                   name="amountOfInstances"
                                placeholder="Enter amount of instances" required>
                     </div>
 
                     <div class="form-group">
+                        <label>Choose author:</label>
                         <select class="browser-default custom-select mt-3" name="author" required>
                             <c:forEach var="author" items="${authors}">
                                 <option value="${author.id}">${author.surname} ${author.name}</option>
