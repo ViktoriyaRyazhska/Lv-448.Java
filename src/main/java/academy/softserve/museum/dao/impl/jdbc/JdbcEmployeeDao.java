@@ -175,10 +175,11 @@ public class JdbcEmployeeDao implements EmployeeDao {
                         "WHERE e.id NOT IN(" +
                         "SELECT employee_id FROM timetable " +
                         "WHERE date_start BETWEEN ? AND ? " +
-                        "OR date_end BETWEEN ? AND ?)";
+                        "OR date_end BETWEEN ? AND ? " +
+                        "OR NOT (date_start > ? AND date_end < ?))";
 
         return JdbcUtils.query(connection, FIND_AVAILABLE_TOUR_GUIDES, new EmployeeRowMapper(), dateStart, dateEnd,
-                dateStart, dateEnd);
+                dateStart, dateEnd, dateStart, dateEnd);
     }
 
     /**
