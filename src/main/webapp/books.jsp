@@ -114,6 +114,12 @@
                                     Release date:
                                     <span class="card-book-fs"> ${book.releaseDate}</span>
                                 </h6>
+                                <hr>
+                                <h6>
+                                    Average time reading:
+                                    <span class="card-book-fs"> ${book.}</span>
+                                </h6>
+
                                 <h6>
                                     Author:
                                     <span class="card-book-fs"> ${book.getAuthor().getAuthorLastName()}</span>

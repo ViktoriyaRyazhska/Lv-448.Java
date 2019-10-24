@@ -81,3 +81,14 @@ $('#employee-positions').on('change', function() {
 });
 
 
+$('#select-book').on('change',function() {
+    var bookId = this.value;
+    console.log("bookId", bookId);
+    $(this).parent().find('.book-instance-wrapper').remove();
+    $.get('http://localhost:8080/library/books-instances/' + bookId , function (data) {
+        console.log(data);
+        $('.books-group').append(data);
+    });
+});
+
+
