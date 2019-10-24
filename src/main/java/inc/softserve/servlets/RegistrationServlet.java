@@ -2,10 +2,7 @@ package inc.softserve.servlets;
 
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
-import inc.softserve.services.implementations.UsrRegisterImpl;
-import inc.softserve.services.intefaces.HotelService;
 import inc.softserve.services.intefaces.UsrRegisterService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,9 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 @WebServlet("/registration")
@@ -53,9 +48,10 @@ public class RegistrationServlet extends HttpServlet {
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
             req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+        }else {
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login.jsp");
+            requestDispatcher.forward(req, resp);
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login");
-        requestDispatcher.forward(req, resp);
     }
 
 }
