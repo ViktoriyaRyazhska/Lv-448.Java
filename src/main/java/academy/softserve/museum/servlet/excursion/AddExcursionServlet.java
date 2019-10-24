@@ -1,10 +1,12 @@
 package academy.softserve.museum.servlet.excursion;
 
 import academy.softserve.museum.entities.Excursion;
+import academy.softserve.museum.exception.NotSavedException;
 import academy.softserve.museum.services.ExcursionService;
 import academy.softserve.museum.services.impl.ExcursionServiceImpl;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,14 +58,16 @@ public class AddExcursionServlet extends HttpServlet {
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String name = req.getParameter("name");
         Excursion excursion = new Excursion(name);
-        if(excursionService.save(excursion)){
+        try {
+            excursionService.save(excursion);
             req.setAttribute("successMessage", "Excursion has been successfully added");
-        } else {
+            req.getRequestDispatcher("/excursions/add-excursion").include(req, resp);
+        } catch (NotSavedException e) {
             req.setAttribute("failureMessage", "Something went wrong!");
+            req.getRequestDispatcher("/excursions").forward(req, resp);
         }
-        resp.sendRedirect(req.getContextPath() + "/excursions");
     }
 }

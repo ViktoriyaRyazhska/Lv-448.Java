@@ -1,8 +1,7 @@
-package academy.softserve.dao.impl.jdbc;
+package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.dao.ExcursionDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcTimetableDao;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.Timetable;

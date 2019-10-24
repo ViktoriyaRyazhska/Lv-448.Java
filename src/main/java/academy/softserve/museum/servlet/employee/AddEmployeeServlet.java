@@ -4,6 +4,7 @@ import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.entities.dto.EmployeeDto;
+import academy.softserve.museum.exception.NotSavedException;
 import academy.softserve.museum.services.AudienceService;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.AudienceServiceImpl;
@@ -73,15 +74,10 @@ public class AddEmployeeServlet extends HttpServlet {
 
         EmployeeDto employeeDto = new EmployeeDto(firstName, lastName, username, password, position, audienceId);
 
-
         try {
             employeeService.save(employeeDto);
-//            req.setAttribute("message", "Employee has been successfully added");
-//            req.getRequestDispatcher("/employees").forward(req, resp);
             resp.sendRedirect(req.getContextPath() + "/employees");
-        } catch (RuntimeException e) {
-//            req.setAttribute("message", "Something went wrong!");
-//            req.getRequestDispatcher("/employees").forward(req, resp);
+        } catch (NotSavedException e) {
             resp.sendRedirect(req.getContextPath() + "/employees");
         }
     }

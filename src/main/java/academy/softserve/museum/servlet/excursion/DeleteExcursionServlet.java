@@ -1,6 +1,7 @@
 package academy.softserve.museum.servlet.excursion;
 
 import academy.softserve.museum.constant.MessageType;
+import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.services.ExcursionService;
 import academy.softserve.museum.services.impl.ExcursionServiceImpl;
 import academy.softserve.museum.util.PathParser;
@@ -47,7 +48,7 @@ public class DeleteExcursionServlet extends HttpServlet {
         try {
             excursionService.deleteById(id);
             req.setAttribute(MessageType.SUCCESS, "Excursion has been successfully deleted");
-        } catch (RuntimeException e) {
+        } catch (NotDeletedException e) {
             req.setAttribute(MessageType.FAILURE, "Something went wrong!");
         }
         req.getRequestDispatcher("/excursions").forward(req, resp);

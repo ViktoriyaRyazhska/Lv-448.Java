@@ -134,3 +134,11 @@
 .fas {
     line-height: 1.5!important;
 }
+
+.error-code {
+    font-size: 10rem !important;
+}
+
+.mt-30 {
+    margin-top: 26vh;
+}

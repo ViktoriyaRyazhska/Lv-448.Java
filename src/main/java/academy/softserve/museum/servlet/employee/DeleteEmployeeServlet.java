@@ -1,6 +1,7 @@
 package academy.softserve.museum.servlet.employee;
 
 import academy.softserve.museum.constant.MessageType;
+import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.impl.EmployeeServiceImpl;
 import academy.softserve.museum.util.PathParser;
@@ -46,7 +47,7 @@ public class DeleteEmployeeServlet extends HttpServlet {
         try {
             employeeService.deleteById(id);
             req.setAttribute(MessageType.SUCCESS, "Employee has been successfully deleted");
-        } catch (RuntimeException e) {
+        } catch (NotDeletedException e) {
             req.setAttribute(MessageType.FAILURE, "Something went wrong!");
         }
         req.getRequestDispatcher("/employees").forward(req, resp);
