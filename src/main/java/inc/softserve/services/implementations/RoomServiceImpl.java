@@ -4,7 +4,7 @@ import inc.softserve.dao.interfaces.BookingDao;
 import inc.softserve.dao.interfaces.RoomDao;
 import inc.softserve.dto.RoomDto;
 import inc.softserve.services.intefaces.RoomService;
-import inc.softserve.utils.mappers.RoomToRoomInfo;
+import inc.softserve.utils.mappers.RoomToRoomDto;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -26,7 +26,7 @@ public class RoomServiceImpl implements RoomService {
                 .peek(room -> room.setBooking(
                         bookingDao.findBookingsByRoomIdAndDate(room.getId(), from)
                 ))
-                .map(RoomToRoomInfo::map)
+                .map(RoomToRoomDto::map)
                 .collect(Collectors.toSet());
     }
 }

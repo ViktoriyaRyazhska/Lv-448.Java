@@ -8,7 +8,7 @@
 <body>
 
     <c:forEach var="roomPojo" items="${roomsPojo}" varStatus="seq">
-    <form action="/booking" method="GET">
+    <form class="formClass" action="<c:url value="/booking"/>" method="GET">
         <fieldset>
             <legend>Book a room!</legend>
                 <p>
@@ -34,7 +34,7 @@
                 <br/>
                 <input type="hidden" name="hotel_id" value="${roomPojo.hotel.id}">
                 <input type="hidden" name="room_id" value="${roomPojo.id}">
-                <button id="submit" type="submit">Book!</button>
+                <button class="submit" type="submit">Book!</button>
         </fieldset>
     </form>
     </c:forEach>
@@ -43,8 +43,6 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        // TODO - replace onclick with event lister
-        // TODO - add validation that checkin is less or equal to checkout
         Date.prototype.yyyymmdd = function() {
             let mm = this.getMonth() + 1; // getMonth() is zero-based
             let dd = this.getDate();

@@ -5,14 +5,16 @@ import inc.softserve.entities.Usr;
 import inc.softserve.exceptions.ContextParameterNotFound;
 import inc.softserve.services.intefaces.BookingService;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet(value = {"/booking/*"})
+@WebServlet(value = {"/booking"})
 public class BookingServlet extends HttpServlet {
 
     private BookingService bookingService;
@@ -26,7 +28,7 @@ public class BookingServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LocalDate checkin = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
                 .plusDays(1); // MySQL's Date.valueOf(localDate) doesn't work correctly!!!
         LocalDate checkout = LocalDate.parse(req.getParameter("checkout"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
@@ -43,5 +45,6 @@ public class BookingServlet extends HttpServlet {
                 .build();
         bookingService.book(bookingReqDto, LocalDate.now());
         req.setAttribute("message", "You have book a room");
+        req.getRequestDispatcher("booking.jsp").include(req, resp);
     }
 }

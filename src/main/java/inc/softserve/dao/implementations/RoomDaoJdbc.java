@@ -111,11 +111,11 @@ public class RoomDaoJdbc implements RoomDao {
 
     @Override
     public List<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod) {
-        String query = "SELECT chamber_number, COUNT(*) AS room_count FROM rooms " +
+        String query = "SELECT chamber_number, COUNT(*) AS room_count, rooms.hotel_id FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON bookings.room_id = rooms.id " +
                 "WHERE bookings.checkin > ? OR bookings.checkout < ? AND rooms.hotel_id = ? " +
-                "GROUP BY chamber_number";
+                "GROUP BY chamber_number, rooms.hotel_id";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setDate(1, Date.valueOf(startPeriod));
             prepStat.setDate(2, Date.valueOf(endPeriod));

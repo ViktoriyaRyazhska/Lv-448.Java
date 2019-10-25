@@ -5,7 +5,7 @@ import inc.softserve.entities.Room;
 
 import java.util.stream.Collectors;
 
-public class RoomToRoomInfo {
+public class RoomToRoomDto {
 
     public static RoomDto map(Room room){
         return RoomDto.builder()

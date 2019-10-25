@@ -32,19 +32,19 @@
             <td>Count clients</td>
             <td>Average Booking Time</td>
         </tr>
-    <c:forEach var="hotel" items="${hotelsList}">
-        <tr>
-            <td><c:out value="${hotel.hotelName}"/></td>
-            <td><c:out value="${hotel.clients}"/></td>
-            <td><c:out value="${hotel.averageBookingTime.days}"/></td>
-        </tr>
-<%--        <h4>${country.hotelName}</h4>--%>
-    </c:forEach>
+        <c:forEach var="hotel" items="${hotelsList}">
+            <tr>
+                <td><c:out value="${hotel.hotelName}"/></td>
+                <td><c:out value="${hotel.clients}"/></td>
+                <td><c:out value="${hotel.averageBookingTime.days}"/></td>
+            </tr>
+        </c:forEach>
     </table>
+    <h3>Room statistics</h3>
     <c:forEach var="hotel" items="${hotelsList}">
         <form action="/room_statistics/" method="GET">
             <fieldset>
-                <legend>Room statistics</legend>
+                <legend>${hotel.hotelName}</legend>
                 <c:out value="${hotel.hotelName}"/>
                 <label>
                     Select start period: <input class="datepicker" type="text" name="start_period" required>
@@ -52,12 +52,28 @@
                 <label>
                     Select end period: <input class="datepicker" type="text" name="end_period" required>
                 </label>
-                <input hidden value="${hotel.id}" name="hotel_id">
-                <input hidden value="${hotel.name}" name="hotel_name">
+                <input hidden value="${hotel.hotelId}" name="hotel_id">
+                <input hidden value="${hotel.hotelName}" name="hotel_name">
+                <button id="submitId" type="submit">Show</button>
             </fieldset>
         </form>
     </c:forEach>
 </div>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script >
+    (function () {
+        $('.datepicker').datepicker({
+            maxDate: twoYearsFromNow()
+        });
+
+        function twoYearsFromNow() {
+            let now = new Date();
+            return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
+        }
+    })();
+</script>
 </body>
 </html>

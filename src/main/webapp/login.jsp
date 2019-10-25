@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="width30">
-    <form action="/login" method="POST">
+    <form action="<c:url value="/login"/>" method="POST">
             <div class="form-line">
                 <div>
                     <c:forEach var="configParams" items="${messages}">
@@ -34,7 +34,7 @@
             </div>
         <button type="submit" class="registerbtn">Sign in</button>
         <div class="container signin">
-            <p>Haven't created an account yet? <a href="registration">Sign up</a>.</p>
+            <p>Haven't created an account yet? <a href="<c:url value="/registration"/>">Sign up</a>.</p>
         </div>
     </form>
 </div>

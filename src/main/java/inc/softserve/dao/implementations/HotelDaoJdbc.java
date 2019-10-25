@@ -91,18 +91,18 @@ public class HotelDaoJdbc implements HotelDao {
 
     @Override
     public List<HotelStats> calcStats() {
-        String query = "SELECT hotel_name, " +
+        String query = "SELECT hotels.id, hotel_name, " +
                 "COUNT(usr_id) AS count_users, " +
                 "AVG(DATEDIFF(checkout, checkin)) AS average_booking_time " +
                 "FROM hotels " +
                 "INNER JOIN bookings " +
                 "ON hotels.id = bookings.hotel_id " +
-                "GROUP BY hotel_name";
+                "GROUP BY hotels.id";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             ResultSet resultSet = prepStat.executeQuery();
             return extractStatistics(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
-         //   log.error(e.getLocalizedMessage());
+            //   log.error(e.getLocalizedMessage());
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
@@ -111,6 +111,7 @@ public class HotelDaoJdbc implements HotelDao {
         Stream.Builder<HotelStats> builder = Stream.builder();
         while (rs.next()){
             HotelStats hotelStats = HotelStats.builder()
+                    .hotelId(rs.getLong("id"))
                     .hotelName(rs.getString("hotel_name"))
                     .clients(rs.getInt("count_users"))
                     .averageBookingTime(new Day(rs.getInt("average_booking_time")))

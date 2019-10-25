@@ -120,7 +120,7 @@
         <button type="submit" class="registerbtn">Register</button>
     </div>
     <div class="container signin">
-        <p>Already have an account? <a href="login.jsp">Sign in</a>.</p>
+        <p>Already have an account? <a href="<c:url value="/login"/>">Sign in</a>.</p>
     </div>
 </form>
     </div>

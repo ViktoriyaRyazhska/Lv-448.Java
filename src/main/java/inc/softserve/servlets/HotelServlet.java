@@ -1,5 +1,6 @@
 package inc.softserve.servlets;
 
+import inc.softserve.entities.City;
 import inc.softserve.entities.Hotel;
 import inc.softserve.exceptions.ContextParameterNotFound;
 import inc.softserve.services.intefaces.HotelService;
@@ -42,8 +43,14 @@ public class HotelServlet extends HttpServlet {
         String country = req.getParameter("countryName");
         String city = req.getParameter("cityName");
         Set<Hotel> hotels = hotelService.findHotelsByCountryAndCity(country, city, LocalDate.now());
+        Long cityId = hotels.stream()
+                .findFirst()
+                .map(Hotel::getCity)
+                .map(City::getId)
+                .orElse(null);
         req.setAttribute("city", city);
         req.setAttribute("hotels", hotels);
+        req.setAttribute("cityId", cityId);
         req.getRequestDispatcher("/hotels.jsp").include(req, resp);
     }
 }
