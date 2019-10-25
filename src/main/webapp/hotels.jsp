@@ -24,7 +24,7 @@
 
 
     <c:if test="${not empty hotels}">
-        <form action="<c:url value="/hotels/${city}"/>" method="GET">
+        <form id="formId" action="<c:url value="/available_hotels/${city}"/>" method="GET">
             <fieldset>
                 <legend>Search for available hotels during a period</legend>
                 <label>
@@ -36,6 +36,7 @@
                 </label>
                 <br/>
                 <input type="hidden" name="cityId" value="${cityId}">
+                <input type="hidden" name="cityName" value="${city}">
                 <button id="submitId" type="submit">Search</button>
             </fieldset>
         </form>

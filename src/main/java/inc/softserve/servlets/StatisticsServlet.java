@@ -41,7 +41,7 @@ public class StatisticsServlet extends HttpServlet {
         Usr user = (Usr) session.getAttribute("user");
         List<HotelStats> hotelsList = hotelStatsService.calcHotelStats();
         req.setAttribute("statisticCountry", visaStatsService.countVisasIssuedByAllCountry());
-        req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail(user.getEmail()));
+        req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail(user.getEmail()).orElse(0));
         req.setAttribute("hotelsList", hotelsList);
         req.getRequestDispatcher("/statistics.jsp").include(req, resp);
     }

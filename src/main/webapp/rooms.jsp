@@ -7,8 +7,12 @@
 </head>
 <body>
 
+    <c:if test="${error != null}">
+        <script>alert(${error})</script>
+    </c:if>
+
     <c:forEach var="roomPojo" items="${roomsPojo}" varStatus="seq">
-    <form class="formClass" action="<c:url value="/booking"/>" method="GET">
+    <form class="formClass" action="<c:url value="/rooms"/>" method="POST">
         <fieldset>
             <legend>Book a room!</legend>
                 <p>
