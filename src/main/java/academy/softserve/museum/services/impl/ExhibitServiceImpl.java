@@ -107,8 +107,8 @@ public class ExhibitServiceImpl implements ExhibitService {
      */
     @Override
     public Optional<Exhibit> findById(long id) {
-        Exhibit exhibit = exhibitDao.findById(id).orElse(null);
-        return Optional.of(Optional.of(exhibitDao.loadForeignFields(exhibit))
+        return Optional.of(Optional.of(exhibitDao.loadForeignFields(exhibitDao.findById(id)
+                .orElse(null)))
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
@@ -120,8 +120,8 @@ public class ExhibitServiceImpl implements ExhibitService {
      */
     @Override
     public Optional<Exhibit> findByName(String name) {
-        Exhibit exhibit = exhibitDao.findByName(name).orElse(null);
-        return Optional.of(Optional.of(exhibitDao.loadForeignFields(exhibit))
+        return Optional.of(Optional.of(exhibitDao.loadForeignFields(exhibitDao.findByName(name)
+                .orElse(null)))
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
