@@ -1,5 +1,12 @@
 package academy.softserve.museum.services.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
 import academy.softserve.museum.dao.ExcursionDao;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
@@ -8,19 +15,20 @@ import academy.softserve.museum.exception.NotFoundException;
 import academy.softserve.museum.exception.NotSavedException;
 import academy.softserve.museum.exception.NotUpdatedException;
 import academy.softserve.museum.services.ExcursionService;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.sql.Date;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
-
 class ExcursionServiceImplTest {
+
     @Mock
     private ExcursionDao mock;
     @InjectMocks
@@ -102,7 +110,8 @@ class ExcursionServiceImplTest {
 
     @Test
     void findAll() {
-        List<Excursion> excursions = Arrays.asList(new Excursion(1, "Test1"), new Excursion(1, "Test1"));
+        List<Excursion> excursions = Arrays
+                .asList(new Excursion(1, "Test1"), new Excursion(1, "Test1"));
 
         when(mock.findAll()).thenReturn(excursions);
 
@@ -154,12 +163,14 @@ class ExcursionServiceImplTest {
     void findStatisticFails() {
         when(mock.findStatistic(any(), any())).thenThrow(NotFoundException.class);
 
-        assertThrows(NotFoundException.class, () -> service.findStatistic(new Date(0), new Date(0)));
+        assertThrows(NotFoundException.class,
+                () -> service.findStatistic(new Date(0), new Date(0)));
     }
 
     @Test
     void findAvailable() {
-        List<Excursion> available = Arrays.asList(new Excursion(1, "Test1"), new Excursion(2, "Test2"));
+        List<Excursion> available = Arrays
+                .asList(new Excursion(1, "Test1"), new Excursion(2, "Test2"));
 
         when(mock.findAvailable(new Date(0), new Date(100500))).thenReturn(available);
 

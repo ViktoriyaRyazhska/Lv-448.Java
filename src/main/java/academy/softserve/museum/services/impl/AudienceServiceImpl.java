@@ -2,7 +2,6 @@ package academy.softserve.museum.services.impl;
 
 import academy.softserve.museum.constant.ErrorMessage;
 import academy.softserve.museum.dao.AudienceDao;
-import academy.softserve.museum.dao.impl.jdbc.JdbcAudienceDao;
 import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.exception.NotDeletedException;
@@ -15,22 +14,22 @@ import java.util.Optional;
 
 public class AudienceServiceImpl implements AudienceService {
 
-    private final AudienceDao jdbcAudienceDao;
+    private AudienceDao audienceDao;
 
     /**
      * Default constructor
      */
     public AudienceServiceImpl() {
-        jdbcAudienceDao = DaoFactory.audienceDao();
+        audienceDao = DaoFactory.audienceDao();
     }
 
     /**
      * Constructor with 1 parameters
      *
-     * @param jdbcAudienceDao
+     * @param audienceDao
      */
-    public AudienceServiceImpl(JdbcAudienceDao jdbcAudienceDao) {
-        this.jdbcAudienceDao = jdbcAudienceDao;
+    public AudienceServiceImpl(AudienceDao audienceDao) {
+        this.audienceDao = audienceDao;
     }
 
     /**
@@ -40,10 +39,10 @@ public class AudienceServiceImpl implements AudienceService {
      */
     @Override
     public boolean save(Audience audience) {
-        if (jdbcAudienceDao.findByName(audience.getName()).isPresent()) {
+        if (audienceDao.findByName(audience.getName()).isPresent()) {
             throw new NotSavedException(ErrorMessage.AUDIENCE_NOT_SAVED);
         } else {
-            jdbcAudienceDao.save(audience);
+            audienceDao.save(audience);
             return true;
         }
     }
@@ -55,8 +54,8 @@ public class AudienceServiceImpl implements AudienceService {
      */
     @Override
     public boolean deleteById(long id) {
-        if (jdbcAudienceDao.findById(id).isPresent()) {
-            jdbcAudienceDao.deleteById(id);
+        if (audienceDao.findById(id).isPresent()) {
+            audienceDao.deleteById(id);
             return true;
         } else {
             throw new NotDeletedException(ErrorMessage.AUDIENCE_NOT_DELETED);
@@ -70,7 +69,7 @@ public class AudienceServiceImpl implements AudienceService {
      */
     @Override
     public Optional<Audience> findById(long id) {
-        return Optional.of(jdbcAudienceDao.findById(id)
+        return Optional.of(audienceDao.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
@@ -82,7 +81,7 @@ public class AudienceServiceImpl implements AudienceService {
      */
     @Override
     public Optional<Audience> findByName(String name) {
-        return Optional.of(jdbcAudienceDao.findByName(name)
+        return Optional.of(audienceDao.findByName(name)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
@@ -93,7 +92,7 @@ public class AudienceServiceImpl implements AudienceService {
      */
     @Override
     public List<Audience> findAll() {
-        List<Audience> audienceList = jdbcAudienceDao.findAll();
+        List<Audience> audienceList = audienceDao.findAll();
         if (audienceList.size() < 1) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
@@ -107,8 +106,8 @@ public class AudienceServiceImpl implements AudienceService {
      */
     @Override
     public boolean update(Audience audience) {
-        if (jdbcAudienceDao.findByName(audience.getName()).isPresent()) {
-            jdbcAudienceDao.update(audience);
+        if (audienceDao.findByName(audience.getName()).isPresent()) {
+            audienceDao.update(audience);
             return true;
         } else {
             throw new NotUpdatedException(ErrorMessage.AUDIENCE_NOT_UPDATED);

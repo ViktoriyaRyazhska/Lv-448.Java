@@ -1,19 +1,23 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
-import academy.softserve.museum.dao.AudienceDao;
-import academy.softserve.museum.entities.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+import academy.softserve.museum.dao.AudienceDao;
+import academy.softserve.museum.entities.Audience;
+import academy.softserve.museum.entities.Employee;
+import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.Exhibit;
+import academy.softserve.museum.entities.ExhibitType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class JdbcAudienceDaoTest extends JdbcDaoTest {
+
     private AudienceDao audienceDao;
     private List<Audience> audiences;
 
@@ -92,7 +96,7 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
     }
 
     @Test
-    void findByExistingName(){
+    void findByExistingName() {
         String name = "Leonardo da Vinci";
         Audience expected = new Audience(1, "Leonardo da Vinci");
 
@@ -100,14 +104,14 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
     }
 
     @Test
-    void findByNotExistingName(){
+    void findByNotExistingName() {
         String name = "NOT_EXISTING_NAME";
 
         assertEquals(Optional.empty(), audienceDao.findByName(name));
     }
 
     @Test
-    void findByExistingAudienceManager(){
+    void findByExistingAudienceManager() {
         Employee employee = new Employee(4, "Jeck", "Loper", EmployeePosition.AUDIENCE_MANAGER,
                 "loper_79", "123456qwe");
         Audience expected = (new Audience(3, "Sculptures"));
@@ -116,7 +120,7 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
     }
 
     @Test
-    void findByExistingManager(){
+    void findByExistingManager() {
         Employee employee = new Employee(1, "Anna", "Kentor", EmployeePosition.MANAGER,
                 "a_kentor", "anna1230");
 
@@ -124,7 +128,7 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
     }
 
     @Test
-    void findByNotExistingManager(){
+    void findByNotExistingManager() {
         Employee employee = new Employee(100500, null, null, null,
                 null, null);
 
@@ -132,15 +136,16 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
     }
 
     @Test
-    void findByExistingExhibit(){
-        Exhibit exhibit = new Exhibit(5, ExhibitType.SCULPTURE, "Bronze", null, "A man with a broken nose");
+    void findByExistingExhibit() {
+        Exhibit exhibit = new Exhibit(5, ExhibitType.SCULPTURE, "Bronze", null,
+                "A man with a broken nose");
         Audience expected = new Audience(3, "Sculptures");
 
         assertAudienceEquals(expected, audienceDao.findByExhibit(exhibit).orElse(null));
     }
 
     @Test
-    void findByNotExistingExhibit(){
+    void findByNotExistingExhibit() {
         Exhibit exhibit = new Exhibit(1005000, null, null, null, null);
 
         assertNull(audienceDao.findByExhibit(exhibit).orElse(null));
