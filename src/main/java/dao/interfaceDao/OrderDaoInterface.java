@@ -19,4 +19,6 @@ public interface OrderDaoInterface {
 
     List<Order> findAllByUserId(Long userId);
 
+    List<Order> findAllByUserPhoneNumber(String userPhoneNumber);
+
 }

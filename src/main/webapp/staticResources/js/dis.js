@@ -61,30 +61,37 @@ $('#exhibit-additional-filters').on('change', function() {
     }
 });
 
-/**
- * Add employee page
- */
-
-/**
- * Show audience input only if employee position is an Audience manager
- */
-$('#employee-positions').on('change', function() {
-    if($(this).children(":selected").attr("id") === 'option-2') {
-        // $('#employee-is-am').removeClass('hidden');
-        // $('#employee-is-am').addClass('visible');
-        $('#employee-is-am').css('display', 'block');
-    } else {
-        // $('#employee-is-am').removeClass('visible');
-        // $('#employee-is-am').addClass('hidden');
-        $('#employee-is-am').css('display', 'none');
-    }
-});
+// /**
+//  * Add employee page
+//  */
+//
+// /**
+//  * Show audience input only if employee position is an Audience manager
+//  */
+// $('#employee-positions').on('change', function() {
+//     if($(this).children(":selected").attr("id") === 'option-2') {
+//         // $('#employee-is-am').removeClass('hidden');
+//         // $('#employee-is-am').addClass('visible');
+//         $('#employee-is-am').css('display', 'block');
+//     } else {
+//         // $('#employee-is-am').removeClass('visible');
+//         // $('#employee-is-am').addClass('hidden');
+//         $('#employee-is-am').css('display', 'none');
+//     }
+// });
 
 
 $('#select-book').on('change',function() {
     var bookId = this.value;
     console.log("bookId", bookId);
     $(this).parent().find('.book-instance-wrapper').remove();
+    $.get('http://localhost:8080/library/books-instances/' + bookId , function (data) {
+        $('.books-group').append(data);
+    });
+});
+
+$(document).ready(function () {
+    var bookId = $('#select-book').val();
     $.get('http://localhost:8080/library/books-instances/' + bookId , function (data) {
         console.log(data);
         $('.books-group').append(data);

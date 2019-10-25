@@ -6,6 +6,7 @@ import dao.interfaceDao.AuthorDaoInterface;
 import dao.interfaceDao.BookDaoInterface;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import database.DaoFactory;
+import dto.BookInstanceDto;
 import entities.Author;
 import entities.Book;
 import entities.BookInstance;
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
 public class BookService {
     private AuthorDaoInterface authorDaoInterface;
     private BookDaoInterface bookDaoInterface;
-    private BookInstanceDaoInterface bookInstanceDaoInterface;
+    private BookInstanceService bookInstanceService;
 
     public BookService() {
         this.authorDaoInterface = DaoFactory.authorDao();
         this.bookDaoInterface = DaoFactory.bookDao();
-        this.bookInstanceDaoInterface = DaoFactory.bookInstanceDao();
+        this.bookInstanceService = new BookInstanceService();
     }
 
     public void createBook(Book book, Author author) {
@@ -37,7 +38,7 @@ public class BookService {
                 BookInstance bookInstance = BookInstance.builder()
                         .isAvailable(true)
                         .book(findBookById(book.getId())).build();
-                bookInstanceDaoInterface.save(bookInstance);
+                bookInstanceService.createBookInstance(bookInstance);
             }
         } else {
             bookDaoInterface.save(book);
@@ -45,16 +46,16 @@ public class BookService {
                 BookInstance bookInstance = BookInstance.builder()
                         .isAvailable(true)
                         .book(findBookById(book.getId())).build();
-                bookInstanceDaoInterface.save(bookInstance);
+                bookInstanceService.createBookInstance(bookInstance);
             }
         }
     }
 
     public String isAnyAvailable(Book book) {
-        List<BookInstance> allBookInstanceByBookId = bookInstanceDaoInterface.findAllBookInstanceByBookId(book.getId());
+        List<BookInstanceDto> allBookInstanceByBookId = bookInstanceService.findAllBookInstanceByBookId(book.getId());
         int count = 0;
-        for (BookInstance bookInstance : allBookInstanceByBookId) {
-            if (bookInstance.getIsAvailable()) {
+        for (BookInstanceDto bookInstanceDto : allBookInstanceByBookId) {
+            if (bookInstanceDto.getIsAvailable()) {
                 count++;
             }
         }
@@ -143,6 +144,7 @@ public class BookService {
                 .author(book.getAuthor())
                 .averageTimeReading(averageTimeReadingBook(book.getId()))
                 .amountOfTimesBookWasTaken(getAmountOfTimesBookWasTaken(book.getId()))
+                .bookInstance(bookInstanceService.findAllBookInstanceByBookId(book.getId()))
                 .build();
         return bookDto;
     }

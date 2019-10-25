@@ -1,13 +1,14 @@
 package service;
 
-import dao.implemetsDao.BookInstanceDao;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import database.DaoFactory;
+import dto.BookInstanceDto;
 import entities.BookInstance;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BookInstanceService {
 
@@ -25,17 +26,15 @@ public class BookInstanceService {
         return bookInstanceDao.findById(bookInstanceId).get();
     }
 
-    public List<BookInstance> findAllBookInstanceByBookId(Long bookId) {
-        return bookInstanceDao.findAllBookInstanceByBookId(bookId);
+    public List<BookInstanceDto> findAllBookInstanceByBookId(Long bookId) {
+        return bookInstanceDao.findAllBookInstanceByBookId(bookId)
+                .stream()
+                .map(this::convertEntityToBookInstanceDto)
+                .collect(Collectors.toList());
     }
 
-    public boolean updateBookInstanced(BookInstance bookInstance) {
-        if (bookInstanceDao.findById(bookInstance.getId()).isPresent()) {
-            bookInstanceDao.update(bookInstance);
-            return true;
-        } else {
-            return false;
-        }
+    public void setAvailableBookInstance(Long bookInstanceId, Boolean available) {
+        bookInstanceDao.update(bookInstanceId, available);
     }
 
     public boolean isAvailable(Long bookInstance) {
@@ -60,5 +59,14 @@ public class BookInstanceService {
 
     public Long getAmountOfTimesBookInstanceWasTaken(Long bookInstanceId) {
         return bookInstanceDao.getAmountOfTimesInstanceWasTaken(bookInstanceId);
+    }
+
+    private BookInstanceDto convertEntityToBookInstanceDto(BookInstance bookInstance) {
+        return BookInstanceDto.builder()
+                .id(bookInstance.getId())
+                .isAvailable(bookInstance.getIsAvailable())
+                .book(bookInstance.getBook())
+                .countWasTaken(getAmountOfTimesBookInstanceWasTaken(bookInstance.getId()))
+                .build();
     }
 }

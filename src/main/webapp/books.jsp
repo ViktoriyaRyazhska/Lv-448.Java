@@ -131,8 +131,8 @@
                                 <hr>
                                 <h6>
                                     Author:
-                                    <span> ${book.author.authorLastName}</span>
                                     <span>${book.author.authorFirstName}</span>
+                                    <span> ${book.author.authorLastName}</span>
                                 </h6>
                                 <hr>
                                 <h6>

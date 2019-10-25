@@ -27,7 +27,7 @@
                         <label class="filter-col">Search :</label>
                     </div>
 
-                    <form class="form-inline "
+                    <form class="form-inline"
                           action="<c:url value="/authors_by_surname"/>"
                           method="post"
                           id="by-author">

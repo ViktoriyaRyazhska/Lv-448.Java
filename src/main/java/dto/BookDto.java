@@ -1,11 +1,13 @@
 package dto;
 
 import entities.Author;
+import entities.BookInstance;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Getter
@@ -19,5 +21,6 @@ public class BookDto {
     private String isAvailable;
     private Long amountOfTimesBookWasTaken;
     private String averageTimeReading;
+    private List<BookInstanceDto> bookInstance;
 
 }

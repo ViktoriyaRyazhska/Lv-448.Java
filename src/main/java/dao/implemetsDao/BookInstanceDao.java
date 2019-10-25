@@ -86,11 +86,11 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
     }
 
     @Override
-    public void update(BookInstance bookInstance) {
+    public void update(Long bookInstanceId, Boolean available) {
         String query = "UPDATE book_instance SET is_available = ? WHERE id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setBoolean(1, bookInstance.getIsAvailable());
-            preparedStatement.setLong(2, bookInstance.getId());
+            preparedStatement.setBoolean(1, available);
+            preparedStatement.setLong(2, bookInstanceId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

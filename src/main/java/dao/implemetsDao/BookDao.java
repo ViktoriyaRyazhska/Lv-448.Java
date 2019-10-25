@@ -10,6 +10,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static constants.QueryConstants.MAX_TOP_BOOKS;
+
 public class BookDao implements dao.interfaceDao.BookDaoInterface {
 
     private final Connection connection;
@@ -214,7 +216,8 @@ public class BookDao implements dao.interfaceDao.BookDaoInterface {
                 "INNER JOIN books b ON bi.id_book = b.id " +
                 "WHERE orders.date_order BETWEEN ? AND ?" +
                 "GROUP BY b.id " +
-                "ORDER BY COUNT(*) DESC;";
+                "ORDER BY COUNT(*) DESC LIMIT LIMIT " +
+                MAX_TOP_BOOKS + ";";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setDate(1, Date.valueOf(startPeriod));
             preparedStatement.setDate(2, Date.valueOf(endPeriod));
@@ -239,7 +242,8 @@ public class BookDao implements dao.interfaceDao.BookDaoInterface {
                 "INNER JOIN books b ON bi.id_book = b.id " +
                 "WHERE orders.date_order BETWEEN ? AND ?" +
                 "GROUP BY b.id " +
-                "ORDER BY COUNT(*) ASC;";
+                "ORDER BY COUNT(*) ASC LIMIT " +
+                MAX_TOP_BOOKS + ";";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setDate(1, Date.valueOf(startPeriod));
             preparedStatement.setDate(2, Date.valueOf(endPeriod));

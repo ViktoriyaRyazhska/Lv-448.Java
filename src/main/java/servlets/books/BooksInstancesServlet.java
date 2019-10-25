@@ -1,5 +1,6 @@
 package servlets.books;
 
+import dto.BookInstanceDto;
 import entities.BookInstance;
 import service.BookInstanceService;
 import utils.PathParser;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = "/books-instances/*")
 public class BooksInstancesServlet extends HttpServlet {
 
-    BookInstanceService bookInstanceService;
+    private BookInstanceService bookInstanceService;
 
     @Override
     public void init() throws ServletException {
@@ -26,10 +27,9 @@ public class BooksInstancesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = PathParser.getPathVariable(req.getPathInfo());
-        System.out.println("id=" + id);
-        List<BookInstance> instances = bookInstanceService
+        List<BookInstanceDto> instances = bookInstanceService
                         .findAllBookInstanceByBookId(id)
-                .stream().filter(BookInstance::getIsAvailable).collect(Collectors.toList());
+                .stream().filter(BookInstanceDto::getIsAvailable).collect(Collectors.toList());
         req.setAttribute("instances", instances);
         req.getRequestDispatcher("/book-instances.jsp").include(req, resp);
     }

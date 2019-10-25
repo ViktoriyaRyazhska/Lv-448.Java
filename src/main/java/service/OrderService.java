@@ -1,12 +1,13 @@
 package service;
 
-import dto.OrderDto;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import dao.interfaceDao.OrderDaoInterface;
 import dao.interfaceDao.UserDaoInterface;
 import database.DaoFactory;
+import dto.OrderDto;
 import entities.Order;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +34,9 @@ public class OrderService {
         return orderDao.findById(id).get();
     }
 
-    public boolean updateReturnDate(Order orderToUpdate) {
-        if (orderDao.findById(orderToUpdate.getId()).isPresent()) {
-            orderDao.updateReturnDate(orderToUpdate.getId(), orderToUpdate.getDateReturn());
+    public boolean closeOrder(Long orderID) {
+        if (orderDao.findById(orderID).get().getDateReturn() == null) {
+            orderDao.updateReturnDate(orderID, LocalDate.now());
             return true;
         } else {
             return false;
@@ -44,6 +45,10 @@ public class OrderService {
 
     public List<Order> findAllByUserId(Long id) {
         return orderDao.findAllByUserId(id);
+    }
+
+    public List<Order> findAllByUserPhoneNumber(String phoneNumber) {
+        return orderDao.findAllByUserPhoneNumber(phoneNumber);
     }
 
     private OrderDto convertEntityToDto(Order order) {

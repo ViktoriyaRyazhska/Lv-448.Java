@@ -117,4 +117,17 @@ public class OrderDao implements OrderDaoInterface {
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public List<Order> findAllByUserPhoneNumber(String userPhoneNumber) {
+        String query = "SELECT * FROM orders LEFT JOIN users" +
+                " ON orders.id_users = users.id WHERE phone_number = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userPhoneNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return extractOrders(resultSet).collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
 }

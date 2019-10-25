@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 
 @WebServlet("/add-order")
 public class OrderCreateServlet extends HttpServlet {
@@ -41,8 +40,6 @@ public class OrderCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String dateOrder = req.getParameter("dateOrder");
         Long idUser = Long.parseLong(req.getParameter("user"));
         Long idBookInstance = Long.parseLong(req.getParameter("bookInstance"));
 
@@ -51,15 +48,17 @@ public class OrderCreateServlet extends HttpServlet {
         BookInstance bookInstance = bookInstanceService.findById(idBookInstance);
 
         Order order = Order.builder()
-                .dateOrder(LocalDate.parse(dateOrder))
                 .user(user)
                 .bookInstance(bookInstance)
                 .build();
+        bookInstance.setIsAvailable(false);
+
         try {
             orderService.createOrder(order);
-            resp.sendRedirect(req.getContextPath() + "/authors");
+            bookInstanceService.setAvailableBookInstance(idBookInstance, false);
+            resp.sendRedirect(req.getContextPath() + "/orders");
         } catch (RuntimeException e) {
-            resp.sendRedirect(req.getContextPath() + "/authors");
+            resp.sendRedirect(req.getContextPath() + "/orders");
         }
     }
 }
