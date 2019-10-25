@@ -49,14 +49,15 @@ public class UsrRegisterImpl implements UsrRegisterService {
     @Override
     public Map<String, String> register(UsrDto usrDto, VisaDto visaDto) {
         Map<String, String> error = new HashMap<>();
-        if (exists(usrDto)) {
-            error.put("empty", "An account with such an email already exists!");
-            return error;
-        }
         if (!isEmailValid(usrDto.getEmail())) {
             error.put("email", "Given email is not valid!");
             return error;
         }
+        if (exists(usrDto)) {
+            error.put("empty", "An account with such an email already exists!");
+            return error;
+        }
+
         if (!isPhoneNumberValid(usrDto.getPhoneNumber())) {
             error.put("phone", "Given phone number is not valid!");
             return error;
@@ -180,16 +181,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return userPassHash.equals(passHash);
     }
 
-    public boolean LoginOut(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        if(request.getParameter("user") != null ) {
-            session.invalidate();
-            return true;
-        }else {
-            return false;
-        }
-    }
-
     @Override
     public UsrDto initUsrDto(String firstName, String lastName, String email, String phone, String date, String password){
         UsrDto user = new UsrDto();
@@ -224,5 +215,4 @@ public class UsrRegisterImpl implements UsrRegisterService {
     private boolean isValidDate(String date) {
         return date.matches("^\\d{4}/\\d{2}/\\d{2}$");
     }
-
 }
