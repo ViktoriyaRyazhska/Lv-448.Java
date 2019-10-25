@@ -37,7 +37,7 @@
                             <option id="option-0" value="0" selected>Options...</option>
                             <option id="option-1" value="1">Title</option>
                             <option id="option-2" value="2">Independence</option>
-                            <option id="option-3" value="3">by Audience</option>
+                            <option id="option-3" value="3">Most Popular Books</option>
                         </select>
                     </div>
 
@@ -69,41 +69,42 @@
                     </form>
 
                     <form class="form-inline hidden"
-                          action="<c:url value="/exhibits/by-audience"/>"
+                          action="<c:url value="/most-popular-books"/>"
                           method="post"
-                          id="by-audience">
+                          id="by-popular-books">
                         <div class="form-group">
-                            <label class="filter-col" for="audience">Filter by:</label>
-                            <select class="browser-default custom-select" id="audience" name="audience">
-                                <c:forEach var="audience" items="${audiences}">
-                                    <option value="${audience.id}">${audience.name}</option>
-                                </c:forEach>
-                            </select>
+
+                            <label class="filter-col" for="popular-books-date-from">Date from:</label>
+                            <input type="text" type="date" class="form-control input-xs" id="popular-books-date-from" name="fromDate">
+
+                            <label for="popular-books-date-to">Date to:</label>
+                            <input type="text" type="date" class="form-control input-xs" id="popular-books-date-to" name="toDate">
+
                             <button type="submit" class="btn btn-dark">
-                                Filter
+                                Search
                             </button>
                         </div> <!-- form group [by-audience] -->
                     </form>
                     <div class="form-group">
                         <a class="btn btn-primary mr-2" href="<c:url value="/add-order"/>">Create</a>
-<%--                        <a class="btn btn-primary mr2" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
+                        <%--                        <a class="btn btn-primary mr2" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
                     </div> <!-- form group [buttons] -->
                 </div>
             </div>
         </div> <!-- row [filters-panel] -->
-<%--                    <form class="form-inline "--%>
-<%--                          action="<c:url value="/by_title"/>"--%>
-<%--                          method="post"--%>
-<%--                          id="by-book">--%>
-<%--                        <div class="form-group">--%>
-<%--                            <label class="filter-col" for="author-last-name">Author Surname:</label>--%>
-<%--                            <input type="text" class="form-control input-xs" id="book-title" name="title"--%>
-<%--                                   placeholder="Enter book title">--%>
-<%--                            <button type="submit" class="btn btn-primary">--%>
-<%--                                Search--%>
-<%--                            </button>--%>
-<%--                        </div> <!-- form group [by-author] -->--%>
-<%--                    </form>--%>
+        <%--                    <form class="form-inline "--%>
+        <%--                          action="<c:url value="/by_title"/>"--%>
+        <%--                          method="post"--%>
+        <%--                          id="by-book">--%>
+        <%--                        <div class="form-group">--%>
+        <%--                            <label class="filter-col" for="author-last-name">Author Surname:</label>--%>
+        <%--                            <input type="text" class="form-control input-xs" id="book-title" name="title"--%>
+        <%--                                   placeholder="Enter book title">--%>
+        <%--                            <button type="submit" class="btn btn-primary">--%>
+        <%--                                Search--%>
+        <%--                            </button>--%>
+        <%--                        </div> <!-- form group [by-author] -->--%>
+        <%--                    </form>--%>
 
 
 
@@ -143,9 +144,9 @@
                                 <h6>
                                     Average time reading:
                                     <h6>
-                                    <span class="card-book-fs">${book.averageTimeReading}</span>
+                                        <span class="card-book-fs">${book.averageTimeReading}</span>
                                     </h6>
-                                    </h6>
+                                </h6>
                                 <hr>
 
                                 Availability:
