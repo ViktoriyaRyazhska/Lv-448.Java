@@ -50,12 +50,12 @@ public class FreeGuidesServlet extends HttpServlet {
         try {
             Date dateTimeFrom =
                     new Date(LocalDateTime.parse(req.getParameter("from"))
-                            .toInstant(ZoneOffset.of("+02:00"))
+                            .toInstant(ZoneOffset.of("+03:00"))
                             .toEpochMilli());
 
             Date dateTimeTill =
                     new Date(LocalDateTime.parse(req.getParameter("till"))
-                            .toInstant(ZoneOffset.of("+02:00"))
+                            .toInstant(ZoneOffset.of("+03:00"))
                             .toEpochMilli());
 
             List<Employee> freeGuides = employeeService.findAvailable(dateTimeFrom, dateTimeTill)
