@@ -6,6 +6,7 @@ import dao.interfaceDao.AuthorDaoInterface;
 import dao.interfaceDao.BookDaoInterface;
 import dao.interfaceDao.BookInstanceDaoInterface;
 import database.DaoFactory;
+import dto.BookDto;
 import dto.BookInstanceDto;
 import entities.Author;
 import entities.Book;
@@ -14,6 +15,7 @@ import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -117,8 +119,16 @@ public class BookService {
         return bookDaoInterface.getInfoByBookInstance(bookInstanceId);
     }
 
-    public Map<Book, Long> mostPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
-        return bookDaoInterface.mostPopularBooks(fromDate, toDate);
+    public Map<BookDto, Long> mostPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
+        return mapToBookDto(bookDaoInterface.mostPopularBooks(fromDate, toDate));
+    }
+
+    private Map<BookDto, Long> mapToBookDto(Map<Book, Long> map) {
+        Map<BookDto, Long> resultMap = new HashMap<>();
+        for (Map.Entry<Book, Long> entry : map.entrySet()) {
+            resultMap.put(convertEntityToDto(entry.getKey()), entry.getValue());
+        }
+        return resultMap;
     }
 
     public Map<Book, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {

@@ -39,17 +39,17 @@ $('#exhibit-additional-filters').on('change', function() {
 
         $('#by-independence').addClass('hidden');
 
-        $('#by-audience').addClass('hidden');
+        $('#by-popular-books').addClass('hidden');
     } else if($(this).children(":selected").attr("id") === 'option-2') {
         $('#by-independence').removeClass('hidden');
         $('#by-independence').addClass('visible');
 
         $('#by-title').addClass('hidden');
 
-        $('#by-audience').addClass('hidden');
+        $('#by-popular-books').addClass('hidden');
     } else if($(this).children(":selected").attr("id") === 'option-3') {
-        $('#by-audience').removeClass('hidden');
-        $('#by-audience').addClass('visible');
+        $('#by-popular-books').removeClass('hidden');
+        $('#by-popular-books').addClass('visible');
 
         $('#by-title').addClass('hidden');
 
@@ -57,7 +57,7 @@ $('#exhibit-additional-filters').on('change', function() {
     } else {
         $('#by-title').addClass('hidden');
         $('#by-independence').addClass('hidden');
-        $('#by-audience').addClass('hidden');
+        $('#by-popular-books').addClass('hidden');
     }
 });
 
