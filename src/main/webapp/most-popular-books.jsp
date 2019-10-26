@@ -1,0 +1,54 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<c:url value="/staticResources/css/style.css"/>">
+
+    <title>Books</title>
+</head>
+<jsp:include page="menu.jsp"/>
+<body>
+<section class="main-section">
+    <div class="container">
+        <div class="row">
+            <div class="notification-bar">
+                <c:if test="${not empty failureMessage}">
+                    <div class="alert alert-danger" role="alert">
+                            ${failureMessage}
+                    </div>
+                </c:if>
+            </div>
+
+
+            <div class="row">
+                <div class="custom-list">
+                    <div class="card-columns">
+                        <c:forEach items="${map}" var="entry">
+                            <div class="card">
+                                <img class="card-img-top" src="<c:url value="/staticResources/img/book-img.jpg"/>"
+                                     alt="Card image cap">
+                                <div class="card-body">
+                                    <h6>Title:
+                                        <span class="card-author-title"> ${entry.key.title}</span>
+                                    </h6>
+                                    <hr>
+                                    <h6>
+                                        Author:
+                                        <span>${entry.key.author.authorFirstName}</span>
+                                        <span>${entry.key.author.authorLastName}</span>
+                                    </h6>
+                                    <hr>
+                                    <h6>
+                                        Was taken:
+                                        <span class="card-book-fs"> ${entry.value} time(s)</span>
+                                    </h6>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+
+</body>
+</html>

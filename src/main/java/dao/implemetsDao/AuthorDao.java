@@ -12,13 +12,30 @@ import java.util.stream.Stream;
 
 public class AuthorDao implements AuthorDaoInterface {
 
-    private Connection connection;
+    /**
+     * The connection field used for interaction with database.
+     */
+    private final Connection connection;
+    /**
+     * The authorDao field used for implementing Singleton.
+     */
     private static AuthorDao authorDao;
 
+    /**
+     * Constructor, which creates an instance of the class using connection.
+     *
+     * @param connection used for interaction with database.
+     */
     public AuthorDao(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method for getting an instance of AuthorDao class.
+     *
+     * @param connection used for interaction with database.
+     * @return an instance of AuthorDao class.
+     */
     public static AuthorDao getInstance(Connection connection) {
         if (authorDao == null) {
             authorDao = new AuthorDao(connection);
@@ -27,6 +44,11 @@ public class AuthorDao implements AuthorDaoInterface {
         return authorDao;
     }
 
+    /**
+     * Method which saves objects in the database.
+     *
+     * @param author object which must be saved.
+     */
     @Override
     public void save(Author author) {
         String query = "INSERT INTO authors"
@@ -46,6 +68,12 @@ public class AuthorDao implements AuthorDaoInterface {
         }
     }
 
+    /**
+     * Method used for updating objects in the database.
+     *
+     * @param author object to update
+     */
+
     @Override
     public void update(Author author) {
         String query = "UPDATE authors SET first_name = ?, last_name = ? WHERE id = ?";
@@ -61,6 +89,15 @@ public class AuthorDao implements AuthorDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding an Author by its id
+     *
+     * @param id author's id
+     * @return Author object wrapped in Optional
+     *
+     * In case of absence an object with such id
+     * method returns Optional.empty()
+     */
     @Override
     public Optional<Author> findById(Long id) {
         String query = "SELECT * FROM authors where id=?";
@@ -72,6 +109,13 @@ public class AuthorDao implements AuthorDaoInterface {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Method used for
+     *
+     * @param bookId
+     * @return
+     */
 
     @Override
     public List<Author> findAllSubAuthorByBookId(Long bookId) {
@@ -120,7 +164,6 @@ public class AuthorDao implements AuthorDaoInterface {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, surname);
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<Author> authors = new ArrayList<>();
             return extractAuthors(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -26,8 +26,6 @@
             </div>
 
 
-
-
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">
 
@@ -38,6 +36,7 @@
                             <option id="option-1" value="1">Title</option>
                             <option id="option-2" value="2">Independence</option>
                             <option id="option-3" value="3">Most Popular Books</option>
+                            <option id="option-4" value="4">Most Unpopular Books</option>
                         </select>
                     </div>
 
@@ -46,7 +45,8 @@
                           method="post"
                           id="by-title">
                         <div class="form-group">
-                            <input type="text" class="form-control input-xs" id="title-book" name="title" placeholder="Please enter book title">
+                            <input type="text" class="form-control input-xs" id="title-book" name="title"
+                                   placeholder="Please enter book title">
                             <button type="submit" class="btn btn-primary">
                                 Search
                             </button>
@@ -59,7 +59,8 @@
                           id="by-independence">
                         <div class="form-group">
                             <label class="filter-col" for="independence-date-from">Date from:</label>
-                            <input type="date" class="form-control input-xs" id="independence-date-from" name="fromDate">
+                            <input type="date" class="form-control input-xs" id="independence-date-from"
+                                   name="fromDate">
                             <label class="filter-col" for="independence-date-to">Date to:</label>
                             <input type="date" class="form-control input-xs" id="independence-date-to" name="toDate">
                             <button type="submit" class="btn btn-primary">
@@ -75,16 +76,39 @@
                         <div class="form-group">
 
                             <label class="filter-col" for="popular-books-date-from">Date from:</label>
-                            <input type="text" type="date" class="form-control input-xs" id="popular-books-date-from" name="fromDate">
+                            <input type="date" type="date" class="form-control input-xs" id="popular-books-date-from"
+                                   name="fromDate">
 
                             <label for="popular-books-date-to">Date to:</label>
-                            <input type="text" type="date" class="form-control input-xs" id="popular-books-date-to" name="toDate">
+                            <input type="date" type="date" class="form-control input-xs" id="popular-books-date-to"
+                                   name="toDate">
 
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-primary">
                                 Search
                             </button>
                         </div> <!-- form group [by-audience] -->
                     </form>
+
+                    <form class="form-inline hidden"
+                          action="<c:url value="/most-unpopular-books"/>"
+                          method="post"
+                          id="by-unpopular-books">
+                        <div class="form-group">
+
+                            <label class="filter-col" for="unpopular-books-date-from">Date from:</label>
+                            <input type="date" type="date" class="form-control input-xs" id="unpopular-books-date-from"
+                                   name="fromDate">
+
+                            <label for="popular-books-date-to">Date to:</label>
+                            <input type="date" type="date" class="form-control input-xs" id="unpopular-books-date-to"
+                                   name="toDate">
+
+                            <button type="submit" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+
                     <div class="form-group">
                         <a class="btn btn-primary mr-2" href="<c:url value="/add-order"/>">Create</a>
                         <%--                        <a class="btn btn-primary mr2" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
@@ -105,9 +129,6 @@
         <%--                            </button>--%>
         <%--                        </div> <!-- form group [by-author] -->--%>
         <%--                    </form>--%>
-
-
-
 
 
         <div class="row">

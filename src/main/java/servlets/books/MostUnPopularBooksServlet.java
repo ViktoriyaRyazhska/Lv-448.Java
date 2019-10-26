@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@WebServlet("/most-popular-books")
-public class MostPopularBooksServlet extends HttpServlet {
+@WebServlet("/most-unpopular-books")
+public class MostUnPopularBooksServlet extends HttpServlet {
     private BookService bookService;
 
     @Override
@@ -25,7 +25,7 @@ public class MostPopularBooksServlet extends HttpServlet {
         String toDate = req.getParameter("toDate");
 
 
-        req.setAttribute("map", bookService.mostPopularBookBetweenDate(LocalDate.parse(fromDate),
+        req.setAttribute("map", bookService.mostUnPopularBookBetweenDate(LocalDate.parse(fromDate),
                 LocalDate.parse(toDate)));
 
         req.getRequestDispatcher("/most-popular-books.jsp").include(req, resp);
