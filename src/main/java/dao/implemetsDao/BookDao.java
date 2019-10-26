@@ -221,7 +221,7 @@ public class BookDao implements dao.interfaceDao.BookDaoInterface {
 
     /**
      * Method, that returns all Book objects
-     * by co-author id from database.
+     * where release date come under within certain period.
      *
      * @param fromDate start date for filtration Book objects
      * @param toDate   end date for filtration Book objects
