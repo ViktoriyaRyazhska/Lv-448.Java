@@ -1,7 +1,6 @@
 package service;
 
 
-import dao.interfaceDao.AuthorDaoInterface;
 import dao.interfaceDao.BookDaoInterface;
 import database.DaoFactory;
 import dto.BookDto;
@@ -13,17 +12,21 @@ import utils.CalculateDateFromInt;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BookService {
+
     private AuthorService authorService;
     private BookDaoInterface bookDaoInterface;
     private BookInstanceService bookInstanceService;
     private UserService userService;
 
+    /**
+     * Default constructor
+     */
     public BookService() {
         this.authorService = new AuthorService();
         this.bookDaoInterface = DaoFactory.bookDao();
@@ -31,19 +34,13 @@ public class BookService {
         this.userService = new UserService();
     }
 
-    public void createBook(Book book, Author author) {
-        if (author != null) {
-            book.setAuthor(author);
-            authorService.createAuthor(author);
-            bookDaoInterface.save(book);
-            for (int i = 0; i < book.getAmountOfInstances(); i++) {
-                BookInstance bookInstance = BookInstance.builder()
-                        .isAvailable(true)
-                        .book(findBookById(book.getId())).build();
-                bookInstanceService.createBookInstance(bookInstance);
-            }
-        } else {
-            bookDaoInterface.save(book);
+    /**
+     * Method, that creates  book
+     *
+     * @param book book it was create
+     */
+    public void createBook(Book book) {
+           bookDaoInterface.save(book);
             for (int i = 0; i < book.getAmountOfInstances(); i++) {
                 BookInstance bookInstance = BookInstance.builder()
                         .isAvailable(true)
@@ -51,8 +48,13 @@ public class BookService {
                 bookInstanceService.createBookInstance(bookInstance);
             }
         }
-    }
 
+    /**
+     * Method, that check availability for book
+     *
+     * @param book book for which need check availability
+     * @return yes if the book is available or no if its is not available
+     */
     public String isAnyAvailable(Book book) {
         List<BookInstanceDto> allBookInstanceByBookId = bookInstanceService.findAllBookInstanceByBookId(book.getId());
         int count = 0;
@@ -122,7 +124,7 @@ public class BookService {
     }
 
     private Map<BookDto, Long> mapToBookDto(Map<Book, Long> map) {
-        Map<BookDto, Long> resultMap = new HashMap<>();
+        Map<BookDto, Long> resultMap = new LinkedHashMap<>();
         for (Map.Entry<Book, Long> entry : map.entrySet()) {
             resultMap.put(convertEntityToDto(entry.getKey()), entry.getValue());
         }
@@ -131,12 +133,6 @@ public class BookService {
 
     public Map<BookDto, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
         return mapToBookDto(bookDaoInterface.mostUnPopularBooks(fromDate, toDate));
-
-//        Map<BookDto, Long> unPopularBooks = new HashMap<>();
-//        for (Map.Entry<Book, Long> entry : unPopularBooks.entrySet()) {
-//            unPopularBooks.put(convertEntityToDto(entry.getKey()), entry.getValue());
-//        }
-//        return bookDaoInterface.mostUnPopularBooks(fromDate, toDate);
     }
 
     public Long getAmountOfTimesBookWasTaken(Long id) {

@@ -13,24 +13,50 @@ import java.util.stream.Stream;
 
 public class BookInstanceDao implements BookInstanceDaoInterface {
 
+
+    /**
+     * The connection field used for interaction with database.
+     */
     private final Connection connection;
+    /**
+     * This field used for loading and setting book for book instance
+     */
     private BookDaoInterface bookDaoInterface;
+
+    /**
+     * The bookInstanceDao field used for implementing Singleton.
+     */
     private static BookInstanceDao bookInstanceDao;
 
+    /**
+     * Constructor, which creates an instance of the class using connection.
+     *
+     * @param connection used for interaction with database.
+     */
     private BookInstanceDao(Connection connection, BookDaoInterface bookDaoInterface) {
         this.connection = connection;
         this.bookDaoInterface = bookDaoInterface;
     }
 
+    /**
+     * Method for getting instance of BookInstanceDao.
+     *
+     * @param connection Connection, that used for interaction with database.
+     * @return instance of BookInstanceDao.
+     */
     public static BookInstanceDao getInstance(Connection connection, BookDaoInterface bookDaoInterface) {
         if (bookInstanceDao == null) {
             bookInstanceDao = new BookInstanceDao(connection, bookDaoInterface);
         }
-
         return bookInstanceDao;
     }
 
 
+    /**
+     * Method for saving objects in database.
+     *
+     * @param bookInstance object, that must be saved.
+     */
     @Override
     public void save(BookInstance bookInstance) {
         String query = "INSERT INTO book_instance (is_available, id_book) VALUE (?, ?)";
@@ -48,6 +74,16 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+
+    /**
+     * Method, that returns object wrapped in Optional by id.
+     *
+     * @param id object's id.
+     * @return object wrapped in Optional that has id field value
+     * the same as id parameter value.
+     * If there is no object with such id value
+     * it returns Optional.empty
+     */
     @Override
     public Optional<BookInstance> findById(Long id) {
         String query = "SELECT * FROM book_instance WHERE id = ?";
@@ -60,6 +96,13 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    /**
+     * Method, that returns all Book instances
+     * by book id from database.
+     *
+     * @param bookId book`s id for filtration Book instance objects
+     * @return list of books from database.
+     */
     @Override
     public List<BookInstance> findAllBookInstanceByBookId(Long bookId) {
         String query = "SELECT * FROM book_instance WHERE id_book = ?";
@@ -85,6 +128,13 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         return builder.build();
     }
 
+
+    /**
+     * Method for updating Book instance object.
+     *
+     * @param bookInstanceId book`s instance id you want to update
+     * @param available availability for setting to the book instance
+     */
     @Override
     public void update(Long bookInstanceId, Boolean available) {
         String query = "UPDATE book_instance SET is_available = ? WHERE id = ?;";
@@ -97,13 +147,26 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    /**
+     * Method, that checks if a book instance is available.
+     * @param id book`s instance id
+     * @return availability of a book instance
+     */
     @Override
     public boolean isAvailable(Long id) {
         return findById(id).orElse(null).getIsAvailable();
     }
 
+    /**
+     * Method, that returns a map of book instances and amount of
+     * their orders by some period.
+     *
+     * @param firstDate start date for filtration
+     * @param secondDate end date for filtration
+     * @return map of the most popular books from database
+     */
     @Override
-    public Map<BookInstance, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
+    public Map<BookInstance, Long> amountBookInstanceWasOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
         String query = "SELECT id_book_instance ,  COUNT(orders.date_order) FROM orders\n" +
                 "    WHERE date_order BETWEEN ? AND ?\n" +
                 "    GROUP BY id_book_instance;";
@@ -122,6 +185,13 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         return map;
     }
 
+    /**
+     * Method, that returns all book instances
+     * by book`s title from database.
+     *
+     * @param bookTitle book`s title for filtration Book objects
+     * @return list of books from database
+     */
     @Override
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {
         String query = "SELECT book_instance.id FROM books JOIN book_instance ON books.id = book_instance.id_book WHERE title = ?;";
@@ -139,6 +209,13 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
+    /**
+     * Method, that returns all book instances which are now reading
+     * by user from database.
+     *
+     * @param userId user`s id for filtration
+     * @return list of books instance from database
+     */
     @Override
     public List<BookInstance> findAllBookInstanceOnReading(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
@@ -146,6 +223,14 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         return findAllBookInstanceByUser(userId, query);
     }
 
+
+    /**
+     * Method, that returns all book instances which are returned
+     * by user from database.
+     *
+     * @param userId user`s id for filtration
+     * @return list of books instance from database
+     */
     @Override
     public List<BookInstance> findAllReturnedBookInstanceByUser(Long userId) {
         String query = "SELECT id_book_instance FROM users LEFT JOIN orders ON"
@@ -167,7 +252,14 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
         }
     }
 
-    //    Скільки разів брали певну книжку по примірникам
+
+    /**
+     * Method, that returns amount of times the book
+     * instance was taken from database.
+     *
+     * @param id book`s instance id for filtration
+     * @return number amount was taken book instance
+     */
     @Override
     public Long getAmountOfTimesInstanceWasTaken(Long id) {
         String query = "select count(date_order) from orders where id_book_instance = ?;";

@@ -39,8 +39,7 @@ public class BooksCreateServlet extends HttpServlet {
 
         Long id = Long.parseLong(req.getParameter("author"));
 
-        long co = Long.parseLong(req.getParameter("co-author"));
-        System.out.println(co);
+        Long co = Long.parseLong(req.getParameter("co-author"));
 
         Author author = authorService.findAuthorById(id);
         Book book = Book.builder().title(title)
@@ -49,7 +48,7 @@ public class BooksCreateServlet extends HttpServlet {
                 .author(author)
                 .build();
         try {
-            bookService.createBook(book, author);
+            bookService.createBook(book);
             resp.sendRedirect(req.getContextPath() + "/books");
         } catch (RuntimeException e) {
             resp.sendRedirect(req.getContextPath() + "/books");

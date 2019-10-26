@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="add-form col-xl-4 border rounded py-3">
-                <h2 class="text-primary text-center">Create new book</h2>
+                <h2 class="text-primary text-center">Create new Order</h2>
                 <form action="<c:url value="/add-order"/>" method="post">
 
 

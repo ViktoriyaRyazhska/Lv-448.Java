@@ -184,7 +184,9 @@ public class UserDao implements UserDaoInterface {
     }
 
     public Map<BookInstance, User> geBlackList() {
-        String query = "SELECT users.id, id_book_instance FROM users inner join orders o on users.id = o.id_users where date_return is null and DATEDIFF(CURDATE(), date_order) > ?;";
+        String query = "SELECT users.id, id_book_instance FROM users " +
+                "inner join orders o on users.id = o.id_users " +
+                "where date_return is null and DATEDIFF(CURDATE(), date_order) > ?;";
         Map<BookInstance, User> userBookMap = new LinkedHashMap<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, MAX_DAYS_TO_RETURN);

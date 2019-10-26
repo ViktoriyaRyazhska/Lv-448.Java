@@ -30,7 +30,7 @@ public interface BookInstanceDaoInterface{
 
     List<BookInstance> findAllBookInstanceByTitle(String bookTitle);
 
-    Map<BookInstance, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate);
+    Map<BookInstance, Long> amountBookInstanceWasOrderedByPeriod(LocalDate firstDate, LocalDate secondDate);
 
     List<BookInstance> findAllBookInstanceByBookId(Long bookId);
 }

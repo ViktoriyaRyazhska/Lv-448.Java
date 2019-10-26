@@ -42,7 +42,7 @@ public class BookInstanceService {
     }
 
     public Map<BookInstance, Long> findBookInstanceIdAndCountOrderedByPeriod(LocalDate firstDate, LocalDate secondDate) {
-        return bookInstanceDao.findBookInstanceIdAndCountOrderedByPeriod(firstDate, secondDate);
+        return bookInstanceDao.amountBookInstanceWasOrderedByPeriod(firstDate, secondDate);
     }
 
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {

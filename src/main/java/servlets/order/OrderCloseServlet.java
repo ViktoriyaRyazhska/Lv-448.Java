@@ -1,5 +1,6 @@
 package servlets.order;
 
+import entities.BookInstance;
 import service.BookInstanceService;
 import service.OrderService;
 
@@ -25,7 +26,10 @@ public class OrderCloseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             req.setAttribute("idOrder", orderService.closeOrder(Long.parseLong(req.getParameter("close"))));
-            bookInstanceService.setAvailableBookInstance(orderService.findById(Long.parseLong(req.getParameter("close"))).getId(),true);
+            bookInstanceService.setAvailableBookInstance(
+                    orderService.findById(
+                            Long.parseLong(req.getParameter("close")))
+                            .getBookInstance().getId(),true);
             resp.sendRedirect(req.getContextPath() + "/orders");
         } catch (RuntimeException e) {
             resp.sendRedirect(req.getContextPath() + "/orders");
