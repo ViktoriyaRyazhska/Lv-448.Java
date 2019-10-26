@@ -14,14 +14,15 @@ import academy.softserve.museum.exception.NotFoundException;
 import academy.softserve.museum.exception.NotSavedException;
 import academy.softserve.museum.exception.NotUpdatedException;
 import academy.softserve.museum.services.EmployeeService;
+
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeDao employeeDao;
-    private final AudienceDao audienceDao;
+    private EmployeeDao employeeDao;
+    private AudienceDao audienceDao;
 
     /**
      * Default constructor
@@ -94,9 +95,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Optional<Employee> findById(long id) {
-        Employee employee = employeeDao.findById(id).orElse(null);
-        return Optional.of(Optional.of(employeeDao.loadForeignFields(employee))
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
+        return Optional.of(employeeDao.loadForeignFields(employeeDao.findById(id).
+                orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND))));
     }
 
     /**

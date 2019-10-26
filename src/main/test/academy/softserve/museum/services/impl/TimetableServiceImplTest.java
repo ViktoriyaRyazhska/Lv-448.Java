@@ -1,5 +1,12 @@
 package academy.softserve.museum.services.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
 import academy.softserve.museum.dao.TimetableDao;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
@@ -9,18 +16,15 @@ import academy.softserve.museum.exception.NotDeletedException;
 import academy.softserve.museum.exception.NotFoundException;
 import academy.softserve.museum.exception.NotUpdatedException;
 import academy.softserve.museum.services.TimetableService;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-
-import java.sql.Date;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.*;
 
 class TimetableServiceImplTest {
 
@@ -68,7 +72,8 @@ class TimetableServiceImplTest {
     void findByIdFailureTest() {
         Optional<Timetable> timetable = Optional.empty();
         when(timetableDaoMock.findById(anyLong())).thenReturn(timetable);
-        assertThrows(NotFoundException.class, () -> timetableService.findById(new Timetable().getId()));
+        assertThrows(NotFoundException.class,
+                () -> timetableService.findById(new Timetable().getId()));
     }
 
     // Find all tests
@@ -97,7 +102,8 @@ class TimetableServiceImplTest {
     @Test
     void updateFailureTest() {
         Optional<Timetable> timetable =
-                Optional.of(new Timetable(1L, new Employee(), new Excursion(), new Date(1L), new Date(1L)));
+                Optional.of(new Timetable(1L, new Employee(), new Excursion(), new Date(1L),
+                        new Date(1L)));
         when(timetableDaoMock.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(NotUpdatedException.class, () -> timetableService.update(timetable.get()));
     }

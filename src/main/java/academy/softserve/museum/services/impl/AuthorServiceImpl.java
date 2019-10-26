@@ -53,7 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
     public boolean addExhibitAuthor(Author author, Exhibit exhibit) {
         if ((authorDao.findById(author.getId()).isPresent()) &&
                 (exhibitDao.findById(exhibit.getId()).isPresent())) {
-            throw new NotSavedException(ErrorMessage.EXHIBIT_AUTHOR_NOT_DELETED);
+            throw new NotSavedException(ErrorMessage.EXHIBIT_AUTHOR_NOT_SAVED);
         } else {
             authorDao.addAuthor(author, exhibit);
             return true;
@@ -117,8 +117,7 @@ public class AuthorServiceImpl implements AuthorService {
      */
     @Override
     public Optional<Author> findById(long id) {
-        Author author = authorDao.findById(id).orElse(null);
-        return Optional.of(Optional.of(authorDao.loadForeignFields(author))
+        return Optional.of(Optional.of(authorDao.loadForeignFields(authorDao.findById(id).orElse(null)))
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
@@ -129,8 +128,8 @@ public class AuthorServiceImpl implements AuthorService {
      */
     @Override
     public Optional<Author> findByFullName(String fName, String lName) {
-        Author author = authorDao.findByFullName(fName, lName).orElse(null);
-        return Optional.of(Optional.of(authorDao.loadForeignFields(author))
+        return Optional.of(Optional.of(authorDao.loadForeignFields(authorDao
+                .findByFullName(fName, lName).orElse(null)))
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND)));
     }
 
