@@ -1,6 +1,7 @@
 package dao.implemetsDao;
 
 import dao.interfaceDao.AuthorDaoInterface;
+import dao.interfaceDao.BookDaoInterface;
 import entities.Book;
 
 import java.sql.Date;
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 
 import static constants.QueryConstants.MAX_TOP_BOOKS;
 
-public class BookDao implements dao.interfaceDao.BookDaoInterface {
+public class BookDao implements BookDaoInterface {
 
     /**
      * The connection field used for interaction with database.

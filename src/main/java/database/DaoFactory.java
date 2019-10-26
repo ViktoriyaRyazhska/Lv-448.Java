@@ -58,7 +58,7 @@ public final class DaoFactory {
      *
      * @return BookDao instance
      */
-    public static BookDao bookDao() {
+    public static BookDaoInterface bookDao() {
         return BookDao.getInstance(connection, authorDao());
     }
 

@@ -3,8 +3,8 @@ package service;
 
 import dao.interfaceDao.BookDaoInterface;
 import database.DaoFactory;
+import dto.BookDto;
 import dto.BookInstanceDto;
-import entities.Author;
 import entities.Book;
 import entities.BookInstance;
 import utils.CalculateDateFromInt;
@@ -39,14 +39,14 @@ public class BookService {
      * @param book book it was create
      */
     public void createBook(Book book) {
-           bookDaoInterface.save(book);
-            for (int i = 0; i < book.getAmountOfInstances(); i++) {
-                BookInstance bookInstance = BookInstance.builder()
-                        .isAvailable(true)
-                        .book(findBookById(book.getId())).build();
-                bookInstanceService.createBookInstance(bookInstance);
-            }
+        bookDaoInterface.save(book);
+        for (int i = 0; i < book.getAmountOfInstances(); i++) {
+            BookInstance bookInstance = BookInstance.builder()
+                    .isAvailable(true)
+                    .book(findBookById(book.getId())).build();
+            bookInstanceService.createBookInstance(bookInstance);
         }
+    }
 
     /**
      * Method, that check availability for book
