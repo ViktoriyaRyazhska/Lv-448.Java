@@ -58,6 +58,16 @@
                                     <span class="order-card-field">${order.user.userName}</span>
                                     <span class="order-card-field">${order.user.userSurname}</span>
                                 </div>
+                                <div class="card-title order-field-placeholder">
+                                    Phone number:
+                                    <span class="order-card-field">${order.user.phoneNumber}</span>
+                                </div>
+                                <div class="card-title order-field-placeholder">
+                                    Email:
+                                    <span class="order-card-field">${order.user.email}</span>
+                                </div>
+
+                                <hr>
                                 <hr>
                                 <div class="card-title order-field-placeholder">Date order open:
                                     <span class="order-card-field">${order.dateOrder}</span>

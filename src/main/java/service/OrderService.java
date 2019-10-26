@@ -58,8 +58,8 @@ public class OrderService {
      * return date
      *
      * @param orderID order's id in which need to update return date
-     * returns true if order was updated
-     * or false if there is no such order
+     *                returns true if order was updated
+     *                or false if there is no such order
      */
     public boolean closeOrder(Long orderID) {
         if (orderDao.findById(orderID).get().getDateReturn() == null) {
@@ -90,6 +90,7 @@ public class OrderService {
     public List<Order> findAllByUserPhoneNumber(String phoneNumber) {
         return orderDao.findAllByUserPhoneNumber(phoneNumber);
     }
+
 
     private OrderDto convertEntityToDto(Order order) {
         OrderDto user = OrderDto.builder()

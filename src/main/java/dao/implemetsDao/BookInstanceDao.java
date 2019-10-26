@@ -189,8 +189,8 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
      * Method, that returns all book instances
      * by book`s title from database.
      *
-     * @param bookTitle book`s title for filtration Book objects
-     * @return list of books from database
+     * @param bookTitle book`s title for filtration book instances
+     * @return list of books instances
      */
     @Override
     public List<BookInstance> findAllBookInstanceByTitle(String bookTitle) {

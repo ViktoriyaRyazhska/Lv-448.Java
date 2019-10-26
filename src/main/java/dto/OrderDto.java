@@ -18,12 +18,5 @@ public class OrderDto {
     private User user;
     private BookInstance bookInstance;
 
-    public OrderDto(Long id, LocalDate dateOrder, LocalDate dateReturn, User user, BookInstance bookInstance) {
-        this.id = id;
-        this.dateOrder = dateOrder;
-        this.dateReturn = dateReturn;
-        this.user = user;
-        this.bookInstance = bookInstance;
-    }
 }
 

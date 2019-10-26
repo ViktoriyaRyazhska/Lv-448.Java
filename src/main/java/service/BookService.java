@@ -65,26 +65,65 @@ public class BookService {
         return count > 0 ? "Yes" : "No";
     }
 
+    /**
+     * This method sets the co-author for the book
+     * by author id and book id in the intermediate table.
+     *
+     * @param bookId   id book for co-author.
+     * @param authorId id co-author for book.
+     */
     public void setSubAuthor(Long bookId, Long authorId) {
         bookDaoInterface.setSubAuthorForBook(bookId, authorId);
     }
 
+    /**
+     * Method for updating Book object.
+     *
+     * @param book book you want to update
+     */
     public void updateBook(Book book) {
         bookDaoInterface.update(book);
     }
 
+    /**
+     * Method, that returns all Books objects from database
+     * and convert their to bookDto.
+     *
+     * @return list of bookDto
+     */
     public List<BookDto> findAllBook() {
         return bookDaoInterface.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
+    /**
+     * Method, that returns book
+     *
+     * @param id book`s id
+     * @return Book object
+     */
     public Book findBookById(Long id) {
         return bookDaoInterface.findById(id).get();
     }
 
-    public List<Book> findAllBooksByAuthorSurname(String authorSurname) {
-        return bookDaoInterface.findAllByAuthorSurname(authorSurname);
+    /**
+     * Method, that convert book to bookDto and returns all books
+     * by author surname.
+     *
+     * @param authorSurname author`s surname for filtration Book objects
+     * @return list of bookDto
+     */
+    public List<BookDto> findAllBooksByAuthorSurname(String authorSurname) {
+        return bookDaoInterface.findAllByAuthorSurname(authorSurname)
+                .stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
+    /**
+     * Method, that convert book to bookDto and returns all books
+     * by co-author.
+     *
+     * @param subAuthorsId author`s id for filtration
+     * @return list of bookDto
+     */
     public List<BookDto> findAllBooksBySubAuthorId(Long subAuthorsId) {
         List<BookDto> collect = bookDaoInterface.findAllBooksBySubAuthorId(subAuthorsId)
                 .stream()
@@ -93,10 +132,27 @@ public class BookService {
         return collect;
     }
 
+
+    /**
+     * Method, that convert book to bookDto and returns all books
+     * by author.
+     *
+     * @param authorId author`s id for filtration
+     * @return list of bookDto
+     */
     public List<BookDto> findAllBooksByAuthorId(Long authorId) {
         return bookDaoInterface.findAllBooksByAuthorId(authorId).stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
+    /**
+     * Method, that convert book to bookDto
+     * and returns all books where release date
+     * come under within certain period.
+     *
+     * @param fromDate start date for filtration
+     * @param toDate   end date for filtration
+     * @return list of bookDto
+     */
     public List<BookDto> findBooksBetweenDate(LocalDate fromDate, LocalDate toDate) {
         return bookDaoInterface.findBookBetweenDate(fromDate, toDate)
                 .stream()
@@ -104,6 +160,14 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    /**Method, that check if exist some book with some title,
+     * and if it`s exist convert it book to
+     * bookDto and returns all books by book`s title
+     * if it`s not exist throws exception with message.
+     *
+     * @param bookTitle book`s title for filtration Book objects
+     * @return list of bookDto
+     */
     public List<BookDto> findBookByTitle(String bookTitle) {
         List<BookDto> listBook = new ArrayList<>();
         if (bookDaoInterface.findBookByTitle(bookTitle) == null) {
@@ -114,10 +178,27 @@ public class BookService {
         }
     }
 
+    /**
+     * Method, that returns Book object
+     * by book instance id from database.
+     *
+     * @param bookInstanceId book instance`s id for filtration Book objects
+     * @return list of books from database
+     */
     public Book getInfoByBookInstanceId(Long bookInstanceId) {
         return bookDaoInterface.getInfoByBookInstance(bookInstanceId);
     }
 
+    /**
+     * Method, that convert book to book Dto
+     * and returns a map of the most popular
+     * books and amount of their orders
+     * by some period.
+     *
+     * @param fromDate start date for filtration
+     * @param toDate   end date for filtration
+     * @return map of the most popular books
+     */
     public Map<BookDto, Long> mostPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
         return mapToBookDto(bookDaoInterface.mostPopularBooks(fromDate, toDate));
     }
@@ -130,14 +211,36 @@ public class BookService {
         return resultMap;
     }
 
+
+    /**
+     * Method, that convert book to book Dto
+     * and returns a map of the most unpopular
+     * books and amount of their orders
+     * by some period.
+     *
+     * @param fromDate start date for filtration
+     * @param toDate   end date for filtration
+     * @return map of the most unpopular books
+     */
     public Map<BookDto, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
         return mapToBookDto(bookDaoInterface.mostUnPopularBooks(fromDate, toDate));
     }
 
+    /**
+     * Method, that returns amount of times the Book was ordered.
+     *
+     * @param id book`s id amount of orders we need to take
+     * @return number of times the book was ordered
+     */
     public Long getAmountOfTimesBookWasTaken(Long id) {
         return bookDaoInterface.getAmountOfTimesBookWasTaken(id);
     }
 
+    /** Method, that returns average time the Book was reading.
+     *
+     * @param id book`s id amount of orders we need to take
+     * @return number average number of days the book was reading
+     */
     public String averageTimeReadingBook(Long id) {
         Integer[] integers = CalculateDateFromInt.calculatePeriodFromDays(bookDaoInterface.getAverageTimeReadingBook(id));
         return "Years: " + integers[0] + " Months: " + integers[1] + " Days: " + integers[2];
