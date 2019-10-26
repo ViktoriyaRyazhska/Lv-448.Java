@@ -11,7 +11,7 @@
 <body>
 
 
-<div class="card mx-5 my-5" style="max-width: 100%;">
+<div class="card mx-5 my-5 book-full-info-card" style="max-width: 100%;">
     <div class="row no-gutters">
         <div class="col-md-4">
             <img class="card-img-top mx-3 my-3" src="<c:url value="/staticResources/img/book-img.jpg"/>"
@@ -31,6 +31,15 @@
                         <span> ${book.author.authorLastName}</span>
                     </h5>
                     <hr>
+
+                    <h5>
+                        Co-author:
+                        <c:forEach var="subAuthor" items="${book.subAuthors}">
+                            <h6>${subAuthor.name} ${subAuthor.surname}</h6>
+                        </c:forEach>
+                    </h5>
+
+                    <hr>
                     <h6>
                         Was taken:
                         <span> ${book.amountOfTimesBookWasTaken} time(s)</span>
@@ -39,25 +48,38 @@
                         Average time reading:
                         <span>${book.averageTimeReading}</span>
                     </h6>
+                    <h6>
+                        Average age of readers:
+                        <span>${book.averageAgeUsers}</span>
+                    </h6>
+                    <h6>Availability:
+                            ${book.isAvailable}
+                    </h6>
                     <hr>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Instance S/N</th>
-                            <th scope="col">Available</th>
-                            <th scope="col">Was taken (time(s))</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="bookInstance" items="${book.bookInstance}">
+                    <div class="instance-table">
+                        <h5>Book instances information</h5>
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td>${bookInstance.id}</td>
-                                <td>${bookInstance.isAvailable}</td>
-                                <td>${bookInstance.countWasTaken}</td>
+                                <th scope="col">Instance S/N</th>
+                                <th scope="col">Available</th>
+                                <th scope="col">Taken time(s)</th>
                             </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="bookInstance" items="${book.bookInstance}">
+                                <tr>
+                                    <td>${bookInstance.id}</td>
+                                    <td>
+                                        <c:if test="${bookInstance.isAvailable}">Yes</c:if>
+                                        <c:if test="${not bookInstance.isAvailable}">No</c:if>
+                                    </td>
+                                    <td>${bookInstance.countWasTaken}</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                 </c:forEach>
             </div>
         </div>

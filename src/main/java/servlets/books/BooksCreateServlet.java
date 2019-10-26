@@ -39,6 +39,9 @@ public class BooksCreateServlet extends HttpServlet {
 
         Long id = Long.parseLong(req.getParameter("author"));
 
+        long co = Long.parseLong(req.getParameter("co-author"));
+        System.out.println(co);
+
         Author author = authorService.findAuthorById(id);
         Book book = Book.builder().title(title)
                 .releaseDate(LocalDate.parse(releaseDate))

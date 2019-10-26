@@ -26,7 +26,7 @@ public class MostPopularBooksServlet extends HttpServlet {
 
         int size = bookService.mostPopularBookBetweenDate(LocalDate.parse(fromDate),
                 LocalDate.parse(toDate)).size();
-        System.out.println(size);
+
 
         req.setAttribute("books", bookService.mostPopularBookBetweenDate(LocalDate.parse(fromDate),
                 LocalDate.parse(toDate)));

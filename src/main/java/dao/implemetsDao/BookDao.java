@@ -216,7 +216,7 @@ public class BookDao implements dao.interfaceDao.BookDaoInterface {
                 "INNER JOIN books b ON bi.id_book = b.id " +
                 "WHERE orders.date_order BETWEEN ? AND ?" +
                 "GROUP BY b.id " +
-                "ORDER BY COUNT(*) DESC LIMIT LIMIT " +
+                "ORDER BY COUNT(*) DESC LIMIT " +
                 MAX_TOP_BOOKS + ";";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setDate(1, Date.valueOf(startPeriod));
@@ -288,8 +288,4 @@ public class BookDao implements dao.interfaceDao.BookDaoInterface {
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
-
-//    public void setAuthorDao(AuthorDao authorDao) {
-//        this.authorDao = authorDao;
-//    }
 }

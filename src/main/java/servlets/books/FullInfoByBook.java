@@ -20,7 +20,7 @@ public class FullInfoByBook extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("books", bookService.findBookByTitle("Kozak"));
+        req.setAttribute("books", bookService.findBookByTitle(req.getParameter("title")));
         req.getRequestDispatcher("/book-by-title.jsp").include(req, resp);
     }
 }

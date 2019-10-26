@@ -22,5 +22,7 @@ public class BookDto {
     private Long amountOfTimesBookWasTaken;
     private String averageTimeReading;
     private List<BookInstanceDto> bookInstance;
+    private Integer averageAgeUsers;
+    private List<AuthorDto> subAuthors;
 
 }

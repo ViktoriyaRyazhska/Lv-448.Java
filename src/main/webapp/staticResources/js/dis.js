@@ -83,7 +83,6 @@ $('#exhibit-additional-filters').on('change', function() {
 
 $('#select-book').on('change',function() {
     var bookId = this.value;
-    console.log("bookId", bookId);
     $(this).parent().find('.book-instance-wrapper').remove();
     $.get('http://localhost:8080/library/books-instances/' + bookId , function (data) {
         $('.books-group').append(data);
@@ -93,9 +92,12 @@ $('#select-book').on('change',function() {
 $(document).ready(function () {
     var bookId = $('#select-book').val();
     $.get('http://localhost:8080/library/books-instances/' + bookId , function (data) {
-        console.log(data);
         $('.books-group').append(data);
     });
 });
 
 
+// //select co-authors
+// $(document).ready(function() { //
+//     $('.selectpicker').selectpicker();
+// });

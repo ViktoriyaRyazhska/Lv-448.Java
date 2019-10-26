@@ -75,7 +75,7 @@
                                 <hr>
 
 
-                                <form class="form-inline "
+                                <form class="form-inline my-2 mx-2"
                                       action="<c:url value="/orderClose"/>"
                                       method="post"
                                       id="by-close-order">

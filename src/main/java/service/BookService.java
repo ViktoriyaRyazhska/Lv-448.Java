@@ -1,10 +1,8 @@
 package service;
 
 
-import dto.BookDto;
 import dao.interfaceDao.AuthorDaoInterface;
 import dao.interfaceDao.BookDaoInterface;
-import dao.interfaceDao.BookInstanceDaoInterface;
 import database.DaoFactory;
 import dto.BookDto;
 import dto.BookInstanceDto;
@@ -21,20 +19,22 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BookService {
-    private AuthorDaoInterface authorDaoInterface;
+    private AuthorService authorService;
     private BookDaoInterface bookDaoInterface;
     private BookInstanceService bookInstanceService;
+    private UserService userService;
 
     public BookService() {
-        this.authorDaoInterface = DaoFactory.authorDao();
+        this.authorService = new AuthorService();
         this.bookDaoInterface = DaoFactory.bookDao();
         this.bookInstanceService = new BookInstanceService();
+        this.userService = new UserService();
     }
 
     public void createBook(Book book, Author author) {
         if (author != null) {
             book.setAuthor(author);
-            authorDaoInterface.save(author);
+            authorService.createAuthor(author);
             bookDaoInterface.save(book);
             for (int i = 0; i < book.getAmountOfInstances(); i++) {
                 BookInstance bookInstance = BookInstance.builder()
@@ -89,8 +89,6 @@ public class BookService {
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
-        collect.stream().forEach(System.out::println);
-
         return collect;
     }
 
@@ -155,6 +153,8 @@ public class BookService {
                 .averageTimeReading(averageTimeReadingBook(book.getId()))
                 .amountOfTimesBookWasTaken(getAmountOfTimesBookWasTaken(book.getId()))
                 .bookInstance(bookInstanceService.findAllBookInstanceByBookId(book.getId()))
+                .averageAgeUsers(userService.averageAgeUsersByBook(book.getId()))
+                .subAuthors(authorService.findAllSubAuthorByBookId(book.getId()))
                 .build();
         return bookDto;
     }
