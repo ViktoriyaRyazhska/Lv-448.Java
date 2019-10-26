@@ -129,8 +129,14 @@ public class BookService {
         return resultMap;
     }
 
-    public Map<Book, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
-        return bookDaoInterface.mostUnPopularBooks(fromDate, toDate);
+    public Map<BookDto, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
+        return mapToBookDto(bookDaoInterface.mostUnPopularBooks(fromDate, toDate));
+
+//        Map<BookDto, Long> unPopularBooks = new HashMap<>();
+//        for (Map.Entry<Book, Long> entry : unPopularBooks.entrySet()) {
+//            unPopularBooks.put(convertEntityToDto(entry.getKey()), entry.getValue());
+//        }
+//        return bookDaoInterface.mostUnPopularBooks(fromDate, toDate);
     }
 
     public Long getAmountOfTimesBookWasTaken(Long id) {

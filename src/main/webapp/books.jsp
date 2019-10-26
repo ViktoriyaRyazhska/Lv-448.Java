@@ -36,6 +36,7 @@
                             <option id="option-1" value="1">Title</option>
                             <option id="option-2" value="2">Independence</option>
                             <option id="option-3" value="3">Most Popular Books</option>
+                            <option id="option-4" value="4">Most Unpopular Books</option>
                         </select>
                     </div>
 
@@ -75,18 +76,39 @@
                         <div class="form-group">
 
                             <label class="filter-col" for="popular-books-date-from">Date from:</label>
-                            <input type="text" type="date" class="form-control input-xs" id="popular-books-date-from"
+                            <input type="date" type="date" class="form-control input-xs" id="popular-books-date-from"
                                    name="fromDate">
 
                             <label for="popular-books-date-to">Date to:</label>
-                            <input type="text" type="date" class="form-control input-xs" id="popular-books-date-to"
+                            <input type="date" type="date" class="form-control input-xs" id="popular-books-date-to"
                                    name="toDate">
 
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-primary">
                                 Search
                             </button>
                         </div> <!-- form group [by-audience] -->
                     </form>
+
+                    <form class="form-inline hidden"
+                          action="<c:url value="/most-unpopular-books"/>"
+                          method="post"
+                          id="by-unpopular-books">
+                        <div class="form-group">
+
+                            <label class="filter-col" for="unpopular-books-date-from">Date from:</label>
+                            <input type="date" type="date" class="form-control input-xs" id="unpopular-books-date-from"
+                                   name="fromDate">
+
+                            <label for="popular-books-date-to">Date to:</label>
+                            <input type="date" type="date" class="form-control input-xs" id="unpopular-books-date-to"
+                                   name="toDate">
+
+                            <button type="submit" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+
                     <div class="form-group">
                         <a class="btn btn-primary mr-2" href="<c:url value="/add-book"/>">Create</a>
                         <%--                        <a class="btn btn-primary mr2" href="<c:url value="/exhibits/statistics"/>">Statistics</a>--%>
@@ -117,8 +139,7 @@
                             <img class="card-img-top" src="<c:url value="/staticResources/img/book-img.jpg"/>"
                                  alt="Card image cap">
                             <div class="card-body">
-                                <h6>
-                                    Title:
+                                <h6> Title:
                                     <span class="card-author-title"> ${book.title}</span>
                                 </h6>
                                 <h6>

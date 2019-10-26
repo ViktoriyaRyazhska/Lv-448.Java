@@ -40,6 +40,8 @@ $('#exhibit-additional-filters').on('change', function() {
         $('#by-independence').addClass('hidden');
 
         $('#by-popular-books').addClass('hidden');
+
+        $('#by-unpopular-books').addClass('hidden');
     } else if($(this).children(":selected").attr("id") === 'option-2') {
         $('#by-independence').removeClass('hidden');
         $('#by-independence').addClass('visible');
@@ -47,6 +49,9 @@ $('#exhibit-additional-filters').on('change', function() {
         $('#by-title').addClass('hidden');
 
         $('#by-popular-books').addClass('hidden');
+
+        $('#by-unpopular-books').addClass('hidden');
+
     } else if($(this).children(":selected").attr("id") === 'option-3') {
         $('#by-popular-books').removeClass('hidden');
         $('#by-popular-books').addClass('visible');
@@ -54,10 +59,23 @@ $('#exhibit-additional-filters').on('change', function() {
         $('#by-title').addClass('hidden');
 
         $('#by-independence').addClass('hidden');
+
+        $('#by-unpopular-books').addClass('hidden');
+    } else if($(this).children(":selected").attr("id") === 'option-4') {
+        $('#by-unpopular-books').removeClass('hidden');
+        $('#by-unpopular-books').addClass('visible');
+
+        $('#by-title').addClass('hidden');
+
+        $('#by-independence').addClass('hidden');
+
+        $('#by-popular-books').addClass('hidden');
     } else {
         $('#by-title').addClass('hidden');
         $('#by-independence').addClass('hidden');
         $('#by-popular-books').addClass('hidden');
+        $('#by-unpopular-books').addClass('hidden');
+
     }
 });
 
