@@ -19,17 +19,42 @@ import static constants.QueryConstants.MAX_DAYS_TO_RETURN;
 
 public class UserDao implements UserDaoInterface {
 
+    /**
+     * The connection field used for interaction with database.
+     */
     private final Connection connection;
+
+    /**
+     * The field used for loading and setting address for user.
+     */
     private AddressDaoInterface addressDaoInterface;
+
+    /**
+     * The field used for method getBlackList.
+     */
     private BookInstanceDaoInterface bookInstanceDaoInterface;
+    /**
+     * The userDao field used for implementing Singleton.
+     */
     private static UserDao userDao;
 
+    /**
+     * Constructor, which creates an instance of the class using connection.
+     *
+     * @param connection used for interaction with database.
+     */
     private UserDao(Connection connection, AddressDaoInterface addressDaoInterface, BookInstanceDaoInterface bookInstanceDaoInterface) {
         this.connection = connection;
         this.addressDaoInterface = addressDaoInterface;
         this.bookInstanceDaoInterface = bookInstanceDaoInterface;
     }
 
+    /**
+     * Method for getting an instance of UserDao class.
+     *
+     * @param connection used for interaction with database.
+     * @return an instance of UserDao class.
+     */
     public static UserDao getInstance(Connection connection, AddressDaoInterface addressDao, BookInstanceDaoInterface bookInstanceDao) {
         if (userDao == null) {
             userDao = new UserDao(connection, addressDao, bookInstanceDao);
@@ -38,6 +63,11 @@ public class UserDao implements UserDaoInterface {
         return userDao;
     }
 
+    /**
+     * Method which saves objects in database.
+     *
+     * @param user object which must be saved.
+     */
     @Override
     public void save(User user) {
         String query = "INSERT INTO users"
@@ -62,6 +92,11 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding all users from the database.
+     *
+     * @return list of User objects from database.
+     */
     @Override
     public List<User> findAll() {
         String query = "SELECT * FROM users";
@@ -73,6 +108,13 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding average time of
+     * using the library
+     *
+     * @return average number of days
+     * users are using the library.
+     */
     @Override
     public Integer averageTimeUsingLibrary() {
         String query = "select AVG(DATEDIFF(CURDATE(), date_registration)) from users";
@@ -85,6 +127,14 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding the period of time
+     * the user is using the library.
+     *
+     * @param userId user's id
+     * @return number of days using the library
+     * by user id.
+     */
     @Override
     public Integer timeUsingLibraryByUser(Long userId) {
         String query = "select DATEDIFF(CURDATE(), date_registration) from users where id=?";
@@ -98,6 +148,11 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding average age of all users.
+     *
+     * @return average age of users.
+     */
     @Override
     public Integer averageAgeOfUsers() {
         String query = "SELECT AVG(YEAR(NOW()) - YEAR(users.birthday)) as avg_age FROM users";
@@ -111,6 +166,15 @@ public class UserDao implements UserDaoInterface {
     }
 
     // Статистика по читачам середня кількість звернень за певний період
+
+    /**
+     * Method used for finding an average amount of orders
+     * by some period.
+     *
+     * @param fromDate start date
+     * @param toDate  end date
+     * @return number of orders by some period.
+     */
     @Override
     public Integer averageAmountOfOrdersBySomePeriod(LocalDate fromDate, LocalDate toDate) {
         String query = "SELECT COUNT(*) FROM orders WHERE date_order between ? and ?";
@@ -125,6 +189,11 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for updating objects in database.
+     *
+     * @param user object to update.
+     */
     @Override
     public void update(User user) {
         String query = "UPDATE users SET user_name = ?, user_surname = ?, birthday = ?, phone_number = ?,"
@@ -143,6 +212,15 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding a User by his id.
+     *
+     * @param id user's id.
+     * @return User object wrapped in Optional.
+     *
+     * In case of absence an object with such id
+     * method returns Optional.empty().
+     */
     @Override
     public Optional<User> findById(Long id) {
         String query = "SELECT * FROM users WHERE id = ?";
@@ -174,6 +252,13 @@ public class UserDao implements UserDaoInterface {
         return builder.build();
     }
 
+    /**
+     * Method used for finding an average age of users
+     * which reads some book
+     *
+     * @param bookId book's id
+     * @return average users' age by book id
+     */
     @Override
     public Integer averageAgeUsersByBook(Long bookId) {
         String query = "select AVG(DATEDIFF(CURDATE(), users.birthday)) from users " +
@@ -183,6 +268,14 @@ public class UserDao implements UserDaoInterface {
         return averageAgeUserForUserDao(bookId, query);
     }
 
+    /**
+     * Method used for finding all users who has not returned
+     * some book on time(debtors)
+     *
+     * @return map of elements where the key is a book instance
+     * which was not returned on time and
+     * the value is a user who is a debtor
+     */
     public Map<BookInstance, User> geBlackList() {
         String query = "SELECT users.id, id_book_instance FROM users inner join orders o on users.id = o.id_users where date_return is null and DATEDIFF(CURDATE(), date_order) > ?;";
         Map<BookInstance, User> userBookMap = new LinkedHashMap<>();
@@ -199,6 +292,14 @@ public class UserDao implements UserDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding an average age of users
+     * who reads the author
+     *
+     * @param authorId author's name
+     * @return average age of users
+     * by some author
+     */
     @Override
     public Integer averageAgeUsersByAuthor(Long authorId) {
         String query = "select AVG(DATEDIFF(CURDATE(), users.birthday)) from users " +
@@ -219,6 +320,4 @@ public class UserDao implements UserDaoInterface {
             throw new RuntimeException(e.getLocalizedMessage());
         }
     }
-
-
 }

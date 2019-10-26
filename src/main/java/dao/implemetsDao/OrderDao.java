@@ -14,18 +14,42 @@ import java.util.stream.Stream;
 
 public class OrderDao implements OrderDaoInterface {
 
+    /**
+     * The field used for interaction with database.
+     */
     private final Connection connection;
+
+    /**
+     * The field used for loading and setting a user for an order.
+     */
     private UserDaoInterface userDao;
+    /**
+     * The field used for loading and setting a book instance for an order.
+     */
     private BookInstanceDaoInterface bookInstanceDao;
+
+    /**
+     * The field used for implementing Singleton.
+     */
     private static OrderDao orderDao;
 
-
+    /**
+     * Constructor, which creates an instance of the class using connection.
+     *
+     * @param connection used for interaction with database.
+     */
     public OrderDao(Connection connection, UserDaoInterface userDao, BookInstanceDaoInterface bookInstanceDao) {
         this.connection = connection;
         this.userDao = userDao;
         this.bookInstanceDao = bookInstanceDao;
     }
 
+    /**
+     * Method for getting an instance of OrderDao class.
+     *
+     * @param connection used for interaction with database.
+     * @return an instance of OrderDao class.
+     */
     public static OrderDao getInstance(Connection connection, UserDaoInterface userDao, BookInstanceDaoInterface bookInstanceDao) {
         if (orderDao == null) {
             orderDao = new OrderDao(connection, userDao, bookInstanceDao);
@@ -34,6 +58,11 @@ public class OrderDao implements OrderDaoInterface {
         return orderDao;
     }
 
+    /**
+     * Method which saves objects in database.
+     *
+     * @param order object which must be saved.
+     */
     @Override
     public void save(Order order) {
         String query = "INSERT INTO orders (date_order,id_users,id_book_instance) VALUE(?,?,?)";
@@ -52,6 +81,11 @@ public class OrderDao implements OrderDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding all users from the database.
+     *
+     * @return list of orders objects from database.
+     */
     @Override
     public List<Order> findAll() {
         String query = "SELECT * FROM orders";
@@ -81,6 +115,15 @@ public class OrderDao implements OrderDaoInterface {
         return orders.build();
     }
 
+    /**
+     * Method used for finding an Order by its id.
+     *
+     * @param id order's id.
+     * @return Order object wrapped in Optional.
+     *
+     * In case of absence an object with such id
+     * method returns Optional.empty().
+     */
     @Override
     public Optional<Order> findById(Long id) {
         String query = "SELECT * FROM orders where id=?";
@@ -94,6 +137,13 @@ public class OrderDao implements OrderDaoInterface {
         }
     }
 
+    /**
+     * Method used for closing an order by updating
+     * return date
+     *
+     * @param id order's id in which need to update return date
+     * @param dateReturn return date
+     */
     @Override
     public void updateReturnDate(Long id, LocalDate dateReturn) {
         String query = "UPDATE orders SET date_return = ? where id = ?";
@@ -106,6 +156,12 @@ public class OrderDao implements OrderDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding all orders by user
+     *
+     * @param userId user's id
+     * @return list of orders by some user
+     */
     @Override
     public List<Order> findAllByUserId(Long userId) {
         String query = "SELECT * FROM orders where id_users=?";
@@ -118,6 +174,13 @@ public class OrderDao implements OrderDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding all orders by
+     * user's phone number
+     *
+     * @param userPhoneNumber user's phone number
+     * @return list of orders by user phone number
+     */
     @Override
     public List<Order> findAllByUserPhoneNumber(String userPhoneNumber) {
         String query = "SELECT * FROM orders LEFT JOIN users" +

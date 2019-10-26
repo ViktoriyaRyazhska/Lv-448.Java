@@ -16,6 +16,7 @@ public class AuthorDao implements AuthorDaoInterface {
      * The connection field used for interaction with database.
      */
     private final Connection connection;
+
     /**
      * The authorDao field used for implementing Singleton.
      */
@@ -69,11 +70,10 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     /**
-     * Method used for updating objects in the database.
+     * Method used for updating objects in database.
      *
-     * @param author object to update
+     * @param author object to update.
      */
-
     @Override
     public void update(Author author) {
         String query = "UPDATE authors SET first_name = ?, last_name = ? WHERE id = ?";
@@ -90,13 +90,13 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     /**
-     * Method used for finding an Author by its id
+     * Method used for finding an Author by his id.
      *
-     * @param id author's id
-     * @return Author object wrapped in Optional
+     * @param id author's id.
+     * @return Author object wrapped in Optional.
      *
      * In case of absence an object with such id
-     * method returns Optional.empty()
+     * method returns Optional.empty().
      */
     @Override
     public Optional<Author> findById(Long id) {
@@ -111,12 +111,11 @@ public class AuthorDao implements AuthorDaoInterface {
     }
 
     /**
-     * Method used for
+     * Method used for finding all the sub authors by Book id
      *
-     * @param bookId
-     * @return
+     * @param bookId book's id.
+     * @return List sub authors from the database.
      */
-
     @Override
     public List<Author> findAllSubAuthorByBookId(Long bookId) {
         String query = "SELECT id_author FROM book_sub_authors where id_book = ?";
@@ -134,6 +133,11 @@ public class AuthorDao implements AuthorDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding all authors from database.
+     *
+     * @return list of Author objects from database.
+     */
     @Override
     public List<Author> findAll() {
         String query = "SELECT * FROM authors";
@@ -158,6 +162,13 @@ public class AuthorDao implements AuthorDaoInterface {
         return authors.build();
     }
 
+    /**
+     * Method used for finding all the authors
+     * from the database.
+     *
+     * @param surname author's surname.
+     * @return list of Author objects by its surname.
+     */
     @Override
     public List<Author> findBySurname(String surname) {
         String query = "SELECT * FROM authors where last_name = ?;";

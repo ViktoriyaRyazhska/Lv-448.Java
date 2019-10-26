@@ -14,17 +14,32 @@ public class BookInstanceService {
 
     private BookInstanceDaoInterface bookInstanceDao;
 
+    /**
+     * Default constructor
+     */
     public BookInstanceService() {
         this.bookInstanceDao = DaoFactory.bookInstanceDao();
     }
 
+    /**
+     * Method for creating a user in database
+     *
+     * @param bookInstance that must be created
+     */
     public void createBookInstance(BookInstance bookInstance) {
         bookInstanceDao.save(bookInstance);
     }
 
+    /**
+     * Method for finding a book instance by its id
+     *
+     * @param bookInstanceId book's instance id
+     * @return Book Instance object
+     */
     public BookInstance findById(Long bookInstanceId) {
         return bookInstanceDao.findById(bookInstanceId).get();
     }
+
 
     public List<BookInstanceDto> findAllBookInstanceByBookId(Long bookId) {
         return bookInstanceDao.findAllBookInstanceByBookId(bookId)

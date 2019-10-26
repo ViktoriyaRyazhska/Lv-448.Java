@@ -14,6 +14,7 @@ import static constants.QueryConstants.MAX_TOP_BOOKS;
 
 public class BookDao implements dao.interfaceDao.BookDaoInterface {
 
+
     private final Connection connection;
     private AuthorDaoInterface authorDaoInterface;
     private static BookDao bookDao;

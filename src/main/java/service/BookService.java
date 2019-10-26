@@ -4,9 +4,7 @@ package service;
 import dto.BookDto;
 import dao.interfaceDao.AuthorDaoInterface;
 import dao.interfaceDao.BookDaoInterface;
-import dao.interfaceDao.BookInstanceDaoInterface;
 import database.DaoFactory;
-import dto.BookDto;
 import dto.BookInstanceDto;
 import entities.Author;
 import entities.Book;
@@ -133,12 +131,6 @@ public class BookService {
 
     public Map<BookDto, Long> mostUnPopularBookBetweenDate(LocalDate fromDate, LocalDate toDate) {
         return mapToBookDto(bookDaoInterface.mostUnPopularBooks(fromDate, toDate));
-
-//        Map<BookDto, Long> unPopularBooks = new HashMap<>();
-//        for (Map.Entry<Book, Long> entry : unPopularBooks.entrySet()) {
-//            unPopularBooks.put(convertEntityToDto(entry.getKey()), entry.getValue());
-//        }
-//        return bookDaoInterface.mostUnPopularBooks(fromDate, toDate);
     }
 
     public Long getAmountOfTimesBookWasTaken(Long id) {
@@ -146,7 +138,7 @@ public class BookService {
     }
 
     public String averageTimeReadingBook(Long id) {
-        Integer[] integers = CalculateDateFromInt.calculateDaysFromInt(bookDaoInterface.getAverageTimeReadingBook(id));
+        Integer[] integers = CalculateDateFromInt.calculatePeriodFromDays(bookDaoInterface.getAverageTimeReadingBook(id));
         return "Years: " + integers[0] + " Months: " + integers[1] + " Days: " + integers[2];
     }
 
