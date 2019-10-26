@@ -6,7 +6,7 @@ public class CalculateDateFromInt {
     public static final int YEAR = 365;
     public static final int MONTH = 30;
 
-    public static Integer[] calculateDaysFromInt(int amountDays) {
+    public static Integer[] calculatePeriodFromDays(int amountDays) {
 
         int years = 0;
         int months = 0;

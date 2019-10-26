@@ -3,7 +3,6 @@ package service;
 
 import dao.interfaceDao.BookDaoInterface;
 import database.DaoFactory;
-import dto.BookDto;
 import dto.BookInstanceDto;
 import entities.Author;
 import entities.Book;
@@ -140,7 +139,7 @@ public class BookService {
     }
 
     public String averageTimeReadingBook(Long id) {
-        Integer[] integers = CalculateDateFromInt.calculateDaysFromInt(bookDaoInterface.getAverageTimeReadingBook(id));
+        Integer[] integers = CalculateDateFromInt.calculatePeriodFromDays(bookDaoInterface.getAverageTimeReadingBook(id));
         return "Years: " + integers[0] + " Months: " + integers[1] + " Days: " + integers[2];
     }
 

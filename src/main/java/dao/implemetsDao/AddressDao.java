@@ -9,13 +9,30 @@ import java.util.stream.Stream;
 
 public class AddressDao implements AddressDaoInterface {
 
+    /**
+     * The connection field used for interaction with database.
+     */
     private Connection connection;
+    /**
+     * The addressDao field used for implementing Singleton.
+     */
     private static AddressDao addressDao;
 
+    /**
+     * Constructor, which creates an instance of the class using connection.
+     *
+     * @param connection used for interaction with database.
+     */
     private AddressDao(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method for getting an instance of AddressDao class.
+     *
+     * @param connection used for interaction with database.
+     * @return an instance of AddressDao class.
+     */
     public static AddressDao getInstance(Connection connection) {
         if (addressDao == null) {
             addressDao = new AddressDao(connection);
@@ -24,6 +41,11 @@ public class AddressDao implements AddressDaoInterface {
         return addressDao;
     }
 
+    /**
+     * Method which saves objects in database.
+     *
+     * @param address object which must be saved.
+     */
     @Override
     public void save(Address address) {
         String query = "INSERT INTO addresses (city, street, building_number, apartment) VALUES(?,?,?,?)";
@@ -43,6 +65,15 @@ public class AddressDao implements AddressDaoInterface {
         }
     }
 
+    /**
+     * Method used for finding an Author by its id.
+     *
+     * @param id address id.
+     * @return Author object wrapped in Optional.
+     *
+     * In case of absence an object with such id
+     * method returns Optional.empty().
+     */
     @Override
     public Optional<Address> findById(Long id) {
         String query = "SELECT * FROM addresses where id=?";
@@ -71,6 +102,11 @@ public class AddressDao implements AddressDaoInterface {
 
     }
 
+    /**
+     * Method used for updating objects in the database.
+     *
+     * @param address object to update.
+     */
     @Override
     public void update(Address address) {
         String query = "UPDATE addresses SET city = ?, street = ?, building_number = ?, apartment = ?  WHERE id = ?";
