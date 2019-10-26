@@ -88,16 +88,6 @@ class ExhibitServiceImplTest {
     }
 
     @Test
-    void findByIdFailureTest() {
-        long id = 1L;
-
-        when(exhibitDaoMock.findById(id)).thenReturn(Optional.empty());
-        when(exhibitDaoMock.loadForeignFields(testExhibit)).thenReturn();
-
-        assertThrows(NotFoundException.class, () -> exhibitService.findById(id));
-    }
-
-    @Test
     void findByNameSuccessTest() {
         Optional<Exhibit> exhibit = Optional.of(testExhibit);
         when(exhibitDaoMock.findByName(any())).thenReturn(Optional.ofNullable(testExhibit));
@@ -183,6 +173,16 @@ class ExhibitServiceImplTest {
     }
 
     @Test
+    void addExhibitAuthorSuccessTest() {
+        Author author = new Author(1, "Firstname", "Lastname");
+
+        when(exhibitDaoMock.findById(testExhibit.getId())).thenReturn(Optional.empty());
+        when(authorDaoMock.findById(author.getId())).thenReturn(Optional.of(author));
+
+        assertTrue(exhibitService.addExhibitAuthor(testExhibit, author));
+    }
+
+    @Test
     void updateExhibitAudienceFailureTest() {
         Audience audience = new Audience(1, "Test");
 
@@ -193,24 +193,16 @@ class ExhibitServiceImplTest {
     }
 
     @Test
-    void addExhibitAuthorSuccessTest() {
+    void addExhibitAuthorFailureTest() {
         Author author = new Author(1, "Firstname", "Lastname");
 
         when(exhibitDaoMock.findById(testExhibit.getId())).thenReturn(Optional.of(testExhibit));
         when(authorDaoMock.findById(author.getId())).thenReturn(Optional.of(author));
 
-        assertTrue(exhibitService.addExhibitAuthor(testExhibit, author));
-    }
-
-    @Test
-    void addExhibitAuthorFailureTest() {
-        Author author = new Author(1, "Firstname", "Lastname");
-
-        when(exhibitDaoMock.findById(testExhibit.getId())).thenReturn(Optional.empty());
-        when(authorDaoMock.findById(author.getId())).thenReturn(Optional.of(author));
-
         assertThrows(NotSavedException.class, () -> exhibitService.addExhibitAuthor(testExhibit, author));
+
     }
+
 
     @Test
     void deleteExhibitAuthorSuccessTest() {
