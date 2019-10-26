@@ -24,9 +24,9 @@ import java.util.Optional;
 
 public class ExhibitServiceImpl implements ExhibitService {
 
-    private final ExhibitDao exhibitDao;
-    private final AuthorDao authorDao;
-    private final AudienceDao audienceDao;
+    private ExhibitDao exhibitDao;
+    private AuthorDao authorDao;
+    private AudienceDao audienceDao;
 
     /**
      * Default constructor
