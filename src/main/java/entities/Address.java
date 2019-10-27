@@ -17,6 +17,7 @@ public class Address {
     private Long buildingNumber;
     private Long apartment;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

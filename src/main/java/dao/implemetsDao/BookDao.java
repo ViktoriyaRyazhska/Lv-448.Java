@@ -211,7 +211,7 @@ public class BookDao implements BookDaoInterface {
             preparedStatement.setLong(1, authorId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                books.add(findById(resultSet.getLong("id_book")).orElse(null));
+                books.add(findById(resultSet.getLong("id_book")).get());
             }
             return books;
         } catch (SQLException e) {

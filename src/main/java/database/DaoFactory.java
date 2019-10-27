@@ -10,8 +10,8 @@ import java.sql.SQLException;
 public final class DaoFactory {
 
     private static Connection connection;
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String USER = System.getenv("db_user");
+    private static final String PASSWORD = System.getenv("db_pass");
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/"
             + "library?"

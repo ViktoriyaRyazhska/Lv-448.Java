@@ -13,6 +13,7 @@ public class AddressDao implements AddressDaoInterface {
      * The connection field used for interaction with database.
      */
     private Connection connection;
+
     /**
      * The addressDao field used for implementing Singleton.
      */
