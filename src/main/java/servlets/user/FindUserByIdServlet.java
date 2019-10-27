@@ -19,6 +19,6 @@ public class FindUserByIdServlet extends HttpServlet {
         String id = request.getParameter("userId");
         Optional<User> user = DaoFactory.userDao().findById(Long.parseLong(id));
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/user-by-id.jsp").forward(request, response);
     }
 }

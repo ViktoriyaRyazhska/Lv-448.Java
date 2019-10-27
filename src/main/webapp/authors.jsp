@@ -24,7 +24,7 @@
             <div id="filter-panel" class="navbar bg-light rounded col-xl-12">
                 <div class="form-inline">
                     <div class="form-group">
-                        <label class="filter-col">Search :</label>
+                        <label class="filter-col">Search:</label>
                     </div>
 
                     <form class="form-inline"
