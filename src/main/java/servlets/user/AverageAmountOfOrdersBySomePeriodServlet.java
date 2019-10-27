@@ -19,6 +19,6 @@ public class AverageAmountOfOrdersBySomePeriodServlet extends HttpServlet{
         String toDate = request.getParameter("toDate");
         Integer value = (DaoFactory.userDao().averageAmountOfOrdersBySomePeriod(LocalDate.parse(fromDate), LocalDate.parse(toDate)));
         request.setAttribute("value", value);
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/users.jsp").forward(request, response);
     }
 }

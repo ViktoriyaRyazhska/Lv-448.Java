@@ -17,6 +17,6 @@ public class AverageTimeOfUsingLibraryServlet extends HttpServlet{
             throws ServletException, IOException {
         Integer value = DaoFactory.userDao().averageTimeUsingLibrary();
         request.setAttribute("value", value);
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/users.jsp").forward(request, response);
     }
 }
