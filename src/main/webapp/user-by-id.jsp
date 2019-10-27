@@ -32,7 +32,9 @@
                     <h6>Building number: ${user.buildingNumber}</h6>
                     <h6>Apartment: ${user.apartment}</h6>
                     <hr>
-                    <h5>Time of using library: </h5>    //TODO
+                    <h5>Time of using library: </h5>    <%-- TODO --%>;
+                    <h5>List of books taken: </h5>    <%-- TODO --%>;
+                    <h5>List of books in order: </h5>    <%-- TODO --%>;
                 </c:forEach>
             </div>
         </div>

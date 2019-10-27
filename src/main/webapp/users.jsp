@@ -32,10 +32,11 @@
                             <option id="option-1" value="1">Average Age of Users</option>
                             <option id="option-2" value="2">Average amount of orders by some period</option>
                             <option id="option-3" value="3">Average time of using library</option>
+                            <option id="option-4" value="4">Get black list</option>
                         </select>
                     </div>
 
-                    //TODO form 1
+                    <%-- TODO form 1 /averageAgeOfUser --%>;
 
                     form class="form-inline hidden"
                     action="<c:url value="/averageAmountOfOrdersBySomePeriod"/>"
@@ -53,7 +54,8 @@
                     </div>
 
 
-                    //TODO form 3
+                    <%-- TODO form 3 /averageTimeOfUsingLibrary --%>;
+                    <%-- TODO form 4 /blacklist --%>;
 
                     <div class="form-group">
                         <a class="btn btn-primary mr-2" href="<c:url value="/add-user"/>">Create</a>
