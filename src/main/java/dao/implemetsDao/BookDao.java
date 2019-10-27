@@ -143,7 +143,7 @@ public class BookDao implements BookDaoInterface {
     /**
      * Method, that returns all Books objects from database.
      *
-     * @return list of books from database.
+     * @return list of all books from database.
      */
     @Override
     public List<Book> findAll() {
@@ -201,7 +201,7 @@ public class BookDao implements BookDaoInterface {
      * by co-author id from database.
      *
      * @param authorId co-author`s id for filtration Book objects
-     * @return list of books from database.
+     * @return list of books from database by co-author.
      */
     @Override
     public List<Book> findAllBooksBySubAuthorId(Long authorId) {
@@ -222,7 +222,7 @@ public class BookDao implements BookDaoInterface {
 
     /**
      * Method, that returns all Book objects
-     * where release date come under within certain period.
+     * where release date is between within a certain period.
      *
      * @param fromDate start date for filtration Book objects
      * @param toDate   end date for filtration Book objects
@@ -408,10 +408,10 @@ public class BookDao implements BookDaoInterface {
     }
 
 
-    /** Method, that returns average time the Book was reading.
+    /** Method, that returns average time of reading a book.
      *
-     * @param id book`s id amount of orders we need to take
-     * @return number average number of days the book was reading
+     * @param id book`s id
+     * @return average amount of days the book was reading
      */
     @Override
     public Integer getAverageTimeReadingBook(Long id) {

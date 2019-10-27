@@ -258,7 +258,7 @@ public class BookInstanceDao implements BookInstanceDaoInterface {
      * instance was taken from database.
      *
      * @param id book`s instance id for filtration
-     * @return number amount was taken book instance
+     * @return amount of times book instance was taken
      */
     @Override
     public Long getAmountOfTimesInstanceWasTaken(Long id) {

@@ -22,7 +22,7 @@ public class BookInstanceService {
     }
 
     /**
-     * Method for creating a user in database
+     * Method for creating a book instance in database
      *
      * @param bookInstance that must be created
      */
@@ -41,7 +41,7 @@ public class BookInstanceService {
     }
 
     /**
-     * Method, that convert book instance to bookInstanceDto
+     * Method, that converts book instance to bookInstanceDto
      * and returns all book instances
      * by book id.
      *
@@ -56,10 +56,10 @@ public class BookInstanceService {
     }
 
     /**
-     * Method for updating book instances availability.
+     * Method for updating book instance availability.
      *
      * @param bookInstanceId book`s instance id you want to update
-     * @param available availability for setting to the book instance
+     * @param available sets availability for the book instance
      */
     public void setAvailableBookInstance(Long bookInstanceId, Boolean available) {
         bookInstanceDao.update(bookInstanceId, available);
