@@ -2,6 +2,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AuthorDao;
 import academy.softserve.museum.dao.ExhibitDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,8 @@ public class JdbcAuthorDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        authorDao = jdbcAuthorDao();
-        exhibitDao = jdbcExhibitDao();
+        authorDao = DaoFactory.authorDao();
+        exhibitDao = DaoFactory.exhibitDao();
 
         authors = new ArrayList<>(Arrays.asList(
                 new Author(1, "Leonardo", "da Vinci"),

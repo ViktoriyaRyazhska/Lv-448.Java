@@ -2,6 +2,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
@@ -27,8 +28,8 @@ public class JdbcEmployeeDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        employeeDao = jdbcEmployeeDao();
-        audienceDao = jdbcAudienceDao();
+        employeeDao = DaoFactory.employeeDao();
+        audienceDao = DaoFactory.audienceDao();
 
         employees = new ArrayList<>(Arrays.asList(
                 new Employee(1, "Anna", "Kentor", EmployeePosition.MANAGER, "a_kentor", "anna1230"),

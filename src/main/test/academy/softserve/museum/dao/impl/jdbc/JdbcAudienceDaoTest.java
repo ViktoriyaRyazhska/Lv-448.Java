@@ -1,6 +1,7 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        audienceDao = jdbcAudienceDao();
+        audienceDao = DaoFactory.audienceDao();
 
         audiences = new ArrayList<>(Arrays.asList(
                 new Audience(1, "Leonardo da Vinci"),

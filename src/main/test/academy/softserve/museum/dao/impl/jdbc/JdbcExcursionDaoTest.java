@@ -1,6 +1,7 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.ExcursionDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ public class JdbcExcursionDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        excursionDao = jdbcExcursionDao();
+        excursionDao = DaoFactory.excursionDao();
 
         excursions = new ArrayList<>(Arrays.asList(
                 new Excursion(1, "Golden Spring"),

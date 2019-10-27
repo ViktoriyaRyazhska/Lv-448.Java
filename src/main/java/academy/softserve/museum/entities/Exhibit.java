@@ -3,7 +3,6 @@ package academy.softserve.museum.entities;
 import java.util.List;
 
 public class Exhibit extends Entity {
-
     private String name;
     private ExhibitType type;
     private String material;
