@@ -1,6 +1,5 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
-import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 
 import java.io.BufferedReader;
@@ -11,13 +10,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class JdbcDaoTest {
+class JdbcDaoTest {
     private static final String CREATE_TABLES = "/sql/create_db.sql";
     private static final String DROP_TABLES = "/sql/drop_db.sql";
     private static final String FILL_TABLES = "/sql/insert_test_db.sql";

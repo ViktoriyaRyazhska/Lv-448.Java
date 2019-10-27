@@ -20,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class JdbcTimetableDaoTest extends JdbcDaoTest {
+class JdbcTimetableDaoTest extends JdbcDaoTest {
     private TimetableDao timetableDao;
     private ExcursionDao excursionDao;
     private EmployeeDao employeeDao;

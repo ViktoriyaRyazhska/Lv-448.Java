@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JdbcEmployeeDaoTest extends JdbcDaoTest {
+class JdbcEmployeeDaoTest extends JdbcDaoTest {
     private EmployeeDao employeeDao;
     private AudienceDao audienceDao;
     private List<Employee> employees;

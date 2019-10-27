@@ -12,7 +12,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JdbcExhibitDaoTest extends JdbcDaoTest {
+class JdbcExhibitDaoTest extends JdbcDaoTest {
     private ExhibitDao exhibitDao;
     private AuthorDao authorDao;
     private List<Exhibit> exhibits;

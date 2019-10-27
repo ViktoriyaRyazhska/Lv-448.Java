@@ -15,7 +15,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class JdbcExcursionDaoTest extends JdbcDaoTest {
+class JdbcExcursionDaoTest extends JdbcDaoTest {
     private ExcursionDao excursionDao;
     private List<Excursion> excursions;
 

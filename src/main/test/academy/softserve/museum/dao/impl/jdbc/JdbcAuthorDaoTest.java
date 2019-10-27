@@ -11,7 +11,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JdbcAuthorDaoTest extends JdbcDaoTest {
+class JdbcAuthorDaoTest extends JdbcDaoTest {
     private AuthorDao authorDao;
     private ExhibitDao exhibitDao;
     private List<Author> authors;
