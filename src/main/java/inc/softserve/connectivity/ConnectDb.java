@@ -6,6 +6,9 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Util class for connecting to MySQL database.
+ */
 //@Slf4j
 public class ConnectDb {
     private static final String USER = System.getenv("db_user");
@@ -19,6 +22,10 @@ public class ConnectDb {
 
     private static Connection connection;
 
+    /**
+     * Connection instance is singleton. New connection will be instantiated if the old one is closed or null.
+     * @return - connection instance.
+     */
     public static synchronized Connection connectBase() {
         try {
             if (connection != null && ! connection.isClosed()){

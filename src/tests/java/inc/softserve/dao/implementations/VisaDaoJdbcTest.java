@@ -4,7 +4,6 @@ import inc.softserve.dao.db_test_utils.FieldChecked;
 import inc.softserve.dao.db_test_utils.InitDataBase;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
-import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
@@ -17,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

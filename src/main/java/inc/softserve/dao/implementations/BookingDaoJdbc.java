@@ -41,7 +41,7 @@ public class BookingDaoJdbc implements BookingDao {
                 "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement prepStat = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             prepStat.setLong(1, booking.getUsr().getId());
-            prepStat.setDate(2, Date.valueOf(booking.getOrderDate()));
+            prepStat.setTimestamp(2, Timestamp.valueOf(booking.getOrderDate()));
             prepStat.setDate(3, Date.valueOf(booking.getCheckin()));
             prepStat.setDate(4, Date.valueOf(booking.getCheckout()));
             prepStat.setLong(5, booking.getRoom().getId());
@@ -156,7 +156,7 @@ public class BookingDaoJdbc implements BookingDao {
         while (rs.next()){
             Booking booking = new Booking();
             booking.setId(rs.getLong("id"));
-            booking.setOrderDate(rs.getDate("order_date").toLocalDate());
+            booking.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
             booking.setCheckin(rs.getDate("checkin").toLocalDate());
             booking.setCheckout(rs.getDate("checkout").toLocalDate());
             booking.setHotel(hotelDao

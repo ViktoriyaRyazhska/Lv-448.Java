@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +48,7 @@ class BookingDaoJdbcTest {
         Room room = roomDao.findById((long) 2).orElseThrow();
         Hotel hotel = hotelDao.findById((long) 4).orElseThrow();
         Booking booking = new Booking();
-        booking.setOrderDate(LocalDate.now());
+        booking.setOrderDate(LocalDateTime.now());
         booking.setCheckin(LocalDate.of(2022, 3, 3));
         booking.setCheckout(LocalDate.of(2022, 4, 4));
         booking.setUsr(usr);
