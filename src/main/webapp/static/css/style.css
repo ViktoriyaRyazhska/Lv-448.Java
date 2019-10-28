@@ -31,7 +31,7 @@
 }
 
 .header-wrapper {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.4);
     height: 220px;
     position: absolute;
     top: 34vh;
@@ -40,7 +40,7 @@
 }
 
 .header-wrapper h1 {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.7);
     font-weight: 800;
     text-align: center;
     transform: skewY(12deg);
