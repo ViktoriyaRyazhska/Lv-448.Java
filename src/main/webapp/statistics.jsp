@@ -15,13 +15,20 @@
 <div>
     <h3>Countries statistic</h3>
     <c:forEach var="country" items="${statisticCountry}">
-        <h4>${country.key} issued ${country.value}</h4>
+        <p>${country.key} issued ${country.value}</p>
     </c:forEach>
 </div>
 
 <div>
     <h3>User statistic</h3>
-    <c:out value="${statisticByUser}"/>
+    <c:out value="${visasNumbers}"/>
+    <div>
+        <c:forEach var="visited" items="${visitedCountries}">
+            <tr>
+                <td><c:out value="${visited}"/></td>
+            </tr>
+        </c:forEach>
+    </div>
 </div>
 
 <div>

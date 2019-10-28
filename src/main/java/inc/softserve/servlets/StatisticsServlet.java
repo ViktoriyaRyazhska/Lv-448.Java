@@ -1,6 +1,8 @@
 package inc.softserve.servlets;
 
+import inc.softserve.entities.Country;
 import inc.softserve.entities.Usr;
+import inc.softserve.entities.Visa;
 import inc.softserve.entities.stats.HotelStats;
 import inc.softserve.exceptions.ContextParameterNotFound;
 import inc.softserve.services.intefaces.HotelStatsService;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet("/statistics")
 public class StatisticsServlet extends HttpServlet {
@@ -38,9 +41,11 @@ public class StatisticsServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Usr user = (Usr) session.getAttribute("user");
         List<HotelStats> hotelsList = hotelStatsService.calcHotelStats();
+        Set<Country> visitedCountries = visaStatsService.visitedCountries(user.getId());
         req.setAttribute("statisticCountry", visaStatsService.countVisasIssuedByAllCountry());
-        req.setAttribute("statisticByUser", visaStatsService.countVisasByUserEmail(user.getEmail()).orElse(0));
+        req.setAttribute("visasNumbers", visaStatsService.countVisasByUserEmail(user.getEmail()).orElse(0));
         req.setAttribute("hotelsList", hotelsList);
+        req.setAttribute("visitedCountries", visitedCountries);
         req.getRequestDispatcher("/statistics.jsp").include(req, resp);
     }
 }
