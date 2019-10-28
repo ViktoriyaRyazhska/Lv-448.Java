@@ -59,7 +59,6 @@ public class AddExhibitServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AuthorsServlet.dropCounter();
         req.setAttribute("authors", authorService.findAll());
         req.setAttribute("types", exhibitService.getTypes());
         req.setAttribute("audiences", audienceService.findAll());
