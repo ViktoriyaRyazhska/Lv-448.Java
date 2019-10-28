@@ -9,11 +9,11 @@ import org.mockito.Mockito;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AudienceRowMapperTest {
+class AudienceRowMapperTest {
 
     @Test
     void rowMapSuccess() throws SQLException {
-        ResultSet resultSet = Mockito.spy(ResultSet.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
         Audience audience = new Audience(1, "Test");
 
         Mockito.when(resultSet.getLong("audience_id")).thenReturn(audience.getId());
@@ -24,7 +24,7 @@ public class AudienceRowMapperTest {
 
     @Test
     void rowMapFails() throws SQLException {
-        ResultSet resultSet = Mockito.spy(ResultSet.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
 
         Mockito.when(resultSet.getLong(Mockito.anyString())).thenThrow(SQLException.class);
         Mockito.when(resultSet.getString(Mockito.anyString())).thenThrow(SQLException.class);
