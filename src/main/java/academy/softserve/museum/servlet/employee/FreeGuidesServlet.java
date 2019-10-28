@@ -66,10 +66,10 @@ public class FreeGuidesServlet extends HttpServlet {
 
             req.setAttribute("employees", freeGuides);
             req.setAttribute(MessageType.SUCCESS, "There are " + size + " free guides");
-            req.getRequestDispatcher("/employees.jsp").include(req, resp);
         } catch (RuntimeException e) {
             req.setAttribute(MessageType.FAILURE, "Invalid date range");
             req.setAttribute("employees", employeeService.findAll());
+        } finally {
             req.getRequestDispatcher("/employees.jsp").include(req, resp);
         }
     }
