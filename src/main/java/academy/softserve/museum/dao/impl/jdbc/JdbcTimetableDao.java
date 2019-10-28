@@ -40,7 +40,7 @@ public class JdbcTimetableDao implements TimetableDao {
      * @param connection Connection, that used for interaction with database.
      * @return instance of JdbcTimetableDao.
      */
-    public static JdbcTimetableDao getInstance(Connection connection) {
+    public synchronized static JdbcTimetableDao getInstance(Connection connection) {
         if (instance == null) {
             instance = new JdbcTimetableDao(connection);
         }

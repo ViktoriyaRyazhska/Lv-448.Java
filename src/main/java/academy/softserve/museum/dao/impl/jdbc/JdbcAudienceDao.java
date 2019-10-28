@@ -42,7 +42,7 @@ public class JdbcAudienceDao implements AudienceDao {
      * @param connection Connection, that used for interaction with database.
      * @return instance of JdbcAudienceDao.
      */
-    public static JdbcAudienceDao getInstance(Connection connection) {
+    public synchronized static JdbcAudienceDao getInstance(Connection connection) {
         if (instance == null) {
             instance = new JdbcAudienceDao(connection);
         }

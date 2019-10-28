@@ -44,7 +44,7 @@ public class JdbcExcursionDao implements ExcursionDao {
      * @param connection Connection, that used for interaction with database.
      * @return instance of JdbcExcursionDao.
      */
-    public static JdbcExcursionDao getInstance(Connection connection) {
+    public synchronized static JdbcExcursionDao getInstance(Connection connection) {
         if(instance == null){
             instance = new JdbcExcursionDao(connection);
         }

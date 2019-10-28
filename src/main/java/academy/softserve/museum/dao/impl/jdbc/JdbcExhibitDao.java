@@ -54,7 +54,7 @@ public class JdbcExhibitDao implements ExhibitDao {
      * @param audienceDao AudienceDao used for loading and setting Audience for Exhibit.
      * @return instance of JdbcExcursionDao.
      */
-    public static JdbcExhibitDao getInstance(Connection connection, AudienceDao audienceDao) {
+    public synchronized static JdbcExhibitDao getInstance(Connection connection, AudienceDao audienceDao) {
         if (instance == null) {
             instance = new JdbcExhibitDao(connection, audienceDao);
         }
