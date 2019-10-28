@@ -10,29 +10,32 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-<h2>We welcome you in Statistic</h2>
+<h2>Statistics</h2>
 
 <div>
-    <h3>Countries statistic</h3>
+    <h3>Countries statistics</h3>
     <c:forEach var="country" items="${statisticCountry}">
-        <p>${country.key} issued ${country.value}</p>
+        <p>${country.key} issued ${country.value} visas</p>
     </c:forEach>
 </div>
 
 <div>
-    <h3>User statistic</h3>
+    <h3>Statistics of ${user.firstName} ${user.lastName}</h3>
     <c:out value="${visasNumbers}"/>
+    <p>${user.firstName} ${user.lastName} have ${visasNumbers} visas</p>
     <div>
-        <c:forEach var="visited" items="${visitedCountries}">
-            <tr>
-                <td><c:out value="${visited}"/></td>
-            </tr>
-        </c:forEach>
+        <ul>
+            <c:forEach var="visited" items="${visitedCountries}">
+                <li>
+                    <c:out value="${visited.country}"/>
+                </li>
+            </c:forEach>
+        </ul>
     </div>
 </div>
 
 <div>
-    <h3>Hotel statistic</h3>
+    <h3>Hotel statistics</h3>
     <table>
         <tr>
             <td>Hotel name</td>
@@ -61,7 +64,7 @@
                 </label>
                 <input hidden value="${hotel.hotelId}" name="hotel_id">
                 <input hidden value="${hotel.hotelName}" name="hotel_name">
-                <button id="submitId" type="submit">Show</button>
+                <button class="submitBtn" type="submit">Show</button>
             </fieldset>
         </form>
     </c:forEach>
