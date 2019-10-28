@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Class used for getting Id from ResultSet.
  */
-public class IdRowMapper implements RowMapper<Integer> {
+public class IdRowMapper implements RowMapper<Long> {
 
     /**
      * Method for getting id from ResultSet.
@@ -16,9 +16,9 @@ public class IdRowMapper implements RowMapper<Integer> {
      * @return id taken from ResultSet.
      */
     @Override
-    public Integer mapRow(ResultSet resultSet) {
+    public Long mapRow(ResultSet resultSet) {
         try {
-            return resultSet.getInt("last_id");
+            return resultSet.getLong("last_id");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
