@@ -4,6 +4,7 @@ import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.entities.Country;
+import inc.softserve.entities.Visa;
 import inc.softserve.services.intefaces.VisaStatsService;
 
 import java.util.*;
@@ -33,6 +34,7 @@ public class VisaStatsServiceImpl implements VisaStatsService {
                 .map(c -> visaDao.issuedVisas(c.getCountry()));
     }
 
+    @Override
     public Map<String, Integer> countVisasIssuedByAllCountry() {
         Map<String, Integer> countrys = new HashMap<>();
         for (Country country : countryDao.findAll()) {
@@ -42,5 +44,13 @@ public class VisaStatsServiceImpl implements VisaStatsService {
         return countrys;
     }
 
+    @Override
+    public Set<Visa> issuedVisasToUsr(Long usrId){
+        return visaDao.findVisasByUserId(usrId);
+    }
 
+    @Override
+    public Set<Country> visitedCountries(Long usrId){
+        return countryDao.findCountriesVisitedByUsr(usrId);
+    }
 }

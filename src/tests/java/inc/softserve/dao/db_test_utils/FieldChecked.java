@@ -1,6 +1,6 @@
 package inc.softserve.dao.db_test_utils;
 
-import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
+import inc.softserve.utils.rethrowing_lambdas.RethrowingLambdas;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
@@ -15,7 +15,7 @@ public class FieldChecked {
                         .getClass()
                         .getDeclaredFields())
                         .filter(skipFields)
-                        .map(ThrowingLambdas.function(field -> {
+                        .map(RethrowingLambdas.function(field -> {
                             field.setAccessible(true);
                             return field.get(entity);
                         }))

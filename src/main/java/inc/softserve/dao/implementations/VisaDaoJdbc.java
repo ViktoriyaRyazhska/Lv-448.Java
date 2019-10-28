@@ -121,6 +121,11 @@ public class VisaDaoJdbc implements VisaDao {
         }
     }
 
+    /**
+     *
+     * @param usrId - an identificator of a user
+     * @return - not empty set of visas that belong to a user if the user with given id exists and there are visas attached to him/her.
+     */
     @Override
     public Set<Visa> findVisasByUserId(Long usrId){
         String query = "SELECT * FROM travel_visas WHERE usr_id = ?";
@@ -153,6 +158,11 @@ public class VisaDaoJdbc implements VisaDao {
         return builder.build();
     }
 
+    /**
+     *
+     * @param country - country name
+     * @return - number of visas issued by country. If the given country is not in the database then 0.
+     */
     @Override
     public int issuedVisas(String country){
         String query = "SELECT COUNT(*) AS visa_count FROM countries " +
@@ -169,6 +179,11 @@ public class VisaDaoJdbc implements VisaDao {
         }
     }
 
+    /**
+     *
+     * @param countryId - country identificator
+     * @return - number of visas issued by country. If the given country is not in the database then 0.
+     */
     @Override
     public int issuedVisas(Long countryId){
         String query = "SELECT COUNT(id) AS visa_count FROM travel_visas WHERE country_id = ?";
@@ -182,6 +197,11 @@ public class VisaDaoJdbc implements VisaDao {
         }
     }
 
+    /**
+     *
+     * @param email - an email of a user.
+     * @return - number of visas issued to the user. If there is no such an user then 0.
+     */
     @Override
     public int usrHasVisas(String email){
         String query = "SELECT COUNT(*) AS visa_count FROM users " +
@@ -198,6 +218,11 @@ public class VisaDaoJdbc implements VisaDao {
         }
     }
 
+    /**
+     *
+     * @param usrId - an identificator of an user
+     * @return - number of visas issued to the user. If there is no such an user then 0.
+     */
     @Override
     public int usrHasVisas(Long usrId){
         String query = "SELECT COUNT(id) AS visa_count FROM travel_visas WHERE usr_id = ?";

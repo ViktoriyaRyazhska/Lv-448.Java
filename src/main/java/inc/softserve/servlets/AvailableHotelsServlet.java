@@ -25,13 +25,16 @@ public class AvailableHotelsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LocalDate checkin = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        LocalDate checkout = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate checkin = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                .plusDays(1);
+        LocalDate checkout = LocalDate.parse(req.getParameter("checkout"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                .plusDays(1);
         Long cityId = Long.parseLong(req.getParameter("cityId"));
         String cityName = req.getParameter("cityName");
         Set<Hotel> hotels = hotelService.findAvailableHotelsInCity(cityId, checkin, checkout);
         req.setAttribute("hotels", hotels);
         req.setAttribute("city", cityName);
-        req.getRequestDispatcher("/hotels/").forward(req, resp);
+        req.setAttribute("cityId", cityId);
+        req.getRequestDispatcher("/hotels.jsp").forward(req, resp);
     }
 }

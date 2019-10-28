@@ -16,6 +16,7 @@
         <fieldset>
             <legend>Book a room!</legend>
                 <p>
+                    <c:out value="${roomPojo.hotel.hotelName}"/>
                     <c:out value="${roomPojo.chamberNumber}"/>
                     <c:out value="${roomPojo.luxury}"/>
                     <c:out value="${roomPojo.bedrooms}"/>

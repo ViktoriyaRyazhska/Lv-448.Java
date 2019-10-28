@@ -1,6 +1,7 @@
 package inc.softserve.dao.implementations;
 
 import inc.softserve.dao.db_test_utils.FieldChecked;
+import inc.softserve.dao.db_test_utils.InitDataBase;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.entities.Usr;
@@ -27,8 +28,8 @@ class UsrDaoJdbcTest {
     private static UsrDao usrDaoJdbc;
 
     @BeforeAll
-    static void init(){
-        connection = ConnectDb.connectBase();
+    static void init() throws SQLException {
+        connection = InitDataBase.createAndPopulate();
         usrDaoJdbc = new UsrDaoJdbc(connection);
     }
 

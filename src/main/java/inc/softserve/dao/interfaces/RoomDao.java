@@ -16,9 +16,9 @@ public interface RoomDao extends Read<Room> {
 
     Set<Room> findByHotelId(Long hotelId);
 
-    Set<Room> findRoomsByCityId(Long cityId);
+    Set<Room> findByCityId(Long cityId);
 
-    Set<Room> findAllFutureBookedRoomsByCityId(Long cityId, LocalDate from);
+    Set<Room> findBookedRoomsByCityIdAndTimePeriod(Long cityId, LocalDate from, LocalDate till);
 
     List<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod);
 }

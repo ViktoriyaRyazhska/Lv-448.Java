@@ -2,10 +2,8 @@ package inc.softserve.servlets;
 
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.stats.HotelStats;
-import inc.softserve.entities.stats.RoomStats;
 import inc.softserve.exceptions.ContextParameterNotFound;
 import inc.softserve.services.intefaces.HotelStatsService;
-import inc.softserve.services.intefaces.RoomStatsService;
 import inc.softserve.services.intefaces.VisaStatsService;
 
 import javax.servlet.ServletException;

@@ -21,6 +21,4 @@ public interface BookingDao extends Read<Booking> {
     Set<Booking> findBookingsByHotelIdAndDate(Long hotelId, LocalDate fromDate);
 
     Set<Booking> findBookingsByUsrId(Long usrId);
-
-    Set<Booking> findOccupiedDates(Long roomId, LocalDate from);
 }

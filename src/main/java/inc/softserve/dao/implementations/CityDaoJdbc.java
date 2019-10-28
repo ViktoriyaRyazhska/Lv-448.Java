@@ -57,6 +57,11 @@ public class CityDaoJdbc implements CityDao {
         return builder.build();
     }
 
+    /**
+     *
+     * @param cityId - an identificator of a city.
+     * @return - not empty optional if there is a city with given id.
+     */
     @Override
     public Optional<City> findById(Long cityId) {
         String query = "SELECT * FROM cities WHERE id = ?";
@@ -70,6 +75,11 @@ public class CityDaoJdbc implements CityDao {
         }
     }
 
+    /**
+     *
+     * @param countryId - an identificator of a country.
+     * @return - not empty set if a country with given id exists in the database and there are cities attached to it.
+     */
     @Override
     public Set<City> findByCountryId(Long countryId) {
         String query = "SELECT * FROM cities WHERE country_id = ?";
@@ -83,6 +93,11 @@ public class CityDaoJdbc implements CityDao {
         }
     }
 
+    /**
+     *
+     * @param country - country name
+     * @return - not empty set if a country with given name exists in the database and there are cities attached to it.
+     */
     @Override
     public Set<City> findByCountryName(String country){
         String query = "SELECT * FROM cities " +
@@ -98,6 +113,12 @@ public class CityDaoJdbc implements CityDao {
         }
     }
 
+    /**
+     *
+     * @param countryId - an identificator of a country
+     * @param city - name of a city
+     * @return - not empty optional if city with given name and country id exists in the database.
+     */
     @Override
     public Optional<City> findByCountryAndCity(Long countryId, String city){
         String query = "SELECT * FROM cities " +

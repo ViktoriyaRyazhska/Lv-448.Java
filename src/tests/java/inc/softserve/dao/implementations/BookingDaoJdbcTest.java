@@ -78,8 +78,24 @@ class BookingDaoJdbcTest {
 
     @Test
     void findBookingsByUsrId() {
-        Long expectedSize = (long) 4;
-        Long actualSize = (long) bookingDao.findBookingsByUsrId((long) 2).size();
+        Long expectedSize = 4L;
+        Long actualSize = (long) bookingDao.findBookingsByUsrId(2L).size();
+        assertEquals(expectedSize, actualSize);
+    }
+
+    @Test
+    void findBookingsByHotelIdAndDate(){
+        Long expectedSize = 2L;
+        Long actualSize = (long) bookingDao.findBookingsByHotelIdAndDate(1L, LocalDate.of(2016, 1, 1))
+                .size();
+        assertEquals(expectedSize, actualSize);
+    }
+
+    @Test
+    void findBookingsByRoomIdAndDate(){
+        Long expectedSize = 2L;
+        Long actualSize = (long) bookingDao.findBookingsByRoomIdAndDate(1L, LocalDate.of(2016, 1, 1))
+                .size();
         assertEquals(expectedSize, actualSize);
     }
 }

@@ -22,7 +22,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Set<RoomDto> findRoomsAndTheirBookingsStartingFrom(Long hotelId, final LocalDate from){
-        return roomDao.findByHotelId(hotelId).stream()
+        return roomDao.findByHotelId(hotelId)
+                .stream()
                 .peek(room -> room.setBooking(
                         bookingDao.findBookingsByRoomIdAndDate(room.getId(), from)
                 ))

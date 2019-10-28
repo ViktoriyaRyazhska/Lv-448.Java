@@ -31,7 +31,7 @@ public class HotelServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long cityId = Long.parseLong(req.getParameter("cityId"));
         String city = req.getPathInfo().replace("/", "");
-        Set<Hotel> hotels = hotelService.findHotelsByCityId(cityId, LocalDate.now());
+        Set<Hotel> hotels = hotelService.findHotelsByCityId(cityId);
         req.setAttribute("city", city);
         req.setAttribute("cityId", cityId);
         req.setAttribute("hotels", hotels);
@@ -42,7 +42,7 @@ public class HotelServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String country = req.getParameter("countryName");
         String city = req.getParameter("cityName");
-        Set<Hotel> hotels = hotelService.findHotelsByCountryAndCity(country, city, LocalDate.now());
+        Set<Hotel> hotels = hotelService.findHotelsByCountryAndCity(country, city);
         Long cityId = hotels.stream()
                 .findFirst()
                 .map(Hotel::getCity)

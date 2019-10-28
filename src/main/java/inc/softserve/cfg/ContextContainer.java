@@ -11,6 +11,9 @@ import lombok.Getter;
 
 import java.sql.Connection;
 
+/**
+ * This is a 'hand-made' container for inversion of control since only tomcat EE has IoC
+ */
 @Getter
 class ContextContainer {
 
@@ -25,7 +28,7 @@ class ContextContainer {
     static BookingDao bookingDao = new BookingDaoJdbc(connection, usrDao, roomDao, hotelDao);
 
     static CountryService countryService = new CountryServiceImpl(countryDao, cityDao);
-    static HotelService hotelService = new HotelServiceImpl(bookingDao, hotelDao, cityDao, countryDao);
+    static HotelService hotelService = new HotelServiceImpl(bookingDao, roomDao, hotelDao, cityDao, countryDao);
     static RoomService roomService = new RoomServiceImpl(roomDao, bookingDao);
     static VisaStatsService visaStatsService = new VisaStatsServiceImpl(visaDao, usrDao, countryDao);
     static HotelStatsService hotelStatsService = new HotelStatsServiceImpl(hotelDao, roomDao);

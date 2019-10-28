@@ -1,26 +1,16 @@
 package inc.softserve.services.implementations;
 
-import inc.softserve.dao.implementations.CountryDaoJdbc;
-import inc.softserve.dao.implementations.UsrDaoJdbc;
-import inc.softserve.dao.implementations.VisaDaoJdbc;
 import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
-import inc.softserve.connectivity.ConnectDb;
 import inc.softserve.dto.UsrDto;
 import inc.softserve.dto.VisaDto;
 import inc.softserve.entities.Usr;
 import inc.softserve.entities.Visa;
-import inc.softserve.security.JavaNativeSaltGen;
 import inc.softserve.security.SaltGen;
 import inc.softserve.services.intefaces.UsrRegisterService;
-import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
-import inc.softserve.utils.rethrowing_lambdas.ThrowingRunnable;
-import org.apache.catalina.Session;
+import inc.softserve.utils.rethrowing_lambdas.RethrowingLambdas;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -76,7 +66,7 @@ public class UsrRegisterImpl implements UsrRegisterService {
             conn.setAutoCommit(true);
             return error;
         } catch (SQLException e) {
-            ThrowingLambdas.runnable(() -> {
+            RethrowingLambdas.runnable(() -> {
                 conn.rollback();
                 conn.setAutoCommit(true);
             });

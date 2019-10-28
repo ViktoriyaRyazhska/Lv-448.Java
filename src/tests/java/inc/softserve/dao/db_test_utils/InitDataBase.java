@@ -1,6 +1,6 @@
 package inc.softserve.dao.db_test_utils;
 
-import inc.softserve.utils.rethrowing_lambdas.ThrowingLambdas;
+import inc.softserve.utils.rethrowing_lambdas.RethrowingLambdas;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -31,8 +31,8 @@ public class InitDataBase {
             scanner.tokens()
                     .map(String::trim)
                     .filter(s -> ! s.isBlank())
-                    .map(ThrowingLambdas.function(connection::prepareStatement))
-                    .forEach(ThrowingLambdas.consumer(p -> {
+                    .map(RethrowingLambdas.function(connection::prepareStatement))
+                    .forEach(RethrowingLambdas.consumer(p -> {
                         p.executeUpdate();
                         p.close();
                     }));

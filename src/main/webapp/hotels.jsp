@@ -28,11 +28,11 @@
             <fieldset>
                 <legend>Search for available hotels during a period</legend>
                 <label>
-                    Select checkin: <input id="checkin" class="datepicker" type="text" name="checkin">
+                    Select checkin: <input id="checkin" class="datepicker" type="text" name="checkin" required>
                 </label>
                 <br/>
                 <label>
-                    Select checkout: <input id="checkout" class="datepicker" type="text" name="checkout">
+                    Select checkout: <input id="checkout" class="datepicker" type="text" name="checkout" required>
                 </label>
                 <br/>
                 <input type="hidden" name="cityId" value="${cityId}">

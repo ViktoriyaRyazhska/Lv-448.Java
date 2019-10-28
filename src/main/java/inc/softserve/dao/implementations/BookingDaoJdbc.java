@@ -30,6 +30,11 @@ public class BookingDaoJdbc implements BookingDao {
         this.hotelDao = hotelDao;
     }
 
+    /**
+     * Save the booking entity into the database
+     * @param booking - booking entity
+     * @return - booking entity with an identificator assigned by the database
+     */
     @Override
     public Booking save(Booking booking) {
         String query = "INSERT INTO bookings (usr_id, order_date, checkin, checkout, room_id, hotel_id) " +
@@ -53,6 +58,10 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    /**
+     *
+     * @return all bookings in the database
+     */
     @Override
     public Set<Booking> findAll() {
         String query = "SELECT * FROM bookings";
@@ -65,6 +74,11 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    /**
+     *
+     * @param bookingId - an identificator of a booking
+     * @return - not empty optional if there is a booking with given id in the database
+     */
     @Override
     public Optional<Booking> findById(Long bookingId) {
         String query = "SELECT * FROM bookings WHERE id = ?";
@@ -78,6 +92,11 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
+    /**
+     *
+     * @param roomId - an identificator of a room
+     * @return - not empty set if a room with given id exists in the database and there bookings attached to it.
+     */
     @Override
     public Set<Booking> findBookingsByRoomId(Long roomId){
         String query = "SELECT * FROM bookings WHERE room_id = ?";
@@ -90,7 +109,13 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
-    // TODO - refactor!!!
+    /**
+     *
+     * @param roomId - an identificator of a room.
+     * @param fromDate - search bookings that have checkin date later then given 'fromDate'.
+     * @return - not empty set if a room with given id exists and there are booking attached with checkin date later then
+     * given 'fromDate'.
+     */
     @Override
     public Set<Booking> findBookingsByRoomIdAndDate(Long roomId, LocalDate fromDate){
         String query = "SELECT * FROM bookings " +
@@ -105,7 +130,13 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
-    // TODO - refactor!!!
+    /**
+     *
+     * @param hotelId - an identificator of a hotel
+     * @param fromDate - search bookings that have checkin date later then given 'fromDate'
+     * @return - not empty set if a hotel with given id exists and there are booking attached with checkin date later then
+     * given 'fromDate'.
+     */
     @Override
     public Set<Booking> findBookingsByHotelIdAndDate(Long hotelId, LocalDate fromDate) {
         String query = "SELECT * FROM bookings " +
@@ -120,7 +151,7 @@ public class BookingDaoJdbc implements BookingDao {
         }
     }
 
-        private Stream<Booking> extractBookings(ResultSet rs) throws SQLException {
+    private Stream<Booking> extractBookings(ResultSet rs) throws SQLException {
         Stream.Builder<Booking> builder = Stream.builder();
         while (rs.next()){
             Booking booking = new Booking();
@@ -142,6 +173,11 @@ public class BookingDaoJdbc implements BookingDao {
         return builder.build();
     }
 
+    /**
+     *
+     * @param usrId - an identificator of a user
+     * @return - not empty set if a user with given id exists and has bookings attached to him/her.
+     */
     @Override
     public Set<Booking> findBookingsByUsrId(Long usrId){
         String query = "SELECT * FROM bookings WHERE usr_id = ?";
@@ -151,20 +187,6 @@ public class BookingDaoJdbc implements BookingDao {
             return extractBookings(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
 //            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public Set<Booking> findOccupiedDates(Long roomId, LocalDate from){
-        String query = "SELECT checkin, checkout FROM bookings " +
-                "WHERE room_id = ? " +
-                "AND checkin > ?";
-        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setLong(1, roomId);
-            prepStat.setDate(2, Date.valueOf(from));
-            return null;
-        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

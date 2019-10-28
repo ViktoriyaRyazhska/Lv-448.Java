@@ -26,6 +26,10 @@ public class RoomDaoJdbc implements RoomDao {
         this.hotelDao = hotelDao;
     }
 
+    /**
+     * Lazy implementation. Collection (Set<Booking>) will not be brought.
+     * @return all rooms in the database.
+     */
     @Override
     public Set<Room> findAll() {
         String query = "SELECT * FROM rooms";
@@ -38,6 +42,11 @@ public class RoomDaoJdbc implements RoomDao {
         }
     }
 
+    /**
+     * Lazy implementation. Collection (Set<Booking>) will not be brought.
+     * @param roomId - an identificator of a room
+     * @return - not empty optional if a room with given id exists
+     */
     @Override
     public Optional<Room> findById(Long roomId) {
         String query = "SELECT * FROM rooms WHERE id = ?";
@@ -67,6 +76,11 @@ public class RoomDaoJdbc implements RoomDao {
         return builder.build();
     }
 
+    /**
+     * Lazy implementation. Collection (Set<Booking>) will not be brought.
+     * @param hotelId - an identificator of a hotel.
+     * @return - not empty set if a hotel with given id exists and there are rooms attached to it.
+     */
     @Override
     public Set<Room> findByHotelId(Long hotelId) {
         String query = "SELECT * FROM rooms WHERE hotel_id = ?";
@@ -80,8 +94,13 @@ public class RoomDaoJdbc implements RoomDao {
         }
     }
 
+    /**
+     * Lazy implementation. Collection (Set<Booking>) will not be brought.
+     * @param cityId - an identificator of a hotel.
+     * @return - not empty set if a city with given id exists and there are rooms attached to it.
+     */
     @Override
-    public Set<Room> findRoomsByCityId(Long cityId){
+    public Set<Room> findByCityId(Long cityId){
         String query = "SELECT * FROM rooms WHERE city_id = ?";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, cityId);
@@ -93,15 +112,20 @@ public class RoomDaoJdbc implements RoomDao {
     }
 
     @Override
-    public Set<Room> findAllFutureBookedRoomsByCityId(Long cityId, LocalDate from){
+    public Set<Room> findBookedRoomsByCityIdAndTimePeriod(Long cityId, LocalDate from, LocalDate till){
         String query = "SELECT * FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON rooms.id = bookings.room_id " +
                 "WHERE rooms.city_id = ? " +
-                "AND bookings.checkin > ?";
+                "AND ((? BETWEEN checkin AND checkout) " +
+                "OR (? BETWEEN checkin AND checkout) " +
+                "OR (? < checkin AND ? > checkout))";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
             prepStat.setLong(1, cityId);
             prepStat.setDate(2, Date.valueOf(from));
+            prepStat.setDate(3, Date.valueOf(till));
+            prepStat.setDate(4, Date.valueOf(from));
+            prepStat.setDate(5, Date.valueOf(till));
             ResultSet resultSet = prepStat.executeQuery();
             return extractRooms(resultSet).collect(Collectors.toSet());
         } catch (SQLException e) {
@@ -114,12 +138,17 @@ public class RoomDaoJdbc implements RoomDao {
         String query = "SELECT chamber_number, COUNT(*) AS room_count, rooms.hotel_id FROM rooms " +
                 "INNER JOIN bookings " +
                 "ON bookings.room_id = rooms.id " +
-                "WHERE bookings.checkin > ? OR bookings.checkout < ? AND rooms.hotel_id = ? " +
+                "WHERE rooms.hotel_id = ? " +
+                "AND ((? BETWEEN checkin AND checkout) " +
+                "OR (? BETWEEN checkin AND checkout) " +
+                "OR (? < checkin AND ? > checkout)) " +
                 "GROUP BY chamber_number, rooms.hotel_id";
         try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setDate(1, Date.valueOf(startPeriod));
-            prepStat.setDate(2, Date.valueOf(endPeriod));
-            prepStat.setLong(3, hotelId);
+            prepStat.setLong(1, hotelId);
+            prepStat.setDate(2, Date.valueOf(startPeriod));
+            prepStat.setDate(3, Date.valueOf(endPeriod));
+            prepStat.setDate(4, Date.valueOf(startPeriod));
+            prepStat.setDate(5, Date.valueOf(endPeriod));
             ResultSet resultSet = prepStat.executeQuery();
             return extractRoomStats(resultSet).collect(Collectors.toList());
         } catch (SQLException e) {

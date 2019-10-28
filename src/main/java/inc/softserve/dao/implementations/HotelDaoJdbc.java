@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +29,10 @@ public class HotelDaoJdbc implements HotelDao {
         this.cityDao = cityDao;
     }
 
+    /**
+     * Lazy implementation. All collections are not brought from the database.
+     * @return all hotels in the database
+     */
     @Override
     public Set<Hotel> findAll() {
         String query = "SELECT * FROM hotels";
@@ -40,6 +45,11 @@ public class HotelDaoJdbc implements HotelDao {
         }
     }
 
+    /**
+     * Lazy implementation. All collections are not brought from the database.
+     * @param hotelId - an identificator of an hotel
+     * @return - Optional of hotel instance if a hotel with given id exists.
+     */
     @Override
     public Optional<Hotel> findById(Long hotelId) {
         String query = "SELECT * FROM hotels WHERE id = ?";
@@ -53,6 +63,12 @@ public class HotelDaoJdbc implements HotelDao {
         }
     }
 
+    /**
+     * Lazy implementation. All collections are not brought from the database.
+     * @param cityId - an identificator of a city.
+     * @return - not empty set of hotels that are place in a city if the city with given id exists and there are hotels
+     * attached to the city.
+     */
     @Override
     public Set<Hotel> findHotelsByCityId(Long cityId) {
         String query = "SELECT * FROM hotels WHERE city_id = ?";
@@ -66,29 +82,10 @@ public class HotelDaoJdbc implements HotelDao {
         }
     }
 
-    @Override
-    public Set<Hotel> findHotelsByCityIdAndPeriod(Long cityId, LocalDate startPeriod, LocalDate endPeriod){
-        String query = "SELECT DISTINCT hotels.* FROM rooms " +
-                "INNER JOIN cities " +
-                "ON rooms.city_id = cities.id " +
-                "LEFT JOIN bookings " +
-                "ON rooms.id = bookings.room_id " +
-                "INNER JOIN hotels " +
-                "ON rooms.hotel_id = hotels.id " +
-                "WHERE rooms.city_id = ? " +
-                "AND order_date IS NULL " +
-                "OR (checkin >= ? AND checkout <= ?)";
-        try (PreparedStatement prepStat = connection.prepareStatement(query)) {
-            prepStat.setLong(1, cityId);
-            prepStat.setDate(2, Date.valueOf(startPeriod));
-            prepStat.setDate(3, Date.valueOf(endPeriod));
-            ResultSet resultSet = prepStat.executeQuery();
-            return extractHotels(resultSet).collect(Collectors.toSet());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    /**
+     *
+     * @return - statistics of the hotels (number of visitors, average time of booking).
+     */
     @Override
     public List<HotelStats> calcStats() {
         String query = "SELECT hotels.id, hotel_name, " +

@@ -45,7 +45,7 @@ class RoomDaoJdbcTest {
 
     @Test
     void findRoomsByCityId() {
-        Set<Room> rooms = roomDao.findRoomsByCityId(1L);
+        Set<Room> rooms = roomDao.findByCityId(1L);
         rooms.forEach(r -> r.setBooking(bookingDao.findBookingsByRoomIdAndDate(r.getId(), LocalDate.now())));
         rooms.forEach(System.out::println);
         System.out.println();

@@ -60,14 +60,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script>
-    (function () {
-        $("#submitId").on("click", function(e) {
-            e.preventDefault();
-            let city = $('#cityIn').val();
-            $('#formId').attr('action', '/hotels/' + city).submit();
-        });
-    })();
-</script>
+<script src="<c:url value="/js/url_modifier.js"/>"></script>
 </body>
 </html>
