@@ -19,11 +19,18 @@ public class CountryDaoJdbc implements CountryDao {
     private static final String TABLE_NAME = "countries";
 
     private final Connection connection;
-
+    /**
+     * Constructor with 1 parameters.
+     */
     public CountryDaoJdbc(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Method if return all countries with database.
+     *
+     * @return Set all  country with database
+     */
     @Override
     public Set<Country> findAll(){
         String query = "SELECT * FROM countries";
@@ -36,6 +43,13 @@ public class CountryDaoJdbc implements CountryDao {
         }
     }
 
+    /**
+     * Method find all countries which visited by user.
+     *
+     * @param usrId id user.
+     *
+     * @return all countries which visited user
+     */
     @Override
     public Set<Country> findCountriesVisitedByUsr(Long usrId){
         String query = "SELECT DISTINCT * FROM users " +
@@ -54,6 +68,13 @@ public class CountryDaoJdbc implements CountryDao {
         }
     }
 
+    /**
+     * Method ResultSet convert to country entity.
+     *
+     * @param rs sql Result set.
+     *
+     * @return Country entity
+     */
     private Stream<Country> extractCountries(ResultSet rs) throws SQLException {
         Stream.Builder<Country> builder = Stream.builder();
         while (rs.next()){
