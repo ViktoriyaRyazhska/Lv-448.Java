@@ -41,9 +41,15 @@
                           id="by-author">
                         <div class="form-group">
                             <label class="filter-col" for="author-first-name">First name:</label>
-                            <input type="text" class="form-control input-xs" id="author-first-name" name="firstName">
+                            <input type="text"
+                                   class="form-control input-xs"
+                                   id="author-first-name"
+                                   name="firstName" required>
                             <label class="filter-col" for="author-last-name">Last name:</label>
-                            <input type="text" class="form-control input-xs" id="author-last-name" name="lastName">
+                            <input type="text"
+                                   class="form-control input-xs"
+                                   id="author-last-name"
+                                   name="lastName" required>
                             <button type="submit" class="btn btn-dark">
                                 Filter
                             </button>
@@ -55,9 +61,15 @@
                           id="by-employee">
                         <div class="form-group">
                             <label class="filter-col" for="employee-first-name">First name:</label>
-                            <input type="text" class="form-control input-xs" id="employee-first-name" name="firstName">
+                            <input type="text"
+                                   class="form-control input-xs"
+                                   id="employee-first-name"
+                                   name="firstName" required>
                             <label class="filter-col" for="employee-last-name">Last name:</label>
-                            <input type="text" class="form-control input-xs" id="employee-last-name" name="lastName">
+                            <input type="text"
+                                   class="form-control input-xs"
+                                   id="employee-last-name"
+                                   name="lastName" required>
                             <button type="submit" class="btn btn-dark">
                                 Filter
                             </button>
@@ -119,7 +131,6 @@
                                 </h6>
                             </div>
                             <div class="card-footer text-right">
-<%--                                <a href="<c:url value=""/>" class="card-link">Update</a>--%>
                                 <a href="<c:url value="/exhibits/delete-exhibit/${exhibit.id}"/>" class="card-link">Remove</a>
                             </div>
                         </div>

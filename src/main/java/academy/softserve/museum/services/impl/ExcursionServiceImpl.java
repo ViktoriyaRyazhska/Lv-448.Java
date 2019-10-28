@@ -95,7 +95,7 @@ public class ExcursionServiceImpl implements ExcursionService {
     @Override
     public List<Excursion> findAll() {
         List<Excursion> excursionList = excursionDao.findAll();
-        if (excursionList.size() < 1) {
+        if (excursionList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return excursionList;
@@ -142,7 +142,7 @@ public class ExcursionServiceImpl implements ExcursionService {
     @Override
     public List<Excursion> findAvailable(Date dateStart, Date dateEnd) {
         List<Excursion> excursionList = excursionDao.findAvailable(dateStart, dateEnd);
-        if (excursionList.size() < 1) {
+        if (excursionList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return excursionList;

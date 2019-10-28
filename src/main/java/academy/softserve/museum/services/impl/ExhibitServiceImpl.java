@@ -133,7 +133,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public List<Exhibit> findAll() {
         List<Exhibit> exhibitList = exhibitDao.loadForeignFields(exhibitDao.findAll());
-        if (exhibitList.size() < 1) {
+        if (exhibitList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return exhibitList;
@@ -163,7 +163,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public List<Exhibit> findByAuthor(Author author) {
         List<Exhibit> exhibitList = exhibitDao.loadForeignFields(exhibitDao.findByAuthor(author));
-        if (exhibitList.size() < 1) {
+        if (exhibitList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return exhibitList;
@@ -179,7 +179,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     public List<Exhibit> findByEmployee(Employee employee) {
         List<Exhibit> exhibitList = exhibitDao
                 .loadForeignFields(exhibitDao.findByEmployee(employee));
-        if (exhibitList.size() < 1) {
+        if (exhibitList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return exhibitList;
@@ -247,7 +247,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     @Override
     public Map<Audience, List<Exhibit>> findAllGroupedByAudience() {
         Map<Audience, List<Exhibit>> map = exhibitDao.findAllGroupedByAudience();
-        if (map.size() < 1) {
+        if (map.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return map;
@@ -287,7 +287,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     public List<Exhibit> findByAudience(Audience audience) {
         List<Exhibit> exhibitList = exhibitDao
                 .loadForeignFields(exhibitDao.findByAudience(audience));
-        if (exhibitList.size() < 1) {
+        if (exhibitList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return exhibitList;

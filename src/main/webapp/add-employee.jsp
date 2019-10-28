@@ -19,21 +19,21 @@
                         <input type="text" class="form-control"
                                id="employee-firstname"
                                name="firstname"
-                               placeholder="Enter firstname">
+                               placeholder="Enter firstname" required>
                     </div>
                     <div class="form-group">
                         <label for="employee-lastname">Lastname</label>
                         <input type="text" class="form-control"
                                id="employee-lastname"
                                name="lastname"
-                               placeholder="Enter lastname">
+                               placeholder="Enter lastname" required>
                     </div>
                     <div class="form-group">
                         <label for="employee-username">Username</label>
                         <input type="text" class="form-control" id="employee-username"
                                aria-describedby="employee-username-help"
                                name="username"
-                               placeholder="Enter username">
+                               placeholder="Enter username" required>
                         <small id="employee-username-help" class="form-text text-muted">Latin letters and numbers only</small>
                     </div>
                     <div class="form-group">
@@ -41,7 +41,7 @@
                         <input type="password" class="form-control" id="employee-password"
                                aria-describedby="employee-password-help"
                                name="password"
-                               placeholder="Enter password">
+                               placeholder="Enter password" required>
                         <small id="employee-password-help" class="form-text text-muted">Uppercase letters
                             and special symbols can significantly improve security</small>
                     </div>

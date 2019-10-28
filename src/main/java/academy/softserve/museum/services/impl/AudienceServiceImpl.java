@@ -93,7 +93,7 @@ public class AudienceServiceImpl implements AudienceService {
     @Override
     public List<Audience> findAll() {
         List<Audience> audienceList = audienceDao.findAll();
-        if (audienceList.size() < 1) {
+        if (audienceList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return audienceList;

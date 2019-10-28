@@ -18,7 +18,7 @@
                         <label for="excursion-name">Name</label>
                         <input type="text" class="form-control" id="excursion-name"
                                name="name"
-                               placeholder="Enter the name of excursion">
+                               placeholder="Enter the name of excursion" required>
                     </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Add</button>

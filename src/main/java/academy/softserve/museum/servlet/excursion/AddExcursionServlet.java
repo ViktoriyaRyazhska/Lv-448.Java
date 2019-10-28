@@ -64,10 +64,10 @@ public class AddExcursionServlet extends HttpServlet {
         try {
             excursionService.save(excursion);
             req.setAttribute("successMessage", "Excursion has been successfully added");
-            req.getRequestDispatcher("/excursions/add-excursion").include(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/excursions");
         } catch (NotSavedException e) {
             req.setAttribute("failureMessage", "Something went wrong!");
-            req.getRequestDispatcher("/excursions").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/excursions");
         }
     }
 }

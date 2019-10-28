@@ -107,7 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> findAll() {
         List<Employee> employeeList = employeeDao.loadForeignFields(employeeDao.findAll());
-        if (employeeList.size() < 1) {
+        if (employeeList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return employeeList;
@@ -150,7 +150,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> findByPosition(EmployeePosition position) {
         List<Employee> employeeList = employeeDao
                 .loadForeignFields(employeeDao.findByPosition(position));
-        if (employeeList.size() < 1) {
+        if (employeeList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return employeeList;
@@ -199,7 +199,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> findAvailable(Date dateStart, Date dateEnd) {
         List<Employee> employeeList = employeeDao.findAvailable(dateStart, dateEnd);
-        if (employeeList.size() < 1) {
+        if (employeeList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return employeeList;

@@ -84,7 +84,7 @@ public class TimetableServiceImpl implements TimetableService {
     @Override
     public List<Timetable> findAll() {
         List<Timetable> timetableList = timetableDao.findAll();
-        if (timetableList.size() < 1) {
+        if (timetableList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return timetableList;

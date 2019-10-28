@@ -141,7 +141,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public List<Author> findAll() {
         List<Author> authorList = authorDao.loadForeignFields(authorDao.findAll());
-        if (authorList.size() < 1) {
+        if (authorList.isEmpty()) {
             throw new NotFoundException(ErrorMessage.OBJECT_NOT_FOUND);
         }
         return authorList;
