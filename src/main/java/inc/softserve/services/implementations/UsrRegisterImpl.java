@@ -31,7 +31,6 @@ public class UsrRegisterImpl implements UsrRegisterService {
     /**
      * Constructor with 5 parameters.
      */
-
     public UsrRegisterImpl(SaltGen saltGen, UsrDao usrDao, VisaDao visaDao, CountryDao countryDao, Connection conn) {
         this.saltGen = saltGen;
         this.usrDao = usrDao;
@@ -251,6 +250,18 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return userPassHash.equals(passHash);
     }
 
+    /**
+     * Method create UsrDto.
+     *
+     * @param firstName users firstName
+     * @param lastName users lastName
+     * @param email users email
+     * @param phone users phone
+     * @param date users date
+     * @param password users password
+     *
+     * @return usrDto entity.
+     */
     @Override
     public UsrDto initUsrDto(String firstName, String lastName, String email, String phone, String date, String password){
         UsrDto user = new UsrDto();
@@ -263,25 +274,49 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return user;
     }
 
+    /**
+     * Method generate date.
+     *
+     * @param date string witch generate to date
+
+     *@return LocalDate.
+     */
     public LocalDate generateDate(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(date, formatter);
     }
 
+    /**
+     * Method create VisaDto.
+     *
+     * @param country users country
+     * @param expirationDate users expirationDate
+     * @param issued users issued
+     * @param visaNumber users visaNumber
+
+     *@return VisaDto entity.
+     */
     @Override
-    public VisaDto initVisaDto(String country, String ExpirationDate, String issued, String visaNumber){
+    public VisaDto initVisaDto(String country, String expirationDate, String issued, String visaNumber){
         if (country.isEmpty()) {
             return null;
         } else {
             VisaDto visa = new VisaDto();
             visa.setCountry(country);
-            visa.setExpirationDate(generateDate(ExpirationDate));
+            visa.setExpirationDate(generateDate(expirationDate));
             visa.setIssued(generateDate(issued));
             visa.setVisaNumber(visaNumber);
             return visa;
         }
     }
 
+    /**
+     * Method check validate date.
+     *
+     * @param date users date
+     *
+     * @return True if valid date.
+     */
     private boolean isValidDate(String date) {
         return date.matches("^\\d{4}/\\d{2}/\\d{2}$");
     }

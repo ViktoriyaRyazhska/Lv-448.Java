@@ -15,11 +15,18 @@ public class HotelStatsServiceImpl implements HotelStatsService {
     private final HotelDao hotelDao;
     private final RoomDao roomDao;
 
+    /**
+     * Constructor with 2 parameters.
+     */
     public HotelStatsServiceImpl(HotelDao hotelDao, RoomDao roomDao) {
         this.hotelDao = hotelDao;
         this.roomDao = roomDao;
     }
-
+    /**
+     * Method saves new user in database
+     *
+     * @return statistics of the hotels (number of visitors, average time of booking).
+     */
     @Override
     public List<HotelStats> calcHotelStats() {
         return hotelDao.calcStats();

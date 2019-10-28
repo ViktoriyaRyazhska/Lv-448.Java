@@ -19,7 +19,9 @@ public class BookingServiceImpl implements BookingService {
     private final HotelDao hotelDao;
     private final RoomDao roomDao;
 
-
+    /**
+     * Constructor with 4 parameters.
+     */
     public BookingServiceImpl(BookingDao bookingDao, UsrDao usrDao, HotelDao hotelDao, RoomDao roomDao) {
         this.bookingDao = bookingDao;
         this.usrDao = usrDao;
@@ -27,6 +29,13 @@ public class BookingServiceImpl implements BookingService {
         this.roomDao = roomDao;
     }
 
+    /**
+     *
+     * Method saved new Booking entity
+     *
+     * @param bookingReqDto dto from form
+     * @param orderDate date ordered
+     */
     @Override
     public void book(BookingReqDto bookingReqDto, LocalDateTime orderDate){
         LocalDate checkin = bookingReqDto.getCheckin();
@@ -37,6 +46,14 @@ public class BookingServiceImpl implements BookingService {
         bookingDao.save(setBooking(bookingReqDto, orderDate));
     }
 
+    /**
+     * Method return Booking entity
+     *
+     * @param bookingReqDto dto from form
+     * @param orderDate date ordered
+     *
+     * @return new Booking entity
+     */
     private Booking setBooking(BookingReqDto bookingReqDto, LocalDateTime orderDate){
         Booking booking = new Booking();
         booking.setUsr(usrDao.findById(bookingReqDto.getUsrId())

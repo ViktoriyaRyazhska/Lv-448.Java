@@ -15,11 +15,22 @@ public class RoomServiceImpl implements RoomService {
     private final RoomDao roomDao;
     private final BookingDao bookingDao;
 
+    /**
+     * Constructor with 2 parameters.
+     */
     public RoomServiceImpl(RoomDao roomDao, BookingDao bookingDao) {
         this.roomDao = roomDao;
         this.bookingDao = bookingDao;
     }
 
+    /**
+     * Method saves new user in database
+     *
+     * @param hotelId id Hotel entity
+     * @param from from date
+     *
+     * @return Set all free room
+     */
     @Override
     public Set<RoomDto> findRoomsAndTheirBookingsStartingFrom(Long hotelId, final LocalDate from){
         return roomDao.findByHotelId(hotelId)

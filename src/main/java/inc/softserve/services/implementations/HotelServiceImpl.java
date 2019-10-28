@@ -20,6 +20,9 @@ public class HotelServiceImpl implements HotelService {
     private final CityDao cityDao;
     private final CountryDao countryDao;
 
+    /**
+     * Constructor with 5 parameters.
+     */
     public HotelServiceImpl(BookingDao bookingDao, RoomDao roomDao, HotelDao hotelDao, CityDao cityDao, CountryDao countryDao) {
         this.bookingDao = bookingDao;
         this.roomDao = roomDao;

@@ -16,6 +16,9 @@ public class ClientStatsServiceImpl implements ClientStatsService {
     private final VisaDao visaDao;
     private final BookingDao bookingDao;
 
+    /**
+     * Constructor with 4 parameters.
+     */
     public ClientStatsServiceImpl(UsrDao usrDao, CountryDao countryDao, VisaDao visaDao, BookingDao bookingDao) {
         this.usrDao = usrDao;
         this.countryDao = countryDao;
@@ -23,6 +26,14 @@ public class ClientStatsServiceImpl implements ClientStatsService {
         this.bookingDao = bookingDao;
     }
 
+    /**
+     *
+     * Method returned statistic by user
+     *
+     * @param email users email
+     *
+     * @return statistic by user
+     */
     @Override
     public Optional<Usr> getUser(String email) {
         Optional<Usr> usr = usrDao.findByEmail(email);
