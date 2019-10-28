@@ -1,8 +1,12 @@
 (function () {
-    $("#submitId").on("click", function(e){
+    $('.datepicker').datepicker({
+        maxDate: twoYearsFromNow()
+    });
+
+    $('.submitBtn').on('click', function(e){
         e.preventDefault();
-        let checkinStr = $('#checkin').val();
-        let checkoutStr = $('#checkout').val();
+        let checkinStr = $('.checkin').val();
+        let checkoutStr = $('.checkout').val();
         if (checkinStr === '' || checkoutStr === ''){
             alert("You haven't specified a date");
             return;
@@ -15,4 +19,9 @@
             $('#formId').submit();
         }
     });
+
+    function twoYearsFromNow() {
+        let now = new Date();
+        return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
+    }
 })();

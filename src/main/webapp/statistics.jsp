@@ -21,7 +21,6 @@
 
 <div>
     <h3>Statistics of ${user.firstName} ${user.lastName}</h3>
-    <c:out value="${visasNumbers}"/>
     <p>${user.firstName} ${user.lastName} have ${visasNumbers} visas</p>
     <div>
         <ul>
@@ -51,39 +50,28 @@
         </c:forEach>
     </table>
     <h3>Room statistics</h3>
+    <form action="/room_statistics/" method="GET">
     <c:forEach var="hotel" items="${hotelsList}">
-        <form action="/room_statistics/" method="GET">
             <fieldset>
                 <legend>${hotel.hotelName}</legend>
                 <c:out value="${hotel.hotelName}"/>
                 <label>
-                    Select start period: <input class="datepicker" type="text" name="start_period" required>
+                    Select start period: <input class="datepicker checkin" type="text" name="start_period">
                 </label>
                 <label>
-                    Select end period: <input class="datepicker" type="text" name="end_period" required>
+                    Select end period: <input class="datepicker checkout" type="text" name="end_period">
                 </label>
                 <input hidden value="${hotel.hotelId}" name="hotel_id">
                 <input hidden value="${hotel.hotelName}" name="hotel_name">
                 <button class="submitBtn" type="submit">Show</button>
             </fieldset>
-        </form>
     </c:forEach>
+    </form>
 </div>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script >
-    (function () {
-        $('.datepicker').datepicker({
-            maxDate: twoYearsFromNow()
-        });
-
-        function twoYearsFromNow() {
-            let now = new Date();
-            return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
-        }
-    })();
-</script>
+<script src="<c:url value="/js/statistics.js"/>"></script>
 </body>
 </html>
