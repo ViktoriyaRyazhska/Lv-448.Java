@@ -3,13 +3,14 @@ package inc.softserve.entities;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
 public class Booking {
 
     private Long id;
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
     private LocalDate checkin;
     private LocalDate checkout;
     private Usr usr;

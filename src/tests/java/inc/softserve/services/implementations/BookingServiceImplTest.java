@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.hamcrest.CoreMatchers.any;
@@ -46,6 +47,7 @@ class BookingServiceImplTest {
         BookingReqDto bookingReqDto = new BookingReqDto(LocalDate.of(2022, 10, 10),
                 LocalDate.of(2021, 10, 10), 1L, 1L, 1L);
         when(bookingDao.save(anyObject())).thenThrow(InvalidTimePeriod.class);
-        assertThrows(InvalidTimePeriod.class, () -> bookingService.book(bookingReqDto, LocalDate.of(2021, 10, 10)));
+        assertThrows(InvalidTimePeriod.class, () -> bookingService.book(bookingReqDto, LocalDateTime
+                .of(2021, 10, 10, 0, 0, 0)));
     }
 }

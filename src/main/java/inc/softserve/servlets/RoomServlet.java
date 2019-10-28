@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public class RoomServlet extends HttpServlet {
                 .hotelId(hotelId)
                 .build();
         try {
-            bookingService.book(bookingReqDto, LocalDate.now());
+            bookingService.book(bookingReqDto, LocalDateTime.now());
             req.setAttribute("message", "You have book a room");
             req.getRequestDispatcher("booking.jsp").include(req, resp);
         } catch (InvalidTimePeriod e){

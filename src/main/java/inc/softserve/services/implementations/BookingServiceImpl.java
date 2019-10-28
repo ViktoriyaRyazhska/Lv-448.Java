@@ -10,6 +10,7 @@ import inc.softserve.exceptions.InvalidTimePeriod;
 import inc.softserve.services.intefaces.BookingService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class BookingServiceImpl implements BookingService {
 
@@ -27,7 +28,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void book(BookingReqDto bookingReqDto, LocalDate orderDate){
+    public void book(BookingReqDto bookingReqDto, LocalDateTime orderDate){
         LocalDate checkin = bookingReqDto.getCheckin();
         LocalDate checkout = bookingReqDto.getCheckout();
         if (checkin.compareTo(checkout) > 0){
@@ -36,7 +37,7 @@ public class BookingServiceImpl implements BookingService {
         bookingDao.save(setBooking(bookingReqDto, orderDate));
     }
 
-    private Booking setBooking(BookingReqDto bookingReqDto, LocalDate orderDate){
+    private Booking setBooking(BookingReqDto bookingReqDto, LocalDateTime orderDate){
         Booking booking = new Booking();
         booking.setUsr(usrDao.findById(bookingReqDto.getUsrId())
                 .orElseThrow());
