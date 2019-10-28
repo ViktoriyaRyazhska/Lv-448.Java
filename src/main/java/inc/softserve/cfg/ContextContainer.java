@@ -19,6 +19,7 @@ class ContextContainer {
 
     static Connection connection = ConnectDb.connectBase();
 
+    static UsrCountryDao usrCountryDao = new UsrCountryDaoJdbc(connection);
     static CountryDao countryDao = new CountryDaoJdbc(connection);
     static UsrDao usrDao = new UsrDaoJdbc(connection);
     static VisaDao visaDao = new VisaDaoJdbc(connection, usrDao, countryDao);
@@ -34,6 +35,6 @@ class ContextContainer {
     static HotelStatsService hotelStatsService = new HotelStatsServiceImpl(hotelDao, roomDao);
     static SaltGen saltGen = new JavaNativeSaltGen();
     static UsrRegisterService usrRegisterService= new UsrRegisterImpl(saltGen, usrDao, visaDao, countryDao, connection);
-    static BookingService bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao);
+    static BookingService bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao, usrCountryDao);
     static RoomStatsService roomStatsService = new RoomStatsServiceImpl(roomDao);
 }

@@ -1,9 +1,6 @@
 package inc.softserve.services.implementations;
 
-import inc.softserve.dao.interfaces.BookingDao;
-import inc.softserve.dao.interfaces.HotelDao;
-import inc.softserve.dao.interfaces.RoomDao;
-import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.dao.interfaces.*;
 import inc.softserve.dto.on_request.BookingReqDto;
 import inc.softserve.entities.Booking;
 import inc.softserve.exceptions.InvalidTimePeriod;
@@ -18,7 +15,10 @@ public class BookingServiceImpl implements BookingService {
     private final UsrDao usrDao;
     private final HotelDao hotelDao;
     private final RoomDao roomDao;
+    private final UsrCountryDao usrCountryDao;
 
+
+    public BookingServiceImpl(BookingDao bookingDao, UsrDao usrDao, HotelDao hotelDao, RoomDao roomDao, UsrCountryDao usrCountryDao) {
     /**
      * Constructor with 4 parameters.
      */
@@ -27,6 +27,7 @@ public class BookingServiceImpl implements BookingService {
         this.usrDao = usrDao;
         this.hotelDao = hotelDao;
         this.roomDao = roomDao;
+        this.usrCountryDao = usrCountryDao;
     }
 
     /**
@@ -43,7 +44,9 @@ public class BookingServiceImpl implements BookingService {
         if (checkin.compareTo(checkout) > 0){
             throw new InvalidTimePeriod();
         }
-        bookingDao.save(setBooking(bookingReqDto, orderDate));
+        Booking booking = mapToBooking(bookingReqDto, orderDate);
+        bookingDao.save(booking);
+        usrCountryDao.usrVisitedCountry(booking.getUsr().getId(), booking.getHotel().getCity().getCountry().getId());
     }
 
     /**
@@ -55,6 +58,7 @@ public class BookingServiceImpl implements BookingService {
      * @return new Booking entity
      */
     private Booking setBooking(BookingReqDto bookingReqDto, LocalDateTime orderDate){
+    private Booking mapToBooking(BookingReqDto bookingReqDto, LocalDateTime orderDate){
         Booking booking = new Booking();
         booking.setUsr(usrDao.findById(bookingReqDto.getUsrId())
                 .orElseThrow());

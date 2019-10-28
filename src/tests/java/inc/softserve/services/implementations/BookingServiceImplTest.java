@@ -1,11 +1,7 @@
 package inc.softserve.services.implementations;
 
-import inc.softserve.dao.interfaces.BookingDao;
-import inc.softserve.dao.interfaces.HotelDao;
-import inc.softserve.dao.interfaces.RoomDao;
-import inc.softserve.dao.interfaces.UsrDao;
+import inc.softserve.dao.interfaces.*;
 import inc.softserve.dto.on_request.BookingReqDto;
-import inc.softserve.entities.Booking;
 import inc.softserve.exceptions.InvalidTimePeriod;
 import inc.softserve.services.intefaces.BookingService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +12,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
@@ -24,6 +19,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 class BookingServiceImplTest {
 
+    @Mock
+    private UsrCountryDao usrCountryDao;
     @Mock
     private BookingDao bookingDao;
     @Mock
@@ -39,7 +36,7 @@ class BookingServiceImplTest {
     @BeforeEach
     void init () {
         initMocks(this);
-        bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao);
+        bookingService = new BookingServiceImpl(bookingDao, usrDao, hotelDao, roomDao, usrCountryDao);
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     }
     @Test
