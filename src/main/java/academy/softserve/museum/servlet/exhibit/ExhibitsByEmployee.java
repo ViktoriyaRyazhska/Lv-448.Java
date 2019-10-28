@@ -53,13 +53,12 @@ public class ExhibitsByEmployee extends HttpServlet {
             Employee employee =
                     employeeService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName")).get();
             req.setAttribute("exhibits", exhibitService.findByEmployee(employee));
-            req.setAttribute("audiences", audienceService.findAll());
             req.setAttribute(MessageType.SUCCESS, "Found " + exhibitService.findByEmployee(employee).size() + " result(s)");
-            req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
         } catch (RuntimeException e) {
             req.setAttribute(MessageType.FAILURE, "Employee does not exist");
-            req.setAttribute("audiences", audienceService.findAll());
             req.setAttribute("exhibits", exhibitService.findAll());
+        } finally {
+            req.setAttribute("audiences", audienceService.findAll());
             req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
         }
 

@@ -1,6 +1,7 @@
 package academy.softserve.museum.servlet.schedule;
 
 
+import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.entities.dto.TimetableDto;
 import academy.softserve.museum.services.EmployeeService;
@@ -82,18 +83,22 @@ public class ScheduleServlet extends HttpServlet {
                         .toInstant(ZoneOffset.of("+03:00"))
                         .toEpochMilli());
 
-        TimetableDto dto = new TimetableDto(dateTimeFrom, dateTimeTill, employeeId, excursionId);
-
-        timetableService.save(dto);
-
-        req.setAttribute("excursionList", excursionService.findAll());
-        req.setAttribute("employees", employeeService
-                .findAll()
-                .stream()
-                .filter(e -> e.getPosition() == EmployeePosition.TOUR_GUIDE)
-                .collect(Collectors.toList()));
-
-        req.setAttribute("excursions", Serializer.toJsonString(ScheduleDtoMapper.getSchedule(timetableService.findAll())));
-        req.getRequestDispatcher("/schedule.jsp").include(req, resp);
+        try {
+            if (dateTimeFrom.compareTo(dateTimeTill) < 0) {
+                TimetableDto dto = new TimetableDto(dateTimeFrom, dateTimeTill, employeeId, excursionId);
+                timetableService.save(dto);
+            }
+        } catch (RuntimeException e) {
+            req.setAttribute(MessageType.FAILURE, "Something went wrong!");
+        } finally {
+            req.setAttribute("excursions", Serializer.toJsonString(ScheduleDtoMapper.getSchedule(timetableService.findAll())));
+            req.setAttribute("excursionList", excursionService.findAll());
+            req.setAttribute("employees", employeeService
+                    .findAll()
+                    .stream()
+                    .filter(e -> e.getPosition() == EmployeePosition.TOUR_GUIDE)
+                    .collect(Collectors.toList()));
+            req.getRequestDispatcher("/schedule.jsp").forward(req, resp);
+        }
     }
 }

@@ -9,6 +9,9 @@
 <body class="no-overflow">
 <jsp:include page="fragment/header.jsp"/>
 <section class="main-section">
+    <div class="header-wrapper">
+        <h1>BEST MUSEUM EVER</h1>
+    </div>
     <img id="bg-image" src="<c:url value="/static/img/bg.jpg"/>" alt="museum-bg">
 </section>
 <jsp:include page="fragment/footer.jsp"/>

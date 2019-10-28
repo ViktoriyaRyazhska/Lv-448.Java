@@ -51,14 +51,13 @@ public class ExhibitsByAuthor extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Author author = authorService.findByFullName(req.getParameter("firstName"), req.getParameter("lastName")).get();
-            req.setAttribute("audiences", audienceService.findAll());
             req.setAttribute("exhibits", exhibitService.findByAuthor(author));
             req.setAttribute(MessageType.SUCCESS, "Found " + exhibitService.findByAuthor(author).size() + " result(s)");
-            req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
         } catch (RuntimeException e) {
             req.setAttribute(MessageType.FAILURE, "Author does not exist");
-            req.setAttribute("audiences", audienceService.findAll());
             req.setAttribute("exhibits", exhibitService.findAll());
+        } finally {
+            req.setAttribute("audiences", audienceService.findAll());
             req.getRequestDispatcher("/exhibits.jsp").include(req,resp);
         }
     }
