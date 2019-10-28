@@ -18,13 +18,13 @@
                         <label for="author-firstname">Fistname</label>
                         <input type="text" class="form-control" id="author-firstname"
                                name="firstname"
-                               placeholder="Enter author's firstname">
+                               placeholder="Enter author's firstname" required>
                     </div>
                     <div class="form-group">
                         <label for="author-lastname">Lastname</label>
                         <input type="text" class="form-control" id="author-lastname"
                                name="lastname"
-                               placeholder="Enter author's lastname">
+                               placeholder="Enter author's lastname" required>
                     </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Add</button>

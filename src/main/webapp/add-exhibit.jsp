@@ -39,7 +39,7 @@
                         <label for="exhibit-name">Name</label>
                         <input type="text" class="form-control" id="exhibit-name"
                                name="name"
-                               placeholder="Enter exhibit name">
+                               placeholder="Enter exhibit name" required>
                     </div>
                     <div class="form-group">
                         <label for="exhibit-material">Material</label>
@@ -51,7 +51,7 @@
                         <label for="exhibit-technic">Technic</label>
                         <input type="text" class="form-control" id="exhibit-technic"
                                name="technic"
-                               placeholder="Enter exhibit technic">
+                               placeholder="Enter exhibit technique">
                     </div>
                     <div class="form-group">
                         <label for="exhibit-audience">Audience</label>

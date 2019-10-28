@@ -29,10 +29,10 @@
                     <div class="form-group">
                         <label class="filter-col" for="date-time-from">Date/Time from:</label>
                         <input type="datetime-local" class="form-control input-xs w-250" name="from"
-                               id="date-time-from">
+                               id="date-time-from" required>
                         <label class="filter-col" for="date-time-till">Date/Time till:</label>
                         <input type="datetime-local" class="form-control input-xs w-250" name="till"
-                               id="date-time-till">
+                               id="date-time-till" required>
                     </div> <!-- form group [date-time-till] -->
                     <div class="form-group mt-2">
                         <label class="filter-col" for="schedule-employee">Tour guide:</label>

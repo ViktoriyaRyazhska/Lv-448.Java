@@ -14,11 +14,18 @@
             <form class="form-inline" action="<c:url value="/excursions/statistics"/>" method="post" role="form">
                 <div class="form-group">
                     <label class="filter-col" for="date-time-from">Date/Time from:</label>
-                    <input type="datetime-local" class="form-control input-xs w-250" name="from" id="date-time-from">
+                    <input type="datetime-local"
+                           class="form-control
+                           input-xs w-250"
+                           name="from"
+                           id="date-time-from" required>
                 </div> <!-- form group [date-time-from] -->
                 <div class="form-group">
                     <label class="filter-col" for="date-time-till">Date/Time till:</label>
-                    <input type="datetime-local" class="form-control input-xs w-250" name="till" id="date-time-till">
+                    <input type="datetime-local"
+                           class="form-control input-xs w-250"
+                           name="till"
+                           id="date-time-till" required>
                 </div> <!-- form group [date-time-till] -->
                 <button type="submit" class="btn btn-dark">
                     Filter
