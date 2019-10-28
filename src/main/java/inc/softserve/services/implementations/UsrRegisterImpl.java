@@ -28,6 +28,10 @@ public class UsrRegisterImpl implements UsrRegisterService {
     private CountryDao countryDao;
     private Connection conn;
 
+    /**
+     * Constructor with 5 parameters.
+     */
+
     public UsrRegisterImpl(SaltGen saltGen, UsrDao usrDao, VisaDao visaDao, CountryDao countryDao, Connection conn) {
         this.saltGen = saltGen;
         this.usrDao = usrDao;
@@ -36,6 +40,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
         this.conn = conn;
     }
 
+    /**
+     * Method saves new user in database
+     *
+     * @param usrDto User dto
+     * @param visaDto visa dto
+     *
+     * @return Map with errors.
+     */
     @Override
     public Map<String, String> register(UsrDto usrDto, VisaDto visaDto) {
         Map<String, String> error = new HashMap<>();
@@ -75,6 +87,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
         }
     }
 
+    /**
+     * Generate hash password.
+     *
+     * @param usrDto User dto.
+     * @param salt Password salt.
+     *
+     * @return String salt of password.
+     */
     private String generateHashPassword(UsrDto usrDto, String salt){
         String resultPass = salt + usrDto.getPassword();
         try {
@@ -86,6 +106,13 @@ public class UsrRegisterImpl implements UsrRegisterService {
         }
     }
 
+    /**
+     * Convert user dto to user entity.
+     *
+     * @param usrDto Usr dto.
+     *
+     * @return Usr entity.
+     */
     private Usr convertDtoToUser(UsrDto usrDto){
         Usr user = new Usr();
         String salt = saltGen.get();
@@ -100,6 +127,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return user;
     }
 
+    /**
+     * Convert visa dto to visa entity.
+     *
+     * @param visaDto User dto.
+     * @param user Usr entity.
+     *
+     * @return Visa entity.
+     */
     private Visa convertDtoToVisa(VisaDto visaDto, Usr user){
         Visa visa = new Visa();
         if (visaDto != null ) {
@@ -117,20 +152,49 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return  visa;
     }
 
+    /**
+     * Methods check if user exists.
+     *
+     * @param usrDto User dto.
+     *
+     * @return True if user exists.
+     */
     private boolean exists(UsrDto usrDto){
         return usrDao.findByEmail(usrDto.getEmail()).isPresent();
     }
 
+    /**
+     * Methods check is email valid.
+     *
+     * @param email for check.
+     *
+     * @return True if email is valid.
+     */
     private boolean isEmailValid(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?" +
                 "(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
         return email.matches(regex);
     }
 
+    /**
+     * Methods check is phone number valid.
+     *
+     * @param phoneNumber for check.
+     *
+     * @return True if phone number is valid.
+     */
     private boolean isPhoneNumberValid(String phoneNumber){
         return phoneNumber.matches("^[+]*[(]?[0-9]{1,4}[)]?[-\\s./0-9]*$");
     }
 
+    /**
+     * Methods sing in.
+     *
+     * @param email for login.
+     * @param password for login.
+     *
+     * @return Usr entity if email and password is true.
+     */
     @Override
     public Usr login(String email, String password) {
         Optional<Usr> user = usrDao.findByEmail(email);
@@ -145,6 +209,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
         }
     }
 
+    /**
+     * Method validate data.
+     *
+     * @param email for login.
+     * @param password for login.
+     *
+     * @return Map with errors.
+     */
     public Map<String, String> validateData(String email, String password){
         Map<String, String> messages = new HashMap<>();
         if(email.isBlank() || password.isBlank()){
@@ -156,6 +228,14 @@ public class UsrRegisterImpl implements UsrRegisterService {
         return messages;
     }
 
+    /**
+     * Method validates password.
+     *
+     * @param user entity.
+     * @param password raw entered password.
+     *
+     * @return True if password validate.
+     */
     private boolean isValidPassword(Usr user, String password) {
         String salt = user.getSalt();
         String passHash = user.getPasswordHash();
