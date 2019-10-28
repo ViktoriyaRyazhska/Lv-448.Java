@@ -26,6 +26,10 @@
     overflow: hidden !important;
 }
 
+.container {
+    padding-bottom: 20px !important;
+}
+
 .main-section {
     overflow: hidden !important;
 }

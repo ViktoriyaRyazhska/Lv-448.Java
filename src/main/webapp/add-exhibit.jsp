@@ -41,15 +41,15 @@
                                name="name"
                                placeholder="Enter exhibit name" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group exhibit-material-group">
                         <label for="exhibit-material">Material</label>
                         <input type="text" class="form-control" id="exhibit-material"
                                name="material"
                                placeholder="Enter exhibit material">
                     </div>
-                    <div class="form-group">
-                        <label for="exhibit-technic">Technic</label>
-                        <input type="text" class="form-control" id="exhibit-technic"
+                    <div class="form-group exhibit-technique-group">
+                        <label for="exhibit-technique">Technic</label>
+                        <input type="text" class="form-control" id="exhibit-technique"
                                name="technic"
                                placeholder="Enter exhibit technique">
                     </div>

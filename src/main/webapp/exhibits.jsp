@@ -111,7 +111,7 @@
                                 <h6 class="card-title">
                                     <span class="text-primary">Author(s): </span>
                                     <c:forEach var="author" items="${exhibit.authors}">
-                                        <span>${author.firstName} ${author.lastName}</span>
+                                        <span>${author.firstName} ${author.lastName}</span><br>
                                     </c:forEach>
                                 </h6>
                                 <h6 class="card-title">
