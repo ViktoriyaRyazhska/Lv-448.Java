@@ -62,7 +62,6 @@ public class HotelServiceImpl implements HotelService {
      * @param cityId - an identificator of a city
      * @return - hotels in the city
      */
-    @Deprecated
     @Override
     public Set<Hotel> findHotelsByCityId(Long cityId) {
         return hotelDao.findHotelsByCityId(cityId)
@@ -76,7 +75,6 @@ public class HotelServiceImpl implements HotelService {
      * @param cityName - a name of a city
      * @return - all hotels that are in the city
      */
-    @Deprecated
     @Override
     public Set<Hotel> findHotelsByCountryAndCity(String countryName, final String cityName){
         return countryDao.findByCountryName(countryName)
