@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Set;
 
 /**
@@ -69,10 +70,17 @@ public class RoomServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LocalDate checkin = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                .plusDays(1); // MySQL's Date.valueOf(localDate) doesn't work correctly!!!
-        LocalDate checkout = LocalDate.parse(req.getParameter("checkout"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                .plusDays(1); // MySQL's Date.valueOf(localDate) doesn't work correctly!!!
+        LocalDate checkin;
+        LocalDate checkout;
+        try {
+            checkin = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                    .plusDays(1); // MySQL's Date.valueOf(localDate) doesn't work correctly!!!
+            checkout = LocalDate.parse(req.getParameter("checkout"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                    .plusDays(1); // MySQL's Date.valueOf(localDate) doesn't work correctly!!!
+        } catch (DateTimeParseException e){
+            resp.getWriter().println("<script>alert('You have entered invalid date')</script>");
+            return;
+        }
         Long usrId = ((Usr) req.getSession().getAttribute("user")).getId();
         Long roomId = Long.parseLong(req.getParameter("room_id"));
         Long hotelId = Long.parseLong(req.getParameter("hotel_id"));

@@ -49,7 +49,7 @@ public class AvailableHotelsServlet extends HttpServlet {
             checkout = LocalDate.parse(req.getParameter("checkout"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
                     .plusDays(1);
         } catch (DateTimeParseException e){
-            resp.getWriter().println("");
+            resp.getWriter().println("<script>alert('You have entered invalid date')</script>");
             return;
         }
         Long cityId = Long.parseLong(req.getParameter("cityId"));
