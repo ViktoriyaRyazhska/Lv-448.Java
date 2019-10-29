@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class JdbcExcursionDaoTest extends JdbcDaoTest {
+class JdbcExcursionDaoTest {
     private ExcursionDao excursionDao;
     private List<Excursion> excursions;
 

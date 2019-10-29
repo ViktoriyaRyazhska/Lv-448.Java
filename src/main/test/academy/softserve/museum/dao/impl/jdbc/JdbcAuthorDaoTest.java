@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class JdbcAuthorDaoTest extends JdbcDaoTest {
+class JdbcAuthorDaoTest {
     private AuthorDao authorDao;
     private ExhibitDao exhibitDao;
     private List<Author> authors;

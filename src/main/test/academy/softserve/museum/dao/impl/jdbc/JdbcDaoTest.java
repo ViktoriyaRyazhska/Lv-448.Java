@@ -31,19 +31,19 @@ public class JdbcDaoTest {
         }
     }
 
-    void dropTables() {
+    static void dropTables() {
         executeSql(loadSql(DROP_TABLES));
     }
 
-    void createTables() {
+    static void createTables() {
         executeSql(loadSql(CREATE_TABLES));
     }
 
-    void fillTables() {
+    static void fillTables() {
         executeSql(loadSql(FILL_TABLES));
     }
 
-    private void executeSql(String sqlFilepath) {
+    static private void executeSql(String sqlFilepath) {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sqlFilepath);
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class JdbcDaoTest {
         }
     }
 
-    private String loadSql(String filepath) {
+    static private String loadSql(String filepath) {
         StringBuilder sql = new StringBuilder();
         String row;
 

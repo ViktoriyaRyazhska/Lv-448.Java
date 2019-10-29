@@ -16,9 +16,10 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class JdbcEmployeeDaoTest extends JdbcDaoTest {
+class JdbcEmployeeDaoTest {
     private EmployeeDao employeeDao;
     private AudienceDao audienceDao;
     private List<Employee> employees;

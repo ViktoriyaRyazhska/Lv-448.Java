@@ -1,20 +1,25 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.database.DaoFactory;
-import academy.softserve.museum.entities.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import academy.softserve.museum.entities.Audience;
+import academy.softserve.museum.entities.Employee;
+import academy.softserve.museum.entities.EmployeePosition;
+import academy.softserve.museum.entities.Exhibit;
+import academy.softserve.museum.entities.ExhibitType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 
-class JdbcAudienceDaoTest extends JdbcDaoTest {
+class JdbcAudienceDaoTest {
 
     private AudienceDao audienceDao;
     private List<Audience> audiences;

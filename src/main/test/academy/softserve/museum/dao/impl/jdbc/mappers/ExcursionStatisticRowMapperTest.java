@@ -4,7 +4,6 @@ import academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.sql.Date;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExcursionStatisticRowMapperTest {
 

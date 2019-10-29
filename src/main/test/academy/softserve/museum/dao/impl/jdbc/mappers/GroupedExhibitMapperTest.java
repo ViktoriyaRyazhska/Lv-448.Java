@@ -5,17 +5,15 @@ import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Exhibit;
 import academy.softserve.museum.entities.ExhibitType;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GroupedExhibitMapperTest {
 

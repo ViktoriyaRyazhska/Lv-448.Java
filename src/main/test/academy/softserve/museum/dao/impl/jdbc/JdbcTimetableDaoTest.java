@@ -17,10 +17,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class JdbcTimetableDaoTest extends JdbcDaoTest {
+class JdbcTimetableDaoTest {
     private TimetableDao timetableDao;
     private ExcursionDao excursionDao;
     private EmployeeDao employeeDao;
