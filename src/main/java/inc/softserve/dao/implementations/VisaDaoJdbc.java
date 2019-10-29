@@ -4,10 +4,8 @@ import inc.softserve.dao.interfaces.CountryDao;
 import inc.softserve.dao.interfaces.UsrDao;
 import inc.softserve.dao.interfaces.VisaDao;
 import inc.softserve.entities.Visa;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;

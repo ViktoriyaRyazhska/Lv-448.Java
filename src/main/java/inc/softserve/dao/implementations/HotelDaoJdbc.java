@@ -104,6 +104,11 @@ public class HotelDaoJdbc implements HotelDao {
         }
     }
 
+    /**
+     * Maps result set to hotels stats.
+     * @param rs - result set that contains hotel id, hotel name, country name.
+     * @return - stream of hotels statistics
+     */
     private Stream<HotelStats> extractStatistics(ResultSet rs) throws SQLException {
         Stream.Builder<HotelStats> builder = Stream.builder();
         while (rs.next()){
@@ -118,6 +123,11 @@ public class HotelDaoJdbc implements HotelDao {
         return builder.build();
     }
 
+    /**
+     * Maps result set to hotel stream
+     * @param rs - resultset containing data from hotels table.
+     * @return - hotel stream.
+     */
     private Stream<Hotel> extractHotels(ResultSet rs) throws SQLException {
         Stream.Builder<Hotel> builder = Stream.builder();
         while (rs.next()){

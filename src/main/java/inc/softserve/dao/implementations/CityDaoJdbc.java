@@ -43,6 +43,11 @@ public class CityDaoJdbc implements CityDao {
         }
     }
 
+    /**
+     *
+     * @param rs - result set from the database containing information from city table
+     * @return - Stream of cities.
+     */
     private Stream<City> extractCities(ResultSet rs) throws SQLException {
         Stream.Builder<City> builder = Stream.builder();
         while (rs.next()){

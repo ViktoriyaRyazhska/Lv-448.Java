@@ -14,6 +14,11 @@ public class UsrCountryDaoJdbc implements UsrCountryDao {
         this.connection = connection;
     }
 
+    /**
+     * Inserts date into the intermediate table usr_country
+     * @param usrId - an identificator of a user
+     * @param countryId - an identificator of a country
+     */
     @Override
     public void usrVisitedCountry(Long usrId, Long countryId) {
         String query = "INSERT INTO usr_country (usr_id, country_id) VALUES (?, ?)";

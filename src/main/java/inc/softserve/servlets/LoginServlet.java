@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/login.jsp");
         requestDispatcher.forward(request, response);
-    //    request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override

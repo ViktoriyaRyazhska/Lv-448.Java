@@ -7,6 +7,11 @@ import java.util.stream.Collectors;
 
 public class RoomToRoomDto {
 
+    /**
+     * Turns Room entity into RoomDto
+     * @param room - room entity
+     * @return - RoomDto
+     */
     public static RoomDto map(Room room){
         return RoomDto.builder()
                 .id(room.getId())

@@ -24,6 +24,10 @@ public class CountryDaoJdbc implements CountryDao {
         this.connection = connection;
     }
 
+    /**
+     * Lazy implementation. All collections will not be brought automatically.
+     * @return all countries that are present in the database.
+     */
     @Override
     public Set<Country> findAll(){
         String query = "SELECT * FROM countries";
@@ -36,6 +40,12 @@ public class CountryDaoJdbc implements CountryDao {
         }
     }
 
+    /**
+     * Lazy implementation. All collections will not be brought automatically.
+     * Finds countries that are visited by a user
+     * @param usrId - an identificator of an user
+     * @return - not empty set if a user with given id exists and there are countries attached to him/her.
+     */
     @Override
     public Set<Country> findCountriesVisitedByUsr(Long usrId){
         String query = "SELECT DISTINCT * FROM users " +
@@ -54,6 +64,12 @@ public class CountryDaoJdbc implements CountryDao {
         }
     }
 
+    /**
+     * Lazy implementation. All collections will not be brought automatically.
+     * Maps result set to Country stream.
+     * @param rs - result set that contains the date from countries table.
+     * @return - stream of countries.
+     */
     private Stream<Country> extractCountries(ResultSet rs) throws SQLException {
         Stream.Builder<Country> builder = Stream.builder();
         while (rs.next()){
@@ -65,6 +81,11 @@ public class CountryDaoJdbc implements CountryDao {
         return builder.build();
     }
 
+    /**
+     * Lazy implementation. All collections will not be brought automatically.
+     * @param id - an identificator of a country.
+     * @return - not empty optional if a country with given id exists.
+     */
     @Override
     public Optional<Country> findById(Long id){
         String query = "SELECT * FROM countries WHERE id = ?";
@@ -78,6 +99,11 @@ public class CountryDaoJdbc implements CountryDao {
         }
     }
 
+    /**
+     * Lazy implementation. All collections will not be brought automatically.
+     * @param country - country name.
+     * @return - not empty optional if a country with given name exists.
+     */
     @Override
     public Optional<Country> findByCountryName(String country){
         String query = "SELECT * FROM countries WHERE country = ?";

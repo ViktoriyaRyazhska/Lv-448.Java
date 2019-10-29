@@ -60,6 +60,11 @@ public class RoomDaoJdbc implements RoomDao {
         }
     }
 
+    /**
+     * Maps resultset to room stream
+     * @param rs - resultset containing data from rooms table.
+     * @return - room stream
+     */
     private Stream<Room> extractRooms(ResultSet rs) throws SQLException {
         Stream.Builder<Room> builder = Stream.builder();
         while (rs.next()){
@@ -111,6 +116,13 @@ public class RoomDaoJdbc implements RoomDao {
         }
     }
 
+    /**
+     * Lazy implementation. Collection (Set<Booking>) will not be brought.
+     * @param cityId - an identificator of a city
+     * @param from - start date
+     * @param till - end date
+     * @return not empty set if a city with given id exists and there are bookings that overlaps with given time period.
+     */
     @Override
     public Set<Room> findBookedRoomsByCityIdAndTimePeriod(Long cityId, LocalDate from, LocalDate till){
         String query = "SELECT * FROM rooms " +
@@ -133,6 +145,13 @@ public class RoomDaoJdbc implements RoomDao {
         }
     }
 
+    /**
+     * Return list of RoomStats
+     * @param hotelId - an identificator of a hotel
+     * @param startPeriod - start period
+     * @param endPeriod - end period
+     * @return - statistics of rooms within given time period.
+     */
     @Override
     public List<RoomStats> calcStats(Long hotelId, LocalDate startPeriod, LocalDate endPeriod) {
         String query = "SELECT chamber_number, COUNT(*) AS room_count, rooms.hotel_id FROM rooms " +
@@ -157,6 +176,11 @@ public class RoomDaoJdbc implements RoomDao {
         }
     }
 
+    /**
+     * Maps date calculated by the database to stream
+     * @param rs - resultset containing columns, hotel_id, chamber_number, room_count.
+     * @return - RoomStats stream.
+     */
     private Stream<RoomStats> extractRoomStats(ResultSet rs) throws SQLException {
         Stream.Builder<RoomStats> builder = Stream.builder();
         while (rs.next()){
