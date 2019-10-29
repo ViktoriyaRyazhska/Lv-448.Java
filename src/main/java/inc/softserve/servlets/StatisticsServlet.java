@@ -17,13 +17,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Class processes requests for "/statistics"  url
+ */
 @WebServlet("/statistics")
 public class StatisticsServlet extends HttpServlet {
 
     private VisaStatsService visaStatsService;
     private HotelStatsService hotelStatsService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() {
         visaStatsService = (VisaStatsService) getServletContext().getAttribute("visaStatsService");
@@ -36,6 +41,14 @@ public class StatisticsServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Method processes GET request for /statistics url
+     *
+     * @param req  HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();

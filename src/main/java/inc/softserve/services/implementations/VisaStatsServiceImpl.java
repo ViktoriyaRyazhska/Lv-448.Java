@@ -66,11 +66,24 @@ public class VisaStatsServiceImpl implements VisaStatsService {
         return countrys;
     }
 
+    /**
+     * Method returns set with visas by user.
+     *
+     * @param usrId id user.
+     *
+     * @return set with visas by user.
+     */
     @Override
     public Set<Visa> issuedVisasToUsr(Long usrId){
         return visaDao.findVisasByUserId(usrId);
     }
 
+    /**
+     * Method returns set with country which visited user.
+     *
+     * @param usrId id user.
+     * @return set with country which visited user.
+     */
     @Override
     public Set<Country> visitedCountries(Long usrId){
         return countryDao.findCountriesVisitedByUsr(usrId);

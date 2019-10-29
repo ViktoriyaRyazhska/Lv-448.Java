@@ -17,7 +17,9 @@ public class BookingServiceImpl implements BookingService {
     private final RoomDao roomDao;
     private final UsrCountryDao usrCountryDao;
 
-
+    /**
+     * Constructor with 4 parameters.
+     */
     public BookingServiceImpl(BookingDao bookingDao, UsrDao usrDao, HotelDao hotelDao, RoomDao roomDao, UsrCountryDao usrCountryDao) {
         this.bookingDao = bookingDao;
         this.usrDao = usrDao;
@@ -26,11 +28,17 @@ public class BookingServiceImpl implements BookingService {
         this.usrCountryDao = usrCountryDao;
     }
 
+    /**
+     * Method saved new Booking entity
+     *
+     * @param bookingReqDto dto from form
+     * @param orderDate     date ordered
+     */
     @Override
-    public void book(BookingReqDto bookingReqDto, LocalDateTime orderDate){
+    public void book(BookingReqDto bookingReqDto, LocalDateTime orderDate) {
         LocalDate checkin = bookingReqDto.getCheckin();
         LocalDate checkout = bookingReqDto.getCheckout();
-        if (checkin.compareTo(checkout) > 0){
+        if (checkin.compareTo(checkout) > 0) {
             throw new InvalidTimePeriod();
         }
         Booking booking = mapToBooking(bookingReqDto, orderDate);
@@ -38,7 +46,14 @@ public class BookingServiceImpl implements BookingService {
         usrCountryDao.usrVisitedCountry(booking.getUsr().getId(), booking.getHotel().getCity().getCountry().getId());
     }
 
-    private Booking mapToBooking(BookingReqDto bookingReqDto, LocalDateTime orderDate){
+    /**
+     * Method return Booking entity
+     *
+     * @param bookingReqDto dto from form
+     * @param orderDate     date ordered
+     * @return new Booking entity
+     */
+    private Booking mapToBooking(BookingReqDto bookingReqDto, LocalDateTime orderDate) {
         Booking booking = new Booking();
         booking.setUsr(usrDao.findById(bookingReqDto.getUsrId())
                 .orElseThrow());

@@ -14,11 +14,17 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * Class processes requests for "/hotels/*"  url
+ */
 @WebServlet("/hotels/*")
 public class HotelServlet extends HttpServlet {
 
     private HotelService hotelService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() {
         hotelService = (HotelService) getServletContext().getAttribute("hotelService");
@@ -27,6 +33,14 @@ public class HotelServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Method processes GET request for /hotels/* url
+     *
+     * @param req  HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long cityId = Long.parseLong(req.getParameter("cityId"));
@@ -38,6 +52,14 @@ public class HotelServlet extends HttpServlet {
         req.getRequestDispatcher("/hotels.jsp").include(req, resp);
     }
 
+    /**
+     * Method processes POST request for /hotels/* url
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String country = req.getParameter("countryName");

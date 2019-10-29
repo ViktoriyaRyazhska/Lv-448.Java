@@ -40,8 +40,8 @@ class VisaStatsServiceImplTest {
     @Test
     void countVisasByUserEmail() {
         when(usrDao.findByEmail("r@gmail.com")).thenReturn(Optional.of(new Usr()));
-        when(visaDao.usrHasVisas("r@gmail.com")).thenReturn(anyInt());
-        assertEquals(visaStatsService.countVisasByUserEmail("r@gmail.com"), Optional.of(anyInt()));
+        when(visaDao.usrHasVisas("r@gmail.com")).thenReturn(0);
+        assertEquals(visaStatsService.countVisasByUserEmail("r@gmail.com"), Optional.of(0));
     }
 
     @Test
@@ -50,18 +50,18 @@ class VisaStatsServiceImplTest {
         assertThrows(RuntimeException.class, () -> visaStatsService.countVisasByUserEmail(""));
     }
 
-//    @Test
-//    void countVisasIssuedByCountryTest() {
-//        when(countryDao.findByCountryName("USA")).thenReturn(Optional.of(new Country()));
-//        when(visaDao.issuedVisas("USA")).thenReturn(anyInt());
-//        assertEquals(visaStatsService.countVisasIssuedByCountry("USA"), Optional.of(anyInt()));
-//    }
+    @Test
+    void countVisasIssuedByCountryTest() {
+        when(countryDao.findByCountryName("USA")).thenReturn(Optional.of(new Country()));
+        when(visaDao.issuedVisas("USA")).thenReturn(0);
+        assertEquals(visaStatsService.countVisasIssuedByCountry("USA"), Optional.of(0));
+    }
 
     @Test
     void countVisasIssuedByIncorrectCountryTest() {
         when(countryDao.findByCountryName("USA")).thenThrow(RuntimeException.class);
         when(visaDao.issuedVisas("USA")).thenReturn(anyInt());
-        assertThrows(RuntimeException.class, () -> visaStatsService.countVisasIssuedByCountry("sss"));
+        assertThrows(RuntimeException.class, () -> visaStatsService.countVisasIssuedByCountry("USA"));
     }
 
     @Test

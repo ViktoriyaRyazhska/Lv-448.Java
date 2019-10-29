@@ -15,16 +15,30 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Set;
 
+/**
+ * Class processes requests for "/available_hotels/*"  url
+ */
 @WebServlet(value = {"/available_hotels/*"})
 public class AvailableHotelsServlet extends HttpServlet {
 
     private HotelService hotelService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() {
         hotelService = (HotelService) getServletContext().getAttribute("hotelService");
     }
 
+    /**
+     * Method processes GET request for /available_hotels/* url
+     *
+     * @param req  HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LocalDate checkin;
