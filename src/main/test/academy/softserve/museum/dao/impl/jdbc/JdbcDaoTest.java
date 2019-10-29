@@ -1,6 +1,5 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
-import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 
 import java.io.BufferedReader;
@@ -32,43 +31,19 @@ public class JdbcDaoTest {
         }
     }
 
-    void dropTables() {
+    static void dropTables() {
         executeSql(loadSql(DROP_TABLES));
     }
 
-    void createTables() {
+    static void createTables() {
         executeSql(loadSql(CREATE_TABLES));
     }
 
-    void fillTables() {
+    static void fillTables() {
         executeSql(loadSql(FILL_TABLES));
     }
 
-    JdbcAuthorDao jdbcAuthorDao() {
-        return (JdbcAuthorDao) DaoFactory.authorDao();
-    }
-
-    JdbcAudienceDao jdbcAudienceDao() {
-        return (JdbcAudienceDao) DaoFactory.audienceDao();
-    }
-
-    JdbcExhibitDao jdbcExhibitDao() {
-        return (JdbcExhibitDao) DaoFactory.exhibitDao();
-    }
-
-    JdbcEmployeeDao jdbcEmployeeDao() {
-        return (JdbcEmployeeDao) DaoFactory.employeeDao();
-    }
-
-    JdbcExcursionDao jdbcExcursionDao() {
-        return (JdbcExcursionDao) DaoFactory.excursionDao();
-    }
-
-    JdbcTimetableDao jdbcTimetableDao() {
-        return (JdbcTimetableDao) DaoFactory.timetableDao();
-    }
-
-    private void executeSql(String sqlFilepath) {
+    static private void executeSql(String sqlFilepath) {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sqlFilepath);
         } catch (SQLException e) {
@@ -76,7 +51,7 @@ public class JdbcDaoTest {
         }
     }
 
-    private String loadSql(String filepath) {
+    static private String loadSql(String filepath) {
         StringBuilder sql = new StringBuilder();
         String row;
 
@@ -91,7 +66,7 @@ public class JdbcDaoTest {
         }
     }
 
-    void assertAuthorEquals(Author a, Author b) {
+    public static void assertAuthorEquals(Author a, Author b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEquals(a.getFirstName(), b.getFirstName());
@@ -99,17 +74,11 @@ public class JdbcDaoTest {
         assertEquals(a.getId(), b.getId());
     }
 
-    void assertAuthorEquals(List<Author> a, List<Author> b) {
-        assertNotNull(a);
-        assertNotNull(b);
-        assertEquals(a.size(), b.size());
-
-        for (int i = 0; i < a.size(); i++) {
-            assertAuthorEquals(a.get(i), b.get(i));
-        }
+    public static void assertAuthorEquals(List<Author> a, List<Author> b) {
+        assertListEquals(JdbcDaoTest::assertAuthorEquals, a, b);
     }
 
-    void assertExhibitEquals(Exhibit a, Exhibit b) {
+    public static void assertExhibitEquals(Exhibit a, Exhibit b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEquals(a.getName(), b.getName());
@@ -119,17 +88,11 @@ public class JdbcDaoTest {
         assertEquals(a.getId(), b.getId());
     }
 
-    void assertExhibitEquals(List<Exhibit> a, List<Exhibit> b) {
-        assertNotNull(a);
-        assertNotNull(b);
-        assertEquals(a.size(), b.size());
-
-        for (int i = 0; i < a.size(); i++) {
-            assertExhibitEquals(a.get(i), b.get(i));
-        }
+    public static void assertExhibitEquals(List<Exhibit> a, List<Exhibit> b) {
+        assertListEquals(JdbcDaoTest::assertExhibitEquals, a, b);
     }
 
-    void assertAudienceEquals(Audience a, Audience b) {
+    public static void assertAudienceEquals(Audience a, Audience b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEquals(a.getName(), b.getName());
@@ -137,17 +100,11 @@ public class JdbcDaoTest {
         assertEquals(a.getId(), b.getId());
     }
 
-    void assertAudienceEquals(List<Audience> a, List<Audience> b) {
-        assertNotNull(a);
-        assertNotNull(b);
-        assertEquals(a.size(), b.size());
-
-        for (int i = 0; i < a.size(); i++) {
-            assertAudienceEquals(a.get(i), b.get(i));
-        }
+    public static void assertAudienceEquals(List<Audience> a, List<Audience> b) {
+        assertListEquals(JdbcDaoTest::assertAudienceEquals, a, b);
     }
 
-    void assertEmployeeEquals(Employee a, Employee b) {
+    public static void assertEmployeeEquals(Employee a, Employee b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEquals(a.getPosition(), b.getPosition());
@@ -157,34 +114,22 @@ public class JdbcDaoTest {
         assertEquals(a.getLastName(), b.getLastName());
     }
 
-    void assertEmployeeEquals(List<Employee> a, List<Employee> b) {
-        assertNotNull(a);
-        assertNotNull(b);
-        assertEquals(a.size(), b.size());
-
-        for (int i = 0; i < a.size(); i++) {
-            assertEmployeeEquals(a.get(i), b.get(i));
-        }
+    public static void assertEmployeeEquals(List<Employee> a, List<Employee> b) {
+        assertListEquals(JdbcDaoTest::assertEmployeeEquals, a, b);
     }
 
-    void assertExcursionEquals(Excursion a, Excursion b) {
+    public static void assertExcursionEquals(Excursion a, Excursion b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEquals(a.getId(), b.getId());
         assertEquals(a.getName(), b.getName());
     }
 
-    void assertExcursionEquals(List<Excursion> a, List<Excursion> b) {
-        assertNotNull(a);
-        assertNotNull(b);
-        assertEquals(a.size(), b.size());
-
-        for (int i = 0; i < a.size(); i++) {
-            assertExcursionEquals(a.get(i), b.get(i));
-        }
+    public static void assertExcursionEquals(List<Excursion> a, List<Excursion> b) {
+        assertListEquals(JdbcDaoTest::assertExcursionEquals, a, b);
     }
 
-    void assertTimetableEquals(Timetable a, Timetable b) {
+    public static void assertTimetableEquals(Timetable a, Timetable b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEmployeeEquals(a.getEmployee(), b.getEmployee());
@@ -193,13 +138,17 @@ public class JdbcDaoTest {
         assertEquals(a.getDateEnd(), b.getDateEnd());
     }
 
-    void assertTimetableEquals(List<Timetable> a, List<Timetable> b) {
+    public static void assertTimetableEquals(List<Timetable> a, List<Timetable> b) {
+        assertListEquals(JdbcDaoTest::assertTimetableEquals, a, b);
+    }
+
+    private static <T> void assertListEquals(ObjectAssert<T> assertMethod, List<T> a, List<T> b) {
         assertNotNull(a);
         assertNotNull(b);
         assertEquals(a.size(), b.size());
 
         for (int i = 0; i < a.size(); i++) {
-            assertTimetableEquals(a.get(i), b.get(i));
+            assertMethod.assertObjectsEquals(a.get(i), b.get(i));
         }
     }
 }

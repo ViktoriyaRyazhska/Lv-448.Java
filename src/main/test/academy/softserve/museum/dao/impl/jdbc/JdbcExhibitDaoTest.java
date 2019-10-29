@@ -1,5 +1,8 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
+import academy.softserve.museum.dao.AuthorDao;
+import academy.softserve.museum.dao.ExhibitDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.*;
 import academy.softserve.museum.entities.statistic.ExhibitStatistic;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,11 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JdbcExhibitDaoTest extends JdbcDaoTest {
-    private JdbcExhibitDao exhibitDao;
-    private JdbcAuthorDao authorDao;
+class JdbcExhibitDaoTest {
+    private ExhibitDao exhibitDao;
+    private AuthorDao authorDao;
     private List<Exhibit> exhibits;
 
     @BeforeEach
@@ -19,8 +23,8 @@ public class JdbcExhibitDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        exhibitDao = jdbcExhibitDao();
-        authorDao = jdbcAuthorDao();
+        exhibitDao = DaoFactory.exhibitDao();
+        authorDao = DaoFactory.authorDao();
 
         exhibits = new ArrayList<>(Arrays.asList(
                 new Exhibit(1, ExhibitType.PAINTING, null, "Oils", "Mona Lisa"),

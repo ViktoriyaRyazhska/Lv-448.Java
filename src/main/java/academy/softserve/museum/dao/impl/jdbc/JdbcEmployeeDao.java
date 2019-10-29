@@ -51,7 +51,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
      * @param connection Connection, that used for interaction with database.
      * @return instance of JdbcEmployeeDao.
      */
-    public static JdbcEmployeeDao getInstance(Connection connection, AudienceDao audienceDao) {
+    public synchronized static JdbcEmployeeDao getInstance(Connection connection, AudienceDao audienceDao) {
         if (instance == null) {
             instance = new JdbcEmployeeDao(connection, audienceDao);
         }

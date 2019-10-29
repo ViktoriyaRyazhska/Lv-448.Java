@@ -1,6 +1,7 @@
 package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.ExcursionDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.statistic.ExcursionStatistic;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,10 +12,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class JdbcExcursionDaoTest extends JdbcDaoTest {
+class JdbcExcursionDaoTest {
     private ExcursionDao excursionDao;
     private List<Excursion> excursions;
 
@@ -23,7 +25,7 @@ public class JdbcExcursionDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        excursionDao = jdbcExcursionDao();
+        excursionDao = DaoFactory.excursionDao();
 
         excursions = new ArrayList<>(Arrays.asList(
                 new Excursion(1, "Golden Spring"),

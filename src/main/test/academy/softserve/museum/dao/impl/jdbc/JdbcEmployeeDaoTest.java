@@ -2,6 +2,7 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.AudienceDao;
 import academy.softserve.museum.dao.EmployeeDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
@@ -15,9 +16,10 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JdbcEmployeeDaoTest extends JdbcDaoTest {
+class JdbcEmployeeDaoTest {
     private EmployeeDao employeeDao;
     private AudienceDao audienceDao;
     private List<Employee> employees;
@@ -27,8 +29,8 @@ public class JdbcEmployeeDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        employeeDao = jdbcEmployeeDao();
-        audienceDao = jdbcAudienceDao();
+        employeeDao = DaoFactory.employeeDao();
+        audienceDao = DaoFactory.audienceDao();
 
         employees = new ArrayList<>(Arrays.asList(
                 new Employee(1, "Anna", "Kentor", EmployeePosition.MANAGER, "a_kentor", "anna1230"),

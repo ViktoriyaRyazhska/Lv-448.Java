@@ -2,6 +2,8 @@ package academy.softserve.museum.dao.impl.jdbc;
 
 import academy.softserve.museum.dao.EmployeeDao;
 import academy.softserve.museum.dao.ExcursionDao;
+import academy.softserve.museum.dao.TimetableDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.Excursion;
 import academy.softserve.museum.entities.Timetable;
@@ -15,11 +17,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class JdbcTimetableDaoTest extends JdbcDaoTest {
-    private JdbcTimetableDao timetableDao;
+class JdbcTimetableDaoTest {
+    private TimetableDao timetableDao;
     private ExcursionDao excursionDao;
     private EmployeeDao employeeDao;
     private List<Timetable> timetables;
@@ -29,9 +32,9 @@ public class JdbcTimetableDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        timetableDao = jdbcTimetableDao();
-        excursionDao = jdbcExcursionDao();
-        employeeDao = jdbcEmployeeDao();
+        timetableDao = DaoFactory.timetableDao();
+        excursionDao = DaoFactory.excursionDao();
+        employeeDao = DaoFactory.employeeDao();
 
         timetables = new ArrayList<>(Arrays.asList(
                 new Timetable(1, employeeDao.findById(1).orElse(null), excursionDao.findById(1).orElse(null),

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import academy.softserve.museum.dao.AudienceDao;
+import academy.softserve.museum.database.DaoFactory;
 import academy.softserve.museum.entities.Audience;
 import academy.softserve.museum.entities.Employee;
 import academy.softserve.museum.entities.EmployeePosition;
@@ -16,7 +17,9 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class JdbcAudienceDaoTest extends JdbcDaoTest {
+import static academy.softserve.museum.dao.impl.jdbc.JdbcDaoTest.*;
+
+class JdbcAudienceDaoTest {
 
     private AudienceDao audienceDao;
     private List<Audience> audiences;
@@ -26,7 +29,7 @@ public class JdbcAudienceDaoTest extends JdbcDaoTest {
         dropTables();
         createTables();
         fillTables();
-        audienceDao = jdbcAudienceDao();
+        audienceDao = DaoFactory.audienceDao();
 
         audiences = new ArrayList<>(Arrays.asList(
                 new Audience(1, "Leonardo da Vinci"),

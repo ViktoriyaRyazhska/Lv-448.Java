@@ -46,7 +46,7 @@ public class JdbcAuthorDao implements AuthorDao {
      * @param connection Connection, that used for interaction with database.
      * @return instance of JdbcAuthorDao.
      */
-    public static JdbcAuthorDao getInstance(Connection connection) {
+    public synchronized static JdbcAuthorDao getInstance(Connection connection) {
         if (instance == null) {
             instance = new JdbcAuthorDao(connection);
         }
