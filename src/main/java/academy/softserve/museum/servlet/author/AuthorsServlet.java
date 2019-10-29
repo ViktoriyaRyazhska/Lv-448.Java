@@ -22,7 +22,6 @@ public class AuthorsServlet extends HttpServlet {
 
     private AuthorService authorService;
 
-//    private static int authorsCounter = 2;
 
     /**
      * Method initializes required resources
@@ -45,12 +44,6 @@ public class AuthorsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("authors", authorService.findAll());
-//        req.setAttribute("counter", authorsCounter);
-//        authorsCounter++;
         req.getRequestDispatcher("/fragment/author-dropdown.jsp").include(req, resp);
     }
-
-//    public static void dropCounter() {
-//        authorsCounter = 2;
-//    }
 }

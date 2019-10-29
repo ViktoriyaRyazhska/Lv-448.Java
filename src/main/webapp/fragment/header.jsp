@@ -23,9 +23,6 @@
                 </li>
             </ul>
             <ul class="nav ml-auto">
-                <%--            <li class="nav-item ml-auto">--%>
-                <%--                <a class="nav-link text-white" href="#">Logout</a>--%>
-                <%--            </li>--%>
             </ul>
         </div>
     </nav>
