@@ -67,6 +67,15 @@ public class ScheduleServlet extends HttpServlet {
         req.getRequestDispatcher("/schedule.jsp").include(req, resp);
     }
 
+    /**
+     * Method processes POST request for /schedule url
+     * and allows to add a new excursion to schedule
+     *
+     * @param req  HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
