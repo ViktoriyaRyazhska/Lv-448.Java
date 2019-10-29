@@ -39,10 +39,10 @@ class CityDaoJdbcTest {
         Set<String> citiesActual = cityDao.findAll().stream()
                 .map(City::getCity)
                 .collect(Collectors.toSet());
-        Set<String> expected = Set.of("Lviv", "Kiev", "Milano", "Bologna", "Barcelona", "Las Vegas");
+        Set<String> expected = Set.of("Lviv", "Kyiv", "Milano", "Bologna", "Barcelona", "Las Vegas");
         assertEquals(expected, citiesActual);
     }
-    
+
     @Test
     void findByCountryAndCity() {
         City actualCity = cityDao.findByCountryAndCity(2L, "Milano").orElseThrow();
