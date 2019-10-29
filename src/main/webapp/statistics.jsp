@@ -50,7 +50,7 @@
         </c:forEach>
     </table>
     <h3>Room statistics</h3>
-    <form action="/room_statistics/" method="GET">
+    <form id="formId" action="/room_statistics/" method="GET">
     <c:forEach var="hotel" items="${hotelsList}">
             <fieldset>
                 <legend>${hotel.hotelName}</legend>
