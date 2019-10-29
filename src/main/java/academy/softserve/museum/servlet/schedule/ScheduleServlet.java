@@ -4,6 +4,7 @@ package academy.softserve.museum.servlet.schedule;
 import academy.softserve.museum.constant.MessageType;
 import academy.softserve.museum.entities.EmployeePosition;
 import academy.softserve.museum.entities.dto.TimetableDto;
+import academy.softserve.museum.exception.NotSavedException;
 import academy.softserve.museum.services.EmployeeService;
 import academy.softserve.museum.services.ExcursionService;
 import academy.softserve.museum.services.TimetableService;
@@ -97,7 +98,7 @@ public class ScheduleServlet extends HttpServlet {
                 TimetableDto dto = new TimetableDto(dateTimeFrom, dateTimeTill, employeeId, excursionId);
                 timetableService.save(dto);
             }
-        } catch (RuntimeException e) {
+        } catch (NotSavedException e) {
             req.setAttribute(MessageType.FAILURE, "Something went wrong!");
         } finally {
             req.setAttribute("excursions", Serializer.toJsonString(ScheduleDtoMapper.getSchedule(timetableService.findAll())));
