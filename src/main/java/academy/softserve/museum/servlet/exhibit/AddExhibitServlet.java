@@ -94,7 +94,7 @@ public class AddExhibitServlet extends HttpServlet {
 
         try {
             exhibitService.save(exhibitDto);
-            req.setAttribute(MessageType.SUCCESS, "ALES GUT!");
+            req.setAttribute(MessageType.SUCCESS, "Exhibit has been added successfully!");
             resp.sendRedirect(req.getContextPath() + "/exhibits");
         } catch (NotSavedException e) {
             req.setAttribute(MessageType.FAILURE, e.getMessage());
