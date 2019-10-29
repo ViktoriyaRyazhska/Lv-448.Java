@@ -13,16 +13,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Class processes requests for "/room_statistics/"  url
+ */
 @WebServlet(value = {"/room_statistics/"})
 public class RoomStatisticsServlet extends HttpServlet {
 
     private RoomStatsService roomStatsService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() {
         roomStatsService = (RoomStatsService) getServletContext().getAttribute("roomStatsService");
     }
 
+    /**
+     * Method processes GET request for /room_statistics/ url
+     *
+     * @param req  HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long hotelId = Long.parseLong(req.getParameter("hotel_id"));

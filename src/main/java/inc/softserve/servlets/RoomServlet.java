@@ -20,12 +20,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
+/**
+ * Class processes requests for "/rooms"  url
+ */
 @WebServlet(value = {"/rooms"})
 public class RoomServlet extends HttpServlet {
 
     private RoomService roomService;
     private BookingService bookingService;
 
+    /**
+     * Method initializes required resources
+     */
     @Override
     public void init() {
         roomService = (RoomService) getServletContext().getAttribute("roomService");
@@ -35,6 +41,15 @@ public class RoomServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Method processes GET request for /rooms url
+     * and returns /rooms.jsp
+     *
+     * @param req  HTTP request object
+     * @param resp HTTP response object
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long hotelId = Long.parseLong(req.getParameter("hotelId"));
@@ -44,6 +59,14 @@ public class RoomServlet extends HttpServlet {
         req.getRequestDispatcher("/rooms.jsp").include(req, resp);
     }
 
+    /**
+     * Method processes POST request for /rooms url
+     *
+     * @param req HTTP request object
+     * @param resp HTTP response object
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LocalDate checkin = LocalDate.parse(req.getParameter("checkin"), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
