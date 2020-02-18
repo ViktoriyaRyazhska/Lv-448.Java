@@ -6,6 +6,9 @@ import java.util.function.Function;
 //@Slf4j
 public class RethrowingLambdas {
 
+    private RethrowingLambdas() {
+    }
+
     public static <T> Consumer<T> consumer(final RethrowingConsumer<T, Exception> rethrowingConsumer) {
         return x -> {
             try {
