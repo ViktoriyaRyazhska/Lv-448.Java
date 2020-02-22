@@ -22,6 +22,9 @@ public class ConnectDb {
 
     private static Connection connection;
 
+    private ConnectDb() {
+    }
+
     /**
      * Connection instance is singleton. New connection will be instantiated if the old one is closed or null.
      * @return - connection instance.
@@ -40,11 +43,9 @@ public class ConnectDb {
 //            log.info(conn.getMetaData().getDriverName());
 //            log.info(conn.getMetaData().getDriverVersion());
             return connection;
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException e) {
+        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                | InstantiationException | InvocationTargetException e) {
 //            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
